@@ -1,24 +1,12 @@
 // Users Methods
 Meteor.methods({
 	loginFacebook: function(login) {
-		var now = new Date();
-		// Update flags on facebook login
-		Users.update({
-			'_id': login.userId
-		},{
-			$set: {
-				'profile.loginSince': now,
-				'profile.online': true,
-				'profile.loggedWith': 'facebook'
-			}
-		});
 		return Bisia.Session.logInOuts(login.userId, login.service, true, headers.methodClientIP(this));
 	},
 	loginUser: function(login) {
 		return Bisia.Session.logInOuts(login.userId, login.service, true, headers.methodClientIP(this));
 	},
 	logoutUser: function(logout) {
-		// Bisia.log('inLogoutUser');
 		return Bisia.Session.logInOuts(logout.userId, logout.service, false, headers.methodClientIP(this));
 	},
 	registerUser: function(userAttr) {

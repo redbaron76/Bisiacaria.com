@@ -1,0 +1,172 @@
+<template name="questionLovehateModal">
+	{{#with this}}
+	<div class="md-modal bottom" data-content="question-lovehate">
+		{{> navbarModal data=this title=username action="thumbs-up"}}
+		<div class="content container-fluid">
+			<div class="row second">
+				<div class="col-xs-12 question">
+					<h4>Domande e risposte</h4>
+					{{#with profile.question}}
+						<div class="row">
+							<div class="col-xs12 col-sm-6">
+								{{> answerProfileQuestion q='q1' data=this title='altezza' }}
+							</div>
+							<div class="col-xs12 col-sm-6">
+								{{> answerProfileQuestion q='q2' data=this title='colore occhi' }}
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs12 col-sm-6">
+								{{> answerProfileQuestion q='q3' data=this title='colore capelli' }}
+							</div>
+							<div class="col-xs12 col-sm-6">
+								{{> answerProfileQuestion q='q4' data=this title='stile personale' }}
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs12 col-sm-6">
+								{{> answerProfileQuestion q='q5' data=this title='hai piercing o tatuaggi?' }}
+							</div>
+							<div class="col-xs12 col-sm-6">
+								{{> answerProfileQuestion q='q6' data=this title='piatto preferito?' }}
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs12 col-sm-6">
+								{{> answerProfileQuestion q='q7' data=this title='drink preferito?' }}
+							</div>
+							<div class="col-xs12 col-sm-6">
+								{{> answerProfileQuestion q='q8' data=this title='lavoro dei tuoi sogni?' }}
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs12 col-sm-6">
+								{{> answerProfileQuestion q='q9' data=this title='film preferito?' }}
+							</div>
+							<div class="col-xs12 col-sm-6">
+								{{> answerProfileQuestion q='q10' data=this title='canzone preferita?' }}
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs12 col-sm-6">
+								{{> answerProfileQuestion q='q11' data=this title='festività preferita?' }}
+							</div>
+							<div class="col-xs12 col-sm-6">
+								{{> answerProfileQuestion q='q12' data=this title='sport preferito?' }}
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs12 col-sm-6">
+								{{> answerProfileQuestion q='q13' data=this title='hobby particolari?' }}
+							</div>
+							<div class="col-xs12 col-sm-6">
+								{{> answerProfileQuestion q='q14' data=this title='animali domestici?' }}
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs12 col-sm-6">
+								{{> answerProfileQuestion q='q15' data=this title='ultimo libro letto?' }}
+							</div>
+							<div class="col-xs12 col-sm-6">
+								{{> answerProfileQuestion q='q16' data=this title='la mia automobile?' }}
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs12 col-sm-6">
+								{{> answerProfileQuestion q='q17' data=this title='il mio ultimo viaggio' }}
+							</div>
+							<div class="col-xs12 col-sm-6">
+								{{> answerProfileQuestion q='q18' data=this title='viaggi in programa?' }}
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs12 col-sm-6">
+								{{> answerProfileQuestion q='q19' data=this title='programma TV preferito?' }}
+							</div>
+							<div class="col-xs12 col-sm-6">
+								{{> answerProfileQuestion q='q20' data=this title='fiore preferito?' }}
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs12 col-sm-6">
+								{{> answerProfileQuestion q='q21' data=this title='in amore vince...' }}
+							</div>
+							<div class="col-xs12 col-sm-6">
+								{{> answerProfileQuestion q='q22' data=this title='nei weekend mi piace...' }}
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs12 col-sm-6">
+								{{> answerProfileQuestion q='q23' data=this title='personaggio che vorrei conoscere...' }}
+							</div>
+							<div class="col-xs12 col-sm-6">
+								{{> answerProfileQuestion q='q24' data=this title='svuoterei il mio conto bancario in...' }}
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs12 col-sm-6">
+								{{> answerProfileQuestion q='q25' data=this title='tra 10 anni mi vedo...' }}
+							</div>
+							<div class="col-xs12 col-sm-6">
+								{{> answerProfileQuestion q='q26' data=this title='in amore vince...' }}
+							</div>
+						</div>
+					{{/with}}
+				</div>
+				<div class="col-xs-12 question">
+					<h4>Amo e Odio</h4>
+					{{#with profile.lovehate}}
+						<div class="row">
+							<div class="col-xs12 col-sm-6">
+								{{> answerProfileQuestion q='lh1' data=this title='amo' }}
+							</div>
+							<div class="col-xs12 col-sm-6">
+								{{> answerProfileQuestion q='lh6' data=this title='odio' }}
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs12 col-sm-6">
+								{{> answerProfileQuestion q='lh2' data=this title='amo' }}
+							</div>
+							<div class="col-xs12 col-sm-6">
+								{{> answerProfileQuestion q='lh7' data=this title='odio' }}
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs12 col-sm-6">
+								{{> answerProfileQuestion q='lh3' data=this title='amo' }}
+							</div>
+							<div class="col-xs12 col-sm-6">
+								{{> answerProfileQuestion q='lh8' data=this title='odio' }}
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs12 col-sm-6">
+								{{> answerProfileQuestion q='lh4' data=this title='amo' }}
+							</div>
+							<div class="col-xs12 col-sm-6">
+								{{> answerProfileQuestion q='lh9' data=this title='odio' }}
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs12 col-sm-6">
+								{{> answerProfileQuestion q='lh5' data=this title='amo' }}
+							</div>
+							<div class="col-xs12 col-sm-6">
+								{{> answerProfileQuestion q='lh10' data=this title='odio' }}
+							</div>
+						</div>
+					{{/with}}
+				</div>
+			</div>
+		</div>
+	</div>
+	{{/with}}
+</template>
+
+<template name="answerProfileQuestion">
+	<div class="label-profile">
+		<span>{{question}}</span>
+		{{answer}}
+	</div>
+</template>

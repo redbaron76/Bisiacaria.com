@@ -28,7 +28,6 @@ Template.loginUser.events({
 				// Call loginFacebook method
 				Meteor.call('loginFacebook', login, function(error, result) {
 					if (error) {
-						Bisia.log('qui2');
 						errors.email = 'Errore nel collegamento con Facebook, riprovare!';
 						return Session.set('formErrors', errors);
 					}

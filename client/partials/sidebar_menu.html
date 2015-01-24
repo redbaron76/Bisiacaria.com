@@ -28,7 +28,7 @@
 		</header>
 		{{#with currentUser}}
 		<div class="profile-intro {{statusGender}}">
-			<a href="{{getProfileUrl}}">
+			<a href="{{getProfileUrl}}" data-action="close">
 				{{> avatarImage}}
 				<div class="username">
 					{{username}}

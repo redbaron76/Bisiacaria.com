@@ -1,0 +1,115 @@
+<template name="userProfile">
+	<div class="body-wrapper">
+		{{> navbarTop title="Profilo"}}
+		<div class="content container-fluid">
+			<div id="profile">
+				{{#if pageReady}}
+					{{#with this}}
+					<div class="row">
+						<div class="col-xs-12 header {{statusGender}}">
+							<div class="flip-container">
+								<div class="flipper">
+									<div class="front">
+										<div class="front-wrapper">
+											<a href="#">
+												{{> avatarImage}}
+												<div class="username">
+													{{#if isOnline}}<i class="fa fa-circle blink"></i>{{/if}}
+													{{username}}
+													<span>{{profile.city}}</span>
+												</div>
+											</a>
+											<p class="cite">{{profile.bio}}</p>
+										</div>
+									</div>
+									<div class="back {{getGender}}">
+										<div class="row">
+											<div class="col-xs-12">
+												<h3 class="username">
+												{{username}}
+												</h3>
+											</div>
+										</div>
+										<div class="row first">
+											<div class="col-xs-12">
+												<div class="light-wrapper">
+													<div id="light" class=" status-busy">
+														<span id="red"></span>
+														<span id="orange"></span>
+														<span id="green"></span>
+													</div>
+												</div>
+												<ul>
+													<li>
+														<div class="label-profile">
+															<i class="fa fa-calendar"></i>
+															<span>età</span>
+															{{getAge}}<!--  <small>(Leone)</small> -->
+														</div>
+													</li>
+													<li>
+														<div class="label-profile">
+															<i class="fa fa-birthday-cake"></i>
+															<span>compleanno tra</span>
+															{{nextBirthDay}} giorni
+														</div>
+													</li>
+													<li>
+														<div class="label-profile">
+															<i class="fa fa-pencil-square-o"></i>
+															<span>{{mf 'iscritto' 'iscritta'}} dal</span>
+															{{signupDate}}
+														</div>
+													</li>
+													<li>
+														<div class="label-profile">
+															<i class="fa fa-globe"></i>
+															<span>Ultima presenza</span>
+															{{lastTimeOnline}}
+														</div>
+													</li>
+												</ul>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-12 buttons">
+							<button class="info toggle-info"></button>
+							<button class="question toggle-question" id="question-lovehate"></button>
+							<button class="envelope write-message"></button>
+							<button class="thumb send-vote"></button>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-12 counters">
+							<ul>
+								<li>conoscenze <span id="count-knowledge">36</span></li>
+								<li>{{mf 'lo' 'la'}} conoscono <span id="counter-knowers">45</span></li>
+								<li>voti ricevuti <span id="counter-votes">1247</span></li>
+							</ul>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-12 know">
+							<p class="{{getGender}}">Conosci <span class="username">{{username}}</span>?</p>
+							<div class="btn-wrapper flagged">
+								<a href="#" id="know-yes" class="btn-round">si</a>
+								<a href="#" id="know-no" class="btn-round">no</a>
+							</div>
+						</div>
+					</div>
+
+					{{/with}}
+				{{else}}
+					{{> spinner}}
+				{{/if}}
+			</div>
+		</div>
+		<div class="md-overlay gray"></div>
+	</div>
+	{{> questionLovehateModal}}
+</template>

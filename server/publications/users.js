@@ -18,6 +18,14 @@ Meteor.publish('onlineUsers', function() {
 Meteor.publish('user', function(userId) {
 	check(userId, String);
 	// Bisia.log('publishing user...');
-	// Meteor._sleepForMs(5000);
+	// Meteor._sleepForMs(1000);
 	return Users.find({	'_id': userId });
+});
+
+// Publish a user profile in router.js
+Meteor.publish('userProfile', function(username) {
+	check(username, String);
+	// Bisia.log('publishing  '+username+'...');
+	// Meteor._sleepForMs(1000);
+	return Users.find({	'username': username }, { 'fields': { 'emails': false, 'services': false } });
 });
