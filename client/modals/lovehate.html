@@ -1,0 +1,36 @@
+<template name="loveHateModal">
+	<div class="md-modal right" data-content="lovehate">
+		{{> navbarModal title="Amo e Odio" action="check"}}
+		<div class="content container-fluid">
+			<div class="row">
+				<div class="col-xs-12 lovehate">
+					{{#with currentUser}}
+					<form id="lovehate-form" class="form-row">
+						<h6>amo</h6>
+						{{> answerLoveHate lh='lh1' data=profile.lovehate }}
+						{{> answerLoveHate lh='lh2' data=profile.lovehate }}
+						{{> answerLoveHate lh='lh3' data=profile.lovehate }}
+						{{> answerLoveHate lh='lh4' data=profile.lovehate }}
+						{{> answerLoveHate lh='lh5' data=profile.lovehate }}
+						<h6>odio</h6>
+						{{> answerLoveHate lh='lh6' data=profile.lovehate }}
+						{{> answerLoveHate lh='lh7' data=profile.lovehate }}
+						{{> answerLoveHate lh='lh8' data=profile.lovehate }}
+						{{> answerLoveHate lh='lh9' data=profile.lovehate }}
+						{{> answerLoveHate lh='lh10' data=profile.lovehate }}
+
+						<button type="submit" data-animation="loading" class="yellow">Salva</button>
+					</form>
+					{{/with}}
+				</div>
+			</div>
+		</div>
+	</div>
+</template>
+
+<template name="answerLoveHate">
+	<div class="form-group text-area">
+		<i class="fa fa-question"></i>
+		<textarea class="autosize count" placeholder="Risposta">{{answer}}</textarea>
+	</div>
+</template>

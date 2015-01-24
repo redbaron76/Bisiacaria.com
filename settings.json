@@ -1,0 +1,21 @@
+{
+	"public" : {
+		"ga": {
+			"account": "UA-522860-9"
+		}
+	},
+	"mail": {
+		"smtp": {
+			"username": "bisiacaria@gmail.com",
+			"password": "for30pulses",
+			"server": "smtp.gmail.com",
+			"port": 465
+		}
+	},
+	"facebook": {
+		"service": "facebook",
+		"appId": "301870346508580",
+		"loginStyle": "popup",
+		"secret": "a725aa9a06b29df85a616a6d6cf64c45"
+	}
+}

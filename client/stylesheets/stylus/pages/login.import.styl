@@ -1,0 +1,89 @@
+#login {
+
+	.logo {
+		height: 210px;
+		background-color: $bisia;
+		position: relative;
+
+		#logo-bisia {
+			width: 100px;
+			display: block;
+			margin: 30px auto 0 auto;
+		}
+
+		.counter {
+			background-color: rgba(42, 45, 54, .7);
+			border-radius: 5px;
+			font-size: 12px;
+			color: $white;
+			width: 55px;
+			padding: 5px;
+			text-align: center;
+
+			span {
+				display: block;
+				color: $bisia;
+				font-family: $font-semibold
+				font-size: .6em;
+				text-transform: uppercase;
+			}
+
+			&.signed {
+				absolute: left 15px bottom 20px;
+			}
+
+			&.online {
+				absolute: right 15px bottom 20px;
+			}
+		}
+
+		h1 {
+			text-align: center;
+		}
+	}
+	.social {
+		height: 95px;
+		line-height: 95px;
+		background-color: $gray-bg;
+		text-align: center;
+
+		a {
+			color: $white-text;
+			// display: inline-block;
+			font-size: 26px;
+			vertical-align: middle;
+			.fa-square { color: $white; }
+			.fa-facebook-square { color: $blue; }
+
+			undecorate();
+		}
+	}
+	.form {
+		.divider {
+			divider();
+		}
+		background-color: $white-bg;
+	}
+	.register {
+		height: 50px;
+		line-height: 50px;
+		background-color: $gray-bg;
+		text-align: center;
+
+		a {
+			color: $white-text;
+			// display: inline-block;
+			font-size: 20px;
+			vertical-align: middle;
+
+			&:hover {
+				text-decoration: none;
+			}
+
+			span {
+				font-family: $font-semibold;
+				color: $white;
+			}
+		}
+	}
+}	// /LOGIN

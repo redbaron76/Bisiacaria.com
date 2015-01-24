@@ -1,0 +1,76 @@
+<template name="questionModal">
+	<div class="md-modal left" data-content="question">
+		{{> navbarModal title="Domande e Risposte" action="check"}}
+		<div class="content container-fluid">
+			<div class="row">
+				<div class="col-xs-12 question">
+					{{#with currentUser}}
+					<form id="question-form" class="form-row">
+						{{> answerQuestion q='q1' data=profile.question title='altezza' }}
+
+						{{> answerQuestion q='q2' data=profile.question title='colore occhi' }}
+
+						{{> answerQuestion q='q3' data=profile.question title='colore capelli' }}
+
+						{{> answerQuestion q='q4' data=profile.question title='stile personale' }}
+
+						{{> answerQuestion q='q5' data=profile.question title='hai piercing o tatuaggi?' }}
+
+						{{> answerQuestion q='q6' data=profile.question title='piatto preferito?' }}
+
+						{{> answerQuestion q='q7' data=profile.question title='drink preferito?' }}
+
+						{{> answerQuestion q='q8' data=profile.question title='lavoro dei tuoi sogni?' }}
+
+						{{> answerQuestion q='q9' data=profile.question title='film preferito?' }}
+
+						{{> answerQuestion q='q10' data=profile.question title='canzone preferita?' }}
+
+						{{> answerQuestion q='q11' data=profile.question title='festività preferita?' }}
+
+						{{> answerQuestion q='q12' data=profile.question title='sport preferito?' }}
+
+						{{> answerQuestion q='q13' data=profile.question title='hobby particolari?' }}
+
+						{{> answerQuestion q='q14' data=profile.question title='animali domestici?' }}
+
+						{{> answerQuestion q='q15' data=profile.question title='ultimo libro letto?' }}
+
+						{{> answerQuestion q='q16' data=profile.question title='la mia automobile?' }}
+
+						{{> answerQuestion q='q17' data=profile.question title='il mio ultimo viaggio' }}
+
+						{{> answerQuestion q='q18' data=profile.question title='viaggi in programa?' }}
+
+						{{> answerQuestion q='q19' data=profile.question title='programma TV preferito?' }}
+
+						{{> answerQuestion q='q20' data=profile.question title='fiore preferito?' }}
+
+						{{> answerQuestion q='q21' data=profile.question title='in amore vince...' }}
+
+						{{> answerQuestion q='q22' data=profile.question title='nei weekend mi piace...' }}
+
+						{{> answerQuestion q='q23' data=profile.question title='personaggio che vorrei conoscere...' }}
+
+						{{> answerQuestion q='q24' data=profile.question title='svuoterei il mio conto bancario in...' }}
+
+						{{> answerQuestion q='q25' data=profile.question title='tra 10 anni mi vedo...' }}
+
+						{{> answerQuestion q='q26' data=profile.question title='in amore vince...' }}
+
+						<button type="submit" data-animation="loading" class="yellow">Salva</button>
+					</form>
+					{{/with}}
+				</div>
+			</div>
+		</div>
+	</div>
+</template>
+
+<template name="answerQuestion">
+	<h6>{{question}}</h6>
+	<div class="form-group text-area">
+		<i class="fa fa-question"></i>
+		<textarea class="autosize count" placeholder="Risposta">{{answer}}</textarea>
+	</div>
+</template>

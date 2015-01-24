@@ -1,0 +1,28 @@
+.list {
+	.bottom {
+		bottom-bar();
+
+		button {
+			&:nth-child(1) {
+				width: 80%;
+				background-color: $gray-row;
+				i {
+					margin-right: 5px;
+				}
+			}
+			&:nth-child(2) {
+				background-color: $gray-row-hl;
+			}
+		}
+	}
+
+	&.bottom-show {
+		.item-list {
+			padding-bottom: 40px;
+		}
+
+		.bottom {
+			transform: translate3d(0, 0, 0);
+		}
+	}
+}

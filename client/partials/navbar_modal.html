@@ -1,0 +1,17 @@
+<template name="navbarModal">
+	<nav class="bar bar-nav">
+		<h1>{{#if title}}
+				{{title}}
+			{{else}}
+				{{printTitle}}
+			{{/if}}
+		</h1>
+		<button class="navbar-btn left md-close">
+		</button>
+		{{#if action}}
+			<button class="navbar-btn right send-{{action}}">
+				<i class="fa fa-{{action}}"></i>
+			</button>
+		{{/if}}
+	</nav>
+</template>

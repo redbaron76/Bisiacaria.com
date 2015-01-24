@@ -1,0 +1,79 @@
+#settings {
+
+	.buttons {
+		display: table;
+		padding: 0;
+
+		button {
+			border: 0;
+			width: 50%;
+			padding: 10px 0;
+			text-align: center;
+			color: $white;
+			display: table-cell;
+			font-size: 14px;
+			background-color: $gray-bar;
+
+			&#lovehate {
+				border-left: 1px solid $white;
+			}
+
+			&.full-width {
+				width: 100%;
+			}
+		}
+
+	}
+
+	.divider {
+		divider(10%);
+	}
+
+	.form {
+
+		.light {
+			display: inline-table;
+			text-align: right;
+			width: 100%;
+
+			.checkround {
+				checkround($bisia, 26px, 3px , 4px);
+				display: inline-block;
+
+				&:nth-child(1) {
+					checkround($red, 26px, 3px , 4px);
+					margin-right: 15px;
+				}
+
+				&:nth-child(3) {
+					checkround($green, 26px, 3px , 4px);
+					margin-left: 15px;
+				}
+
+				label {
+					font-size: 10px;
+					color: $gray-row-pin;
+				}
+			}
+		}
+	}
+
+	.image {
+		status();
+		malefemale();
+		text-align: center;
+
+		img {
+			image-avatar(200px, 4px);
+		}
+
+		.avatar {
+			avatar(200px, 4px);
+			margin: 0 auto;
+		}
+
+		#image-form {
+			display: none;
+		}
+	}
+}

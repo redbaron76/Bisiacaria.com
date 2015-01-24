@@ -1,0 +1,104 @@
+.bisia-menu {
+	header {
+		height: 120px;
+		overflow: hidden;
+		border-bottom: 3px solid $gray-row-hl;
+		padding-top: 20px;
+		position: relative;
+
+		svg {
+			width: 100%;
+			height: 250px;
+			color: $gray-row-hl;
+			fill: currentColor;
+			margin-left: -25%;
+		}
+
+		.counter {
+			counter();
+
+			&.signed {
+				absolute: top 10px right 0;
+			}
+		}
+	}
+
+	.profile-intro {
+		status();
+		malefemale();
+		undecorate();
+		a-wrapper();
+		padding: 10px 10px;
+
+		.avatar {
+			avatar(50px, 2px);
+		}
+
+		/*img {
+			image-avatar(50px, 2px);
+		}*/
+
+		.username {
+			username(14px);
+		}
+	}
+
+	.menu-list {
+		scrollable(190px);
+		// background-color: lime;
+
+		&.hover {
+			li:hover {
+				background-color: $gray-row-hl;
+			}
+		}
+
+		ul {
+			ul-list();
+
+			li {
+				li-list(2px, 10px);
+
+				a {
+					display: inline-block;
+					color: $white-text;
+					font-family: $font-book;
+					font-size: 16px;
+					width: 100%;
+
+					undecorate();
+
+					i {
+						font-size: 17px;
+						color: $gray-row-pin;
+						padding-right: 10px;
+						min-width: 25px;
+						vertical-align: baseline;
+					}
+
+					span {
+						float: right;
+						badge();
+
+						&.new {
+							background-color: $red;
+						}
+
+						&.live {
+							background-color: $blue;
+						}
+					}
+				}
+
+
+				&.active {
+					background-color: $gray-row-hl;
+				}
+				
+				&:last-child {
+					margin-bottom: 0;
+				}
+			}
+		}
+	}
+}

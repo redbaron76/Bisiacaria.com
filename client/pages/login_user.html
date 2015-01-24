@@ -1,0 +1,63 @@
+<template name="loginUser">
+
+	<div class="body-wrapper">
+		<div class="content container-fluid">
+			<div id="login">
+				<div class="row">
+					<div class="col-xs-12 logo">
+						<div class="counter signed">
+							{{getPublishedCount 'totUsers'}}
+							<span>iscritti</span>
+						</div>
+						<div class="counter online">
+							{{getPublishedCount 'totOnline'}}
+							<span>on-line</span>
+						</div>
+						<img src="/img/logo_bisia.svg" alt="Bisiacaria.com" id="logo-bisia">
+						<h1>Login</h1>
+						<div class="caret-down"></div>
+					</div>
+				</div>
+				{{#if fbReady}}
+				<div class="row">
+					<div class="col-xs-12 social">
+						<a href="#" id="login-fb">Clicca ed entra con
+							<span class="fa-stack">
+								<i class="fa fa-square fa-stack-2x"></i>
+								<i class="fa fa-facebook-square fa-stack-2x fa-inverse"></i>
+							</span>
+						</a>
+					</div>
+				</div>
+				{{/if}}
+				<div class="row">
+					<div class="col-xs-12 form">
+						<div class="divider white-bg"><span>oppure usa il tuo account</span></div>
+						<form id="login-form" role="form" class="form-row">
+							<div class="form-group">
+								<i class="fa fa-envelope"></i>
+								<input type="text" id="email" placeholder="Indirizzo e-mail">
+								{{> fieldError data='email' }}
+							</div>
+							<div class="form-group">
+								<i class="fa fa-lock"></i>
+								<input type="password" id="password" placeholder="Password">
+								{{> fieldError data='password' }}
+							</div>
+							<button type="submit" data-animation="loading" class="yellow">Entra</button>
+							<p>Hai dimenticato la password ? <a href="#" id="recover-password-modal">Clicca qui</a></p>
+						</form>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12 register">
+						<a href="{{pathFor 'registerUser'}}">Non sei in <span>Bisia</span>? Iscriviti <span>ora</span>!</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	{{> recoverPasswordModal}}
+
+</template>

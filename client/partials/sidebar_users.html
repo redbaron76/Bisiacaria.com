@@ -1,0 +1,50 @@
+<template name="sidebarUsers">
+	<aside class="sidebar right online-users">
+		<header>
+			<div class="counter users">{{getPublishedCount 'totOnline'}} <span>online</span></div>
+			<form action="#">
+				<input type="search" placeholder="&#xf002; Filtra nickname">
+			</form>
+		</header>
+
+		<div class="users-list">
+			{{#if usersReady}}
+			<ul id="usersList">
+				{{#each onlineUsers}}
+					{{> onlineUser}}
+				{{/each}}
+			</ul>
+			{{else}}
+				{{> spinner}}
+			{{/if}}
+		</div>
+
+	</aside>
+</template>
+
+<template name="onlineUser">
+	<li class="{{statusGender}}">
+		<a href="{{getProfileUrl}}" data-action="{{setOpen}}">
+			{{> avatarImage}}
+			<div class="username">
+				{{username}}
+				<span>{{profile.city}}</span>
+			</div>
+		</a>
+		<div class="caret-right"></div>
+
+		{{#unless itsMe}}
+			<div class="action">
+				<a href="{{getProfileUrl}}" class="user profile-user">
+					<i class="fa fa-user"></i>
+				</a>
+				<button class="envelope write-message">
+					<i class="fa fa-envelope"></i>
+				</button>
+				<button class="thumb send-vote">
+					<i class="fa fa-thumbs-up"></i>
+				</button>
+			</div>
+		{{/unless}}
+	</li>
+</template>

@@ -1,0 +1,512 @@
+<template name="profileTemplate">
+
+	<div class="body-wrapper">
+
+		{{> navbarTop title="Profilo"}}
+
+		<div class="content container-fluid">
+			<div id="profile">
+				<div class="row">
+					<div class="col-xs-12 header status-busy male">
+						<div class="flip-container">
+							<div class="flipper">
+								<div class="front">
+									<div class="front-wrapper">
+										<a href="">
+											<img src="/img/redbaron76.jpg" alt="Bisiacaria.com" id="avatar">
+											<div class="username">
+												redbaron76
+												<span>Monfalcone</span>
+											</div>
+										</a>
+										<p class="cite">Maecenas faucibus mollis interdum. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus sagittis.</p>
+									</div>
+								</div>
+								<div class="back male">
+									<div class="row">
+										<div class="col-xs-12">
+											<h3 class="username">redbaron76</h3>
+										</div>
+									</div>
+									<div class="row first">
+										<div class="col-xs-12">
+											<div class="light-wrapper">
+												<div id="light" class=" status-busy">
+													<span id="red"></span>
+													<span id="orange"></span>
+													<span id="green"></span>
+												</div>
+											</div>
+											<ul>
+												<li>
+													<div class="label-profile">
+														<i class="fa fa-calendar"></i>
+														<span>età</span>
+														38 <small>(Leone)</small>
+													</div>
+												</li>
+												<li>
+													<div class="label-profile">
+														<i class="fa fa-birthday-cake"></i>
+														<span>compleanno tra</span>
+														-211 giorni
+													</div>
+												</li>
+												<li>
+													<div class="label-profile">
+														<i class="fa fa-pencil-square-o"></i>
+														<span>iscritto dal</span>
+														11/11/2002
+													</div>
+												</li>
+												<li>
+													<div class="label-profile">
+														<i class="fa fa-globe"></i>
+														<span>Ultima presenza</span>
+														4 giorni fa
+													</div>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12 buttons">
+						<button class="info toggle-info"></button>
+						<button class="question toggle-question" id="question"></button>
+						<button class="envelope write-message"></button>
+						<button class="thumb send-vote"></button>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12 counters">
+						<ul>
+							<li>conoscenze <span id="count-knowledge">36</span></li>
+							<li>lo conoscono <span id="counter-knowers">45</span></li>
+							<li>voti ricevuti <span id="counter-votes">1247</span></li>
+						</ul>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12 know">
+						<p class="male">Conosci <span class="username">redbaron76</span>?</p>
+						<div class="btn-wrapper flagged">
+							<a href="#" id="know-yes" class="btn-round">si</a>
+							<a href="#" id="know-no" class="btn-round">no</a>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12 helpbar title">
+						<h2 class="male">Ultimi post di <span class="username">redbaron76</span></h2>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12 posts">
+						<article>
+							<header>
+								<a href=""><h5>Donec ullamcorper nulla non metus auctor fringilla. Lorem ipsum dolor sit amet, consectetur adipiscing.</h5></a>
+							</header>
+							<p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Sed posuere consectetur est at lobortis. Maecenas sed diam eget risus varius blandit sit amet non magna. Aenean lacinia bibendum nulla sed consectetur.</p>
+							<footer>
+								<span class="time">15 min fa</span>
+								<span class="counter">
+									<i class="fa fa-comment"></i> 5
+									<i class="fa fa-thumbs-up"></i> 36
+									<i class="fa fa-thumbs-down"></i> 4
+								</span>
+							</footer>
+						</article>
+						<article>
+							<header>
+								<a href=""><h5>Donec ullamcorper nulla non metus auctor fringilla. Lorem ipsum dolor sit amet, consectetur adipiscing.</h5></a>
+							</header>
+							<p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Sed posuere consectetur est at lobortis. Maecenas sed diam eget risus varius blandit sit amet non magna. Aenean lacinia bibendum nulla sed consectetur.</p>
+							<footer>
+								<span class="time">15 min fa</span>
+								<span class="counter">
+									<i class="fa fa-comment"></i> 5
+									<i class="fa fa-thumbs-up"></i> 36
+									<i class="fa fa-thumbs-down"></i> 4
+								</span>
+							</footer>
+						</article>
+						<article>
+							<header>
+								<a href=""><h5>Donec ullamcorper nulla non metus auctor fringilla. Lorem ipsum dolor sit amet, consectetur adipiscing.</h5></a>
+							</header>
+							<p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Sed posuere consectetur est at lobortis. Maecenas sed diam eget risus varius blandit sit amet non magna. Aenean lacinia bibendum nulla sed consectetur.</p>
+							<footer>
+								<span class="time">15 min fa</span>
+								<span class="counter">
+									<i class="fa fa-comment"></i> 5
+									<i class="fa fa-thumbs-up"></i> 36
+									<i class="fa fa-thumbs-down"></i> 4
+								</span>
+							</footer>
+						</article>
+						<article>
+							<header>
+								<a href=""><h5>Donec ullamcorper nulla non metus auctor fringilla. Lorem ipsum dolor sit amet, consectetur adipiscing.</h5></a>
+							</header>
+							<p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Sed posuere consectetur est at lobortis. Maecenas sed diam eget risus varius blandit sit amet non magna. Aenean lacinia bibendum nulla sed consectetur.</p>
+							<footer>
+								<span class="time">15 min fa</span>
+								<span class="counter">
+									<i class="fa fa-comment"></i> 5
+									<i class="fa fa-thumbs-up"></i> 36
+									<i class="fa fa-thumbs-down"></i> 4
+								</span>
+							</footer>
+						</article>
+						<article>
+							<header>
+								<a href=""><h5>Donec ullamcorper nulla non metus auctor fringilla. Lorem ipsum dolor sit amet, consectetur adipiscing.</h5></a>
+							</header>
+							<p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Sed posuere consectetur est at lobortis. Maecenas sed diam eget risus varius blandit sit amet non magna. Aenean lacinia bibendum nulla sed consectetur.</p>
+							<footer>
+								<span class="time">15 min fa</span>
+								<span class="counter">
+									<i class="fa fa-comment"></i> 5
+									<i class="fa fa-thumbs-up"></i> 36
+									<i class="fa fa-thumbs-down"></i> 4
+								</span>
+							</footer>
+						</article>
+						<article>
+							<header>
+								<a href=""><h5>Donec ullamcorper nulla non metus auctor fringilla. Lorem ipsum dolor sit amet, consectetur adipiscing.</h5></a>
+							</header>
+							<p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Sed posuere consectetur est at lobortis. Maecenas sed diam eget risus varius blandit sit amet non magna. Aenean lacinia bibendum nulla sed consectetur.</p>
+							<footer>
+								<span class="time">15 min fa</span>
+								<span class="counter">
+									<i class="fa fa-comment"></i> 5
+									<i class="fa fa-thumbs-up"></i> 36
+									<i class="fa fa-thumbs-down"></i> 4
+								</span>
+							</footer>
+						</article>
+						<article>
+							<header>
+								<a href=""><h5>Donec ullamcorper nulla non metus auctor fringilla. Lorem ipsum dolor sit amet, consectetur adipiscing.</h5></a>
+							</header>
+							<p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Sed posuere consectetur est at lobortis. Maecenas sed diam eget risus varius blandit sit amet non magna. Aenean lacinia bibendum nulla sed consectetur.</p>
+							<footer>
+								<span class="time">15 min fa</span>
+								<span class="counter">
+									<i class="fa fa-comment"></i> 5
+									<i class="fa fa-thumbs-up"></i> 36
+									<i class="fa fa-thumbs-down"></i> 4
+								</span>
+							</footer>
+						</article>
+						<article>
+							<header>
+								<a href=""><h5>Donec ullamcorper nulla non metus auctor fringilla. Lorem ipsum dolor sit amet, consectetur adipiscing.</h5></a>
+							</header>
+							<p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Sed posuere consectetur est at lobortis. Maecenas sed diam eget risus varius blandit sit amet non magna. Aenean lacinia bibendum nulla sed consectetur.</p>
+							<footer>
+								<span class="time">15 min fa</span>
+								<span class="counter">
+									<i class="fa fa-comment"></i> 5
+									<i class="fa fa-thumbs-up"></i> 36
+									<i class="fa fa-thumbs-down"></i> 4
+								</span>
+							</footer>
+						</article>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12 helpbar bottom">
+						<button class="info write-message">
+							<i class="fa fa-envelope"></i>
+						</button>
+						<button class="envelope load-more">
+							<i class="fa fa-repeat"></i> Carica altri post
+						</button>
+						<button class="thumb go-top">
+							<i class="fa fa-arrow-up"></i>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="md-overlay gray"></div>
+
+	</div>
+
+	{{> sidebarLeft}}
+	{{> sidebarRight}}
+
+	<div class="md-modal bottom" data-content="question">
+		{{> navbarModal title="Redbaron76" action="thumbs-up"}}
+		<div class="content container-fluid">
+			<div class="row second">
+				<div class="col-xs-12 question">
+					<h4>Domande e risposte</h4>
+					<div class="row">
+						<div class="col-xs12 col-sm-6">
+							<div class="label-profile">
+								<span>altezza</span>
+								Maecenas sed diam eget risus varius blandit sit amet non magna.
+							</div>
+						</div>
+						<div class="col-xs12 col-sm-6">
+							<div class="label-profile">
+								<span>colore occhi</span>
+								Maecenas sed diam eget risus varius blandit sit amet non magna.
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs12 col-sm-6">
+							<div class="label-profile">
+								<span>colore capelli</span>
+								Maecenas sed diam eget risus varius blandit sit amet non magna.
+							</div>
+						</div>
+						<div class="col-xs12 col-sm-6">
+							<div class="label-profile">
+								<span>stile personale</span>
+								Maecenas sed diam eget risus varius blandit sit amet non magna.
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs12 col-sm-6">
+							<div class="label-profile">
+								<span>hai piercing o tatuaggi?</span>
+								Maecenas sed diam eget risus varius blandit sit amet non magna.
+							</div>
+						</div>
+						<div class="col-xs12 col-sm-6">
+							<div class="label-profile">
+								<span>piatto preferito</span>
+								Maecenas sed diam eget risus varius blandit sit amet non magna.
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs12 col-sm-6">
+							<div class="label-profile">
+								<span>drink preferito</span>
+								Maecenas sed diam eget risus varius blandit sit amet non magna.
+							</div>
+						</div>
+						<div class="col-xs12 col-sm-6">
+							<div class="label-profile">
+								<span>lavoro dei tuoi sogni</span>
+								Maecenas sed diam eget risus varius blandit sit amet non magna.
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs12 col-sm-6">
+							<div class="label-profile">
+								<span>film preferito</span>
+								Maecenas sed diam eget risus varius blandit sit amet non magna.
+							</div>
+						</div>
+						<div class="col-xs12 col-sm-6">
+							<div class="label-profile">
+								<span>canzone preferita</span>
+								Maecenas sed diam eget risus varius blandit sit amet non magna.
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs12 col-sm-6">
+							<div class="label-profile">
+								<span>festività preferita</span>
+								Maecenas sed diam eget risus varius blandit sit amet non magna.
+							</div>
+						</div>
+						<div class="col-xs12 col-sm-6">
+							<div class="label-profile">
+								<span>sport preferito</span>
+								Maecenas sed diam eget risus varius blandit sit amet non magna.
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs12 col-sm-6">
+							<div class="label-profile">
+								<span>hobby particolari</span>
+								Maecenas sed diam eget risus varius blandit sit amet non magna.
+							</div>
+						</div>
+						<div class="col-xs12 col-sm-6">
+							<div class="label-profile">
+								<span>animali domestici</span>
+								Maecenas sed diam eget risus varius blandit sit amet non magna.
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs12 col-sm-6">
+							<div class="label-profile">
+								<span>Ultimo libro letto</span>
+								Maecenas sed diam eget risus varius blandit sit amet non magna.
+							</div>
+						</div>
+						<div class="col-xs12 col-sm-6">
+							<div class="label-profile">
+								<span>la mia automobile</span>
+								Maecenas sed diam eget risus varius blandit sit amet non magna.
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs12 col-sm-6">
+							<div class="label-profile">
+								<span>il mio ultimo viaggio</span>
+								Maecenas sed diam eget risus varius blandit sit amet non magna.
+							</div>
+						</div>
+						<div class="col-xs12 col-sm-6">
+							<div class="label-profile">
+								<span>viaggi in programma</span>
+								Maecenas sed diam eget risus varius blandit sit amet non magna.
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs12 col-sm-6">
+							<div class="label-profile">
+								<span>programma TV preferito</span>
+								Maecenas sed diam eget risus varius blandit sit amet non magna.
+							</div>
+						</div>
+						<div class="col-xs12 col-sm-6">
+							<div class="label-profile">
+								<span>fiore preferito</span>
+								Maecenas sed diam eget risus varius blandit sit amet non magna.
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs12 col-sm-6">
+							<div class="label-profile">
+								<span>nei weekend mi piace...</span>
+								Maecenas sed diam eget risus varius blandit sit amet non magna.
+							</div>
+						</div>
+						<div class="col-xs12 col-sm-6">
+							<div class="label-profile">
+								<span>quando mi annoio...</span>
+								Maecenas sed diam eget risus varius blandit sit amet non magna.
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs12 col-sm-6">
+							<div class="label-profile">
+								<span>personaggio che vorrei conoscere</span>
+								Maecenas sed diam eget risus varius blandit sit amet non magna.
+							</div>
+						</div>
+						<div class="col-xs12 col-sm-6">
+							<div class="label-profile">
+								<span>svuoterei il mio conto bancario per...</span>
+								Maecenas sed diam eget risus varius blandit sit amet non magna.
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs12 col-sm-6">
+							<div class="label-profile">
+								<span>fra 10 anni mi vedo...</span>
+								Maecenas sed diam eget risus varius blandit sit amet non magna.
+							</div>
+						</div>
+						<div class="col-xs12 col-sm-6">
+							<div class="label-profile">
+								<span>in amore vince...</span>
+								Maecenas sed diam eget risus varius blandit sit amet non magna.
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-12 question">
+					<h4>Amo e Odio</h4>
+					<div class="row">
+						<div class="col-xs12 col-sm-6">
+							<div class="label-profile">
+								<span>amo</span>
+								Aenean lacinia bibendum nulla sed consectetur.
+							</div>
+						</div>
+						<div class="col-xs12 col-sm-6">
+							<div class="label-profile">
+								<span>odio</span>
+								Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs12 col-sm-6">
+							<div class="label-profile">
+								<span>amo</span>
+								Aenean lacinia bibendum nulla sed consectetur.
+							</div>
+						</div>
+						<div class="col-xs12 col-sm-6">
+							<div class="label-profile">
+								<span>odio</span>
+								Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs12 col-sm-6">
+							<div class="label-profile">
+								<span>amo</span>
+								Aenean lacinia bibendum nulla sed consectetur.
+							</div>
+						</div>
+						<div class="col-xs12 col-sm-6">
+							<div class="label-profile">
+								<span>odio</span>
+								Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs12 col-sm-6">
+							<div class="label-profile">
+								<span>amo</span>
+								Aenean lacinia bibendum nulla sed consectetur.
+							</div>
+						</div>
+						<div class="col-xs12 col-sm-6">
+							<div class="label-profile">
+								<span>odio</span>
+								Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs12 col-sm-6">
+							<div class="label-profile">
+								<span>amo</span>
+								Aenean lacinia bibendum nulla sed consectetur.
+							</div>
+						</div>
+						<div class="col-xs12 col-sm-6">
+							<div class="label-profile">
+								<span>odio</span>
+								Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</template>

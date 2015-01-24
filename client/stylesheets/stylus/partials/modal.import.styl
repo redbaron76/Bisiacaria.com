@@ -1,0 +1,79 @@
+.md-modal {
+	fixed: left 0 top 0 right 0;
+	transition: transform .25s;
+	transition-timing-function: cubic-bezier(0.1, 0.5, 0.1, 1);
+	background-color: $white;
+	height: 100%;
+	// opacity: 0;
+	z-index: 10;
+	
+	h4 {
+		font-family: $font-semibold;
+		text-align: left;
+		font-size: 18px;
+		margin-top: 10px;
+		padding: 10px;
+
+		background-color: $white-border;
+		color: $gray-row-hl;
+	}
+
+	h6 {
+		font-family: $font-semibold;
+		text-align: left;
+		font-size: 14px;
+		margin: 0 0 20px 0;
+		padding: 5px 10px;
+
+		background-color: $white-border;
+		color: $gray-row-hl;
+		text-transform: capitalize;
+	}
+
+	.divider {
+		divider(10%);
+		font-family: $font-semibold;
+		font-weight: 14px;
+		text-transform: uppercase;
+	}
+
+	&.top {
+		transform: translate3d(0, -100%, 0);
+		.navbar-btn:first-of-type::after {
+			navbar-modal('\f077');
+		}
+	}
+
+	&.bottom {
+		transform: translate3d(0, 100%, 0);
+		.navbar-btn:first-of-type::after {
+			navbar-modal('\f078');
+		}
+	}
+
+	&.left {
+		transform: translate3d(-100%, 0, 0);
+		.navbar-btn:first-of-type::after {
+			navbar-modal('\f053');
+		}
+	}
+
+	&.right {
+		transform: translate3d(100%, 0, 0);
+		.navbar-btn:first-of-type::after {
+			navbar-modal('\f054');
+		}
+	}
+
+	& > .container-fluid {
+		padding-top: 70px;
+		padding-bottom: 20px;
+		overflow-y: auto;
+		height: 100%;
+	}
+
+	&.md-open {
+		transform: translate3d(0, 0, 0);
+		// opacity: 1;
+	}
+}

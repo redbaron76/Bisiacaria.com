@@ -1,0 +1,60 @@
+#register {
+
+	.logo {
+		background-color: $bisia;
+		position: relative;
+
+		h1 {
+			text-align: center;
+			margin: 20px 0;
+		}
+	}
+	.social {
+		background-color: $gray-bg;
+		text-align: center;
+		color: $white;
+
+		h2 {
+			margin: 20px 0;
+		}
+	}
+	.form {
+		background-color: $white-bg;
+
+		.divider {
+			divider(10%);
+		}
+
+		.checkround {
+
+			&:nth-of-type(1) {
+				checkround($blue, 26px, 3px , 4px);
+			}
+
+			&:nth-of-type(2) {
+				checkround($pink, 26px, 3px , 4px);
+			}
+		}
+	}
+	.register {
+		height: 50px;
+		line-height: 50px;
+		background-color: $gray-bg;
+		text-align: center;
+
+		a {
+			color: $white-text;
+			font-size: 20px;
+			vertical-align: middle;
+
+			&:hover {
+				text-decoration: none;
+			}
+
+			span {
+				font-family: $font-semibold;
+				color: $white;
+			}
+		}
+	}
+}	// /REGISTER

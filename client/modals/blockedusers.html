@@ -1,0 +1,41 @@
+<template name="blockedUsersModal">
+	<div class="md-modal bottom" data-content="blockedusers">
+		{{> navbarModal title="Utenti bloccati" action="check"}}
+		<div class="content container-fluid">
+			<div class="row">
+				<div class="col-xs-12">
+					<ul class="item-list">
+						<!-- {{#each blockedUsers}} -->
+							{{> blockedUser}}
+						<!-- {{/each}} -->
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</template>
+
+<template name="blockedUser">
+
+{{#with currentUser}}
+
+	<li class="{{statusGender}}">
+		<div class="li-wrapper">
+			<a href="{{getProfileUrl}}">
+				{{> avatarImage}}
+				<div class="username">
+					{{username}}
+					<span>{{profile.city}}</span>
+				</div>
+			</a>
+			<span class="checkbox">
+				<a href="#" class="btn-round remove-block">
+					<i class="fa fa-close"></i>
+				</a>
+			</span>
+		</div>
+	</li>
+
+{{/with}}
+
+</template>

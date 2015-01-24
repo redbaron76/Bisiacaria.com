@@ -1,0 +1,13 @@
+<template name="base">
+	<div class="wrapper {{addMobile 'mobile'}}">
+		{{> yield}}
+
+		{{#if currentUser}}
+			{{> sidebarMenu}}
+			{{> sidebarUsers}}
+		{{/if}}
+
+		{{#if hasModal}} {{> modalWrapper}} {{/if}}
+		{{#if hasOverlay}} {{> overlayWrapper}} {{/if}}
+	</div>
+</template>

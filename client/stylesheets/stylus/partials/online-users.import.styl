@@ -1,0 +1,111 @@
+.online-users {
+	height: 100%;
+
+	header {
+		position: relative;
+		padding: 9px 10px 9px 10px;
+		overflow: hidden;
+		display: block;
+		white-space: nowrap;
+
+		form {
+			display: inline;
+			transform: translate3d(-100%, 0, 0);
+			transition: transform .2s;
+
+			input {
+				input-search();
+				width: 80%;
+			}
+		}
+
+		&.open-search {
+			form {
+				transform: translate3d(0, 0, 0);
+				.toggle-search {
+					background-color: $bisia;
+				}
+			}
+		}
+	}
+
+	.counter {
+		counter();
+
+		&.users {
+			display: inline-block;
+		}
+	}
+
+	.users-list {
+		scrollable(50px);
+
+		ul {
+			ul-list();
+
+			li {
+				li-list(2px, 5px 5px 5px 10px);
+				status();
+				malefemale();
+				a-wrapper();
+				transition: transform .2s;
+
+				img {
+					image-avatar();
+				}
+
+				.avatar {
+					avatar();
+				}
+
+				.username {
+					username(10px, 5px);
+				}
+
+				.action {
+					display: table
+					absolute: top 0 right -126px;
+					transition: transform .2s;
+					opacity: .9;
+					z-index: 2;
+
+					a, button {
+						display: table-cell;
+						border: none;
+						color: $white;
+						text-align: center;
+						line-height: 50px;
+						height: 50px;
+						width: 40px;
+						margin-left: 1px;
+						padding: 0;
+
+						i.fa {
+							font-size: 22px;
+							vertical-align: middle;
+						}
+
+						&.envelope {
+							background-color: $red;
+						}
+						&.thumb {
+							background-color: $blue;
+						}
+						&.user {
+							background-color: $bisiad;
+						}
+					}
+				}
+
+				&.tools-open {
+					transform: translate3d(-50px, 0, 0);
+
+					.action {
+						transform: translate3d(-76px, 0, 0);
+					}
+				}
+			}
+		}
+
+	}
+}

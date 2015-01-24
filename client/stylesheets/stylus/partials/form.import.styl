@@ -1,0 +1,223 @@
+.form-row {
+	display: block;
+	font-size: 18px;
+	padding: 0;
+	margin: 25px auto 0 auto;
+	width: 85%;
+	min-width: 250px;
+
+	&:last-child {
+		margin-bottom: 25px;
+	}
+
+	.divider + .form-group {
+		margin: 20px 0 25px 0;
+	}
+
+	.form-group {
+		position: relative;
+		display: table;
+		width: 100%;
+
+		// background-color: lime;
+
+		border-bottom: 2px solid $gray-row;
+		padding-bottom: 5px;
+		margin-bottom: 25px;
+
+		& > i,
+		& > span {
+			// display: inline-block;
+			display: table-cell;
+			width: 10%;
+			margin: 0;
+			text-align: right;
+			vertical-align: top;
+
+			&.check {
+				height: 26px;
+				line-height: 26px;
+
+				&.valid::before {
+					fa('\f00c');
+					color: $green;
+				}
+
+				&.fail::before {
+					fa('\f00d');
+					color: $red;
+				}
+			}
+
+			&.counter {
+				font-size: 12px;
+				height: 26px;
+
+				& + .check {
+					display: none;
+				}
+			}
+
+			&.msg {
+				absolute: left 0 top 33px;
+				font-family: $font-bootstrap;
+				font-size: .6em;
+
+				text-align: left;
+				display: block;
+				width: 100%;
+				padding: 2px 5px;
+
+				&.error {
+					background-color: $red;
+					color: $white;
+				}
+
+				&.success {
+					background-color: $green;
+					color: $white;
+				}
+			}
+		}
+
+		& > i {
+			color: $gray-row;
+			padding-top: 3px;
+			text-align: center;
+		}
+
+		&.text-area {
+			& > i {
+				padding-top: 1px;
+			}
+		}
+
+		&.check-box {
+			& > i {
+				padding-top: 5px;
+			}
+		}
+
+		& span.text-count {
+			display: inline-block;
+			padding-top: 5px;
+		}
+
+	}
+
+	button[type=submit] {
+		button(100%);
+		margin-top: 10px;
+
+		&.yellow {
+			background-color: $bisiad;
+		}
+
+		&.blue {
+			background-color: $blue;
+			color: $white;
+		}
+
+		&.loading::before {
+			fa('\f021');
+			font-size: 16px;
+			margin-right: 10px;
+			display: inline-block;
+			vertical-align: top;
+			animation(fa-spin 2s infinite linear);
+		}
+	}
+
+	input[type=text],
+	input[type=password],
+	textarea {
+		border: none;
+		background-color: transparent;
+		display: table-cell;
+		margin: 0;
+		padding: 0;
+		font-size: 16px;
+		width: 100%;
+		resize: none;
+	}
+
+	textarea {
+		height: 22px;
+		display: block;
+
+		& + .counter > span {
+			padding-top: 3px !important;
+		}
+
+		&.autosize {
+			// height: 22px !important;
+		}
+		
+		.counter + .check {
+			display: none;
+		}
+	}
+
+	select {
+		font-size: 14px;
+		margin: 0;
+		padding: 10px;
+		& + span {
+			width: 5% !important;
+		}
+	}
+
+	label {
+		font-size: 14px;
+		color: $gray-row-pin;
+
+		& > input {	margin-right: 5px; }
+	}
+
+	.birthdate {
+		display: table-cell;
+		width: 80%;
+
+		span.spacer {
+			width: 5% !important;
+			margin: 0 !important;
+		}
+
+		input[type=text] {
+			width: 25%;
+			text-align: center;
+		}
+	}
+
+	.check-box {
+
+		.checkround {
+			display: inline-block;
+			checkround();
+
+			& + label {
+				vertical-align: text-bottom;
+				margin-left: 5%;
+
+				color: $gray-row-pin;
+				font-family: $font-light;
+				font-size: 16px;
+
+				& + span.error {
+					absolute: top 39px;
+				}
+			}
+		}
+	}
+
+	p {
+		display: block;
+		font-size: 13px;
+		margin: 20px 0;
+
+		a {
+			color: $blue;
+			text-decoration: none;
+		}
+	}
+}

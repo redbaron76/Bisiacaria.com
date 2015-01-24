@@ -1,0 +1,98 @@
+/* Small devices (tablets, 768px and up) */
+@media (min-width: $screen-sm-min) {
+
+	
+
+}
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: $screen-md-min) {
+
+	.helpbar.title,
+	.helpbar.bottom {
+		left: 0;
+		padding-left: $sidebar-width !important;
+	}
+
+	.sidebar.left {
+		transition: transform .25s;
+		visibility: visible;
+		z-index: 3;
+	}
+
+	.navbar-btn.toggle-menu {
+		display: none;
+	}
+
+	.wrapper {
+		&.closing-right {
+			.sidebar.left {	display: block !important; }
+		}
+		&.sidebar-open-right {
+			.sidebar.left {
+				display: block !important;
+				transform: translate3d($sidebar-width * -1, 0, 0);
+				transition: transform .25s;
+			}
+		}
+	}
+
+	.body-wrapper {
+		& > .bar {
+			padding-left: $sidebar-width/* + 15px*/;
+
+			& + .content {
+				padding-left: $sidebar-width + 15px;
+			}
+		}
+	}
+
+	#login,
+	#register {
+		.signed { left: 25% !important;	}
+		.online { right: 25% !important; }
+
+		.form {
+			width: 66%;
+			margin: 0 auto;
+			float: none;
+		}
+	}
+}
+
+/* Large devices (large desktops, 1280px and up) */
+@media (min-width: $screen-lg-min) {
+
+	.helpbar.title,
+	.helpbar.bottom {
+		left: 0;
+		padding-right: $sidebar-width !important;
+		padding-left: $sidebar-width !important;
+	}
+
+	.sidebar.right {
+		visibility: visible;
+		z-index: 3;
+	}
+
+	.navbar-btn.toggle-users {
+		display: none;
+	}
+
+	.body-wrapper {
+		& > .bar {
+			padding-right: $sidebar-width/* + 15px*/;
+
+			& + .content {
+				padding-right: $sidebar-width;
+			}
+		}
+	}
+
+	#login,
+	#register {
+		.form {
+			width: 55%;
+		}
+	}
+}
