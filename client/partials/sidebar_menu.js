@@ -1,7 +1,4 @@
 Template.sidebarMenu.events({
-	'click [data-action=close]': function(e, t) {
-		Bisia.Ui.toggleSidebar();
-	},
 	'click #logout': function(e, t) {
 		e.preventDefault();
 		var logout = {

@@ -49,21 +49,21 @@
 					<a href="" data-action="close">
 						<i class="fa fa-lg fa-star"></i>
 						Ultime visite ricevute
-						<span>13</span>
+						<span class="live">{{getPublishedCount 'newVisits'}}</span>
 					</a>
 				</li>
 				<li>
 					<a href="" data-action="close">
 						<i class="fa fa-lg fa-child"></i>
 						Dicono di conoscerti
-						<span class="live">123</span>
+						<span>{{getPublishedCount 'newFriends'}}</span>
 					</a>
 				</li>
 				<li>
 					<a href="" data-action="close">
 						<i class="fa fa-lg fa-thumbs-up"></i>
 						Voti ricevuti oggi
-						<span>26</span>
+						<span>{{getPublishedCount 'newVotes'}}</span>
 					</a>
 				</li>
 				<li class="spacer">

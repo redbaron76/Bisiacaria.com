@@ -10,7 +10,10 @@ Meteor.publish('onlineUsers', function() {
 	if (this.userId) {
 		// Bisia.log('publishing onlineUsers from '+where+'...');
 		// Meteor._sleepForMs(5000);
-		return Users.find({ 'profile.online': true });
+		Counts.publish(this, 'newVisits', Notifications.find({ 'targetId': this.userId, 'action': 'visit', 'isRead': false }), { noReady: true });
+		Counts.publish(this, 'newFriends', Notifications.find({ 'targetId': this.userId, 'action': 'friend', 'isRead': false }), { noReady: true });
+		Counts.publish(this, 'newVotes', Notifications.find({ 'targetId': this.userId, 'action': 'vote', 'isRead': false }), { noReady: true });
+		return Users.find({ 'profile.online': true }, { 'fields': { 'emails': false, 'services': false } });
 	}
 });
 
@@ -27,5 +30,8 @@ Meteor.publish('userProfile', function(username) {
 	check(username, String);
 	// Bisia.log('publishing  '+username+'...');
 	// Meteor._sleepForMs(1000);
-	return Users.find({	'username': username }, { 'fields': { 'emails': false, 'services': false } });
+	var user = Users.find({ 'username': username }, { 'fields': { 'emails': false, 'services': false } });
+	var userId = _.pluck(user.fetch(), '_id')[0];
+	Counts.publish(this, 'totFriends', Friends.find({ 'userId': userId }));
+	return user;
 });

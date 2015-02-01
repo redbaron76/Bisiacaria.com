@@ -39,7 +39,7 @@
 			.fa.fa-circle {
 				color: $green;
 				font-size: 10px;
-				margin-right: 5px;
+				// margin-right: 1px;
 				vertical-align: middle;
 			}
 		}
@@ -310,23 +310,15 @@
 			margin: 0;
 			color: $white-text;
 			text-align: center;
+			vertical-align: middle;
 			malefemale();
 		}
 
 		.btn-wrapper {
 			display: table-cell;
 			width: 30%;
-			text-align: center;
-			// background-color: lime;
-
-			a.btn-round {
-				button-round();
-			}
-
-			&.flagged {
-				#know-yes.active { background-color: $green }
-				#know-no.active { background-color: $red }
-			}
+			vertical-align: middle;
+			switch();
 		}
 
 	}

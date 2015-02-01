@@ -52,8 +52,11 @@ Template.onlineUser.events({
 });
 
 Template.onlineUser.helpers({
-	'setOpen': function() {
-		if (this._id && this._id !== Meteor.userId())
+	'setOpenClose': function() {
+		if (this._id && this._id !== Meteor.userId()) {
 			return "open";
+		} else {
+			return "close";
+		}
 	}
 });
