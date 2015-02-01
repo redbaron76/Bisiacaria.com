@@ -4,7 +4,8 @@ Template.avatarImage.helpers({
 		return avatar && avatar.length > 0;
 	},
 	avatarImage: function() {
-		if (this.profile.avatar.length > 0)
-			return this.profile.avatar;
+		var avatar = this.profile.avatar;
+		if (avatar.length > 0)
+			return avatar;
 	}
 });

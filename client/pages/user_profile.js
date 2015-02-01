@@ -2,7 +2,7 @@ Template.userProfile.rendered = function() {
 	// Notify visit if this is not my profile
 	var visit = {
 		targetId: this.data._id
-	}
+	};
 
 	// No flood!
 	if (Bisia.Notification.afterAmountOfTime(visit.targetId)) {
@@ -11,7 +11,6 @@ Template.userProfile.rendered = function() {
 				targetId: visit.targetId,
 				createdAt: new Date
 			});
-			Bisia.log(Bisia.Notification.notifyTrack);
 		});
 	}
 };

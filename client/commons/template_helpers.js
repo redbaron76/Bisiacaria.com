@@ -46,6 +46,12 @@ Template.registerHelper('hasOverlay', function() {
 	return this.overlay;
 });
 
+// HELPERS
+
+Template.registerHelper('timeAgo', function() {
+	if (this.createdAt)
+		return moment(this.createdAt).fromNow();
+});
 
 // PROFILE
 
@@ -102,4 +108,10 @@ Template.registerHelper('isOnline', function() {
 Template.registerHelper('itsMe', function() {
 	var user = arguments[0] || this;
 	return Bisia.User.getUser('_id', user) === Meteor.userId();
+});
+
+Template.registerHelper('iFollowYou', function() {
+	var user = arguments[0] || this;
+	var friends = Bisia.User.getUser('friends');
+	return _.contains(friends, Meteor.userId());
 });

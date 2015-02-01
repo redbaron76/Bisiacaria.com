@@ -47,7 +47,9 @@ Template.onlineUser.events({
 	},
 	'click .send-vote': function(e, t) {
 		e.preventDefault();
-		sendNotification('vote');
+		Meteor.call('voteUser', {
+			targetId: t.data._id
+		});
 	}
 });
 

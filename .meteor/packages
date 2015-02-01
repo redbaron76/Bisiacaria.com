@@ -22,6 +22,7 @@ mdg:camera
 mdg:geolocation
 
 gwendall:body-events
+dburles:mongo-collection-instances
 jquery-waypoints
 elfoslav:css-emoticons
 fastclick

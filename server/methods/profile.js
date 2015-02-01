@@ -1,4 +1,4 @@
-// Users Methods
+// Profile Methods
 Meteor.methods({
 	knowUser: function(friendObj) {
 		check(this.userId, String);
@@ -18,10 +18,12 @@ Meteor.methods({
 
 		var friend = _.extend(friendObj, {
 			userId: user._id,
-			author: user.username,
-			gender: user.profile.gender,
-			avatar: user.profile.avatar,
-			status: user.profile.status,
+			username: user.username,
+			profile: {
+				gender: user.profile.gender,
+				avatar: user.profile.avatar,
+				status: user.profile.status,
+			},
 			createdAt: Bisia.Time.now()
 		});
 
@@ -54,10 +56,12 @@ Meteor.methods({
 
 		var visit = _.extend(visitObj, {
 			userId: user._id,
-			author: user.username,
-			gender: user.profile.gender,
-			avatar: user.profile.avatar,
-			status: user.profile.status,
+			username: user.username,
+			profile: {
+				gender: user.profile.gender,
+				avatar: user.profile.avatar,
+				status: user.profile.status,
+			},
 			createdAt: Bisia.Time.now()
 		});
 
@@ -89,10 +93,12 @@ Meteor.methods({
 
 		var vote = _.extend(voteObj, {
 			userId: user._id,
-			author: user.username,
-			gender: user.profile.gender,
-			avatar: user.profile.avatar,
-			status: user.profile.status,
+			username: user.username,
+			profile: {
+				gender: user.profile.gender,
+				avatar: user.profile.avatar,
+				status: user.profile.status,
+			},
 			createdAt: Bisia.Time.now()
 		});
 

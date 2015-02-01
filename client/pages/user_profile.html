@@ -105,7 +105,11 @@
 					<div class="row">
 						<div class="col-xs-12 know">
 							{{#unless itsMe}}
-							<p class="{{getGender}}">Conosci <span class="username">{{username}}</span> anche tu?</p>
+							{{#if iFollowYou}}
+								<p class="{{getGender}}">Ricevi le notifiche da <span class="username">{{username}}</span></p>
+							{{else}}
+								<p class="{{getGender}}">Conosci <span class="username">{{username}}</span> anche tu?</p>
+							{{/if}}
 							<div class="btn-wrapper">
 								<label class="switch switch-green">
 									<input type="checkbox" class="switch-input" id="toggle-know" {{youKnowThis}}>
