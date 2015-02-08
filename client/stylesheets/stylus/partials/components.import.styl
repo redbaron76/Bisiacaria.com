@@ -132,6 +132,14 @@
 		z-index: 99;
 	}
 
+	&.loading {
+		transition: visibility 0s .2s, opacity .2s linear;
+		background: rgba(255,255,255,0.6);
+		visibility: visible;
+		z-index: 99;
+		opacity: 1;
+	}
+
 }
 
 .md-show ~ .md-overlay {

@@ -6,7 +6,7 @@ Meteor.methods({
 			var now = new Date();
 			Sessions.upsert({ 'userId': this.userId
 			},{	$set: {	'loginCheck': now }});
-			// Bisia.log('loginCheck', moment(now).toDate());
+			return now;
 		}
 	}
 });

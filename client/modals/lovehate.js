@@ -30,6 +30,8 @@ Template.loveHateModal.events({
 
 Template.answerLoveHate.helpers({
 	answer: function() {
-		return this.data[this['lh']];
+		if(this.data) {
+			return this.data[this['lh']];
+		}
 	}
 });

@@ -1,16 +1,5 @@
 Template.userSettings.rendered = function() {
 
-	var counter = {
-		countDown: true,
-		stopInputAtMaximum: true
-	};
-
-	this.$('.count').textcounter(_.extend(counter, { max: 100}));
-	this.$('#bio').textcounter(_.extend(counter, { max: 140}));
-	this.$('#city').textcounter(_.extend(counter, { max: 25}));
-
-	this.$('.autosize').autosize({ append: '' });
-
 	// UPLOAD IMAGE TO CLOUDINARY
 	var parent = this;
 	this.$('#image-form').unsigned_cloudinary_upload("bisia-upload", {
@@ -42,6 +31,15 @@ Template.userSettings.rendered = function() {
 
 	});
 
+	var counter = {
+		countDown: true,
+		stopInputAtMaximum: true
+	};
+	parent.$('.count').textcounter(_.extend(counter, { max: 100}));
+	parent.$('#bio').textcounter(_.extend(counter, { max: 140}));
+	parent.$('#city').textcounter(_.extend(counter, { max: 25}));
+	parent.$('.autosize').autosize({ append: '' });
+
 };
 
 Template.userSettings.helpers({
@@ -69,9 +67,6 @@ Template.userSettings.helpers({
 				break;
 		}
 		return;
-	},
-	pageReady: function() {
-		return Bisia.getController('userSub').ready();
 	}
 });
 

@@ -1,5 +1,6 @@
-Template.registerHelper('log', function() {
-	console.log(this);
+Template.registerHelper('log', function(val) {
+	var value = val || 'log';
+	console.log(value, this);
 });
 
 Template.registerHelper('isCordova', function() {
@@ -49,8 +50,11 @@ Template.registerHelper('hasOverlay', function() {
 // HELPERS
 
 Template.registerHelper('timeAgo', function() {
-	if (this.createdAt)
-		return moment(this.createdAt).fromNow();
+	if (this.createdAt) {
+		var dateAgo = moment(this.createdAt);
+		return dateAgo.from(Bisia.Time.beatTime.get());
+	}
+	return '--:--';
 });
 
 // PROFILE

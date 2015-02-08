@@ -1,9 +1,11 @@
+// Notification methods
 Meteor.methods({
 	resetNotification: function(action) {
 		check(action, String);
-		Notifications.update({
+		var result = Notifications.update({
 			'targetId': Meteor.userId(),
-			'action': action
+			'action': action,
+			'isRead': false
 		}, {
 			$set: {
 				'isRead': true

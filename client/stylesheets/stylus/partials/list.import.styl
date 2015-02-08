@@ -3,14 +3,18 @@
 		bottom-bar();
 
 		button {
-			&:nth-child(1) {
+			&.load-more {
 				width: 80%;
 				background-color: $gray-row;
 				i {
 					margin-right: 5px;
 				}
+
+				& + button {
+					width: 20%;
+				}
 			}
-			&:nth-child(2) {
+			&.go-top {
 				background-color: $gray-row-hl;
 			}
 		}

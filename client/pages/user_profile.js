@@ -1,16 +1,7 @@
 Template.userProfile.rendered = function() {
-	// Notify visit if this is not my profile
-	var visit = {
-		targetId: this.data._id
-	};
-
-	// No flood!
-	if (Bisia.Notification.afterAmountOfTime(visit.targetId)) {
-		Meteor.call('visitUser', visit, function() {
-			Bisia.Notification.notifyTrack.push({
-				targetId: visit.targetId,
-				createdAt: new Date
-			});
+	if(this.data.user._id !== Meteor.userId()) {
+		Meteor.call('visitUser', {
+			targetId: this.data.user._id
 		});
 	}
 };
@@ -56,13 +47,13 @@ Template.userProfile.events({
 	'click #send-vote': function(e, t) {
 		e.preventDefault();
 		Meteor.call('voteUser', {
-			targetId: t.data._id
+			targetId: t.data.user._id
 		});
 	},
 	'change #toggle-know': function(e, t) {
 		e.preventDefault();
 		Meteor.call('knowUser', {
-			targetId: t.data._id,
+			targetId: t.data.user._id,
 			check: e.target.checked
 		});
 	}

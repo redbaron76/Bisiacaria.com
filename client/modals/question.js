@@ -33,6 +33,8 @@ Template.answerQuestion.helpers({
 		return this['title'];
 	},
 	answer: function() {
-		return this.data[this['q']];
+		if(this.data) {
+			return this.data[this['q']];
+		}
 	}
 });

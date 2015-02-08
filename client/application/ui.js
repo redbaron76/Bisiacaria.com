@@ -8,6 +8,8 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 	$ultools: null,		// the ultool open
 	$wrapper: null,		// the main wrapper
 
+	pageReady: true,
+
 	/**
 	 * Init function
 	 * @return {Void}
@@ -25,6 +27,10 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 		e.preventDefault();
 		this.$content = (arguments[1]) ? $(arguments[1]) : $(e.target).parents('.content');
 		this.$content.animate({ scrollTop: 0 }, 1000);
+	},
+
+	hideElement: function(className, target) {
+		$(className).removeClass(target);
 	},
 
 	/**
@@ -111,7 +117,6 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 
 			// add 15 if isCordova (padding top navbar)
 			if (Meteor.isCordova) offsetTop = offsetTop - 15;
-			// Bisia.log(this.$content.height(), '>', offsetTop);
 
 			if (this.$content.height() > offsetTop) {
 				$el.addClass(className);

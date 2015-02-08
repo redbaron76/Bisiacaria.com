@@ -24,7 +24,7 @@ Meteor.methods({
 				avatar: user.profile.avatar,
 				status: user.profile.status,
 			},
-			createdAt: Bisia.Time.now()
+			createdAt: Bisia.Time.now('server')
 		});
 
 		if (isFriend) {
@@ -54,6 +54,18 @@ Meteor.methods({
 		if (user._id == visitObj.targetId)
 			return;
 
+		var flooding = Notifications.findOne({
+			'action': 'visit',
+			'userId': user._id,
+			'targetId': visitObj.targetId,
+			'createdAt': {
+        		$gt: Bisia.Time.timeAgo(3 * 60 * 1000)		// <
+			}
+		});
+
+		if (flooding)
+			throw new Meteor.Error('error-visit', 'Sei tornato a visitare troppo velocemente');
+
 		var visit = _.extend(visitObj, {
 			userId: user._id,
 			username: user.username,
@@ -62,7 +74,7 @@ Meteor.methods({
 				avatar: user.profile.avatar,
 				status: user.profile.status,
 			},
-			createdAt: Bisia.Time.now()
+			createdAt: Bisia.Time.now('server')
 		});
 
 		return Bisia.Notification.emit('visit', visit);
@@ -99,7 +111,7 @@ Meteor.methods({
 				avatar: user.profile.avatar,
 				status: user.profile.status,
 			},
-			createdAt: Bisia.Time.now()
+			createdAt: Bisia.Time.now('server')
 		});
 
 		Users.update(voteObj.targetId, { $inc: { votesCount: 1 } });

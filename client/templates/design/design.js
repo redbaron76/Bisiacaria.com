@@ -191,7 +191,7 @@ Template.articleTemplate.events({
 	}
 });*/
 
-Template.visitorsTemplate.events({
+/*Template.visitorsTemplate.events({
 	'click .send-vote': function(e, t) {
 		e.preventDefault();
 		// sendNotification('vote');
@@ -207,4 +207,4 @@ Template.visitorsTemplate.events({
 		// moreOnBottom(e, '.item-list', '.list', 'bottom-show');
 		Bisia.Ui.toggleAtBottom(e, '.item-list > li:last', '.list', 'bottom-show');
 	}
-});
+});*/

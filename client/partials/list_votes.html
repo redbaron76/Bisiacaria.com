@@ -1,0 +1,13 @@
+<template name="voteUser">
+	<li class="{{statusGender}}">
+		<div class="li-wrapper">
+			<a href="{{getProfileUrl}}">
+				{{> avatarImage this}}
+				<div class="username">
+					{{username}}
+					<span class="time">{{timeAgo}}</span>
+				</div>
+			</a>
+		</div>
+	</li>
+</template>
