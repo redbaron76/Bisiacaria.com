@@ -11,11 +11,6 @@ Template.navbarTop.events({
 
 Template.navbarTop.helpers({
 	totNotifications: function() {
-		var counters = [/*'newMessages', */'newVisits', 'newFriends', 'newVotes'];
-		var c = 0;
-		_.each(counters, function(el, index) {
-			c += Counts.get(el);
-		});
-		return c;
+		return Bisia.Notification.countTotal();
 	}
 });

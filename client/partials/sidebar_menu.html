@@ -38,34 +38,10 @@
 		</div>
 		<div class="menu-list{{addClass 'hover'}}">
 			<ul>
-				<li>
-					<a href="" data-action="close">
-						<i class="fa fa-lg fa-envelope"></i>
-						Messaggi ricevuti
-						<span class="new">3</span>
-					</a>
-				</li>
-				<li>
-					<a href="{{pathFor 'visitsList'}}" data-action="close">
-						<i class="fa fa-lg fa-star"></i>
-						Ultime visite ricevute
-						<span class="live">{{getPublishedCount 'newVisits'}}</span>
-					</a>
-				</li>
-				<li>
-					<a href="{{pathFor 'friendsList'}}" data-action="close">
-						<i class="fa fa-lg fa-child"></i>
-						Dicono di conoscerti
-						<span>{{getPublishedCount 'newFriends'}}</span>
-					</a>
-				</li>
-				<li>
-					<a href="{{pathFor 'votesList'}}" data-action="close">
-						<i class="fa fa-lg fa-thumbs-up"></i>
-						Voti ricevuti oggi
-						<span>{{getPublishedCount 'newVotes'}}</span>
-					</a>
-				</li>
+				{{#each menuItems}}
+					{{> menuItem}}
+				{{/each}}
+
 				<li class="spacer">
 					<a href="{{pathFor 'userSettings'}}" data-action="close">
 						<i class="fa fa-lg fa-cog"></i>
@@ -82,4 +58,24 @@
 		</div>
 		{{/with}}
 	</aside>
+</template>
+
+<template name="menuItem">
+	<li>
+		<a href="{{pathFor path}}" data-action="close">
+			<i class="fa fa-lg {{icon}}"></i>
+			{{label}}
+			{{> notificationCount this}}
+		</a>
+	</li>
+</template>
+
+<template name="notificationCount">
+	{{#if newCount}}
+		<span class="{{nClass}}">{{newCount}}</span>
+	{{else}}
+		{{#if counter}}
+			<span>{{counter}}</span>
+		{{/if}}
+	{{/if}}
 </template>

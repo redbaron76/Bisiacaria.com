@@ -1,3 +1,65 @@
+Template.sidebarMenu.created = function() {
+	var instance = this;
+	// Autorun to update computation
+	/*instance.autorun(function() {
+		instance.notifyCompute = Bisia.Notification.compute();
+	});*/
+	instance.items = [
+		// {
+		// 	icon: 'fa-envelope',
+		// 	label: 'Messaggi ricevuti',
+		// 	path: 'messagesList',
+		// 	counter: 'totMessages',
+		// 	newCount: 'newMessages'
+		// },
+		{
+			key: 'visit',
+			icon: 'fa-star',
+			label: 'Ultime visite ricevute',
+			path: 'visitsList',
+			nClass: 'new'
+		},
+		{
+			key: 'friend',
+			icon: 'fa-child',
+			label: 'Dicono di conoscerti',
+			path: 'friendsList',
+			nClass: 'new'
+		},
+		{
+			key: 'youknow',
+			icon: 'fa-user',
+			label: 'Chi dici di conoscere',
+			path: 'youKnowList',
+			nClass: 'new'
+		},
+		{
+			key: 'vote',
+			icon: 'fa-thumbs-up',
+			label: 'Voti ricevuti',
+			path: 'votesList',
+			nClass: 'new'
+		}
+	];
+};
+
+Template.sidebarMenu.helpers({
+	menuItems: function() {
+		var counters = Bisia.Notification.compute();
+		var items = Template.instance().items;
+		var menuItems = [];
+		_.each(items, function(obj) {
+			var countObj = _.find(counters, function(value) {
+				return  value.key == obj.key;
+			});
+			obj.counter = (countObj.counter > 0) ? countObj.counter : null;
+			obj.newCount = (countObj.newCount > 0) ? countObj.newCount : null;
+			menuItems.push(obj);
+		});
+		return menuItems;
+	},
+});
+
 Template.sidebarMenu.events({
 	'click #logout': function(e, t) {
 		e.preventDefault();

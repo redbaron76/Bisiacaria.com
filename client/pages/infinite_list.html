@@ -8,7 +8,9 @@
 					<div class="col-xs-12">
 						<ul class="item-list">
 							{{#each items}}
-								{{> Template.dynamic template=../viewTemplate}}
+								{{#with joinWithAuthor}}
+									{{> Template.dynamic template=../../viewTemplate}}
+								{{/with}}
 							{{else}}
 								{{> emptyLi}}
 							{{/each}}

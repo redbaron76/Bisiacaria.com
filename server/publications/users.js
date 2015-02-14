@@ -11,9 +11,19 @@ Meteor.publish('onlineUsers', function() {
 	if (this.userId) {
 		// Bisia.log('publishing onlineUsers from '+where+'...');
 		// Meteor._sleepForMs(5000);
+
+		// Notifications count
 		Counts.publish(this, 'newVisits', Notifications.find({ 'targetId': this.userId, 'action': 'visit', 'isRead': false }), { noReady: true });
 		Counts.publish(this, 'newFriends', Notifications.find({ 'targetId': this.userId, 'action': 'friend', 'isRead': false }), { noReady: true });
 		Counts.publish(this, 'newVotes', Notifications.find({ 'targetId': this.userId, 'action': 'vote', 'isRead': false }), { noReady: true });
+
+		// Friends that you know
+		Counts.publish(this, 'youKnow', Friends.find({ 'userId': this.userId }), { noReady: true });
+		// Friends that know you
+		Counts.publish(this, 'totFriends', Friends.find({ 'targetId': this.userId }), { noReady: true });
+
+		Counts.publish(this, 'totVotes', Votes.find({ 'targetId': this.userId }), { noReady: true });
+
 		return Users.find({ 'profile.online': true }, { 'fields': { 'emails': false, 'services': false } });
 	}
 });
