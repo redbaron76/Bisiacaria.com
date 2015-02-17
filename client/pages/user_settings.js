@@ -2,6 +2,7 @@ Template.userSettings.rendered = function() {
 
 	// UPLOAD IMAGE TO CLOUDINARY
 	var parent = this;
+
 	this.$('#image-form').unsigned_cloudinary_upload("bisia-upload", {
 		cloud_name: 'bisiacaria-com',
 		tags: Bisia.Img.getTags()
@@ -30,11 +31,11 @@ Template.userSettings.rendered = function() {
 		}
 
 	});
-
 	var counter = {
 		countDown: true,
 		stopInputAtMaximum: true
 	};
+
 	parent.$('.count').textcounter(_.extend(counter, { max: 100}));
 	parent.$('#bio').textcounter(_.extend(counter, { max: 140}));
 	parent.$('#city').textcounter(_.extend(counter, { max: 25}));
@@ -87,7 +88,7 @@ Template.userSettings.events({
 	'click .avatar': function(e, t) {
 		e.preventDefault();
 		var $preview = $(e.target);
-		var $form = $preview.parent('.uploader').next('#image-form');
+		var $form = $preview.parents('.uploader').next('#image-form');
 		$form.trigger('click');
 		return false;
 	},

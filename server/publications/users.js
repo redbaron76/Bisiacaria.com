@@ -13,10 +13,13 @@ Meteor.publish('onlineUsers', function() {
 		// Meteor._sleepForMs(5000);
 
 		// Notifications count
+		Counts.publish(this, 'newMessages', Notifications.find({ 'targetId': this.userId, 'action': 'message', 'isRead': false }), { noReady: true });
 		Counts.publish(this, 'newVisits', Notifications.find({ 'targetId': this.userId, 'action': 'visit', 'isRead': false }), { noReady: true });
 		Counts.publish(this, 'newFriends', Notifications.find({ 'targetId': this.userId, 'action': 'friend', 'isRead': false }), { noReady: true });
 		Counts.publish(this, 'newVotes', Notifications.find({ 'targetId': this.userId, 'action': 'vote', 'isRead': false }), { noReady: true });
 
+		// Messages
+		Counts.publish(this, 'totMessages', Messages.find({ 'targetId': this.userId }), { noReady: true });
 		// Friends that you know
 		Counts.publish(this, 'youKnow', Friends.find({ 'userId': this.userId }), { noReady: true });
 		// Friends that know you

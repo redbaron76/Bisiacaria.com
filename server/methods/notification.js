@@ -13,7 +13,6 @@ Meteor.methods({
 		}, {
 			'multi': true
 		});
-		Bisia.log('resetNotification', result);
 	}
 });
 

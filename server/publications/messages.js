@@ -1,5 +1,5 @@
-// Publish friends
-Meteor.reactivePublish('friendsList', function(query, options, authorId) {
+// Publish messages list received/sent
+Meteor.reactivePublish('messagesList', function(query, options, authorId) {
 	// Get the subject (opposite of authorId)
 	var target = Bisia.inverseAuthor(authorId);
 	// Build owner subject (the one to get from the query)
@@ -8,12 +8,12 @@ Meteor.reactivePublish('friendsList', function(query, options, authorId) {
 	// Extend query object
 	query = _.extend(query, owner);
 	// get cursors
-	var visits = Friends.find(query, options);
+	var messages = Messages.find(query, options);
 	// map the authorIds
-	var userIds = visits.map(function(doc) { return doc[authorId] });
+	var userIds = messages.map(function(doc) { return doc[authorId] });
 	var authors = Users.find({ '_id': { '$in': userIds }});
 
 	// Meteor._sleepForMs(1000);
 	// return cursors
-	return [visits, authors];
+	return [messages, authors];
 });

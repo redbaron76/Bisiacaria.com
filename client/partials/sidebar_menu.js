@@ -1,17 +1,13 @@
 Template.sidebarMenu.created = function() {
 	var instance = this;
-	// Autorun to update computation
-	/*instance.autorun(function() {
-		instance.notifyCompute = Bisia.Notification.compute();
-	});*/
 	instance.items = [
-		// {
-		// 	icon: 'fa-envelope',
-		// 	label: 'Messaggi ricevuti',
-		// 	path: 'messagesList',
-		// 	counter: 'totMessages',
-		// 	newCount: 'newMessages'
-		// },
+		{
+			key: 'message',
+			icon: 'fa-envelope',
+			label: 'Messaggi privati',
+			path: 'getMessages',
+			nClass: 'new'
+		},
 		{
 			key: 'visit',
 			icon: 'fa-star',
@@ -67,7 +63,6 @@ Template.sidebarMenu.events({
 			'userId': Meteor.userId(),
 			'service': Meteor.user().profile.loggedWith
 		};
-		// Bisia.log('beforeCall');
 		Meteor.call('logoutUser', logout, function(error, result) {
 			if (result)	{
 				Meteor.logout(function() {

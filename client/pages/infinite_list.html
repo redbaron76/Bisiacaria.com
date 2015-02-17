@@ -3,6 +3,15 @@
 		{{> navbarTop title=title}}
 		<div class="content container-fluid">
 			<div class="list">
+			{{#if topLink}}
+				<div class="row buttons-toppad">
+					<div class="col-xs-12 buttons-top">
+						{{#each topLink}}
+							{{> topLinkButton}}
+						{{/each}}
+					</div>
+				</div>
+			{{/if}}
 			{{#if pageDisplay}}
 				<div class="row">
 					<div class="col-xs-12">
@@ -25,4 +34,8 @@
 		</div>
 		<div class="md-overlay gray"></div>
 	</div>
+</template>
+
+<template name="topLinkButton">
+	<a href="{{pathFor path}}" {{attributes}}>{{label}}</a>
 </template>

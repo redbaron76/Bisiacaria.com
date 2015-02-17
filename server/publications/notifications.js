@@ -1,15 +1,16 @@
-// Publish notifications
-Meteor.publish('notifications', function(query, options) {
-	// Meteor._sleepForMs(1000);
-	return Notifications.find(query, options);
-});
-
-Meteor.reactivePublish('getVisitsAndAuthor', function(query, options) {
+// Publish visits from notifications collection
+Meteor.reactivePublish('visitsList', function(query, options, authorId) {
+	// Get the subject (opposite of authorId)
+	var target = Bisia.inverseAuthor(authorId);
+	// Build owner subject (the one to get from the query)
+	var owner = {};
+	owner[target] = this.userId;
 	// Extend query object
-	query = _.extend(query, {targetId: this.userId});
+	query = _.extend(query, owner);
 	// get cursors
 	var visits = Notifications.find(query, options);
-	var userIds = visits.map(function(doc) { return doc.userId });
+	// map the authorIds
+	var userIds = visits.map(function(doc) { return doc[authorId] });
 	var authors = Users.find({ '_id': { '$in': userIds }});
 
 	// Meteor._sleepForMs(1000);

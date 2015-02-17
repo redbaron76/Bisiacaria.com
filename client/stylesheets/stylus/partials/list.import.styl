@@ -1,4 +1,68 @@
 .list {
+	
+	.item-list {
+		ul-list();
+
+		li {
+			li-list();
+			status();
+			malefemale();
+			background-color: transparent;
+			border-bottom: 1px solid $white-border;
+			padding: 7px 0;
+			width: 100%;
+
+			.li-wrapper {
+				a-wrapper();
+				display: table;
+				width: 100%;
+			}
+
+			.checkbox {
+				display: table-cell;
+				text-align: right;
+				vertical-align: middle;
+				width: 35px;
+
+				.checkround {
+					checkround();
+					float: right;
+				}
+
+				a.button {
+					undecorate();
+					.fa-circle { color: $blue; }
+				}
+
+				a.btn-round {
+					button-round(35px);
+					background-color: $blue;
+					i {
+						font-size: 18px;
+					}
+				}
+			}
+
+			.avatar {
+				avatar(45px, 2px);
+				width: 45px;
+			}
+
+			.username {
+				username(14px);
+				width: calc(80% - 45px);
+
+				small {
+					color: $gray-row-pin;
+				}
+
+				span {
+					font-size: 10px;
+				}
+			}
+		}
+	}
+
 	.bottom {
 		bottom-bar();
 

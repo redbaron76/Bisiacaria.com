@@ -11,9 +11,8 @@
 								<div class="front">
 									<div class="front-wrapper">
 										<a href="#">
-											{{> avatarImage}}
+											{{> avatarImage data=this online=true}}
 											<div class="username">
-												{{#if isOnline}}<i class="fa fa-circle"></i>{{/if}}
 												{{username}}
 												<span>{{profile.city}}</span>
 											</div>

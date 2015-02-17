@@ -26,6 +26,21 @@ avatar(dim = 40px, borderw = 2px, x = 0, y = 0) {
 
 		fa('\f007');
 	}
+
+	&.online::after {
+		absolute: bottom 0 left 0;
+		display: block;
+		width: 100%;
+		height: (dim/8)px;
+		content: 'online';
+		color: $white;
+		font-size: (dim/5*3)%;
+		text-align: center;
+		padding-top: .1em;
+		text-transform: uppercase;
+		background-color: $green;
+		z-index: 3;
+	}
 }
 
 badge(bcolor = $gray-row-pin) {

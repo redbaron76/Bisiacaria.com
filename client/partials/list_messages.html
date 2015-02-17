@@ -1,11 +1,12 @@
-<template name="visitUser">
+<template name="messagesFrom">
 	<li class="{{statusGender}}">
 		<div class="li-wrapper">
 			<a href="{{getProfileUrl}}">
 				{{> avatarImage data=this online=true}}
 				<div class="username">
+					<small>{{ada}}:</small>
 					{{username}}
-					<span class="time">{{timeAgo}}</span>
+					<span class="time">{{timeFormat}}</span>
 				</div>
 			</a>
 		</div>

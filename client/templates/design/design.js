@@ -83,7 +83,7 @@ Template.profileTemplate.events({
 	}
 });*/
 
-Template.popupWrapper.events({
+/*Template.popupWrapper.events({
 	'click .md-popup .close': function(e, t) {
 		e.preventDefault();
 		$('.md-popup').removeClass('md-show');
@@ -93,7 +93,7 @@ Template.popupWrapper.events({
 		e.preventDefault();
 		sendMessage();
 	}
-});
+});*/
 
 Template.bubbleWrapper.events({
 	'click button.close': function(e, t) {

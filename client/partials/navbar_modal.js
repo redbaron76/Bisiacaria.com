@@ -5,14 +5,8 @@ Template.navbarModal.events({
 	},
 	'click .send-thumbs-up': function(e, t) {
 		e.preventDefault();
-
-		var vote = {
-			targetId: t.data.data._id
-		};
-
-		Meteor.call('voteUser', vote, function(error, result) {
-			Bisia.log(error);
-			Bisia.log(result);
+		Meteor.call('voteUser', {
+			targetId: t.data.data.user._id
 		});
 	}
 });

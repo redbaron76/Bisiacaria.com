@@ -1,7 +1,12 @@
 <template name="avatarImage">
-	{{#if hasImage}}
-		<img src="{{avatarImage}}" class="avatar">
-	{{else}}
-		<div class="avatar default"></div>
-	{{/if}}
+	<div class="avatar-wrapper">
+		{{#if hasImage}}
+			<img src="{{avatarImage}}" class="avatar">
+		{{else}}
+			<div class="avatar default"></div>
+		{{/if}}
+		{{#if itsOnline}}
+			<div class="online-marker"></div>
+		{{/if}}
+	</div>
 </template>

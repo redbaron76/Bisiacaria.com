@@ -57,6 +57,13 @@ Template.registerHelper('timeAgo', function() {
 	return '--:--';
 });
 
+Template.registerHelper('timeFormat', function() {
+	if (this.createdAt) {
+		return moment(this.createdAt).format('ddd DD MMMM YYYY [alle] HH:mm');
+	}
+	return '--:--';
+});
+
 // PROFILE
 
 Template.registerHelper('getAge', function() {

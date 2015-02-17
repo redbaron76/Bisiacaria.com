@@ -1,3 +1,20 @@
+
+.avatar-wrapper {
+	display: block;
+	position: relative;
+	.online-marker {
+		display: block;
+		width: 18%;
+		height: 18%;
+		absolute: left 7% bottom 7%;
+		background-color: $green;
+		border-radius: 20px;
+		border: .1em solid $white;
+		color: $green;
+		z-index: 3;
+	}
+}
+
 // Blinking
 
 @keyframes blink {
@@ -9,6 +26,45 @@
 .blink {
 	animation: blink 1s step-start 0s infinite;
 }
+
+// buttons-top
+
+.row.buttons-toppad + .row {
+	padding-top: 40px;
+}
+
+.buttons-top {
+	fixed: top $navbar-height;
+	display: table;
+	padding: 0;
+	z-index: 4;
+
+	a, button {
+		undecorate();
+		border: 0;
+		width: 50%;
+		padding: 10px 0;
+		text-align: center;
+		color: $white;
+		display: table-cell;
+		font-size: 14px;
+		background-color: $gray-bar;
+
+		&:nth-child(2) {
+			border-left: 1px solid $white;
+		}
+
+		&.full-width {
+			width: 100%;
+		}
+
+		&.selected {
+			background-color: $gray-row-pin;
+		}
+	}
+
+}
+
 
 // Caret
 
@@ -41,72 +97,6 @@
 
 .clearfix {
 	clearfix();
-}
-
-// Item list
-
-.item-list {
-	ul-list();
-
-	li {
-		li-list();
-		status();
-		malefemale();
-		background-color: transparent;
-		border-bottom: 1px solid $white-border;
-		padding: 7px 0;
-		width: 100%;
-
-		.li-wrapper {
-			a-wrapper();
-			display: table;
-			width: 100%;
-		}
-
-		.checkbox {
-			display: table-cell;
-			text-align: right;
-			vertical-align: middle;
-			width: 35px;
-
-			.checkround {
-				checkround();
-				float: right;
-			}
-
-			a.button {
-				undecorate();
-				.fa-circle { color: $blue; }
-			}
-
-			a.btn-round {
-				button-round(35px);
-				background-color: $blue;
-				i {
-					font-size: 18px;
-				}
-			}
-		}
-
-		/*img {
-			image-avatar(45px, 2px);
-			display: table-cell;
-		}*/
-
-		.avatar {
-			avatar(45px, 2px);
-			width: 45px;
-		}
-
-		.username {
-			username(14px);
-			width: calc(80% - 45px);
-
-			span {
-				font-size: 10px;
-			}
-		}
-	}
 }
 
 .spacer {

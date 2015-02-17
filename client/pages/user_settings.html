@@ -3,8 +3,8 @@
 		{{> navbarTop title="Impostazioni"}}
 		<div class="content container-fluid">
 			<div id="settings">
-				<div class="row">
-					<div class="col-xs-12 buttons">
+				<div class="row buttons-toppad">
+					<div class="col-xs-12 buttons-top">
 						<button id="question">
 							Domande e Risposte
 						</button>
@@ -16,7 +16,7 @@
 				{{#with user}}
 				<div class="row">
 					<div class="col-xs-12 form">
-						<form action="" class="form-row">
+						<form id="form-upload" class="form-row">
 							<div class="divider white-bg"><span>avatar del profilo</span></div>
 							<div class="image {{statusGender}}">
 								<p>Clicca l'immagine per caricarne una nuova</p>

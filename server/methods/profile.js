@@ -53,7 +53,7 @@ Meteor.methods({
 			'userId': user._id,
 			'targetId': visitObj.targetId,
 			'createdAt': {
-        		$gt: Bisia.Time.timeAgo(3 * 60 * 1000)		// <
+        		$gt: Bisia.Time.timeAgo(Bisia.Notification.timeLimitFlood * 60 * 1000)		// <
 			}
 		});
 
@@ -68,6 +68,7 @@ Meteor.methods({
 		return Bisia.Notification.emit('visit', visit);
 	},
 	voteUser: function(voteObj) {
+		Bisia.log(voteObj);
 		check(this.userId, String);
 		check(voteObj, {
 			targetId: String

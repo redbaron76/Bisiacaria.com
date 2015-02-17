@@ -77,6 +77,14 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 		}, timeout);
 	},
 
+	sendMessage: function() {
+		$('.md-message').removeClass('bounceIn')
+						.addClass('bounceOutRight')
+						.one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
+							Bisia.Message.unsetTarget();
+						});
+	},
+
 	/**
 	 * Reset all form messages
 	 * @return {Void}

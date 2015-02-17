@@ -22,7 +22,13 @@ Template.sidebarUsers.created = function() {
 
 	// The cursor
 	instance.onlineUsers = function() {
-		return Users.find({ 'profile.online': true }, { sort: { 'profile.loginSince': -1 }});
+		return Users.find(
+			{ 'profile.online': true },
+			{
+				fields: { 'username': 1, 'profile': 1 },
+				sort: { 'profile.loginSince': -1 }
+			}
+		);
 	};
 
 };
@@ -39,7 +45,7 @@ Template.sidebarUsers.helpers({
 Template.onlineUser.events({
 	'click .write-message': function(e, t) {
 		e.preventDefault();
-		openMessage();
+		Bisia.Message.setTarget(this);
 	},
 	'click [data-action=open]': function(e, t) {
 		e.preventDefault();

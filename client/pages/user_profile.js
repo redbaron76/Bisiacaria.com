@@ -44,6 +44,10 @@ Template.userProfile.events({
 	'click #question-lovehate': function(e, t) {
 		Bisia.Ui.toggleModal(e);
 	},
+	'click #write-message': function(e, t) {
+		e.preventDefault();
+		Bisia.Message.setTarget(this);
+	},
 	'click #send-vote': function(e, t) {
 		e.preventDefault();
 		Meteor.call('voteUser', {

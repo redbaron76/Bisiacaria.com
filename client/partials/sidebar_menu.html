@@ -29,7 +29,7 @@
 		{{#with currentUser}}
 		<div class="profile-intro {{statusGender}}">
 			<a href="{{getProfileUrl}}" data-action="close">
-				{{> avatarImage}}
+				{{> avatarImage data=this online=false}}
 				<div class="username">
 					{{username}}
 					<span>{{profile.city}}</span>
