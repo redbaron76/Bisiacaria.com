@@ -1,7 +1,7 @@
 <template name="messagesFrom">
 	<li class="{{statusGender}}">
 		<div class="li-wrapper">
-			<a href="{{getProfileUrl}}">
+			<a href="{{getProfileUrl}}" data-action="{{setOpenClose}}">
 				{{> avatarImage data=this online=true}}
 				<div class="username">
 					<small>{{ada}}:</small>
@@ -9,6 +9,22 @@
 					<span class="time">{{timeFormat}}</span>
 				</div>
 			</a>
+			{{#if isSent}}
+			<div class="right-aligned">
+				<i class="fa {{getIcon}}"></i>
+			</div>
+			{{else}}
+			<div class="action">
+				{{#with formatChatId}}
+				<a href="{{pathFor 'readMessage'}}" class="reply" data-action="close">
+					<i class="fa fa-reply"></i>
+				</a>
+				{{/with}}
+				<button class="trash" id="delete-message">
+					<i class="fa fa-trash"></i>
+				</button>
+			</div>
+			{{/if}}
 		</div>
 	</li>
 </template>

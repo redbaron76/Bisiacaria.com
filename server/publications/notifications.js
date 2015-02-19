@@ -1,5 +1,12 @@
 // Publish visits from notifications collection
 Meteor.reactivePublish('visitsList', function(query, options, authorId) {
+	check(this.userId, String);
+	check(authorId, String);
+	check(query, Object);
+	check(options, {
+		sort: Object,
+		limit: Number
+	});
 	// Get the subject (opposite of authorId)
 	var target = Bisia.inverseAuthor(authorId);
 	// Build owner subject (the one to get from the query)
@@ -13,7 +20,7 @@ Meteor.reactivePublish('visitsList', function(query, options, authorId) {
 	var userIds = visits.map(function(doc) { return doc[authorId] });
 	var authors = Users.find({ '_id': { '$in': userIds }});
 
-	// Meteor._sleepForMs(1000);
+	Meteor._sleepForMs(1000);
 	// return cursors
 	return [visits, authors];
 });

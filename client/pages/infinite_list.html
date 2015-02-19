@@ -3,33 +3,38 @@
 		{{> navbarTop title=title}}
 		<div class="content container-fluid">
 			<div class="list">
-			{{#if topLink}}
-				<div class="row buttons-toppad">
-					<div class="col-xs-12 buttons-top">
-						{{#each topLink}}
-							{{> topLinkButton}}
-						{{/each}}
-					</div>
-				</div>
-			{{/if}}
-			{{#if pageDisplay}}
-				<div class="row">
-					<div class="col-xs-12">
-						<ul class="item-list">
-							{{#each items}}
-								{{#with joinWithAuthor}}
-									{{> Template.dynamic template=../../viewTemplate}}
-								{{/with}}
-							{{else}}
-								{{> emptyLi}}
+
+				{{#if topLink}}
+					<div class="row buttons-toppad">
+						<div class="col-xs-12 buttons-top">
+							{{#each topLink}}
+								{{> topLinkButton}}
 							{{/each}}
-						</ul>
+						</div>
 					</div>
-				</div>
-				{{> paginator}}
-			{{else}}
-				{{> spinner}}
-			{{/if}}
+				{{/if}}
+
+				{{#with firstPage}}
+					{{#if pageDisplay}}
+						<div class="row">
+							<div class="col-xs-12">
+								<ul class="item-list">
+									{{#each items}}
+										{{#with joinWithAuthor}}
+											{{> Template.dynamic template=../../viewTemplate}}
+										{{/with}}
+									{{else}}
+										{{> emptyLi}}
+									{{/each}}
+								</ul>
+							</div>
+						</div>
+						{{> paginator}}
+					{{else}}
+						{{> spinner}}
+					{{/if}}
+				{{/with}}
+
 			</div>
 		</div>
 		<div class="md-overlay gray"></div>
@@ -38,4 +43,23 @@
 
 <template name="topLinkButton">
 	<a href="{{pathFor path}}" {{attributes}}>{{label}}</a>
+</template>
+
+<template name="paginator">
+	<div class="row">
+		<div class="col-xs-12 helpbar bottom">
+			{{#if hasMoreLinks}}
+			<button class="load-more">
+				{{#if pageReady}}
+				<i class="fa fa-refresh"></i> Carica altri elementi
+				{{else}}
+				<i class="fa fa-refresh fa-spin"></i> Sto caricando...
+				{{/if}}
+			</button>
+			{{/if}}
+			<button class="thumb go-top">
+				<i class="fa fa-arrow-up"></i>
+			</button>
+		</div>
+	</div>
 </template>

@@ -96,6 +96,20 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 	},
 
 	/**
+	 * Swipe open actions in list
+	 * @param  {Object} e
+	 * @return {Void}
+	 */
+	swipeUserListItem: function(e) {
+		$el = $(e.target);
+		if ($el[0].localName != 'li') {
+			$el = $el.parents('li');
+		}
+		$el.siblings('li').removeClass('tools-open');
+		$el.toggleClass('tools-open');
+	},
+
+	/**
 	 * Toggle the active class
 	 * @param  {Object}
 	 * @return {Void}

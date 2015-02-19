@@ -1,13 +1,10 @@
 // Profile Methods
 Meteor.methods({
 	sendMessage: function(msgObj) {
-
 		check(this.userId, String);
 		check(msgObj, {
 			targetId: String,
-			text: String,
-			gender: String,
-			username: String
+			text: String
 		});
 
 		var user = Meteor.user();

@@ -1,5 +1,12 @@
 // Publish messages list received/sent
 Meteor.reactivePublish('messagesList', function(query, options, authorId) {
+	check(this.userId, String);
+	check(authorId, String);
+	check(query, Object);
+	check(options, {
+		sort: Object,
+		limit: Number
+	});
 	// Get the subject (opposite of authorId)
 	var target = Bisia.inverseAuthor(authorId);
 	// Build owner subject (the one to get from the query)
@@ -16,4 +23,20 @@ Meteor.reactivePublish('messagesList', function(query, options, authorId) {
 	// Meteor._sleepForMs(1000);
 	// return cursors
 	return [messages, authors];
+});
+
+Meteor.reactivePublish('messageAuthor', function(query, options, chatId) {
+	var userId = this.userId;
+	// Extend to be sure userId has access to message
+	query = _.extend(query, {
+		'$and': [{
+			'$or': [
+				{ 'targetId': userId },
+				{ 'userId': userId }
+			]
+		}]
+	});
+	// Bisia.log(Messages.find(query, options).fetch());
+	// Return cursor
+	return Messages.find(query, options);
 });

@@ -49,7 +49,7 @@ Template.onlineUser.events({
 	},
 	'click [data-action=open]': function(e, t) {
 		e.preventDefault();
-		swipeUserListItem(e);
+		Bisia.Ui.swipeUserListItem(e);
 	},
 	'click .send-vote': function(e, t) {
 		e.preventDefault();
@@ -60,7 +60,7 @@ Template.onlineUser.events({
 });
 
 Template.onlineUser.helpers({
-	'setOpenClose': function() {
+	setOpenClose: function() {
 		if (this._id && this._id !== Meteor.userId()) {
 			return "open";
 		} else {

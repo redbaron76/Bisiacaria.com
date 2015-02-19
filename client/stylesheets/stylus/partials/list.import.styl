@@ -16,6 +16,57 @@
 				a-wrapper();
 				display: table;
 				width: 100%;
+				transition: transform .2s;
+			}
+
+			.action {
+				display: table
+				absolute: top 0 right -116px bottom 0;
+				transition: transform .2s;
+				opacity: .9;
+				z-index: 2;
+
+				a, button {
+					display: table-cell;
+					vertical-align: middle;
+					border: none;
+					color: $white;
+					text-align: center;
+					line-height: 45px;
+					width: 50px;
+					margin-left: 1px;
+					padding: 0;
+
+					i.fa {
+						font-size: 22px;
+						vertical-align: middle;
+					}
+
+					&.reply {
+						background-color: $blue;
+					}
+					&.trash {
+						background-color: $red;
+					}
+				}
+			}
+
+			&.tools-open {
+				.li-wrapper {
+					transform: translate3d(-60px, 0, 0);
+				}
+
+				.action {
+					transform: translate3d(-41px, 0, 0);
+				}
+			}
+
+			.right-aligned {
+				display: table-cell;
+				text-align: right;
+				vertical-align: middle;
+				font-size: 22px;
+				color: $gray-bar;
 			}
 
 			.checkbox {

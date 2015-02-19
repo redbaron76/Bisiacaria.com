@@ -79,14 +79,14 @@ closeNotification = function(e) {
 	   });
 };
 
-swipeUserListItem = function(e) {
+/*swipeUserListItem = function(e) {
 	$el = $(e.target);
 	if ($el[0].localName != 'li') {
 		$el = $el.parents('li');
 	}
 	$el.siblings('li').removeClass('tools-open');
 	$el.toggleClass('tools-open');
-};
+};*/
 
 /*toggleModal = function(e) {
 	e.preventDefault();

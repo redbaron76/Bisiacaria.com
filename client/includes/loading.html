@@ -1,11 +1,11 @@
-<template name="loading">
-	<div class="md-overlay loading">
-		{{> spinner}}
-	</div>
-</template>
-
 <template name="loadingPage">
 	{{#unless pageReady}}
 		{{> loading}}
 	{{/unless}}
+</template>
+
+<template name="loading">
+	<div class="md-overlay loading">
+		{{> spinner}}
+	</div>
 </template>

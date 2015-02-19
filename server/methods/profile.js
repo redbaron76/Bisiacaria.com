@@ -57,8 +57,9 @@ Meteor.methods({
 			}
 		});
 
-		if (flooding)
+		if (flooding && Bisia.Notification.enableFloodProtect) {
 			throw new Meteor.Error('error-visit', 'Sei tornato a visitare troppo velocemente');
+		}
 
 		var visit = _.extend(visitObj, {
 			userId: user._id,
@@ -68,7 +69,6 @@ Meteor.methods({
 		return Bisia.Notification.emit('visit', visit);
 	},
 	voteUser: function(voteObj) {
-		Bisia.log(voteObj);
 		check(this.userId, String);
 		check(voteObj, {
 			targetId: String
