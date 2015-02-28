@@ -7,6 +7,7 @@ Meteor.reactivePublish('messagesList', function(query, options, authorId) {
 		sort: Object,
 		limit: Number
 	});
+
 	// Get the subject (opposite of authorId)
 	var target = Bisia.inverseAuthor(authorId);
 	// Build owner subject (the one to get from the query)
@@ -18,6 +19,13 @@ Meteor.reactivePublish('messagesList', function(query, options, authorId) {
 	var messages = Messages.find(query, options);
 	// map the authorIds
 	var userIds = messages.map(function(doc) { return doc[authorId] });
+	var chatIds = messages.map(function(doc) { return doc.chatId });
+
+	// Publish each counter of unread messages per chatId
+	_.each(chatIds, function(el, index) {
+		Counts.publish(this, el, Messages.find({ 'targetId': this.userId, 'chatId': el, 'isRead': false }), { noReady: true });
+	}, this);
+
 	var authors = Users.find({ '_id': { '$in': userIds }});
 
 	// Meteor._sleepForMs(1000);
@@ -25,7 +33,7 @@ Meteor.reactivePublish('messagesList', function(query, options, authorId) {
 	return [messages, authors];
 });
 
-Meteor.reactivePublish('messageAuthor', function(query, options, chatId) {
+Meteor.reactivePublish('messageAuthor', function(query, options, limit) {
 	var userId = this.userId;
 	// Extend to be sure userId has access to message
 	query = _.extend(query, {
@@ -36,7 +44,13 @@ Meteor.reactivePublish('messageAuthor', function(query, options, chatId) {
 			]
 		}]
 	});
-	// Bisia.log(Messages.find(query, options).fetch());
+
 	// Return cursor
-	return Messages.find(query, options);
+	var messages = Messages.find(query, options);
+	var first = messages.fetch()[0];
+	var authors = Users.find({ '_id': { '$in': [first.userId, first.targetId] }});
+
+	// Meteor._sleepForMs(1000);
+	// return cursors
+	return [messages, authors];
 });

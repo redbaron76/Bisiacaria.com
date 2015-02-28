@@ -1,10 +1,20 @@
 // Profile Methods
 Meteor.methods({
-	sendMessage: function(msgObj) {
+	deleteMessage: function(chatId) {
 		check(this.userId, String);
+		check(chatId, String);
+
+		Messages.update({ 'chatId': chatId }, { $addToSet: { 'isDelete': this.userId } }, { 'multi': true });
+		return true;
+	},
+	sendMessage: function(msgObj, firstMessage) {
+		check(this.userId, String);
+		check(firstMessage, Boolean);
 		check(msgObj, {
+			chatId: String,
 			targetId: String,
-			text: String
+			text: String,
+			isDelete: Array
 		});
 
 		var user = Meteor.user();
@@ -19,7 +29,13 @@ Meteor.methods({
 		});
 
 		msg._id = Messages.insert(msgObj);
-		// Notify message to target user
+
+		if (firstMessage) {
+			// Set chatId if first message
+			Messages.update({ '_id': msg._id }, { '$set': { 'chatId': msg._id, 'isFirst': true }});
+		}
+
+		// Notify message to target user if not in chat mode
 		Bisia.Notification.emit('message', {
 			userId: user._id,
 			targetId: msg.targetId,
@@ -27,5 +43,20 @@ Meteor.methods({
 		});
 
 		return true;
+	},
+	messageOpen: function(chatId) {
+		check(this.userId, String);
+		check(chatId, String);
+
+		// set isRead when open a message
+		var open = Messages.update({
+			'chatId': chatId,
+			'targetId': Meteor.userId(),
+			'isRead': false
+		}, {
+			'$set': { 'isRead': true }
+		}, {
+			'multi': true
+		});
 	}
 });

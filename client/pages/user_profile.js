@@ -30,9 +30,6 @@ Template.userProfile.helpers({
 	},
 	youKnowThis: function() {
 		return (this.friends && _.indexOf(this.friends, Meteor.userId()) >= 0) ? 'checked' : '';
-	},
-	pageReady: function() {
-		return Bisia.getController('userProfileSub').ready();
 	}
 });
 
@@ -46,7 +43,8 @@ Template.userProfile.events({
 	},
 	'click #write-message': function(e, t) {
 		e.preventDefault();
-		Bisia.Message.setTarget(this);
+		var userObj = Bisia.Message.getMessageObject(this, 'messagePopup');
+		Bisia.Ui.setReactive('popup', userObj);
 	},
 	'click #send-vote': function(e, t) {
 		e.preventDefault();

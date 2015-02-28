@@ -1,5 +1,10 @@
 .list {
-	
+
+	.list-wrapper {
+		overflow-x: hidden;
+		overflow-y: auto;
+	}
+
 	.item-list {
 		ul-list();
 
@@ -14,16 +19,23 @@
 
 			.li-wrapper {
 				a-wrapper();
+				position: relative;
 				display: table;
 				width: 100%;
 				transition: transform .2s;
+
+				/*&.message {
+					a {
+						display: inline-table !important;
+					}
+				}*/
 			}
 
 			.action {
 				display: table
-				absolute: top 0 right -116px bottom 0;
+				absolute: top 0 right -116px;
 				transition: transform .2s;
-				opacity: .9;
+				height: 50px;
 				z-index: 2;
 
 				a, button {
@@ -32,8 +44,9 @@
 					border: none;
 					color: $white;
 					text-align: center;
-					line-height: 45px;
+					// line-height: 45px;
 					width: 50px;
+					height: inherit;
 					margin-left: 1px;
 					padding: 0;
 
@@ -94,12 +107,20 @@
 				}
 			}
 
-			.avatar {
-				avatar(45px, 2px);
+			.avatar-wrapper {
 				width: 45px;
+				height: 45px;
+				display: table-cell;
+				vertical-align: middle;
+
+				.avatar {
+					avatar(45px, 2px);
+					width: 45px;
+				}
 			}
 
 			.username {
+				position: relative;
 				username(14px);
 				width: calc(80% - 45px);
 
@@ -109,6 +130,127 @@
 
 				span {
 					font-size: 10px;
+				}
+				
+				.message {
+					width: 80%;
+				}
+
+				.count {
+					badge($red);
+					absolute: left -20px bottom 0;
+					z-index: 5;
+				}
+			}
+		}
+
+		li.message {
+			padding: 15px;
+			margin: 15px 0;
+			background-color: $white-border;
+			border: 1px solid $gray-bar;
+			border-radius: 5px;
+			width: 95%;
+
+
+				.avatar {
+					avatar(35px, 2px);
+				}
+
+				a {
+					padding-bottom: 10px;
+				}
+
+
+			p {
+				border-top: 1px solid $gray-bar;
+				padding: 10px 0 0 0;
+				margin: 0;
+				color: $gray-row-hl;
+				white-space: pre-wrap;
+			}
+
+			&.me {
+				background-color: $white;
+				border-color: $white-border;
+				margin-left: auto;
+
+				a {
+					margin-left: auto;
+
+					.username {
+						padding-left: 0;
+						padding-right: 10px;
+						text-align: right;
+					}
+				}
+
+				p {
+					border-top: 1px solid $white-border;
+				}
+			}
+		}
+	}
+
+	.chat {
+		.item-list {
+			padding-bottom: 100px !important;
+		}
+	}
+
+	.reply-form {
+		transition: transform .5s;
+		fixed: bottom 0;
+		width: 100%;
+		z-index: 5;
+
+		& > div {
+			padding: 0;
+		}
+
+		form {
+			width: 100%;
+			margin: 0;
+			padding: 10px 0 10px 10px;
+			background-color: $gray-bar;
+			display: table;
+
+			textarea {
+				border: 0;
+				border-radius: 5px;
+				padding: 5px 10px;
+				margin: 0;
+				font-size: 12px;
+				color: $gray-row-hl;
+				background-color: $white;
+				width: 85%;
+				height: 50px;
+				min-height: 50px;
+				resize: none;
+				display: table-cell;
+			}
+
+			button {
+				border: none;
+				width: 15%;
+				line-height: 22px;
+				margin: 0 0 15px 0;
+				background-color: transparent;
+				color: $blue;
+				font-family: $font-semibold;
+				display: table-cell;
+				text-align: center;
+				vertical-align: bottom;
+			}
+
+			label {
+				text-align: right;
+				display: inline-block;
+				font-size: 10px;
+				color: $white;
+				width: 85%;
+				input {
+					margin-left: 5px;
 				}
 			}
 		}
@@ -139,7 +281,13 @@
 		.item-list {
 			padding-bottom: 40px;
 		}
+		.chat .item-list {
+			padding-bottom: 115px;
+		}
 
+		.reply-form {
+			transform: translate3d(0, -40px, 0);
+		}
 		.bottom {
 			transform: translate3d(0, 0, 0);
 		}

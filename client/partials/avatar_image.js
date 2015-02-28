@@ -10,6 +10,8 @@ Template.avatarImage.helpers({
 	},
 	itsOnline: function() {
 		var find = { '_id': this.data.userId, 'profile.online': true };
-		return this.online && (this.data.profile.online || Users.find(find).count()) > 0;
+		if(this.online && (this.data.profile.online || Users.find(find).count()) > 0) {
+			return 'online';
+		}
 	}
 });

@@ -19,7 +19,7 @@ Meteor.publish('onlineUsers', function() {
 		Counts.publish(this, 'newVotes', Notifications.find({ 'targetId': this.userId, 'action': 'vote', 'isRead': false }), { noReady: true });
 
 		// Messages received
-		Counts.publish(this, 'totMessages', Messages.find({ 'targetId': this.userId }), { noReady: true });
+		Counts.publish(this, 'unreadMessages', Messages.find({ 'targetId': this.userId, 'isRead': false }), { noReady: true });
 		// Friends that you know
 		Counts.publish(this, 'youKnow', Friends.find({ 'userId': this.userId }), { noReady: true });
 		// Friends that know you

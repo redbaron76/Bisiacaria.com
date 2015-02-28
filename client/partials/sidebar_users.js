@@ -45,7 +45,8 @@ Template.sidebarUsers.helpers({
 Template.onlineUser.events({
 	'click .write-message': function(e, t) {
 		e.preventDefault();
-		Bisia.Message.setTarget(this);
+		var userObj = Bisia.Message.getMessageObject(this, 'messagePopup');
+		Bisia.Ui.setReactive('popup', userObj);
 	},
 	'click [data-action=open]': function(e, t) {
 		e.preventDefault();

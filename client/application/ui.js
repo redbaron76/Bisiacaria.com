@@ -8,7 +8,23 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 	$ultools: null,		// the ultool open
 	$wrapper: null,		// the main wrapper
 
-	pageReady: true,
+	/**
+	 * pageReady on subscriptions
+	 * @type {Object}
+	 */
+	pageReady: null,
+
+	/**
+	 * Popup reactive variable
+	 * @type {ReactiveVar}
+	 */
+	bubble: new ReactiveVar(),
+
+	/**
+	 * Popup reactive variable
+	 * @type {ReactiveVar}
+	 */
+	popup: new ReactiveVar(),
 
 	/**
 	 * Init function
@@ -16,6 +32,35 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 	 */
 	init: function() {
 
+	},
+
+	/**
+	 * Get true when page is ready
+	 * @return {Boolean}
+	 */
+	getPageReady: function() {
+		if(this.pageReady) {
+			return this.pageReady.ready();
+		}
+		return false;
+	},
+
+	/**
+	 * Scroll content to bottom
+	 * @return {Void}
+	 */
+	goBottom: function() {
+		this.$content = $('.content');
+		this.$content.animate({ scrollTop: 10000000 }, 'fast');
+	},
+
+	/**
+	 * Go to top quickly
+	 * @return {Void}
+	 */
+	goFirst: function() {
+		this.$content = $('.content');
+		this.$content.animate({ scrollTop: 0 }, 'fast');
 	},
 
 	/**
@@ -77,11 +122,16 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 		}, timeout);
 	},
 
+	/**
+	 * Send message animation and unset target
+	 * @return {Void}
+	 */
 	sendMessage: function() {
+		var parent = this;
 		$('.md-message').removeClass('bounceIn')
 						.addClass('bounceOutRight')
 						.one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
-							Bisia.Message.unsetTarget();
+							parent.unsetReactive('popup');
 						});
 	},
 
@@ -93,6 +143,25 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 		Session.set('formErrors', {});
 		Session.set('formSuccess', {});
 		this.loadingRemove();
+	},
+
+	/**
+	 * Set a reactive variable
+	 * @param {String} which bubble | popup
+	 * @param {Void} obj
+	 */
+	setReactive: function(which, obj) {
+		this.unsetReactive(which);
+		this[which].set(obj);
+	},
+
+	/**
+	 * Unset a reactive variable
+	 * @param  {String} which
+	 * @return {Void}
+	 */
+	unsetReactive: function(which) {
+		this[which].set();
 	},
 
 	/**

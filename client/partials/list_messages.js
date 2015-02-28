@@ -1,4 +1,12 @@
 Template.messagesFrom.helpers({
+	messagePath: function() {
+		var chatId = (this.chatId) ? this.chatId : this._id;
+		var countUnread = Counts.get(chatId);
+		return _.extend(this, {
+			chatId: chatId,
+			countUnread: countUnread
+		});
+	},
 	ada: function() {
 		return Bisia.getController('prefix');
 	},
@@ -28,14 +36,10 @@ Template.messagesFrom.events({
 		e.preventDefault();
 		Bisia.Ui.swipeUserListItem(e);
 	},
-	'click .write-message': function(e, t) {
+	'click #delete-message': function(e, t) {
 		e.preventDefault();
-		Bisia.Message.setTarget(this);
+		if (confirm('Sei sicuro?')) {
+			Bisia.Message.deleteMessage(e, this);
+		}
 	},
-	'click .send-vote': function(e, t) {
-		e.preventDefault();
-		Meteor.call('voteUser', {
-			targetId: t.data._id
-		});
-	}
 });

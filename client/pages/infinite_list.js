@@ -12,16 +12,17 @@ Template.infiniteList.helpers({
 		}});
 		return _.extend(item, _.omit(user, '_id'));
 	},
-	firstPage: function() {
+	detectFirstPage: function() {
 		var increment = Bisia.getController('increment');
 		var limit = Bisia.getController('params')['pageLimit'];
-
+		// Don't show spinner by default
 		var pageDisplay = true;
+		// If we are on the first page...
 		if (!limit || limit == increment) {
-			// first page
+			// pageDisplay becomes reactive
 			pageDisplay = this.pageReady;
 		}
-
+		// Add pageDisplay to this
 		return _.extend(this, {
 			pageDisplay: pageDisplay
 		});
@@ -44,7 +45,7 @@ Template.topLinkButton.helpers({
 
 Template.paginator.helpers({
 	hasMoreLinks: function() {
-		if(this.pageReady()) {
+		if(this.pageReady) {
 			return (this.nextPath) ? true : false;
 		}
 		return true;

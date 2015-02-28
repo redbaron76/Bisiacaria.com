@@ -1,12 +1,19 @@
 <template name="messagesFrom">
 	<li class="{{statusGender}}">
+		{{#with messagePath}}
 		<div class="li-wrapper">
-			<a href="{{getProfileUrl}}" data-action="{{setOpenClose}}">
+			<a href="{{pathFor 'readMessage'}}" data-action="{{setOpenClose}}">
 				{{> avatarImage data=this online=true}}
 				<div class="username">
 					<small>{{ada}}:</small>
 					{{username}}
-					<span class="time">{{timeFormat}}</span>
+					<span class="message">{{text}}</span>
+					<span class="time">{{timeAgo}}</span>
+					{{#unless isSent}}
+						{{#if countUnread}}
+						<small class="count">{{countUnread}}</small>
+						{{/if}}
+					{{/unless}}
 				</div>
 			</a>
 			{{#if isSent}}
@@ -26,5 +33,6 @@
 			</div>
 			{{/if}}
 		</div>
+		{{/with}}
 	</li>
 </template>

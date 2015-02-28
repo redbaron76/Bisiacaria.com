@@ -1,6 +1,8 @@
 a-wrapper() {
 	& > a {
 		display: table;
+		width: inherit;
+		table-layout: fixed;
 		undecorate();
 	}
 }
@@ -25,21 +27,6 @@ avatar(dim = 40px, borderw = 2px, x = 0, y = 0) {
 		z-index: 1;
 
 		fa('\f007');
-	}
-
-	&.online::after {
-		absolute: bottom 0 left 0;
-		display: block;
-		width: 100%;
-		height: (dim/8)px;
-		content: 'online';
-		color: $white;
-		font-size: (dim/5*3)%;
-		text-align: center;
-		padding-top: .1em;
-		text-transform: uppercase;
-		background-color: $green;
-		z-index: 3;
 	}
 }
 
@@ -200,6 +187,12 @@ divider(extra = 0, margin = 40px, font-size = 12px) {
 	&.white-bg > span {
 		background-color: $white-bg;
 	}
+}
+
+ellipsis() {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 fa(content) {
@@ -447,6 +440,14 @@ username(font-size = 10px, margin-left = 10px, inline = true) {
 				fa('\f017');
 				margin-right: .5em;
 			}
+		}
+
+		&.message {
+			&::before {
+				fa('\f0e0');
+				margin-right: .5em;
+			}
+			ellipsis();
 		}
 	}
 }

@@ -51,7 +51,7 @@ openMessage = function() {
 	$('.md-message').addClass('animated bounceIn').removeClass('hide');
 };
 
-sendMessage = function() {
+/*sendMessage = function() {
 	$('.md-message').removeClass('fadeIn')
 					.addClass('bounceOutRight')
 					.one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
@@ -64,7 +64,7 @@ sendMessage = function() {
 					   		}, 2000);
 
 					   });
-};
+};*/
 
 closeNotification = function(e) {
 	$el = $(e.target).parents('.md-notification');

@@ -52,7 +52,11 @@ Template.registerHelper('hasOverlay', function() {
 Template.registerHelper('timeAgo', function() {
 	if (this.createdAt) {
 		var dateAgo = moment(this.createdAt);
-		return dateAgo.from(Bisia.Time.beatTime.get());
+		if(dateAgo.toDate() < moment(Bisia.Time.now('server')).subtract(24, 'hour').toDate()) {
+			return dateAgo.format('ddd DD MMMM YYYY [alle] HH:mm');
+		} else {
+			return dateAgo.from(Bisia.Time.beatTime.get());
+		}
 	}
 	return '--:--';
 });
@@ -62,6 +66,14 @@ Template.registerHelper('timeFormat', function() {
 		return moment(this.createdAt).format('ddd DD MMMM YYYY [alle] HH:mm');
 	}
 	return '--:--';
+});
+
+Template.registerHelper('shortText', function(text, len) {
+	var ret = text;
+    if (ret.length > len) {
+        ret = ret.substr(0, len - 3) + "...";
+    }
+    return ret;
 });
 
 // PROFILE

@@ -14,10 +14,10 @@
 					</div>
 				{{/if}}
 
-				{{#with firstPage}}
+				{{#with detectFirstPage}}
 					{{#if pageDisplay}}
 						<div class="row">
-							<div class="col-xs-12">
+							<div class="col-xs-12 list-wrapper">
 								<ul class="item-list">
 									{{#each items}}
 										{{#with joinWithAuthor}}
@@ -46,8 +46,8 @@
 </template>
 
 <template name="paginator">
-	<div class="row">
-		<div class="col-xs-12 helpbar bottom">
+	<div class="row helpbar">
+		<div class="col-xs-12 bottom">
 			{{#if hasMoreLinks}}
 			<button class="load-more">
 				{{#if pageReady}}

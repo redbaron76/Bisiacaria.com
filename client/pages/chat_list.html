@@ -1,0 +1,91 @@
+<template name="chatList">
+	<div class="body-wrapper">
+		{{> navbarTop title='Chat'}}
+		<div class="content container-fluid">
+			<div class="list">
+
+				<div class="row buttons-toppad">
+					<div class="col-xs-12 buttons-top">
+					{{#if topLink}}
+						{{#each topLink}}
+							{{> topLinkButton}}
+						{{/each}}
+					{{/if}}
+					{{#if hasMoreLinks}}
+					<a href="{{nextPath}}" class="load-more selected">
+						{{#if pageReady}}
+						<i class="fa fa-refresh"></i> Carica precedenti
+						{{else}}
+						<i class="fa fa-refresh fa-spin"></i> Sto caricando...
+						{{/if}}
+					</a>
+					{{/if}}
+					</div>
+				</div>
+
+				{{#with detectFirstPage}}
+					{{#if pageDisplay}}
+						<div class="row chat">
+							<div class="col-xs-12">
+								<ul class="item-list">
+									{{#each items}}
+										{{#with joinWithAuthor}}
+											{{> chatItem}}
+										{{/with}}
+									{{else}}
+										{{> emptyLi}}
+									{{/each}}
+								</ul>
+							</div>
+						</div>
+						{{> replyForm}}
+					{{else}}
+						{{> spinner}}
+					{{/if}}
+				{{/with}}
+
+			</div>
+		</div>
+		<div class="md-overlay gray"></div>
+	</div>
+</template>
+
+<template name="chatItem">
+	{{#with detectMe}}
+	<li class="message {{statusGender}} {{itsMeClass}}">
+		<div class="li-wrapper">
+			<a href="{{getProfileUrl}}" data-action="{{setOpenClose}}">
+				{{#if thisIsMe}}
+					<div class="username">
+						{{username}}
+						<span class="time">{{timeAgo}}</span>
+					</div>
+					{{> avatarImage data=this online=true}}
+				{{else}}
+					{{> avatarImage data=this online=true}}
+					<div class="username">
+						{{username}}
+						<span class="time">{{timeAgo}}</span>
+					</div>
+				{{/if}}
+			</a>
+			<p>{{text}}</p>
+		</div>
+	</li>
+	{{/with}}
+</template>
+
+<template name="replyForm">
+	<div class="row reply-form">
+		<div class="col-xs-12">
+			<form id="reply-form">
+				<textarea placeholder="Rispondi..." id="message-reply" class="autosize"></textarea>
+				<button type="submit">Invia</button>
+				<label for="submit-on-enter">
+					invia premendo Enter
+					<input type="checkbox" id="submit-on-enter">
+				</label>
+			</form>
+		</div>
+	</div>
+</template>

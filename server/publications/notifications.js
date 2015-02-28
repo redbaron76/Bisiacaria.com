@@ -20,7 +20,7 @@ Meteor.reactivePublish('visitsList', function(query, options, authorId) {
 	var userIds = visits.map(function(doc) { return doc[authorId] });
 	var authors = Users.find({ '_id': { '$in': userIds }});
 
-	Meteor._sleepForMs(1000);
+	// Meteor._sleepForMs(1000);
 	// return cursors
 	return [visits, authors];
 });
