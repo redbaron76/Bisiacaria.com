@@ -52,9 +52,7 @@ Template.userSettings.helpers({
 		return Bisia.User.getProfile('loggedWith');
 	},
 	getBirthDate: function(whichPart) {
-		var bDate = moment(Bisia.User.getProfile('birthday'))
-					.format('DD MM YYYY')
-					.split(' ');
+		var bDate = Bisia.User.getProfile('birthday').split('-');
 
 		switch(whichPart){
 			case 'day':
@@ -97,10 +95,10 @@ Template.userSettings.events({
 		var $target = $(e.target);
 		var currentUser = this._id;
 
-		var builtDate = $target.find('#yyyy').val()+"-"+$target.find('#mm').val()+"-"+$target.find('#dd').val();
-		var bDay = moment(builtDate, "YYYY-MM-DD", true);
+		var builtDate = $target.find('#dd').val()+"-"+$target.find('#mm').val()+"-"+$target.find('#yyyy').val();
+		var bDay = moment(builtDate, "DD-MM-YYYY", true);
 
-		var birthDate = bDay.isValid() ? bDay.toDate() : null;
+		var birthDate = bDay.isValid() ? builtDate : null;
 
 		var user = {
 			'username': $target.find('#username').val(),

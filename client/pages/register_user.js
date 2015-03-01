@@ -8,10 +8,10 @@ Template.registerUser.events({
 		e.preventDefault();
 		var $target = $(e.target);
 
-		var builtDate = $target.find('#yyyy').val()+"-"+$target.find('#mm').val()+"-"+$target.find('#dd').val();
-		var bDay = moment(builtDate, "YYYY-MM-DD", true);
+		var builtDate = $target.find('#dd').val()+"-"+$target.find('#mm').val()+"-"+$target.find('#yyyy').val();
+		var bDay = moment(builtDate, "DD-MM-YYYY", true);
 
-		var birthDate = (bDay.isValid()) ? bDay.toDate() : null;
+		var birthDate = (bDay.isValid()) ? builtDate : null;
 		var gender = $target.find('[name=gender]:checked').val();
 
 		var user = {
@@ -20,7 +20,7 @@ Template.registerUser.events({
 			'password': $target.find('#password').val(),
 			'passwordConfirmed': $target.find('#passwordConfirmed').val(),
 			'profile': {
-				'birthday': birthDate,	// Date
+				'birthday': birthDate,
 				'city': (gender === 'male') ? 'Nuovo iscritto' : 'Nuova iscritta',
 				'gender': gender,
 				'status': 'none',

@@ -18,7 +18,7 @@ Meteor.methods({
 			profile: {
 				city: String,
 				gender: String,
-				birthday: Date,
+				birthday: String,
 				status: String,
 				online: Boolean,
 				loggedWith: String
@@ -58,7 +58,7 @@ Meteor.methods({
 			profile: {
 				bio: String,
 				city: String,
-				birthday: Date,
+				birthday: String,
 				status: String
 			}
 		});

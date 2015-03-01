@@ -13,10 +13,10 @@ Template.userProfile.helpers({
 		return moment(lastTime).fromNow();
 	},
 	nextBirthDay: function() {
-		var birthday = moment(Bisia.User.getProfile("birthday", this));
+		var birthday = moment(Bisia.User.getProfile("birthday", this), 'DD-MM-YYYY', true);
 		var now = moment();
 		var day = birthday.get('date'), month = birthday.get('month'), year = now.get('year');
-		return now.diff([year, month, day], 'days');
+		return (now.diff([year, month, day], 'days') * -1);
 	},
 	signupDate: function() {
 		var signup = moment(Bisia.User.getUser("createdAt", this));

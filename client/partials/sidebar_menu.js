@@ -1,42 +1,6 @@
 Template.sidebarMenu.created = function() {
 	var instance = this;
-	instance.items = [
-		{
-			key: 'message',
-			icon: 'fa-envelope',
-			label: 'Messaggi privati',
-			path: 'getMessages',
-			nClass: 'new'
-		},
-		{
-			key: 'visit',
-			icon: 'fa-star',
-			label: 'Ultime visite ricevute',
-			path: 'visitsList',
-			nClass: 'new'
-		},
-		{
-			key: 'friend',
-			icon: 'fa-child',
-			label: 'Dicono di conoscerti',
-			path: 'friendsList',
-			nClass: 'new'
-		},
-		{
-			key: 'youknow',
-			icon: 'fa-user',
-			label: 'Chi dici di conoscere',
-			path: 'youKnowList',
-			nClass: 'new'
-		},
-		{
-			key: 'vote',
-			icon: 'fa-thumbs-up',
-			label: 'Voti ricevuti',
-			path: 'votesList',
-			nClass: 'new'
-		}
-	];
+	instance.items = Meteor.settings.public.menu;
 };
 
 Template.sidebarMenu.helpers({
@@ -71,5 +35,12 @@ Template.sidebarMenu.events({
 				});
 			}
 		});
+	}
+});
+
+Template.menuItem.helpers({
+	spacer: function() {
+		if (this.spacer)
+			return 'spacer';
 	}
 });

@@ -26,6 +26,9 @@ Meteor.publish('onlineUsers', function() {
 		Counts.publish(this, 'totFriends', Friends.find({ 'targetId': this.userId }), { noReady: true });
 		// Count of votes received
 		Counts.publish(this, 'totVotes', Votes.find({ 'targetId': this.userId }), { noReady: true });
+		// Count birthday of the day
+		Counts.publish(this, 'birthdayDay', Users.find({ 'profile.birthday': Bisia.Time.getTodayBirthday() }));
+
 		// Publish online users
 		return Users.find({ 'profile.online': true }, { 'fields': { 'emails': false, 'friends': false, 'services': false } });
 	}
@@ -46,4 +49,10 @@ Meteor.publish('userSettings', function() {
 	check(this.userId, String);
 	// Meteor._sleepForMs(1000);
 	return Users.find({	'_id': this.userId });
+});
+
+// Publish birthdays
+Meteor.publish('birthdayList', function(query, options) {
+	// Meteor._sleepForMs(1000);
+	return Users.find(query, options);
 });

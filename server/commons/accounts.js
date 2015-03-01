@@ -53,7 +53,7 @@ Accounts.onCreateUser(function(options, user) {
 			var profile = {};
 			profile.gender 		= result.data.gender;
 			profile.status 		= 'none'		// busy | none | free
-			profile.birthday	= (result.data.birthday) ? new Date(result.data.birthday) : new Date();
+			profile.birthday	= (result.data.birthday) ? moment(result.data.birthday).format('DD-MM-YYYY') : null;
 			profile.city 		= (result.data.hometown) ? result.data.hometown.name : "Facebook";
 			profile.bio			= (result.data.bio) ? result.data.bio : null;
 

@@ -21,14 +21,8 @@
 				a-wrapper();
 				position: relative;
 				display: table;
-				width: 100%;
+				width: inherit;
 				transition: transform .2s;
-
-				/*&.message {
-					a {
-						display: inline-table !important;
-					}
-				}*/
 			}
 
 			.action {
@@ -109,13 +103,11 @@
 
 			.avatar-wrapper {
 				width: 45px;
-				height: 45px;
 				display: table-cell;
 				vertical-align: middle;
 
 				.avatar {
 					avatar(45px, 2px);
-					width: 45px;
 				}
 			}
 
@@ -131,7 +123,7 @@
 				span {
 					font-size: 10px;
 				}
-				
+
 				.message {
 					width: 80%;
 				}
@@ -152,14 +144,17 @@
 			border-radius: 5px;
 			width: 95%;
 
-
+			.avatar-wrapper {
+				width: 35px;
+				font-size: .8em;
 				.avatar {
 					avatar(35px, 2px);
 				}
+			}
 
-				a {
-					padding-bottom: 10px;
-				}
+			a {
+				padding-bottom: 10px;
+			}
 
 
 			p {

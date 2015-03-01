@@ -80,7 +80,7 @@ Template.registerHelper('shortText', function(text, len) {
 
 Template.registerHelper('getAge', function() {
 	var user = arguments[0] || this;
-	var birthday = moment(Bisia.User.getProfile("birthday", user));
+	var birthday = moment(Bisia.User.getProfile("birthday", user), 'DD-MM-YYYY', true);
 	return birthday.fromNow(true);
 });
 
