@@ -15,12 +15,12 @@ Meteor.reactivePublish('friendsList', function(query, options, authorId) {
 	// Extend query object
 	query = _.extend(query, owner);
 	// get cursors
-	var visits = Friends.find(query, options);
+	var friends = Friends.find(query, options);
 	// map the authorIds
-	var userIds = visits.map(function(doc) { return doc[authorId] });
+	var userIds = friends.map(function(doc) { return doc[authorId] });
 	var authors = Users.find({ '_id': { '$in': userIds }});
 
 	// Meteor._sleepForMs(1000);
 	// return cursors
-	return [visits, authors];
+	return [friends, authors];
 });

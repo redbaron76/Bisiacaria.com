@@ -17,7 +17,7 @@ service-configuration
 linto:fontawesome
 email
 stylus
-gadicohen:reactive-window
+# gadicohen:reactive-window
 mdg:camera
 mdg:geolocation
 
