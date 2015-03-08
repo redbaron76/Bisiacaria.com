@@ -13,3 +13,10 @@ Template.base.events({
 		Bisia.Ui.toggleSidebar();
 	}
 });
+
+Template.device.events({
+	'click [data-device]': function(e, t) {
+		e.preventDefault();
+		Bisia.Ui.changeDevice(e);
+	}
+});

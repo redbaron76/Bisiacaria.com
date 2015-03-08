@@ -1,5 +1,5 @@
 <template name="base">
-	<div class="wrapper {{addMobile 'mobile'}}">
+	<div class="wrapper {{addDevice}}{{addMobile 'mobile'}} show-phone-v">
 		{{> yield}}
 
 		{{#if currentUser}}
@@ -8,4 +8,34 @@
 			{{> overlayWrapper}}
 		{{/if}}
 	</div>
+	{{> device}}
+</template>
+
+<template name="device">
+	<div class="device {{addDevice}} show-phone-v"></div>
+	{{#if isDesktop}}
+	<div class="device-switcher">
+		<p>
+			Prova Bisia su smartphone o tablet
+			<i class="fa fa-arrow-right"></i>
+		</p>
+
+		<button data-device="phone-v">
+			<i class="fa fa-mobile"></i>
+		</button>
+
+		<button data-device="tablet-v">
+			<i class="fa fa-tablet"></i>
+		</button>
+
+		<button data-device="phone-h">
+			<i class="fa fa-mobile fa-rotate-270"></i>
+		</button>
+
+		<button data-device="tablet-h">
+			<i class="fa fa-tablet fa-rotate-270"></i>
+		</button>
+
+	</div>
+	{{/if}}
 </template>

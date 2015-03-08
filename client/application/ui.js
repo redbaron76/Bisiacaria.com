@@ -35,6 +35,26 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 	},
 
 	/**
+	 * Chenge the device
+	 * @param  {Object} e
+	 * @return {Void}
+	 */
+	changeDevice: function(e) {
+		$el = $(e.currentTarget);
+		var newDevice = $el.data('device');
+		var deviceClass = 'show-' + newDevice;
+		var deviceArr = ['show-phone-v', 'show-phone-h', 'show-tablet-v', 'show-tablet-h'];
+		var $wrapper = $('.wrapper');
+		var $device = $('.device');
+		_.each(deviceArr, function(el, i) {
+			$wrapper.removeClass(el);
+			$device.removeClass(el);
+		});
+		$wrapper.addClass(deviceClass);
+		$device.addClass(deviceClass);
+	},
+
+	/**
 	 * Get true when page is ready
 	 * @return {Boolean}
 	 */
@@ -273,7 +293,7 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 		var timeout = 450;
 		var closing;
 
-		self.$wrapper = $('body > .wrapper');
+		self.$wrapper = $('.wrapper');
 		self.$ultools = $('.tools-open');
 
 		if (className) {

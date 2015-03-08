@@ -30,6 +30,21 @@ Template.registerHelper('addMobile', function(classes) {
 	}
 });
 
+Template.registerHelper('addDevice', function() {
+	switch(true) {
+		case Meteor.Device.isTV():
+			return ' tv';
+		case Meteor.Device.isTablet():
+			return ' tablet';
+		case Meteor.Device.isPhone():
+			return ' phone';
+		case Meteor.Device.isDesktop():
+			return ' desktop';
+		case Meteor.Device.isBot():
+			return ' bot';
+	}
+});
+
 // Print the title string if in data context
 Template.registerHelper('printTitle', function(title) {
 	if (title) {

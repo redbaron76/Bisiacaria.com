@@ -1,99 +1,73 @@
 /* Small devices (tablets, 768px and up) */
 @media (min-width: $screen-sm-min) {
 
+	.wrapper.desktop {
+		top: 50%;
+		overflow: hidden;
+		position: relative;
+		transform: translateY(-50%);
+		margin: 0 auto;
+		z-index: 4;
+		
+		&.show-phone-v {
+			width: 360px;
+			height: 640px;
+		}
+		
+		&.show-tablet-v {
+			width: 660px;
+			height: 875px;
+		}
+		
+		&.show-phone-h {
+			height: 360px;
+			width: 640px;
+		}
+
+		&.show-tablet-h {
+			height: 660px;
+			width: 875px;
+			tablet-h();
+		}
+	}
 	
-
-}
-
-/* Medium devices (desktops, 992px and up) */
-@media (min-width: $screen-md-min) {
-
-	.helpbar .title,
-	.helpbar .bottom {
-		left: 0;
-		padding-left: $sidebar-width !important;
-	}
-
-	.sidebar.left {
-		transition: transform .25s;
-		visibility: visible;
-		z-index: 3;
-	}
-
-	.navbar-btn.toggle-menu {
-		display: none;
-	}
-
-	.wrapper {
-		&.closing-right {
-			.sidebar.left {	display: block !important; }
-		}
-		&.sidebar-open-right {
-			.sidebar.left {
-				display: block !important;
-				transform: translate3d($sidebar-width * -1, 0, 0);
-				transition: transform .25s;
-			}
+	.wrapper.desktop + .device {
+		display: block;
+		& + .device-switcher {
+			display: table;
 		}
 	}
-
-	.body-wrapper {
-		& > .bar {
-			padding-left: $sidebar-width/* + 15px*/;
-
-			& + .content {
-				padding-left: $sidebar-width + 15px;
-			}
+	
+	.device {
+		position: fixed;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		z-index: 1;
+		
+		&.show-phone-v {
+			width: 414px;
+			height: 845px;
+			background: url('img/phone_v.png') 0 0 no-repeat;
+		}
+		
+		&.show-tablet-v {
+			width: 818px;
+			height: 1062px;
+			background: url('img/tablet_v.png') 0 0 no-repeat;
+		}
+		
+		&.show-phone-h {
+			height: 414px;
+			width: 845px;
+			background: url('img/phone_h.png') 0 0 no-repeat;
+		}
+		
+		&.show-tablet-h {
+			height: 818px;
+			width: 1062px;
+			background: url('img/tablet_h.png') 0 0 no-repeat;
 		}
 	}
 
-	#login,
-	#register {
-		.signed { left: 25% !important;	}
-		.online { right: 25% !important; }
-
-		.form {
-			width: 66%;
-			margin: 0 auto;
-			float: none;
-		}
-	}
-}
-
-/* Large devices (large desktops, 1280px and up) */
-@media (min-width: $screen-lg-min) {
-
-	.helpbar .title,
-	.helpbar .bottom {
-		left: 0;
-		padding-right: $sidebar-width !important;
-		padding-left: $sidebar-width !important;
-	}
-
-	.sidebar.right {
-		visibility: visible;
-		z-index: 3;
-	}
-
-	.navbar-btn.toggle-users {
-		display: none;
-	}
-
-	.body-wrapper {
-		& > .bar {
-			padding-right: $sidebar-width/* + 15px*/;
-
-			& + .content {
-				padding-left: $sidebar-width;
-				padding-right: $sidebar-width;
-			}
-		}
-	}
-
-	#login,
-	#register {
-		.form {
-			width: 55%;
-		}
-	}
 }

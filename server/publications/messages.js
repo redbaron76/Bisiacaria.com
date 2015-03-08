@@ -23,7 +23,7 @@ Meteor.reactivePublish('messagesList', function(query, options, authorId) {
 
 	// Publish each counter of unread messages per chatId
 	_.each(chatIds, function(el, index) {
-		Counts.publish(this, el, Messages.find({ 'targetId': this.userId, 'chatId': el, 'isRead': false }), { noReady: true });
+		Counts.publish(this, el, Messages.find({ 'chatId': el, 'targetId': this.userId, 'isRead': false }), { noReady: true });
 	}, this);
 
 	var authors = Users.find({ '_id': { '$in': userIds }});

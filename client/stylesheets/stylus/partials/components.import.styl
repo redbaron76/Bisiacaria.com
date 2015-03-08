@@ -29,8 +29,14 @@
 	padding-top: 40px;
 }
 
-.buttons-top {
+.row.buttons-toppad {
 	fixed: top $navbar-height;
+	width: 100%;
+	z-index: 5;
+}
+
+.buttons-top {
+	// fixed: top $navbar-height;
 	display: table;
 	padding: 0;
 	z-index: 4;
@@ -93,6 +99,36 @@
 
 .clearfix {
 	clearfix();
+}
+
+.device-switcher {
+	position: fixed;
+	bottom: 0;
+	right: 0;
+	z-index: 5;
+	
+	p {		
+		color: $black;
+		font-family: $font-semibold;
+		display: table-cell;
+		vertical-align: middle;
+		padding-right: 10px;
+	}
+
+	button {
+		color: $white;
+		font-size: 2em;
+		display: table-cell;
+		margin: 0;
+		padding: 0;
+		width: 35px;
+		background-color: $black;
+		border: none;
+
+		&:first-of-type {
+			border-top-left-radius: 5px;
+		}
+	}
 }
 
 .spacer {
@@ -239,6 +275,7 @@
 	&.left {
 		fixed: left 0;
 		min-height: 100%;
+		border: 0;
 		border-right: 2px solid $gray-bg;
 		// transform: translate3d(-50%, 0, 0);
 	}
@@ -246,6 +283,7 @@
 	&.right {
 		fixed: right 0;
 		min-height: 100%;
+		border: 0;
 		border-left: 2px solid $gray-bg;
 		// transform: translate3d(50%, 0, 0);
 	}

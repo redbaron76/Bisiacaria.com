@@ -7,6 +7,12 @@
 					<div class="col-xs-12 posts">
 						{{currentUser.username}}<br>
 						{{currentUser._id}}
+						<br><br>
+						{{#if isTV}}TV{{/if}}
+						{{#if isTablet}}Tablet{{/if}}
+						{{#if isPhone}}Phone{{/if}}
+						{{#if isDesktop}}Desktop{{/if}}
+						{{#if isBot}}Bot{{/if}}
 					</div>
 				</div>
 			</div>
