@@ -1,6 +1,7 @@
 Template.sidebarMenu.created = function() {
 	var instance = this;
-	instance.items = Meteor.settings.public.menu;
+	// instance.items = Meteor.settings.public.menu;
+	instance.items = Bisia.Menu.structure;
 };
 
 Template.sidebarMenu.helpers({

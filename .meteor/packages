@@ -31,3 +31,4 @@ tmeasday:publish-counts
 reactive-var
 mrt:reactive-publish
 mystor:device-detection
+# infinitedg:winston

@@ -25,6 +25,7 @@ Template.loginUser.events({
 					'userId': Meteor.userId(),
 					'service': 'facebook'
 				};
+				Bisia.Login.forcedOut = true;
 				// Call loginFacebook method
 				Meteor.call('loginFacebook', login, function(error, result) {
 					if (error) {
@@ -34,6 +35,7 @@ Template.loginUser.events({
 
 					if (result) {
 						Router.go('homePage');
+						Bisia.Login.forcedOut = false;
 					}
 				});
 			}
@@ -75,9 +77,12 @@ Template.loginUser.events({
 					'userId': Meteor.userId(),
 					'service': 'password'
 				};
-				Meteor.call('loginUser', login);
-				Bisia.Ui.resetFormMessages();
-				Router.go('homePage');
+				Bisia.Login.forcedOut = true;
+				Meteor.call('loginUser', login, function() {
+					Bisia.Ui.resetFormMessages();
+					Router.go('homePage');
+					Bisia.Login.forcedOut = false;
+				});				
 			}
 		});
 
