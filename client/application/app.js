@@ -11,6 +11,6 @@ Meteor.startup(function() {
 Tracker.autorun(function () {
 	// Track hearthBeat
 	Bisia.Session.hearthBeat();
-
+	// Force Unlog by the server
 	Bisia.Login.forceUnlogged();
 });
