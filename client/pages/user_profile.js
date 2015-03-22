@@ -38,6 +38,9 @@ Template.userProfile.events({
 		e.preventDefault();
 		Bisia.Ui.toggleClass('flip', '.flip-container', t);
 	},
+	'click #new-post': function(e, t) {
+		Bisia.Ui.toggleModal(e);
+	},
 	'click #question-lovehate': function(e, t) {
 		Bisia.Ui.toggleModal(e);
 	},
@@ -51,6 +54,14 @@ Template.userProfile.events({
 		Meteor.call('voteUser', {
 			targetId: t.data.user._id
 		});
+	},
+	'click #go-messages': function(e) {
+		e.preventDefault();
+		Router.go('getMessages');
+	},
+	'click #go-settings': function(e) {
+		e.preventDefault();
+		Router.go('userSettings');
 	},
 	'change #toggle-know': function(e, t) {
 		e.preventDefault();

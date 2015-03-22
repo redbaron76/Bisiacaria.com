@@ -5,7 +5,7 @@ Template.messagePopup.helpers({
 });
 
 Template.messagePopup.rendered = function() {
-	parent.$('#message-text').autosize({ append: '' });
+	parent.$('#message-text').textareaAutoSize();
 };
 
 Template.messagePopup.events({

@@ -1,7 +1,25 @@
 <template name="overlayWrapper">
+	{{> mapWrapper}}
 	{{> popupWrapper}}
 	{{> bubbleWrapper}}
 	<div class="md-overlay"></div>
+</template>
+
+<template name="mapWrapper">
+	{{#if hasMap}}
+		{{#with hasMap}}
+			<div id="{{wrapper}}">
+				<span class="fa-stack fa-lg" id="map-close">
+					<i class="fa fa-circle fa-stack-2x fa-inverse"></i>
+					<i class="fa fa-times-circle fa-stack-2x"></i>
+				</span>
+				<span class="fa-stack fa-lg" id="map-center">
+					<i class="fa fa-circle fa-stack-2x fa-inverse"></i>
+					<i class="fa fa-bullseye fa-stack-2x"></i>
+				</span>
+			</div>
+		{{/with}}
+	{{/if}}
 </template>
 
 <template name="popupWrapper">
@@ -19,4 +37,3 @@
 		{{/with}}
 	{{/if}}
 </template>
-

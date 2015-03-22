@@ -118,7 +118,8 @@ Template.registerTemplate.events({
 });
 
 Template.articleTemplate.rendered = function() {
-	this.$('.autosize').autosize({ append: '' });
+	// this.$('.autosize').autosize({ append: '' });
+	this.$('.autosize').textareaAutoSize();
 }
 
 Template.articleTemplate.events({

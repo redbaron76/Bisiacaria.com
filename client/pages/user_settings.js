@@ -1,45 +1,29 @@
 Template.userSettings.rendered = function() {
 
 	// UPLOAD IMAGE TO CLOUDINARY
-	var parent = this;
+	var settings = {
+		format: 'jpg',
+		width: 200,
+		height: 200,
+		crop: 'thumb',
+		gravity: 'faces:center'
+	}
+	var bindings = {
+		start: 'settingsCloudinaryStart',
+		progress: 'settingsCloudinaryProgress',
+		done: 'settingsCloudinaryDone'
+	}
+	Bisia.Img.cloudinaryUpload(this, 'bisia-upload', settings, bindings);
 
-	this.$('#image-form').unsigned_cloudinary_upload("bisia-upload", {
-		cloud_name: 'bisiacaria-com',
-		tags: Bisia.Img.getTags()
-	}, {
-		multiple: false
-	})
-	.bind('cloudinarystart', function(e) {
-		parent.$('.uploader > .indicator').addClass('loading');
-	})
-	.bind('cloudinaryprogress', function(e, data) {
-		var height = Math.round((data.loaded * 100.0) / data.total);
-		parent.$('.uploader > .indicator').css('height', height + '%').find('span').html(height);
-	})
-	.bind('cloudinarydone', function(e, data) {
-		var url = $.cloudinary.url(data.result.public_id, {
-						cloud_name: 'bisiacaria-com',
-						format: 'jpg',
-						width: 200,
-						height: 200,
-						crop: 'thumb',
-						gravity: 'faces:center'
-					});
-		if (url) {
-			parent.$('.uploader > .indicator').removeClass('loading').css('height', 0).find('span').html('');
-			Users.update({ '_id': Meteor.userId() }, { $set: { 'profile.avatar': url }});
-		}
-
-	});
 	var counter = {
 		countDown: true,
 		stopInputAtMaximum: true
 	};
 
-	parent.$('.count').textcounter(_.extend(counter, { max: 100}));
-	parent.$('#bio').textcounter(_.extend(counter, { max: 140}));
-	parent.$('#city').textcounter(_.extend(counter, { max: 25}));
-	parent.$('.autosize').autosize({ append: '' });
+	this.$('.count').textcounter(_.extend(counter, { max: 100}));
+	this.$('#bio').textcounter(_.extend(counter, { max: 140}));
+	this.$('#city').textcounter(_.extend(counter, { max: 25}));
+	this.$('.autosize').textareaAutoSize();
 
 };
 

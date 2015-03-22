@@ -24,7 +24,19 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 	 * Popup reactive variable
 	 * @type {ReactiveVar}
 	 */
+	map: new ReactiveVar(),
+
+	/**
+	 * Popup reactive variable
+	 * @type {ReactiveVar}
+	 */
 	popup: new ReactiveVar(),
+
+	/**
+	 * [tab description]
+	 * @type {ReactiveVar}
+	 */
+	tab: new ReactiveVar(),
 
 	/**
 	 * Init function
@@ -63,6 +75,23 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 			return this.pageReady.ready();
 		}
 		return false;
+	},
+
+	/**
+	 * Get object to inject into tab
+	 * @param  {[type]} tabObj   [description]
+	 * @param  {[type]} template [description]
+	 * @return {[type]}          [description]
+	 */
+	getTabObject: function(tabObj, template) {
+		var user = _.pick(tabObj.user, '_id', 'username', 'profile', 'friends');
+		return {
+			template: template,
+			userId: user._id,
+			username: user.username,
+			gender: user.profile.gender,
+			friends: user.friends
+		};
 	},
 
 	/**
@@ -127,6 +156,21 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 			this.$target.removeClass('loading');
 			this.$target = null;
 		}
+	},
+
+	/**
+	 * Manage Tab functionality
+	 * @param  {Object} e
+	 * @param  {Object} obj this
+	 * @return {Void}
+	 */
+	manageTab: function(e, obj) {
+		e.preventDefault();
+		var $target = $(e.target);
+		$target.siblings('button').removeClass('selected');
+		var tabObj = this.getTabObject(obj, $target.data('show'));
+		this.setReactive('tab', tabObj);
+		$target.addClass('selected');
 	},
 
 	/**
@@ -280,7 +324,8 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 	 */
 	toggleModal: function(e) {
 		e.preventDefault();
-		$('[data-content='+e.target.id+']').toggleClass('md-open');
+		var id = $(e.currentTarget).attr('id');
+		$('[data-content='+id+']').toggleClass('md-open');
 	},
 
 	/**

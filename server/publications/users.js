@@ -2,8 +2,8 @@
 Meteor.publish('countUsers', function() {
 	// Bisia.log('publishing countUsers...');
 	// Meteor._sleepForMs(5000);
-	Counts.publish(this, 'totUsers', Users.find());
-	Counts.publish(this, 'totOnline', Users.find({ 'profile.online': true }));
+	Counts.publish(this, 'totUsers', Users.find({}, { 'fields': { '_id': 1 } }));
+	Counts.publish(this, 'totOnline', Users.find({ 'profile.online': true }, { 'fields': { '_id': 1 } }));
 });
 
 // Publish online users

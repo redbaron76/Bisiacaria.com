@@ -109,11 +109,6 @@ Template.registerHelper('getGender', function() {
 	return Bisia.User.getProfile('gender', user);
 });
 
-Template.registerHelper('getProfileUrl', function() {
-	var user = arguments[0] || this;
-	return Meteor.absoluteUrl(Bisia.User.getUser('username', user));
-});
-
 Template.registerHelper('getStatus', function() {
 	var user = arguments[0] || this;
 	return 'status-' + Bisia.User.getProfile('status', user);;

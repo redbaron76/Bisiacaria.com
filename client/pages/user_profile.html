@@ -82,8 +82,8 @@
 						<button class="envelope" id="write-message"></button>
 						<button class="thumb" id="send-vote"></button>
 						{{else}}
-						<button class="envelope" id="read-message"></button>
-						<button class="thumb" id="read-vote"></button>
+						<button class="envelope" id="go-messages"></button>
+						<button class="gear" id="go-settings"></button>
 						{{/unless}}
 					</div>
 				</div>
@@ -108,18 +108,23 @@
 				<div class="row">
 					<div class="col-xs-12 know">
 						{{#unless itsMe}}
-						{{#if iFollowYou}}
-							<p class="{{getGender}}">Ricevi le notifiche da <span class="username">{{username}}</span></p>
+							{{#if iFollowYou}}
+								<p class="{{getGender}}">Ricevi le notifiche da <span class="username">{{username}}</span></p>
+							{{else}}
+								<p class="{{getGender}}">Conosci <span class="username">{{username}}</span> anche tu?</p>
+							{{/if}}
+							<div class="btn-wrapper">
+								<label class="switch switch-green">
+									<input type="checkbox" class="switch-input" id="toggle-know" {{youKnowThis}}>
+									<span class="switch-label" data-on="Si" data-off="No"></span>
+									<span class="switch-handle"></span>
+								</label>
+							</div>
 						{{else}}
-							<p class="{{getGender}}">Conosci <span class="username">{{username}}</span> anche tu?</p>
-						{{/if}}
-						<div class="btn-wrapper">
-							<label class="switch switch-green">
-								<input type="checkbox" class="switch-input" id="toggle-know" {{youKnowThis}}>
-								<span class="switch-label" data-on="Si" data-off="No"></span>
-								<span class="switch-handle"></span>
-							</label>
-						</div>
+							<button id="new-post">
+								<i class="fa fa-pencil-square-o"></i>
+								Pubblica nuovi <span>Blog</span> o <span>Eventi</span>
+							</button>
 						{{/unless}}
 					</div>
 				</div>
@@ -130,4 +135,7 @@
 		{{> loadingPage}}
 	</div>
 	{{> questionLovehateModal}}
+	{{#if itsMe this.user}}
+		{{> newPostEventModal}}
+	{{/if}}
 </template>

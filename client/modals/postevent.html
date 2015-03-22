@@ -1,0 +1,86 @@
+<template name="newPostEventModal">
+	{{#with this}}
+	<div class="md-modal top" data-content="new-post">
+		{{> navbarModal data=this title="Pubblica" action="check" }}
+		<div class="content container-fluid">
+			<div class="row buttons-toppad">
+				<div class="col-xs-12 buttons-top">
+					<button data-change="tab" data-show="newPostTab" class="selected">
+						Nuovo Post
+					</button>
+					<button data-change="tab" data-show="newEventTab">
+						Nuovo Evento
+					</button>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12 form postevent">
+					{{> tabPostEventWrapper}}
+				</div>
+			</div>
+		</div>
+	</div>
+	{{/with}}
+</template>
+
+<template name="tabPostEventWrapper">
+	{{#if hasTab}}
+		{{#with hasTab}}
+			{{> Template.dynamic template=template}}
+		{{/with}}
+	{{/if}}
+</template>
+
+<template name="newPostTab">
+	<form id="form-new-post" class="form-row">
+		<div class="form-group text-area descr">
+			<textarea class="autosize" id="post" placeholder="Scrivi il tuo post..."></textarea>
+		</div>
+		<div class="divider white-bg"><span>opzioni di pubblicazione</span></div>
+		{{> addImage}}
+		{{> addMap}}
+		<div class="form-group">
+			<i class="fa fa-plus"></i>
+			<input type="text" id="category" placeholder="Categoria">
+		</div>
+		<div class="form-group">
+			<i class="fa fa-calendar"></i>
+			<input type="text" id="date-post" placeholder="Pubblica il...">
+		</div>
+		<div class="form-group">
+			<i class="fa fa-clock-o"></i>
+			<input type="text" id="time-post" placeholder="Pubblica alle...">
+		</div>
+		
+		<button type="submit" data-animation="loading" class="yellow">Pubblica Post</button>
+	</form>
+</template>
+
+<template name="newEventTab">
+	<form id="form-new-event" class="form-row">
+		<div class="form-group text-area descr">
+			<textarea class="autosize" id="description-event" placeholder="Descrivi il tuo evento..."></textarea>
+		</div>
+		<div class="divider white-bg"><span>dettagli evento</span></div>
+		<div class="form-group">
+			<i class="fa fa-bookmark"></i>
+			<textarea class="autosize" id="title-event" placeholder="Titolo dell'evento"></textarea>
+		</div>
+		<div class="form-group">
+			<i class="fa fa-map-marker"></i>
+			<textarea class="autosize" id="locaton-event" placeholder="Luogo dell'evento"></textarea>
+		</div>
+		<div class="form-group">
+			<i class="fa fa-calendar"></i>
+			<input type="text" id="date-event" placeholder="Data dell'evento">
+		</div>
+		<div class="form-group">
+			<i class="fa fa-clock-o"></i>
+			<input type="text" id="time-event" placeholder="Ora dell'evento">
+		</div>
+		<div class="divider white-bg"><span>opzioni evento</span></div>
+		{{> addImage}}
+		{{> addMap}}
+		<button type="submit" data-animation="loading" class="yellow">Pubblica Evento</button>
+	</form>
+</template>

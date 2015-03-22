@@ -54,7 +54,7 @@
 	{{#with detectMe}}
 	<li class="message {{statusGender}} {{itsMeClass}}">
 		<div class="li-wrapper">
-			<a href="{{getProfileUrl}}" data-action="{{setOpenClose}}">
+			<a href="{{pathFor 'userProfile'}}" data-action="{{setOpenClose}}">
 				{{#if thisIsMe}}
 					<div class="username">
 						{{username}}

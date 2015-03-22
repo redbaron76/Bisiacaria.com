@@ -1,7 +1,7 @@
 <template name="voteUser">
 	<li class="{{statusGender}}">
 		<div class="li-wrapper">
-			<a href="{{getProfileUrl}}">
+			<a href="{{pathFor 'userProfile'}}">
 				{{> avatarImage data=this online=true}}
 				<div class="username">
 					{{username}}

@@ -32,3 +32,5 @@ reactive-var
 mrt:reactive-publish
 mystor:device-detection
 # infinitedg:winston
+mizzao:autocomplete
+mrt:leaflet

@@ -24,7 +24,7 @@
 
 <template name="onlineUser">
 	<li class="{{statusGender}}">
-		<a href="{{getProfileUrl}}" data-action="{{setOpenClose}}">
+		<a href="{{pathFor 'userProfile'}}" data-action="{{setOpenClose}}">
 			{{> avatarImage data=this online=false}}
 			<div class="username">
 				{{username}}
@@ -35,7 +35,7 @@
 
 		{{#unless itsMe}}
 			<div class="action">
-				<a href="{{getProfileUrl}}" class="user profile-user" data-action="close">
+				<a href="{{pathFor 'userProfile'}}" class="user profile-user" data-action="close">
 					<i class="fa fa-user"></i>
 				</a>
 				<button class="envelope write-message">

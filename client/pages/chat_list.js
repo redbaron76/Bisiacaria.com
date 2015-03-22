@@ -1,3 +1,11 @@
+Template.chatList.rendered = function() {
+	if (Bisia.User.isLogged()) {
+		// set message as isRead = true
+		var chatId = Bisia.getController('params')['chatId'];
+		Meteor.call('messageOpen', chatId);
+	}
+}
+
 Template.chatList.helpers({
 	joinWithAuthor: function() {
 		var item = this;
@@ -65,7 +73,7 @@ Template.chatItem.helpers({
 });
 
 Template.replyForm.rendered = function() {
-	this.$('.autosize').autosize({ append: '' }).focus();
+	this.$('.autosize').textareaAutoSize().focus();
 };
 
 Template.replyForm.events({

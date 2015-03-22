@@ -254,6 +254,13 @@
 					fa('\f05a');
 				}
 			}
+			
+			&.gear {
+				background-color: $gray-row-hl;
+				&::before {
+					fa('\f013');
+				}
+			}
 		}
 
 	}
@@ -283,9 +290,11 @@
 					font-size: 30px;
 					display: block;
 				}
+				
 				&:nth-child(2) {
 					width: 33%;
 				}
+				
 				&:first-of-type {
 					border-left: 0;
 				}
@@ -318,6 +327,28 @@
 			width: 30%;
 			vertical-align: middle;
 			switch();
+		}
+		
+		#new-post {
+			height: inherit;
+			display: table-cell;
+			width: 100%;
+			text-align: center;
+			border: none;
+			background-color: transparent;
+			color: $white;
+			font-family: $font-book;
+			
+			span {
+				color: $bisia;
+				font-family: $font-semibold;
+			}
+			
+			i {
+				font-size: 2em;
+				margin-right: 10px;
+				vertical-align: middle;
+			}
 		}
 
 	}
@@ -656,4 +687,10 @@
 		labelprofile(false);
 		border-bottom: 1px solid $white-border;
 	}
+}
+
+// POST EVENT MODAL
+
+.postevent {
+
 }
