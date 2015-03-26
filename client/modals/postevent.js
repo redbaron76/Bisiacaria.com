@@ -21,8 +21,15 @@ Template.newPostTab.rendered = function() {
 	this.$('#time-post').mask('99:99', {placeholder: 'hh:mm'});
 }
 
+Template.newPostTab.events({
+	'click #open-categories': function(e, t) {
+		e.preventDefault();
+		var infoObject = Bisia.User.getPostCategories('categoryList');
+		Bisia.Ui.setReactive('info', infoObject);
+	}
+});
+
 Template.newEventTab.rendered = function() {
-	// this.$('.autosize').autosize({ append: '' });
 	this.$('.autosize').textareaAutoSize();
 	this.$('#date-event').mask('99/99/9999', {placeholder: 'gg/mm/anno'});
 	this.$('#time-event').mask('99:99', {placeholder: 'hh:mm'});

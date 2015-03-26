@@ -99,12 +99,10 @@ Meteor.methods({
 			if(emailTaken) {
 				errors.email = "Questa e-mail è già usata da un altro utente";
 			} else {
-				// Users.update({ '_id': currentUser }, { $addToSet: { 'emails': { address: dataAttr.email, 'verified': false }}});
-				Users.update({ '_id': currentUser }, { $set:{ 'emails':[{ address: dataAttr.email, 'verified': false }]}});
+				Users.update({ '_id': currentUser }, { $set: { 'emails': [{ address: dataAttr.email, 'verified': false }] } });
 				// Invia link di verifica nuova mail
 				Accounts.sendVerificationEmail(currentUser);
 				Meteor.users.update({ '_id': currentUser }, { $set: { "services.resume.loginTokens" : [] } });
-				// success.email = "L'e-mail di verifica è stata inviata!";
 			}
 		}
 

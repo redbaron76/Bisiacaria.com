@@ -1,13 +1,20 @@
 <template name="addImage">
-	<button class="button-row" id="add-image">
+	<button class="button-row" id="attached-image" data-action="add">
 		<i class="fa fa-picture-o"></i>
-		Aggiungi un'immagine
+		<span>Aggiungi un'immagine</span>
+		<div class="indicator"></div>
 	</button>
 </template>
 
+<template name="addImageForm">
+	<form id="form-image-upload">
+		<input type="file" name="file" id="image-upload" accept="image/*">
+	</form>
+</template>
+
 <template name="addMap">
-	<button class="button-row" id="add-map-position">
+	<button class="button-row" id="map-position" data-action="add">
 		<i class="fa fa-globe"></i>
-		Posizione sulla mappa
+		<span>Posizione sulla mappa</span>
 	</button>
 </template>

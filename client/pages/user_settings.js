@@ -13,7 +13,7 @@ Template.userSettings.rendered = function() {
 		progress: 'settingsCloudinaryProgress',
 		done: 'settingsCloudinaryDone'
 	}
-	Bisia.Img.cloudinaryUpload(this, 'bisia-upload', settings, bindings);
+	Bisia.Img.cloudinaryUpload('#image-form', 'bisia-upload', settings, bindings, this);
 
 	var counter = {
 		countDown: true,

@@ -1,0 +1,29 @@
+<template name="infoClose">
+	<h1>{{title}}</h1>
+	<span class="buttons fa-stack fa-lg" id="info-close">
+		<i class="fa fa-circle fa-stack-2x"></i>
+		<i class="fa fa-times-circle fa-stack-2x fa-inverse"></i>
+	</span>
+</template>
+
+<template name="categoryList">
+	<div class="md-info md-show list">
+		{{> infoClose title="Categorie salvate"}}
+		<div class="wrapper-info list-wrapper">
+			<ul class="item-list">
+				{{#each categories}}
+					{{> categoryItem}}
+				{{else}}
+					{{> emptyLi}}
+				{{/each}}
+			</ul>
+		</div>
+	</div>
+</template>
+
+<template name="categoryItem">
+	<li>
+		<span>{{this}}</span>
+		<i class="fa fa-trash"></i>
+	</li>
+</template>

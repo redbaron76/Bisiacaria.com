@@ -35,7 +35,21 @@
 	z-index: 5;
 }
 
+#attached-image-preview {
+	border: 2px solid $gray-bar;
+	border-radius: 5px;
+	padding: 5px;
+	width: 100%;
+	height: auto;
+	max-width: 615px;
+	
+	& + .button-row {
+		margin-top: 30px;
+	}
+}
+
 .button-row {
+	position: relative;
 	width: 100%;
 	border: 2px solid $gray-bar;
 	border-radius: 5px;
@@ -49,6 +63,15 @@
 	
 	i {
 		margin-right: 10px;
+		
+		&.fa-times {
+			color: $red;
+		}
+	}
+	
+	i, span {
+		position: relative;
+		z-index: 2;
 	}
 	
 	& + .form-group {
@@ -57,6 +80,35 @@
 	
 	& + button[type=submit] {
 		margin-top: 35px !important;
+	}
+	
+	.indicator {
+		background-color: darken($white-text, 5%);
+		absolute: right 0 bottom 0 left 0;
+		z-index: 1;
+
+		height: 100%;
+		width: 0%;
+		visibility: hidden;
+
+		// color: $white;
+		// font-size: 18px;
+		// font-family: $font-semibold;
+
+		span {
+			display: block;
+			position: relative;
+			top: 50%;
+			transform: translateY(-50%);
+		}
+
+		&.loading {
+			visibility: visible;
+			span::after {
+				content: '%';
+				font-size: 12px;
+			}
+		}
 	}
 }
 
@@ -162,38 +214,6 @@
 
 // Overlay
 
-#map-wrapper {
-	absolute: top 0 right 0 bottom 0 left 0;
-	width: 100%;
-	height: 100%;
-	z-index: 100;
-	
-	#map-close {
-		absolute: top 10px right 15px;
-		z-index: 1000;
-		border: none;
-		cursor: pointer;
-		i {
-			font-size: 2.5em;
-		}
-	}
-	
-	#map-center {
-		absolute: bottom 60px right 15px;
-		z-index: 1000;
-		border: none;
-		cursor: pointer;
-		i {
-			font-size: 2.5em;
-			&:nth-of-type(2) {
-				color: darken($blue, 20%);
-			}
-		}
-	}
-
-	background-color: $white;
-}
-
 .md-overlay {
 	position: fixed;
 	width: 100%;
@@ -229,6 +249,7 @@
 
 .md-show {
 	visibility: visible;
+	z-index: 1001;
 }
 
 // Bar
@@ -418,6 +439,8 @@ button:focus {
 @import 'list.import';
 @import 'form.import';
 @import 'bubble.import';
+@import 'info.import';
+@import 'map.import';
 @import 'modal.import';
 @import 'popup.import';
 

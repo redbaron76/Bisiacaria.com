@@ -1,14 +1,35 @@
 <template name="overlayWrapper">
+	{{> bubbleWrapper}}
+	{{> infoWrapper}}
 	{{> mapWrapper}}
 	{{> popupWrapper}}
-	{{> bubbleWrapper}}
 	<div class="md-overlay"></div>
+</template>
+
+<template name="bubbleWrapper">
+	{{#if hasBubble}}
+		{{#with hasBubble}}
+			{{> Template.dynamic template=template}}
+		{{/with}}
+	{{/if}}
+</template>
+
+<template name="infoWrapper">
+	{{#if hasInfo}}
+		{{#with hasInfo}}
+			{{> Template.dynamic template=template}}
+		{{/with}}
+	{{/if}}
 </template>
 
 <template name="mapWrapper">
 	{{#if hasMap}}
 		{{#with hasMap}}
 			<div id="{{wrapper}}">
+				<span class="fa-stack fa-lg" id="map-set">
+					<i class="fa fa-circle fa-stack-2x fa-inverse"></i>
+					<i class="fa fa-check-circle fa-stack-2x"></i>
+				</span>
 				<span class="fa-stack fa-lg" id="map-close">
 					<i class="fa fa-circle fa-stack-2x fa-inverse"></i>
 					<i class="fa fa-times-circle fa-stack-2x"></i>
@@ -30,10 +51,3 @@
 	{{/if}}
 </template>
 
-<template name="bubbleWrapper">
-	{{#if hasBubble}}
-		{{#with hasBubble}}
-			{{> Template.dynamic template=template}}
-		{{/with}}
-	{{/if}}
-</template>

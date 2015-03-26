@@ -21,6 +21,12 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 	bubble: new ReactiveVar(),
 
 	/**
+	 * Info reactive variable
+	 * @type {ReactiveVar}
+	 */
+	info: new ReactiveVar(),
+
+	/**
 	 * Popup reactive variable
 	 * @type {ReactiveVar}
 	 */

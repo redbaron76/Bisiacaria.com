@@ -40,7 +40,7 @@
 		{{> addImage}}
 		{{> addMap}}
 		<div class="form-group">
-			<i class="fa fa-plus"></i>
+			<i class="fa fa-plus" id="open-categories"></i>
 			<input type="text" id="category" placeholder="Categoria">
 		</div>
 		<div class="form-group">
@@ -54,6 +54,7 @@
 		
 		<button type="submit" data-animation="loading" class="yellow">Pubblica Post</button>
 	</form>
+	{{> addImageForm}}
 </template>
 
 <template name="newEventTab">
@@ -83,4 +84,5 @@
 		{{> addMap}}
 		<button type="submit" data-animation="loading" class="yellow">Pubblica Evento</button>
 	</form>
+	{{> addImageForm}}
 </template>
