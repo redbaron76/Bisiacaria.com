@@ -26,33 +26,25 @@ Meteor.methods({
 		});
 
 		// Extend userAttr with now flags
-		var now = new Date();
-		_.extend(userAttr, {
-			'profile.loginSince': now,
-		});
+		userAttr['profile']['loginSince'] = Bisia.Time.now();
 
 		var errors = Bisia.Validation.validateRegister(userAttr);
-		if (Bisia.has(errors))
-			throw new Meteor.Error('invalid-register', 'Impossibile completare la registrazione');
 
 		var usernameTaken = Users.findOne({ 'username': userAttr.username });
 		if (usernameTaken)
-			errors.username = "Questo username è già usato o non disponibile";
+			errors.username = Bisia.Login.messages.nicknameInUse + "|exc";
 
 		var emailTaken = Users.findOne({ 'emails.address': userAttr.email });
 		if(emailTaken)
-			errors.email = "Questa e-mail è già usata da un altro utente";
+			errors.email = Bisia.Login.messages.emailInUse + "|exc";
 
-		if (Bisia.has(errors)) return {	errors: errors };
+		if (Bisia.has(errors)) return Bisia.serverErrors(errors);
 
 		var userId = Accounts.createUser(userAttr);
 
-		return {
-			_id: userId,
-			password: userAttr.password
-		};
+		return true;
 	},
-	saveProfileData: function(dataAttr, currentUser) {
+	saveProfileData: function(dataAttr) {
 		check(dataAttr, {
 			username: String,
 			profile: {
@@ -63,13 +55,16 @@ Meteor.methods({
 			}
 		});
 
+		// Bisia.log('dataAttr', dataAttr);
+
+		var currentUser = Meteor.userId();
 		var errors = Bisia.Validation.validateProfileData(dataAttr);
 
 		var usernameTaken = Users.findOne({ 'username': dataAttr.username, '_id': { $ne: currentUser } });
 		if (usernameTaken)
-			errors.username = "Questo username è già usato o non disponibile";
+			errors.username = Bisia.Login.messages.nicknameInUse + "|exc";
 
-		if (Bisia.has(errors)) return {	errors: errors };
+		if (Bisia.has(errors)) return Bisia.serverErrors(errors);
 
 		var userId = Users.update(currentUser, { $set: {
 			'username': dataAttr.username,
@@ -78,17 +73,18 @@ Meteor.methods({
 			'profile.city': dataAttr.profile.city,
 			'profile.status': dataAttr.profile.status,
 			'profile.lastUpdate': new Date()
-		}});
+		} });
 
 		return true;
 	},
-	saveAccountData: function(dataAttr, currentUser) {
+	saveAccountData: function(dataAttr) {
 		check(dataAttr, {
 			email: String,
 			password: String,
 			passwordConfirmed: String
 		});
 
+		var currentUser = Meteor.userId();
 		var errors = Bisia.Validation.validateAccountData(dataAttr);
 
 		// Check if it's my usual email
@@ -97,32 +93,35 @@ Meteor.methods({
 			// Check for not used email
 			var emailTaken = Users.findOne({ 'emails.address': dataAttr.email, '_id': { $ne: currentUser } });
 			if(emailTaken) {
-				errors.email = "Questa e-mail è già usata da un altro utente";
+				errors.email = Bisia.Login.messages.emailInUse + "|exc";
 			} else {
 				Users.update({ '_id': currentUser }, { $set: { 'emails': [{ address: dataAttr.email, 'verified': false }] } });
-				// Invia link di verifica nuova mail
+				// Send verification link through email
 				Accounts.sendVerificationEmail(currentUser);
-				Meteor.users.update({ '_id': currentUser }, { $set: { "services.resume.loginTokens" : [] } });
+				// Logout user
+				Meteor.users.update(currentUser, { $set: { "profile.online": false } });
 			}
 		}
 
-		if (Bisia.has(errors)) return {	errors: errors };
+		if (Bisia.has(errors)) return Bisia.serverErrors(errors);
 
 		// Check password
 		if (Bisia.Validation.notEmpty('password', dataAttr)) {
-			Accounts.setPassword(currentUser, dataAttr.password);
-			// success.email = "La password è stata modificata!";
+			Accounts.setPassword(currentUser, dataAttr.password, { logout: false });
+			Meteor.users.update(currentUser, { $set: { "profile.online": false } });
 		}
 
 		return true;
 	},
-	saveQuestion: function(questionObj, currentUser) {
+	saveQuestion: function(questionObj) {
+		var currentUser = Meteor.userId();
 		if (questionObj && currentUser) {
 			Users.upsert(currentUser, { $set: { 'profile.question': questionObj }});
 		}
 		return true;
 	},
-	saveLoveHate: function(questionObj, currentUser) {
+	saveLoveHate: function(questionObj) {
+		var currentUser = Meteor.userId();
 		if (questionObj && currentUser) {
 			Users.upsert(currentUser, { $set: { 'profile.lovehate': questionObj }});
 		}

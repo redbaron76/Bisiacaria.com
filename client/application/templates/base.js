@@ -11,6 +11,10 @@ Template.base.events({
 	},
 	'click [data-action=close]': function(e, t) {
 		Bisia.Ui.toggleSidebar();
+	},
+	'click [data-target]': function(e, t) {
+		e.preventDefault();
+		Bisia.Form.triggerSubmit(e);
 	}
 });
 

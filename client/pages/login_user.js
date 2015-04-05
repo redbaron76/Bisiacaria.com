@@ -12,83 +12,29 @@ Template.loginUser.events({
 			requestOfflineToken: true
 		}, function(error) {
 			if (error) {
-				if (error.reason) {
-					errors.email = (error.reason == 'Email already exists.') ? "L'e-mail del tuo account Facebook è già stata usata" : "Login non riuscito, riprovare!";
-				} else {
-					errors.email = 'Errore nel collegamento con Facebook, riprovare!';
-				}
-				// Bisia.log(errors);
-				return Session.set('formErrors', errors);
-			} else {
-				// Set the login object
-				var login = {
-					'userId': Meteor.userId(),
-					'service': 'facebook'
-				};
-				Bisia.Login.forcedOut = true;
-				// Call loginFacebook method
-				Meteor.call('loginFacebook', login, function(error, result) {
-					if (error) {
-						errors.email = 'Errore nel collegamento con Facebook, riprovare!';
-						return Session.set('formErrors', errors);
-					}
-
-					if (result) {
-						Router.go('homePage');
-						Bisia.Login.forcedOut = false;
-					}
-				});
+				return Bisia.Login.failLogin('facebookEmailExist');
 			}
+			Bisia.Login.assertLogin('loginFacebook', 'facebook');
 		});
 	},
 	'submit #login-form': function(e) {
 		e.preventDefault();
 		var $target = $(e.target);
 
-		var email = Bisia.trimInput($target.find('#email').val()),
-			password = $target.find('#password').val();
+		var formObject = Bisia.Form.getFields($target, 'validateLogin');
 
-		var errors = Bisia.Validation.validateLogin({
-			'email': email,
-			'password': password
-		});
-
-		if (Bisia.has(errors)) {
-			Bisia.Ui.loadingRemove();
-			return Session.set('formErrors', errors);
+		if (formObject) {
+			Meteor.loginWithPassword(formObject.email, formObject.password, function(error) {
+				if (error) {
+					return Bisia.Login.failLogin('loginFormFail');
+				}
+				Bisia.Login.assertLogin('loginUser', 'password');
+			});
 		}
 
-		Meteor.loginWithPassword(email, password, function(error) {
-			if (error) {
-				// Mail account not verified via mail
-				if (error.reason) {
-					// Bisia.log(error.reason);
-					errors.email = (error.reason == 'Indirizzo e-mail non ancora verificato via mail') ? error.reason : 'Login non riuscito, riprovare!';
-					errors.password = '';
-				} else {
-					errors.email = '';
-					errors.password = 'Indirizzo e-mail e password non corrispondenti';
-				}
-				// Bisia.log(errors);
-				return Session.set('formErrors', errors);
-			} else {
-				// Set the login object
-				var login = {
-					'userId': Meteor.userId(),
-					'service': 'password'
-				};
-				Bisia.Login.forcedOut = true;
-				Meteor.call('loginUser', login, function() {
-					Bisia.Ui.resetFormMessages();
-					Router.go('homePage');
-					Bisia.Login.forcedOut = false;
-				});				
-			}
-		});
-
-		return false;
 	},
 	'click #recover-password-modal': function(e, t) {
+		e.preventDefault();
 		Bisia.Ui.toggleModal(e);
 	},
 });
@@ -97,9 +43,6 @@ Template.loginUser.events({
  * Template Helpers
  */
 Template.loginUser.helpers({
-	errors: function() {
-		return Session.get('loginUserErrors');
-	},
 	fbReady: function() {
 		return Accounts.loginServicesConfigured();
 	}

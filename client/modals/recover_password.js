@@ -3,33 +3,16 @@ Template.recoverPasswordModal.events({
 		e.preventDefault();
 		var $target = $(e.target);
 
-		var recover = {
-			'emailRecover': $target.find('#emailRecover').val()
-		};
+		var formObject = Bisia.Form.getFields($target, 'validateRecover');
 
-		var errors = Bisia.Validation.validateRecover(recover);
-		if (Bisia.has(errors)) {
-			Bisia.Ui.loadingRemove();
-			return Session.set('formErrors', errors);
-		}
-
-		Accounts.forgotPassword({email: recover.emailRecover}, function(err) {
-			if (err) {
-				if (err.message === 'User not found [403]') {
-					errors.emailRecover = 'Questa e-mail non risulta essere registrata';
-				} else {
-					errors.emailRecover = 'Si è verificato un errore nel recupero della password';
+		if (formObject) {
+			Accounts.forgotPassword(formObject, function(error) {
+				if (error) {
+					return Bisia.Ui.submitError(Bisia.Login.messages.emailNotPresent, 'Recupero non riuscito!');
 				}
-				Bisia.Ui.loadingRemove();
-				return Session.set('formErrors', errors);
-			} else {
-				Bisia.Ui.resetFormMessages();
-				return Session.set('formSuccess', {emailRecover: "L'e-mail è stata inviata!"});
-				// Trigga Accounts.sendResetPasswordEmail
-			}
-		});
-		return false;
+				return Bisia.Ui.submitSuccess(Bisia.Login.messages.passwordRecovered);
+			});
+			return false;
+		}
 	}
 });
-
-Template.recoverPasswordModal.helpers({ });

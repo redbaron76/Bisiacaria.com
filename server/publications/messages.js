@@ -35,7 +35,7 @@ Meteor.reactivePublish('messagesList', function(query, options, authorId) {
 
 Meteor.reactivePublish('messageAuthor', function(query, options, limit) {
 	check(this.userId, String);
-	
+
 	var userId = this.userId;
 	// Extend to be sure userId has access to message
 	query = _.extend(query, {

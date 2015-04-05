@@ -1,7 +1,7 @@
 <template name="newPostEventModal">
 	{{#with this}}
 	<div class="md-modal top" data-content="new-post">
-		{{> navbarModal data=this title="Pubblica" action="check" }}
+		{{> navbarModal data=this title="Pubblica" action="check" target="form-post-event" }}
 		<div class="content container-fluid">
 			<div class="row buttons-toppad">
 				<div class="col-xs-12 buttons-top">
@@ -32,9 +32,9 @@
 </template>
 
 <template name="newPostTab">
-	<form id="form-new-post" class="form-row">
+	<form id="form-post-event" class="form-row">
 		<div class="form-group text-area descr">
-			<textarea class="autosize" id="post" placeholder="Scrivi il tuo post..."></textarea>
+			<textarea class="autosize" id="text" placeholder="Scrivi il tuo post..."></textarea>
 		</div>
 		<div class="divider white-bg"><span>opzioni di pubblicazione</span></div>
 		{{> addImage}}
@@ -51,16 +51,16 @@
 			<i class="fa fa-clock-o"></i>
 			<input type="text" id="time-post" placeholder="Pubblica alle...">
 		</div>
-		
+
 		<button type="submit" data-animation="loading" class="yellow">Pubblica Post</button>
 	</form>
 	{{> addImageForm}}
 </template>
 
 <template name="newEventTab">
-	<form id="form-new-event" class="form-row">
+	<form id="form-post-event" class="form-row">
 		<div class="form-group text-area descr">
-			<textarea class="autosize" id="description-event" placeholder="Descrivi il tuo evento..."></textarea>
+			<textarea class="autosize" id="text" placeholder="Descrivi il tuo evento..."></textarea>
 		</div>
 		<div class="divider white-bg"><span>dettagli evento</span></div>
 		<div class="form-group">
@@ -69,7 +69,7 @@
 		</div>
 		<div class="form-group">
 			<i class="fa fa-map-marker"></i>
-			<textarea class="autosize" id="locaton-event" placeholder="Luogo dell'evento"></textarea>
+			<textarea class="autosize" id="location-event" placeholder="Luogo dell'evento"></textarea>
 		</div>
 		<div class="form-group">
 			<i class="fa fa-calendar"></i>

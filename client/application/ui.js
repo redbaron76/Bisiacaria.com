@@ -15,6 +15,12 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 	pageReady: null,
 
 	/**
+	 * [$modal description]
+	 * @type {[type]}
+	 */
+	$modal: null,
+
+	/**
 	 * Popup reactive variable
 	 * @type {ReactiveVar}
 	 */
@@ -70,6 +76,7 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 		});
 		$wrapper.addClass(deviceClass);
 		$device.addClass(deviceClass);
+		return this;
 	},
 
 	/**
@@ -90,14 +97,9 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 	 * @return {[type]}          [description]
 	 */
 	getTabObject: function(tabObj, template) {
-		var user = _.pick(tabObj.user, '_id', 'username', 'profile', 'friends');
-		return {
-			template: template,
-			userId: user._id,
-			username: user.username,
-			gender: user.profile.gender,
-			friends: user.friends
-		};
+		return _.extend(tabObj, {
+			template: template
+		});
 	},
 
 	/**
@@ -107,6 +109,7 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 	goBottom: function() {
 		this.$content = $('.content');
 		this.$content.animate({ scrollTop: 10000000 }, 'fast');
+		return this;
 	},
 
 	/**
@@ -116,6 +119,7 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 	goFirst: function() {
 		this.$content = $('.content');
 		this.$content.animate({ scrollTop: 0 }, 'fast');
+		return this;
 	},
 
 	/**
@@ -127,10 +131,12 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 		e.preventDefault();
 		this.$content = (arguments[1]) ? $(arguments[1]) : $(e.target).parents('.content');
 		this.$content.animate({ scrollTop: 0 }, 1000);
+		return this;
 	},
 
 	hideElement: function(className, target) {
 		$(className).removeClass(target);
+		return this;
 	},
 
 	/**
@@ -151,6 +157,7 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 	loadingAdd: function(e) {
 		this.$target = $(e.target);
 		this.$target.addClass('loading');
+		return this;
 	},
 
 	/**
@@ -162,6 +169,7 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 			this.$target.removeClass('loading');
 			this.$target = null;
 		}
+		return this;
 	},
 
 	/**
@@ -177,6 +185,91 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 		var tabObj = this.getTabObject(obj, $target.data('show'));
 		this.setReactive('tab', tabObj);
 		$target.addClass('selected');
+		return this;
+	},
+
+	/**
+	 * Reset class and set selected to the first
+	 * @return {Bisia.Ui}
+	 */
+	resetTab: function($wrapper) {
+		$wrapper.find('[data-change=tab]')
+				.removeClass('selected')
+				.first()
+				.addClass('selected');
+		return this;
+	},
+
+	/**
+	 * Open the error list and track autorun
+	 * @return {Void}
+	 */
+	openInfoList: function(title, infoClass) {
+		var infos = {
+			title: title,
+			infoClass: infoClass
+		};
+		Bisia.Validation.reactInfos.set(infos);
+		Tracker.autorun(function() {
+			Bisia.Ui.setReactive('info', {
+				infoTitle: Bisia.Validation.reactInfos.get().title,
+				infoClass: Bisia.Validation.reactInfos.get().infoClass,
+				template: 'infoList',
+				items: Bisia.Validation.reactItems.get()
+			});
+		});
+		return this;
+	},
+
+	/**
+	 * Open reactive popup on success submission
+	 * @param  {String} message
+	 * @return {Void}
+	 */
+	submitError: function(message) {
+		var title = (arguments[1]) ? arguments[1] : 'Errori da correggere!';
+		var icon = (arguments[2]) ? arguments[2] : 'fa-exclamation-triangle';
+		var errors = [];
+
+		if(_.isObject(message)) {
+			errors = Bisia.Validation.fillErrors(message);
+		} else {
+			errors.push({ id: '', msg: message, icon: icon });
+		}
+
+		this.submitReactive(errors, title, 'error');
+		return false;
+	},
+
+	/**
+	 * Open reactive popup on success submission
+	 * @param  {String} message
+	 * @return {Void}
+	 */
+	submitSuccess: function(message) {
+		var title = (arguments[1]) ? arguments[1] : 'Operazione riuscita!';
+		var icon = (arguments[2]) ? arguments[2] : 'fa-check';
+		var success = [{
+			id: '',
+			msg: message,
+			icon: icon
+		}];
+		this.submitReactive(success, title, 'success');
+		return true;
+	},
+
+	/**
+	 * Open info popup reactively
+	 * @param  {Object} itemObj
+	 * @param  {String} title
+	 * @param  {String} infoClass
+	 * @return {Bisia.Ui}
+	 */
+	submitReactive: function(itemObj, title, infoClass) {
+		Bisia.Validation.updateItemList(itemObj)
+						.openInfoList(title, infoClass)
+						.loadingRemove();
+		return this;
 	},
 
 	/**
@@ -190,6 +283,7 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 		Meteor.setTimeout( function() {
 			target.removeClass(className);
 		}, timeout);
+		return this;
 	},
 
 	/**
@@ -203,16 +297,7 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 						.one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
 							parent.unsetReactive('popup');
 						});
-	},
-
-	/**
-	 * Reset all form messages
-	 * @return {Void}
-	 */
-	resetFormMessages: function() {
-		Session.set('formErrors', {});
-		Session.set('formSuccess', {});
-		this.loadingRemove();
+		return this;
 	},
 
 	/**
@@ -223,6 +308,7 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 	setReactive: function(which, obj) {
 		this.unsetReactive(which);
 		this[which].set(obj);
+		return this;
 	},
 
 	/**
@@ -232,6 +318,7 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 	 */
 	unsetReactive: function(which) {
 		this[which].set();
+		return this;
 	},
 
 	/**
@@ -246,6 +333,7 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 		}
 		$el.siblings('li').removeClass('tools-open');
 		$el.toggleClass('tools-open');
+		return this;
 	},
 
 	/**
@@ -257,6 +345,7 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 		var $el = $(e.target);
 		$el.toggleClass('active');
 		$el.siblings('a, button').removeClass('active');
+		return this;
 	},
 
 	/**
@@ -285,6 +374,7 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 				$el.removeClass(className);
 			}
 		}
+		return this;
 	},
 
 	/**
@@ -309,6 +399,7 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 		} else {
 			$target.removeClass(className);
 		}
+		return this;
 	},
 
 	/**
@@ -321,6 +412,7 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 	toggleClass: function(className, target, template) {
 		var $target = $(template.find(target));
 		$target.toggleClass(className);
+		return this;
 	},
 
 	/**
@@ -329,9 +421,19 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 	 * @return {Void}
 	 */
 	toggleModal: function(e) {
-		e.preventDefault();
+		var parent = this;
 		var id = $(e.currentTarget).attr('id');
-		$('[data-content='+id+']').toggleClass('md-open');
+		var modalId = (this.modalId) ? this.modalId : id;
+		var $modal = $('[data-content='+modalId+']');
+		this.modalId = (!this.modalId) ? id : undefined;
+		$modal.toggleClass('md-open');
+		this.resetTab($modal);
+		if (arguments[1]) {
+			//$modal.one('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', function() {
+				parent.unsetReactive(arguments[1]);
+			//});
+		}
+		return this;
 	},
 
 	/**
@@ -367,7 +469,9 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 				self.$wrapper.addClass(closing);
 		}
 
-		if (self.$ultools.length > 0)
+		if (self.$ultools.length > 0) {
 			self.$ultools.removeClass('tools-open');
+		}
+		return this;
 	}
 };

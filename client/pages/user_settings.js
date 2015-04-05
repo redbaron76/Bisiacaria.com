@@ -20,9 +20,10 @@ Template.userSettings.rendered = function() {
 		stopInputAtMaximum: true
 	};
 
-	this.$('.count').textcounter(_.extend(counter, { max: 100}));
+	this.$('#birthday').mask('99/99/9999', {placeholder: 'gg/mm/anno'});
 	this.$('#bio').textcounter(_.extend(counter, { max: 140}));
 	this.$('#city').textcounter(_.extend(counter, { max: 25}));
+	this.$('.count').textcounter(_.extend(counter, { max: 100}));
 	this.$('.autosize').textareaAutoSize();
 
 };
@@ -35,32 +36,22 @@ Template.userSettings.helpers({
 	getAccount: function() {
 		return Bisia.User.getProfile('loggedWith');
 	},
-	getBirthDate: function(whichPart) {
-		var bDate = Bisia.User.getProfile('birthday').split('-');
-
-		switch(whichPart){
-			case 'day':
-				return bDate[0];
-				break;
-			case 'month':
-				return bDate[1];
-				break;
-			case 'year':
-				return bDate[2];
-				break;
-		}
-		return;
+	getBirthDate: function() {
+		return Bisia.User.getProfile('birthday').replace('-', '/');
 	}
 });
 
 Template.userSettings.events({
 	'click #question': function(e, t) {
+		e.preventDefault();
 		Bisia.Ui.toggleModal(e);
 	},
 	'click #lovehate': function(e, t) {
+		e.preventDefault();
 		Bisia.Ui.toggleModal(e);
 	},
 	'click #blockedusers': function(e, t) {
+		e.preventDefault();
 		Bisia.Ui.toggleModal(e);
 	},
 	'click #delete-img': function(e, t) {
@@ -77,68 +68,58 @@ Template.userSettings.events({
 	'submit #profile-form': function(e, t) {
 		e.preventDefault();
 		var $target = $(e.target);
-		var currentUser = this._id;
+		// var currentUser = this._id;
 
-		var builtDate = $target.find('#dd').val()+"-"+$target.find('#mm').val()+"-"+$target.find('#yyyy').val();
-		var bDay = moment(builtDate, "DD-MM-YYYY", true);
-
-		var birthDate = bDay.isValid() ? builtDate : null;
-
-		var user = {
-			'username': $target.find('#username').val(),
-			'profile': {
-				'bio': $target.find('#bio').val(),
-				'birthday': birthDate,					// Date
-				'city': $target.find('#city').val(),
-				'status': $target.find('[name=status]:checked').val()
-			}
-		};
-
-		var errors = Bisia.Validation.validateProfileData(user);
-
-		if (Bisia.has(errors)) {
-			Bisia.Ui.loadingRemove();
-			return Session.set('formErrors', errors);
-		}
-
-		Meteor.call('saveProfileData', user, currentUser, function(error, result) {
-			if(error) Bisia.Ui.loadingRemove();
-
-			if(result.errors) {
-				Bisia.Ui.loadingRemove();
-				return Session.set('formErrors', result.errors);
-			}
-
-			if (result) Bisia.Ui.resetFormMessages();
+		var formObject = Bisia.Form.getFields($target, 'validateProfileData', {
+			'birthday': 'birthDate.date',
+			'city': 'profile.city',
+			'status': 'profile.status',
+			'bio': 'profile.bio',
+		}, {
+			'birthDate?.separator': '/',
+			'profile.status': 'none'
+		}, {
+			'birthDate': 'Bisia.Time.formatBirthDate'
+		}, {
+			'profile.birthday': 'birthDate'
 		});
+
+		if (formObject) {
+			Meteor.call('saveProfileData', formObject, function(error, result) {
+				if(error) {
+					Bisia.log('saveProfileData', error);
+					Bisia.Ui.loadingRemove();
+					return false;
+				}
+
+				if(result.errors)
+					return Bisia.Ui.submitError(result.errors);
+
+				Bisia.Ui.loadingRemove();
+				return result;
+			});
+		}
 	},
 	'submit #account-form': function(e, t) {
 		e.preventDefault();
 		var $target = $(e.target);
-		var currentUser = this._id;
 
-		var user = {
-			'email': $target.find('#email').val(),
-			'password': $target.find('#password').val(),
-			'passwordConfirmed': $target.find('#passwordConfirmed').val(),
-		};
+		var formObject = Bisia.Form.getFields($target, 'validateAccountData');
 
-		var errors = Bisia.Validation.validateAccountData(user);
+		if (formObject) {
+			Meteor.call('saveAccountData', formObject, function(error, result) {
+				if(error) {
+					Bisia.log('saveAccountData', error);
+					Bisia.Ui.loadingRemove();
+					return false;
+				}
 
-		if (Bisia.has(errors)) {
-			Bisia.Ui.loadingRemove();
-			return Session.set('formErrors', errors);
-		}
+				if(result.errors)
+					return Bisia.Ui.submitError(result.errors);
 
-		Meteor.call('saveAccountData', user, currentUser, function(error, result) {
-			if(error) Bisia.Ui.loadingRemove();
-
-			if(result.errors) {
 				Bisia.Ui.loadingRemove();
-				return Session.set('formErrors', result.errors);
-			}
-
-			if (result) Bisia.Ui.resetFormMessages();
-		});
+				return result;
+			});
+		}
 	}
 });

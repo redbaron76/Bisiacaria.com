@@ -97,7 +97,7 @@ Meteor.methods({
 			createdAt: Bisia.Time.now('server')
 		});
 
-		Users.update(voteObj.targetId, { $inc: { votesCount: 1 } });
+		Users.update(voteObj.targetId, { $inc: { 'profile.votesCount': 1 } });
 		vote._id = Votes.insert(vote);
 
 		// Notify vote to target user
@@ -108,5 +108,80 @@ Meteor.methods({
 		});
 
 		return vote._id;
+	},
+	saveNewPost: function(formObj, myFollowers) {
+		check(this.userId, String);
+		check(formObj, {
+			text: String,
+			category: String,
+			dateTimePost: Date,
+			imageUrl: String,
+			position: Object
+		});
+
+		var user = Meteor.user();
+		var postObj = _.extend(formObj, {
+			userId: user._id,
+			createdAt: Bisia.Time.now()
+		});
+
+		var errors = Bisia.Validation.validateNewPost(postObj);
+
+		if (Bisia.has(errors)) return Bisia.serverErrors(errors);
+
+		// add category if any and not present
+		if (!!postObj.category)
+			Users.update(user._id, { $addToSet: { 'profile.categories': postObj.category } });
+
+		// Insert into collection
+		postObj._id = Posts.insert(postObj);
+
+		//Notify to all followers
+		_.each(myFollowers, function(el) {
+			Bisia.Notification.emit('news', {
+				userId: user._id,
+				targetId: el,
+				actionId: postObj._id,
+				actionKey: 'post'
+			}, postObj.dateTimePost);
+		});
+
+		return true;
+	},
+	saveNewEvent: function(formObj, myFollowers) {
+		check(this.userId, String);
+		check(formObj, {
+			text: String,
+			titleEvent: String,
+			locationEvent: String,
+			dateTimeEvent: Date,
+			imageUrl: String,
+			position: Object
+		});
+
+		var user = Meteor.user();
+		var eventObj = _.extend(formObj, {
+			userId: user._id,
+			createdAt: Bisia.Time.now()
+		});
+
+		var errors = Bisia.Validation.validateNewEvent(eventObj, 'SERVER');
+
+		if (Bisia.has(errors)) return Bisia.serverErrors(errors);
+
+		// Insert into collection
+		eventObj._id = Events.insert(eventObj);
+
+		//Notify to all followers
+		_.each(myFollowers, function(el) {
+			Bisia.Notification.emit('news', {
+				userId: user._id,
+				targetId: el,
+				actionId: eventObj._id,
+				actionKey: 'event'
+			});
+		});
+
+		return true;
 	}
 });

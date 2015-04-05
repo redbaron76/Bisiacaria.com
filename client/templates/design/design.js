@@ -36,6 +36,7 @@ Template.profileTemplate.events({
 		Bisia.Ui.toggleClass('flip', '.flip-container', t);
 	},
 	'click #question': function(e, t) {
+		e.preventDefault();
 		Bisia.Ui.toggleModal(e);
 	},
 	'click .write-message': function(e, t) {
@@ -110,9 +111,11 @@ Template.bubbleWrapper.events({
 
 Template.registerTemplate.events({
 	'click #terms-conditions': function(e, t) {
+		e.preventDefault();
 		Bisia.Ui.toggleModal(e);
 	},
 	'click #rules': function(e, t) {
+		e.preventDefault();
 		Bisia.Ui.toggleModal(e);
 	}
 });
@@ -124,6 +127,7 @@ Template.articleTemplate.rendered = function() {
 
 Template.articleTemplate.events({
 	'click #share-this': function(e, t) {
+		e.preventDefault();
 		Bisia.Ui.toggleModal(e);
 	},
 	'click .go-top': function(e, t) {
@@ -151,9 +155,11 @@ Template.articleTemplate.events({
 
 /*Template.settingsTemplate.events({
 	'click #question': function(e, t) {
+		e.preventDefault();
 		Bisia.Ui.toggleModal(e);
 	},
 	'click #lovehate': function(e, t) {
+		e.preventDefault();
 		Bisia.Ui.toggleModal(e);
 	},
 	'click #take-image': function(e, t) {

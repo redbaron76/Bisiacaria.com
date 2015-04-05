@@ -28,7 +28,8 @@ Meteor.methods({
 			isRead: false
 		});
 
-		msg._id = Messages.insert(msgObj);
+		// msg._id = Messages.insert(msgObj);
+		msg._id = Messages.insert(msg);
 
 		if (firstMessage) {
 			// Set chatId if first message

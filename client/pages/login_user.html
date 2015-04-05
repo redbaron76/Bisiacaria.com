@@ -37,12 +37,10 @@
 							<div class="form-group">
 								<i class="fa fa-envelope"></i>
 								<input type="text" id="email" placeholder="Indirizzo e-mail">
-								{{> fieldError data='email' }}
 							</div>
 							<div class="form-group">
 								<i class="fa fa-lock"></i>
 								<input type="password" id="password" placeholder="Password">
-								{{> fieldError data='password' }}
 							</div>
 							<button type="submit" data-animation="loading" class="yellow">Entra</button>
 							<p>Hai dimenticato la password ? <a href="#" id="recover-password-modal">Clicca qui</a></p>
@@ -59,5 +57,7 @@
 	</div>
 
 	{{> recoverPasswordModal}}
+	{{> infoWrapper}}
+	<div class="md-overlay"></div>
 
 </template>

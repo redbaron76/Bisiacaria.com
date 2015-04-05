@@ -4,15 +4,23 @@ Bisia.Menu = {
 
 	structure: [
 		{
+			"key": "news",
+			"icon": "fa-star",
+			"label": "Novità da chi conosci",
+			"path": "newsList",
+			"nClass": "new"
+		},
+		{
 			"key": "message",
 			"icon": "fa-envelope",
 			"label": "Messaggi privati",
 			"path": "getMessages",
-			"nClass": "new"
+			"nClass": "new",
+			"spacer": true
 		},
 		{
 			"key": "visit",
-			"icon": "fa-star",
+			"icon": "fa-bell",
 			"label": "Ultime visite ricevute",
 			"path": "visitsList",
 			"nClass": "new"

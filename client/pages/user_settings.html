@@ -31,23 +31,14 @@
 							<div class="form-group">
 								<i class="fa fa-user"></i>
 								<input type="text" value="{{username}}" id="username" placeholder="Username">
-								{{> fieldError data='username' }}
 							</div>
 							<div class="form-group">
 								<i class="fa fa-birthday-cake"></i>
-								<div class="birthdate">
-									<input type="text" value="{{getBirthDate 'day' this}}" id="dd" name="day" placeholder="Giorno">
-									<span class="spacer">/</span>
-									<input type="text" value="{{getBirthDate 'month' this}}" id="mm" name="month" placeholder="Mese">
-									<span class="spacer">/</span>
-									<input type="text" value="{{getBirthDate 'year' this}}" id="yyyy" name="year" placeholder="Anno">
-								</div>
-								{{> fieldError data='birthday' }}
+								<input type="text" value="{{getBirthDate}}" id="birthday" placeholder="Data di nascita">
 							</div>
 							<div class="form-group text-area">
 								<i class="fa fa-map-marker"></i>
 								<textarea class="autosize" id="city" placeholder="Luogo di origine">{{profile.city}}</textarea>
-								{{> fieldError data='city' }}
 							</div>
 							<div class="form-group text-area">
 								<i class="fa fa-book"></i>
@@ -68,7 +59,6 @@
 										<input type="radio" name="status" value="free" id="free" {{checkStatus 'free' this}}>
 										<label for="free"></label>
 									</div>
-									{{> radioError data='status' }}
 								</div>
 							</div>
 							<button type="submit" data-animation="loading" class="yellow">Modifica</button>
@@ -79,17 +69,14 @@
 							<div class="form-group">
 								<i class="fa fa-envelope"></i>
 								<input type="text" id="email" value="{{getEmail}}" placeholder="Indirizzo e-mail">
-								{{> fieldError data='email' }}
 							</div>
 							<div class="form-group">
 								<i class="fa fa-lock"></i>
 								<input type="password" id="password" placeholder="Nuova password">
-								{{> fieldError data='password' }}
 							</div>
 							<div class="form-group">
 								<i class="fa fa-lock"></i>
 								<input type="password" id="passwordConfirmed" placeholder="Conferma password">
-								{{> fieldError data='passwordConfirmed' }}
 							</div>
 							<button type="submit" data-animation="loading" class="yellow">Modifica</button>
 							<p>Il nuovo indirizzo e-mail, per diventare attivo, deve essere verificato attraverso il link presente nella mail che invieremo automaticamente.</p>

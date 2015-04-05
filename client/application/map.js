@@ -22,6 +22,18 @@ Bisia.Map = {
 	circle: null,
 
 	/**
+	 * Geocode object by Esri
+	 * @type {Object}
+	 */
+	geocode: null,
+
+	/**
+	 * Textual reverse geo location
+	 * @type {String}
+	 */
+	geoLocation: null,
+
+	/**
 	 * Your actual position
 	 * @type {Array}
 	 */
@@ -63,11 +75,20 @@ Bisia.Map = {
 	 * Init function
 	 * @return {Void}
 	 */
-	init: function() {
+	init: function(geocoder) {
 		L.Icon.Default.imagePath = 'packages/leaflet/images';
 		this.map = L.map(this.wrapper, this.settings);
 		L.tileLayer.provider('OpenMapSurfer.Roads').addTo(this.map);
+		if (geocoder) this.initGeocode();
 		return this;
+	},
+
+	/**
+	 * Init the geocode object
+	 * @return {Void}
+	 */
+	initGeocode: function() {
+		this.geocode = new L.esri.Geocoding.Services.Geocoding();
 	},
 
 	/**
@@ -79,6 +100,11 @@ Bisia.Map = {
 		this.marker.setLatLng(this.yourLatLng);
 	},
 
+
+
+	/**
+	 * Click the green button to set position
+	 */
 	setMapPosition: function() {
 		var position = this.clickLatLng;
 		this.$mapButton = $('#map-position');
@@ -89,15 +115,30 @@ Bisia.Map = {
 		var lng = $('<input/>', {type: 'hidden', name: 'lng', value: position.lng, id: 'position-lng'});
 		this.$mapButton.parent('form').append(lat);
 		this.$mapButton.parent('form').append(lng);
+		if (this.geoLocation) {
+			var location = $('<input/>', {type: 'hidden', name: 'location', value: this.geoLocation, id: 'location'});
+			this.$mapButton.parent('form').append(location);
+			var p = $('<p/>', {'class': 'geo-location'}).html(this.geoLocation);
+			this.$mapButton.before(p).fadeIn();
+		}
 		Bisia.Ui.unsetReactive('map');
 	},
 
+	/**
+	 * Click the remove position button
+	 * @return {Void}
+	 */
 	removeMapPosition: function() {
-		this.$mapButton.attr('data-action', 'add');
-		this.$mapButton.find('i').toggleClass('fa-times fa-globe');
-		this.$mapButton.find('span').html('Posizione sulla mappa');
-		this.$mapButton.parent('form').find('#position-lat').remove();
-		this.$mapButton.parent('form').find('#position-lng').remove();
+		if (this.$mapButton) {
+			Bisia.log('removeMapPosition', this.$mapButton);
+			this.$mapButton.attr('data-action', 'add');
+			this.$mapButton.find('i').toggleClass('fa-times fa-globe');
+			this.$mapButton.find('span').html('Posizione sulla mappa');
+			this.$mapButton.parent('form').find('#position-lat').remove();
+			this.$mapButton.parent('form').find('#position-lng').remove();
+			this.$mapButton.parent('form').find('#location').remove();
+			this.$mapButton.prev('p').fadeOut().remove();
+		}
 	},
 
 	/**
@@ -114,18 +155,19 @@ Bisia.Map = {
 	/**
 	 * Initialize a map object on trigger
 	 * @param  {String} wrapper
+	 * @param  {Bool} geocoder
 	 * @return {Void}
 	 */
-	triggerMapCreation: function(wrapper) {
+	triggerMapCreation: function(wrapper, geocoder) {
 		var parent = this;
 		this.wrapper = wrapper;
 
 		Bisia.Ui.setReactive('map', {
 			wrapper: this.wrapper
 		});
-		
+
 		Meteor.setTimeout(function() {
-			parent.init()					// Init the map
+			parent.init(geocoder)					// Init the map
 				  .yourPosition()			// Find your position and triggers onPositionFound
 				  .listenPositionClick();	// Listen for clicks on the map
 		}, 500);
@@ -163,9 +205,19 @@ Bisia.Map = {
 	onClickPosition: function(e) {
 		var target = e.originalEvent.target.toString();
 		if (target == "[object SVGSVGElement]") {
-			Bisia.Map.clickLatLng = e.latlng
-			Bisia.Map.marker.setLatLng(Bisia.Map.clickLatLng).update();	
-		}		
+			if (Bisia.Map.geocode) {
+				Bisia.Map.geocode.reverse().latlng(e.latlng).run(function(error, result) {
+					if (! error) {
+						Bisia.Map.clickLatLng = e.latlng;
+						Bisia.Map.geoLocation = result.address.Match_addr;
+						Bisia.Map.marker.setLatLng(Bisia.Map.clickLatLng).update();
+					}
+				});
+			} else {
+				Bisia.Map.clickLatLng = e.latlng;
+				Bisia.Map.marker.setLatLng(Bisia.Map.clickLatLng).update();
+			}
+		}
 	},
 
 	/**
@@ -178,11 +230,27 @@ Bisia.Map = {
 		var position = e.latlng;
 		Bisia.Map.clickLatLng = position;
 		Bisia.Map.yourLatLng = position;
-		Bisia.Map.marker = L.marker(position).addTo(Bisia.Map.map)
-											 .bindPopup('Ti trovi qui!')
-											 .openPopup();
+		Bisia.Map.setGeoPosition(position, radius);
+	},
 
-		Bisia.Map.circle = L.circle(position, radius).addTo(Bisia.Map.map);
+	/**
+	 * Set Geo position
+	 * @param  {Object} position
+	 * @param  {Int} radius
+	 * @return {Void}
+	 */
+	setGeoPosition: function(position, radius) {
+		if (Bisia.Map.geocode) {
+			this.geocode.reverse().latlng(position).run(function(error, result) {
+				Bisia.Map.geoLocation = result.address.Match_addr;
+				Bisia.Map.marker = L.marker(position).addTo(Bisia.Map.map).bindPopup(result.address.Match_addr).openPopup();
+			});
+		} else {
+			Bisia.Map.marker = L.marker(position).addTo(Bisia.Map.map).bindPopup('Ti trovi qui!').openPopup();
+		}
+		if (radius) {
+			Bisia.Map.circle = L.circle(position, radius).addTo(Bisia.Map.map);
+		}
 	}
-	
+
 };

@@ -5,4 +5,6 @@ Meteor.startup(function () {
 	Bisia.Session.ghostsCleaner();
 	// Init Mail in /server/commons/mail.js
 	Bisia.Mail.init();
+	// Init Automator
+	Bisia.Automator.init();
 });

@@ -27,3 +27,23 @@
 		<i class="fa fa-trash"></i>
 	</li>
 </template>
+
+<template name="infoList">
+	<div class="md-info md-show list {{infoClass}}">
+		{{> infoClose title=infoTitle}}
+		<div class="wrapper-info list-wrapper">
+			<ul class="item-list">
+				{{#each items}}
+					{{> infoItem}}
+				{{/each}}
+			</ul>
+		</div>
+	</div>
+</template>
+
+<template name="infoItem">
+	<li>
+		<i class="fa {{icon}}"></i>
+		<span data-highlight="{{id}}">{{{msg}}}</span>
+	</li>
+</template>

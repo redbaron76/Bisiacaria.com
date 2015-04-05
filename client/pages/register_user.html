@@ -28,28 +28,29 @@
 							{{#if isRegistered}}
 								<p>Abbiamo inviato una mail di conferma all'indirizzo da te specificato in fase di iscrizione.</p>
 								<p>Clicca il link presente nella mail che ti abbiamo inviato ed entra a far parte di Bisiacaria.com!</p>
+								<p>Nel caso non dovesse arrivarti la mail per la conferma della tua iscrizione, ti invitiamo a verificare la cartella SPAM del tuo account di posta ed eventualmente a contattarci all'indirizzo: bisiacaria@gmail.com</p>
 							{{else}}
 								<div class="divider white-bg"><span>i tuoi dati di accesso</span></div>
 								<div class="form-group">
 									<i class="fa fa-envelope"></i>
 									<input type="text" id="email" placeholder="Indirizzo e-mail">
-									{{> fieldError data='email' }}
 								</div>
 								<div class="form-group">
 									<i class="fa fa-lock"></i>
 									<input type="password" id="password" placeholder="Password">
-									{{> fieldError data='password' }}
 								</div>
 								<div class="form-group">
 									<i class="fa fa-lock"></i>
 									<input type="password" id="passwordConfirmed" placeholder="Ripeti password">
-									{{> fieldError data='passwordConfirmed' }}
 								</div>
 								<div class="divider white-bg"><span>i tuoi dati anagrafici</span></div>
 								<div class="form-group">
 									<i class="fa fa-user"></i>
-									<input type="text" id="username" placeholder="Username">
-									{{> fieldError data='username' }}
+									<input type="text" id="username" placeholder="Nickname">
+								</div>
+								<div class="form-group">
+									<i class="fa fa-birthday-cake"></i>
+									<input type="text" id="birthday" placeholder="Data di nascita">
 								</div>
 								<div class="form-group check-box">
 									<i class="fa fa-male"></i>
@@ -64,19 +65,8 @@
 										<label for="female"></label>
 									</div>
 									<label for="female">Donna</label>
-									{{> radioError data='gender' }}
 								</div>
-								<div class="form-group">
-									<i class="fa fa-birthday-cake"></i>
-									<div class="birthdate">
-										<input type="text" id="dd" name="day" placeholder="Giorno">
-										<span class="spacer">/</span>
-										<input type="text" id="mm" name="month" placeholder="Mese">
-										<span class="spacer">/</span>
-										<input type="text" id="yyyy" name="year" placeholder="Anno">
-									</div>
-									{{> fieldError data='birthday' }}
-								</div>
+
 								<p>Iscrivendoti con questo form, accetti i <a href="#" id="terms-conditions">termini e le condizioni</a> del servizio offerto da Bisiacaria.com</p>
 								<button type="submit" data-animation="loading" class="yellow">Iscriviti</button>
 							{{/if}}
@@ -88,5 +78,7 @@
 	</div>
 
 	{{> termsConditionsModal}}
+	{{> infoWrapper}}
+	<div class="md-overlay"></div>
 
 </template>

@@ -69,7 +69,7 @@ Bisia.Img = {			// global Bisia in /lib/application/bisia.js
 	 */
 	getTags: function() {
 		var str = moment().format('YYYYMMDDHHmm').toString() + ',';
-		var keys = ['_id', 'username'];		
+		var keys = ['_id', 'username'];
 		_.each(keys, function(el, index) {
 			str += Bisia.User.getUser(el) + ',';
 		});
@@ -137,7 +137,7 @@ Bisia.Img = {			// global Bisia in /lib/application/bisia.js
 	 */
 	addImageCloudinaryDone: function(e, data) {
 		var url = $.cloudinary.url(
-			data.result.public_id, 
+			data.result.public_id,
 			Bisia.Img.settings
 		);
 		if (url) {
@@ -155,7 +155,7 @@ Bisia.Img = {			// global Bisia in /lib/application/bisia.js
 		this.$imgButton.attr('data-action', 'remove');
 		this.$imgButton.find('i').toggleClass('fa-picture-o fa-times');
 		this.$imgButton.find('span').html('Rimuovi l\'immagine');
-		
+
 		var img = $('<img/>', {src: url, id: 'attached-image-preview'});
 		this.$imgButton.before(img).fadeIn();
 
@@ -168,11 +168,13 @@ Bisia.Img = {			// global Bisia in /lib/application/bisia.js
 	 * @return {Void}
 	 */
 	removeAttachedImage: function() {
-		this.$imgButton.attr('data-action', 'add');
-		this.$imgButton.find('i').toggleClass('fa-times fa-picture-o');
-		this.$imgButton.find('span').html('Aggiungi un\'immagine');
-		this.$imgButton.parent('form').find('#image-url').remove();
-		this.$imgButton.prev('img').fadeOut().remove();
+		if (this.$imgButton) {
+			this.$imgButton.attr('data-action', 'add');
+			this.$imgButton.find('i').toggleClass('fa-times fa-picture-o');
+			this.$imgButton.find('span').html('Aggiungi un\'immagine');
+			this.$imgButton.parent('form').find('#image-url').remove();
+			this.$imgButton.prev('img').fadeOut().remove();
+		}
 	},
 
 	/**
@@ -203,7 +205,7 @@ Bisia.Img = {			// global Bisia in /lib/application/bisia.js
 	 */
 	settingsCloudinaryDone: function(e, data) {
 		var url = $.cloudinary.url(
-			data.result.public_id, 
+			data.result.public_id,
 			Bisia.Img.settings
 		);
 		if (url) {

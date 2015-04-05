@@ -12,20 +12,18 @@ Template.loveHateModal.events({
 			lovehate['lh'+(index+1)] = value;
 		});
 
-		Meteor.call('saveLoveHate', lovehate, currentUser, function(error, result) {
-			if (result)
-				Bisia.Ui.resetFormMessages();
-
-			if (error)
-				Bisia.log(error);
+		Meteor.call('saveLoveHate', lovehate, function(error, result) {
+			if (result) {
+				Bisia.Ui.loadingRemove().toggleModal(e);
+			}
 		});
 
 	},
-	'click .send-check': function(e, t) {
+	/*'click .send-check': function(e, t) {
 		e.preventDefault();
 		var $form = $('#lovehate-form');
 		$form.trigger('submit');
-	}
+	}*/
 });
 
 Template.answerLoveHate.helpers({

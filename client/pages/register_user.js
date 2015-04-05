@@ -3,62 +3,51 @@ Template.registerUser.created = function() {
 	Session.set('userIsRegistered', false);
 };
 
+Template.registerUser.rendered = function() {
+	this.$('#birthday').mask('99/99/9999', {placeholder: 'gg/mm/anno'});
+}
+
 Template.registerUser.events({
 	'submit form': function(e) {
 		e.preventDefault();
 		var $target = $(e.target);
 
-		var builtDate = $target.find('#dd').val()+"-"+$target.find('#mm').val()+"-"+$target.find('#yyyy').val();
-		var bDay = moment(builtDate, "DD-MM-YYYY", true);
+		var formObject = Bisia.Form.getFields($target, 'validateRegister', {
+			'birthday': 'birthDate.date',
+			'gender': 'profile.gender'
+		}, {
+			'birthDate?.separator': '/',
+			'profile.city': 'Nuova iscrizione',
+			'profile.status': 'none',
+			'profile.online': false,
+			'profile.loggedWith': 'password'
+		}, {
+			'birthDate': 'Bisia.Time.formatBirthDate'
+		}, {
+			'profile.birthday': 'birthDate',
+		});
 
-		var birthDate = (bDay.isValid()) ? builtDate : null;
-		var gender = $target.find('[name=gender]:checked').val();
+		if (formObject) {
+			Meteor.call('registerUser', formObject, function(error, result) {
+				if(error) {
+					Bisia.log(error);
+					Bisia.Ui.loadingRemove();
+					return false;
+				}
 
-		var user = {
-			'username': $target.find('#username').val(),
-			'email': $target.find('#email').val(),
-			'password': $target.find('#password').val(),
-			'passwordConfirmed': $target.find('#passwordConfirmed').val(),
-			'profile': {
-				'birthday': birthDate,
-				'city': (gender === 'male') ? 'Nuovo iscritto' : 'Nuova iscritta',
-				'gender': gender,
-				'status': 'none',
-				'online': true,
-				'loggedWith': 'password'
-			}
-		};
+				if(result.errors)
+					return Bisia.Ui.submitError(result.errors);
 
-		var errors = Bisia.Validation.validateRegister(user);
+				Session.set('userIsRegistered', result);
+				// var welcome = formObject.profile.gender == 'male' ? 'Benvenuto' : 'Benvenuta';
+				// return Bisia.Ui.submitSuccess(Bisia.Login.messages.welcome, welcome + ' su Bisia!');
 
-		if (Bisia.has(errors)) {
-			Bisia.Ui.loadingRemove();
-			return Session.set('formErrors', errors);
+			});
 		}
 
-		Meteor.call('registerUser', user, function(error, result) {
-			if(error) {
-				Bisia.Ui.loadingRemove();
-				Bisia.log(error);
-			}
-
-			if(result.errors) {
-				Bisia.Ui.loadingRemove();
-				return Session.set('formErrors', result.errors);
-			}
-
-			Bisia.Ui.resetFormMessages();
-			// Email verification alert
-			Session.set('userIsRegistered', true);
-
-			// If no errors, login!
-			/*Meteor.loginWithPassword({'id': result._id}, result.password, function() {
-				Bisia.Ui.resetFormMessages();
-				Router.go('homePage');
-			});*/
-		});
 	},
 	'click #terms-conditions': function(e, t) {
+		e.preventDefault();
 		Bisia.Ui.toggleModal(e);
 	},
 });

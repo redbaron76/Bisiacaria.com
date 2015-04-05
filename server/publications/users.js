@@ -13,10 +13,11 @@ Meteor.publish('onlineUsers', function() {
 		// Meteor._sleepForMs(5000);
 
 		// Notifications count
-		Counts.publish(this, 'newMessages', Notifications.find({ 'targetId': this.userId, 'action': 'message', 'isRead': false }), { noReady: true });
-		Counts.publish(this, 'newVisits', Notifications.find({ 'targetId': this.userId, 'action': 'visit', 'isRead': false }), { noReady: true });
-		Counts.publish(this, 'newFriends', Notifications.find({ 'targetId': this.userId, 'action': 'friend', 'isRead': false }), { noReady: true });
-		Counts.publish(this, 'newVotes', Notifications.find({ 'targetId': this.userId, 'action': 'vote', 'isRead': false }), { noReady: true });
+		Counts.publish(this, 'news', Notifications.find(Bisia.Notification.getPublishObject(this.userId, 'news')), { noReady: true });
+		Counts.publish(this, 'newMessages', Notifications.find(Bisia.Notification.getPublishObject(this.userId, 'message')), { noReady: true });
+		Counts.publish(this, 'newVisits', Notifications.find(Bisia.Notification.getPublishObject(this.userId, 'visit')), { noReady: true });
+		Counts.publish(this, 'newFriends', Notifications.find(Bisia.Notification.getPublishObject(this.userId, 'friend')), { noReady: true });
+		Counts.publish(this, 'newVotes', Notifications.find(Bisia.Notification.getPublishObject(this.userId, 'vote')), { noReady: true });
 
 		// Messages received
 		Counts.publish(this, 'unreadMessages', Messages.find({ 'targetId': this.userId, 'isRead': false }), { noReady: true });
@@ -46,9 +47,11 @@ Meteor.publish('userProfile', function(username) {
 
 // Publish a user profile in router.js
 Meteor.publish('userSettings', function() {
-	check(this.userId, String);
-	// Meteor._sleepForMs(1000);
-	return Users.find({	'_id': this.userId });
+	if (this.userId) {
+		check(this.userId, String);
+		// Meteor._sleepForMs(1000);
+		return Users.find({	'_id': this.userId });
+	}
 });
 
 // Publish birthdays

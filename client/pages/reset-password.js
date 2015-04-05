@@ -4,34 +4,15 @@ Template.resetPassword.events({
 		var $target = $(e.target);
 		var token = t.data.token;
 
-		var reset = {
-			'password': $target.find('#password').val(),
-			'passwordConfirmed': $target.find('#passwordConfirmed').val(),
-		};
+		var formObject = Bisia.Form.getFields($target, 'validateReset');
 
-		var errors = Bisia.Validation.validateReset(reset);
-		if (Bisia.has(errors)) {
-			Bisia.Ui.loadingRemove();
-			return Session.set('formErrors', errors);
+		if (formObject) {
+			Accounts.resetPassword(token, formObject.password, function(error) {
+				if (error) {
+					return Bisia.Ui.submitError(Bisia.Login.messages.passwordNotSet, 'Cambio non riuscito!');
+				}
+				Bisia.Login.assertLogin('loginUser', 'password');
+			});
 		}
-
-		Accounts.resetPassword(token, reset.password, function(err) {
-			if (err) {
-				Bisia.log(err);
-				Session.set('formErrors', {'email': 'Impossibile recuperare la password'});
-				Router.go('recoverPassword');
-			}
-
-			// Set the login object
-			var login = {
-				'userId': Meteor.userId(),
-				'service': 'password'
-			};
-			Meteor.call('loginUser', login);
-			Bisia.Ui.resetFormMessages();
-			Router.go('homePage');
-		});
 	}
 });
-
-Template.resetPassword.helpers({ });

@@ -23,7 +23,7 @@ Template.userProfile.helpers({
 		return moment(signup).format("DD/MM/YYYY");
 	},
 	votesCount: function() {
-		return (this.votesCount) ? this.votesCount : 0;
+		return (this.profile.votesCount) ? this.profile.votesCount : 0;
 	},
 	followCount: function() {
 		return (this.friends) ? this.friends.length : 0;
@@ -39,9 +39,17 @@ Template.userProfile.events({
 		Bisia.Ui.toggleClass('flip', '.flip-container', t);
 	},
 	'click #new-post': function(e, t) {
+		e.preventDefault();
+		var tabObj = Bisia.Ui.getTabObject({
+			userId: this._id,
+			friends: this.friends,
+			categories: this.profile.categories || []
+		}, 'newPostTab');
+		Bisia.Ui.setReactive('tab', tabObj);
 		Bisia.Ui.toggleModal(e);
 	},
 	'click #question-lovehate': function(e, t) {
+		e.preventDefault();
 		Bisia.Ui.toggleModal(e);
 	},
 	'click #write-message': function(e, t) {

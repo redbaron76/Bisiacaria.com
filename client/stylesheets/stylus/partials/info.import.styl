@@ -11,6 +11,18 @@
 		z-index: 1002;
 	}
 
+	&.error {
+		h1 {
+			background-color: $red;
+		}
+	}
+
+	&.success {
+		h1 {
+			background-color: $green;
+		}
+	}
+
 	.buttons {
 		z-index: 1002;
 		border: none;
@@ -52,6 +64,21 @@
 					color: $white;
 					width: 8%;
 					cursor: pointer;
+
+					&.fa-check {
+						color: $green;
+					}
+
+					&.fa-times {
+						color: $red;
+					}
+
+					&.fa-exclamation-triangle {
+						color: $bisia;
+					}
+					& + span {
+						padding-left: 2%;
+					}
 				}
 				&:last-child {
 					border: none;

@@ -1,12 +1,6 @@
-/*Template.addImage.rendered = function() {
-	Bisia.Img.addImgInstance = this;
-}
-*/
 Template.addImageForm.rendered = function() {
 
-	// var addImgInstance = Bisia.Img.addImgInstance;
 	var instance = this;
-	// Bisia.log(addImgInstance);
 
 	// UPLOAD IMAGE TO CLOUDINARY
 	var settings = {
@@ -42,7 +36,7 @@ Template.addImage.events({
 Template.addMap.events({
 	'click [data-action=add]': function(e, t) {
 		e.preventDefault();
-		Bisia.Map.triggerMapCreation('map-wrapper');
+		Bisia.Map.triggerMapCreation('map-wrapper', true);
 	},
 	'click [data-action=remove]': function(e, t) {
 		e.preventDefault();
