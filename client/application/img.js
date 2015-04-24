@@ -22,6 +22,12 @@ Bisia.Img = {			// global Bisia in /lib/application/bisia.js
 	settings: null,
 
 	/**
+	 * The input type file
+	 * @type {jQuery Object}
+	 */
+	$uploadButton: null,
+
+	/**
 	 * Init function
 	 * @return {Void}
 	 */
@@ -115,6 +121,7 @@ Bisia.Img = {			// global Bisia in /lib/application/bisia.js
 	 * @return {Void}
 	 */
 	addImageCloudinaryStart: function(e) {
+		Bisia.Img.$uploadButton = $(e.target);
 		$('#attached-image > .indicator').addClass('loading');
 	},
 
@@ -151,6 +158,7 @@ Bisia.Img = {			// global Bisia in /lib/application/bisia.js
 	 * @param {String} url
 	 */
 	setAttachedImage: function(url) {
+		this.$uploadButton.hide();
 		this.$imgButton = $('#attached-image');
 		this.$imgButton.attr('data-action', 'remove');
 		this.$imgButton.find('i').toggleClass('fa-picture-o fa-times');
@@ -169,6 +177,7 @@ Bisia.Img = {			// global Bisia in /lib/application/bisia.js
 	 */
 	removeAttachedImage: function() {
 		if (this.$imgButton) {
+			this.$uploadButton.show();
 			this.$imgButton.attr('data-action', 'add');
 			this.$imgButton.find('i').toggleClass('fa-times fa-picture-o');
 			this.$imgButton.find('span').html('Aggiungi un\'immagine');

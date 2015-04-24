@@ -23,6 +23,15 @@
 				display: table;
 				width: 100%;
 				transition: transform .2s;
+				label {
+					font-weight: 500;
+					color: $black-text;
+				}
+
+				& + small {
+					font-size: 11px;
+					color: $gray-row-pin;
+				}
 			}
 
 			.action {
@@ -38,7 +47,6 @@
 					border: none;
 					color: $white;
 					text-align: center;
-					// line-height: 45px;
 					width: 50px;
 					height: inherit;
 					margin-left: 1px;
@@ -104,7 +112,7 @@
 			.avatar-wrapper {
 				width: 45px;
 				display: table-cell;
-				vertical-align: middle;
+				vertical-align: top;
 
 				.avatar {
 					avatar(45px, 2px);
@@ -133,55 +141,116 @@
 					absolute: left -20px bottom 0;
 					z-index: 5;
 				}
+
+				&.text {
+					p {
+						margin: 0;
+						font-family: $font-book;
+						font-size: 13px;
+						color: $gray-row-pin;
+
+						strong, cite {
+							font-family: $font-semibold;
+							font-weight: normal;
+							color: lighten($gray-row-hl, 25%);
+						}
+
+					}
+
+					span {
+						absolute: top 0 right 0;
+					}
+				}
+			}
+
+			.description {
+				position: relative;
+				width: 100%;
+
+				big {
+					username(14px);
+				}
+
+				small {
+					absolute: top 0 right 0;
+					font-size: 10px;
+				}
 			}
 		}
 
 		li.message {
-			padding: 15px;
-			margin: 15px 0;
-			background-color: $white-border;
-			border: 1px solid $gray-bar;
-			border-radius: 5px;
-			width: 95%;
+			border: none;
 
 			.avatar-wrapper {
-				width: 35px;
+				width: 50px;
+				display: block;
 				font-size: .8em;
+				padding-top: 10px;
 				.avatar {
 					avatar(35px, 2px);
 				}
+				&.online::after {
+					top: 10px;
+				}
 			}
-
-			a {
-				padding-bottom: 10px;
-			}
-
 
 			p {
-				border-top: 1px solid $gray-bar;
-				padding: 10px 0 0 0;
-				margin: 0;
-				color: $gray-row-hl;
-				white-space: pre-wrap;
-			}
+				position: relative;
+				display: table-cell;
+				width: 100%;
+				padding: 10px;
+				border-radius: 5px;
+				background-color: $white-border;
+				vertical-align: top;
+				font-size: 12px;
 
-			&.me {
-				background-color: $white;
-				border-color: $white-border;
-				margin-left: auto;
-
-				a {
-					margin-left: auto;
-
-					.username {
-						padding-left: 0;
-						padding-right: 10px;
-						text-align: right;
+				a.username {
+					undecorate();
+					display: block;
+					padding-left: 0;
+					padding-bottom: 5px;
+					width: 100%;
+					span.time {
+						absolute: top 0 right 0;
 					}
 				}
 
+				.caret-chat {
+					width: 0;
+					height: 0;
+					border-top: 8px solid transparent;
+					border-bottom: 8px solid transparent;
+
+					&.left {
+						border-right: 8px solid $white-border;
+						absolute: top 19px left -8px;
+					}
+
+					&.right {
+						border-left: 8px solid $white;
+						absolute: top 19px right -8px;
+					}
+				}
+			}
+
+			&.me {
+				.avatar-wrapper {
+					text-align: right;
+					div {
+						margin-left: auto;
+						margin-right: 0;
+					}
+				}
+
+				a.username {
+					text-align: right;
+					span.time {
+						left: 0;
+						right: auto;
+					}
+				}
 				p {
-					border-top: 1px solid $white-border;
+					background-color: $white;
 				}
 			}
 		}

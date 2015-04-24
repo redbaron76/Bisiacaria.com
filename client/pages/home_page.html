@@ -1,22 +1,20 @@
 <template name="homePage">
-	<div class="body-wrapper">
-		{{> navbarTop}}
-		<div class="content container-fluid">
-			<div id="profile">
-				<div class="row">
-					<div class="col-xs-12 posts">
-						{{currentUser.username}}<br>
-						{{currentUser._id}}
-						<br><br>
-						{{#if isTV}}TV{{/if}}
-						{{#if isTablet}}Tablet{{/if}}
-						{{#if isPhone}}Phone{{/if}}
-						{{#if isDesktop}}Desktop{{/if}}
-						{{#if isBot}}Bot{{/if}}
-					</div>
+	{{> navbarTop}}
+	<div class="content container-fluid">
+		<div id="profile">
+			<div class="row">
+				<div class="col-xs-12 posts">
+					{{currentUser.username}}<br>
+					{{currentUser._id}}
+					<br><br>
+					{{#if isTV}}TV{{/if}}
+					{{#if isTablet}}Tablet{{/if}}
+					{{#if isPhone}}Phone{{/if}}
+					{{#if isDesktop}}Desktop{{/if}}
+					{{#if isBot}}Bot{{/if}}
 				</div>
 			</div>
 		</div>
-		<div class="md-overlay gray"></div>
 	</div>
+	<div class="md-overlay gray"></div>
 </template>

@@ -80,5 +80,9 @@ Accounts.onCreateUser(function(options, user) {
 		}
 	}
 
+	// add audio and mail notification true by default
+	user.profile.notifyAudio = true;
+	user.profile.notifyMail = true;
+
 	return user;
 });

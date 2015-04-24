@@ -102,7 +102,7 @@
 			display: inline-block;
 			padding-top: 5px;
 		}
-		
+
 		&.descr {
 			border: 0;
 			textarea {
@@ -112,6 +112,13 @@
 			}
 		}
 
+	}
+
+	button#newsletter-signup {
+		button(70px);
+		padding: 2px;
+		font-size: 14px;
+		background-color: $bisiad;
 	}
 
 	button[type=submit] {
@@ -139,6 +146,7 @@
 
 	input[type=text],
 	input[type=password],
+	input[type=email],
 	textarea {
 		border: none;
 		background-color: transparent;
@@ -229,10 +237,4 @@
 			text-decoration: none;
 		}
 	}
-}
-
-// FORM IMAGE UPLOAD button
-
-#form-image-upload {
-	display: none;
 }

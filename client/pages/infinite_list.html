@@ -1,44 +1,42 @@
 <template name="infiniteList">
-	<div class="body-wrapper">
-		{{> navbarTop title=title}}
-		<div class="content container-fluid">
-			<div class="list">
+	{{> navbarTop title=title}}
+	<div class="content container-fluid">
+		<div class="list">
 
-				{{#if topLink}}
-					<div class="row buttons-toppad">
-						<div class="col-xs-12 buttons-top">
-							{{#each topLink}}
-								{{> topLinkButton}}
-							{{/each}}
+			{{#if topLink}}
+				<div class="row buttons-toppad">
+					<div class="col-xs-12 buttons-top">
+						{{#each topLink}}
+							{{> topLinkButton}}
+						{{/each}}
+					</div>
+				</div>
+			{{/if}}
+
+			{{#with detectFirstPage}}
+				{{#if pageDisplay}}
+					<div class="row">
+						<div class="col-xs-12 list-wrapper">
+							<ul class="item-list">
+								{{#each items}}
+									{{#with joinWithAuthor}}
+										{{> Template.dynamic template=../../viewTemplate}}
+									{{/with}}
+								{{else}}
+									{{> emptyLi}}
+								{{/each}}
+							</ul>
 						</div>
 					</div>
+					{{> paginator}}
+				{{else}}
+					{{> spinner}}
 				{{/if}}
+			{{/with}}
 
-				{{#with detectFirstPage}}
-					{{#if pageDisplay}}
-						<div class="row">
-							<div class="col-xs-12 list-wrapper">
-								<ul class="item-list">
-									{{#each items}}
-										{{#with joinWithAuthor}}
-											{{> Template.dynamic template=../../viewTemplate}}
-										{{/with}}
-									{{else}}
-										{{> emptyLi}}
-									{{/each}}
-								</ul>
-							</div>
-						</div>
-						{{> paginator}}
-					{{else}}
-						{{> spinner}}
-					{{/if}}
-				{{/with}}
-
-			</div>
 		</div>
-		<div class="md-overlay gray"></div>
 	</div>
+	<div class="md-overlay gray"></div>
 </template>
 
 <template name="topLinkButton">

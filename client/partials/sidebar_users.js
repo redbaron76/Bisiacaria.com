@@ -50,7 +50,7 @@ Template.onlineUser.events({
 	},
 	'click [data-action=open]': function(e, t) {
 		e.preventDefault();
-		Bisia.Ui.swipeUserListItem(e);
+		Bisia.Ui.swipeUserListItem(e, 'li', 'tools-open');
 	},
 	'click .send-vote': function(e, t) {
 		e.preventDefault();

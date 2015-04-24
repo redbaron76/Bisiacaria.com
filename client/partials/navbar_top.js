@@ -11,6 +11,10 @@ Template.navbarTop.events({
 
 Template.navbarTop.helpers({
 	totNotifications: function() {
-		return Bisia.Notification.countTotal();
+		var count = Bisia.Notification.countTotal();
+		if (count > 0) {
+			// Bisia.Audio.playNoty();
+			return count;
+		}
 	}
 });

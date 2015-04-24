@@ -48,7 +48,7 @@ Template.registerUser.events({
 	},
 	'click #terms-conditions': function(e, t) {
 		e.preventDefault();
-		Bisia.Ui.toggleModal(e);
+		Bisia.Ui.toggleModal(e, 'termsConditionsModal');
 	},
 });
 

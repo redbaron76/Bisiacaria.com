@@ -1,4 +1,5 @@
-Template.addImageForm.rendered = function() {
+// Template.addImageForm.rendered = function() {
+Template.addImage.rendered = function() {
 
 	var instance = this;
 
@@ -15,18 +16,11 @@ Template.addImageForm.rendered = function() {
 		progress: 'addImageCloudinaryProgress',
 		done: 'addImageCloudinaryDone'
 	}
-	Bisia.Img.cloudinaryUpload('#image-upload', 'bisia-upload', settings, bindings, instance);
+	Bisia.Img.cloudinaryUpload('#add-image-upload', 'bisia-upload', settings, bindings, instance);
+
 }
 
 Template.addImage.events({
-	'click [data-action=add]': function(e, t) {
-		e.preventDefault();
-		var $button = $(e.currentTarget);
-		var $input = $button.parents('form').next('form').find('input');
-		$input.trigger('click');
-		return false;
-
-	},
 	'click [data-action=remove]': function(e, t) {
 		e.preventDefault();
 		Bisia.Img.removeAttachedImage();

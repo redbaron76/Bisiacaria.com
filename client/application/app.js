@@ -1,6 +1,6 @@
 // On Meteor Startup - CLIENT SIDE
 Meteor.startup(function() {
-
+	Bisia.Audio.init('noty.mp3');
 });
 
 // Autorun hearthbeat when Meteor.userId()

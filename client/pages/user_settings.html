@@ -1,143 +1,136 @@
 <template name="userSettings">
-	<div class="body-wrapper">
-		{{> navbarTop title="Impostazioni"}}
-		<div class="content container-fluid">
-			<div id="settings">
-				<div class="row buttons-toppad">
-					<div class="col-xs-12 buttons-top">
-						<button id="question">
-							Domande e Risposte
-						</button>
-						<button id="lovehate">
-							Amo e Odio
-						</button>
-					</div>
+	{{> navbarTop title="Impostazioni"}}
+	<div class="content container-fluid">
+		<div id="settings">
+			<div class="row buttons-toppad">
+				<div class="col-xs-12 buttons-top">
+					<button id="question">
+						Domande e Risposte
+					</button>
+					<button id="lovehate">
+						Amo e Odio
+					</button>
 				</div>
-				{{#with currentUser}}
-				<div class="row">
-					<div class="col-xs-12 form">
-						<form id="form-upload" class="form-row">
-							<div class="divider white-bg"><span>avatar del profilo</span></div>
-							<div class="image {{statusGender}}">
-								<p>Clicca l'immagine per caricarne una nuova</p>
-								{{> avatarUploader}}
-								<input type="file" name="file" id="image-form" accept="image/*">
-								<p>Per un avatar ottimale ti consigliamo una foto con il tuo volto (auto-detect) o un'immagine il più possibile quadrata con il soggetto al centro.</p>
-								<p><a href="#" id="delete-img">Elimina la foto</a></p>
-							</div>
-						</form>
-						<form id="profile-form" class="form-row">
-							<div class="divider white-bg"><span>dati del profilo</span></div>
-							<div class="form-group">
-								<i class="fa fa-user"></i>
-								<input type="text" value="{{username}}" id="username" placeholder="Username">
-							</div>
-							<div class="form-group">
-								<i class="fa fa-birthday-cake"></i>
-								<input type="text" value="{{getBirthDate}}" id="birthday" placeholder="Data di nascita">
-							</div>
-							<div class="form-group text-area">
-								<i class="fa fa-map-marker"></i>
-								<textarea class="autosize" id="city" placeholder="Luogo di origine">{{profile.city}}</textarea>
-							</div>
-							<div class="form-group text-area">
-								<i class="fa fa-book"></i>
-								<textarea class="autosize" id="bio" placeholder="Biografia">{{profile.bio}}</textarea>
-							</div>
-							<div class="form-group check-box">
-								<i class="fa fa-heart"></i>
-								<div class="light">
-									<div class="checkround">
-										<input type="radio" name="status" value="busy" id="busy" {{checkStatus 'busy' this}}>
-										<label for="busy"></label>
-									</div>
-									<div class="checkround">
-										<input type="radio" name="status" value="none" id="none" {{checkStatus 'none' this}}>
-										<label for="none"></label>
-									</div>
-									<div class="checkround">
-										<input type="radio" name="status" value="free" id="free" {{checkStatus 'free' this}}>
-										<label for="free"></label>
-									</div>
+			</div>
+			{{#with currentUser}}
+			<div class="row">
+				<div class="col-xs-12 form">
+					<form id="form-upload" class="form-row">
+						<div class="divider white-bg"><span>avatar del profilo</span></div>
+						<div class="image {{statusGender}}">
+							<p>Clicca l'immagine per caricarne una nuova</p>
+							{{> avatarUploader}}
+							<p>Per un avatar ottimale ti consigliamo una foto con il tuo volto (auto-detect) o un'immagine il più possibile quadrata con il soggetto al centro.</p>
+							<p><a href="#" id="delete-img">Elimina la foto</a></p>
+						</div>
+					</form>
+					<form id="profile-form" class="form-row">
+						<div class="divider white-bg"><span>dati del profilo</span></div>
+						<div class="form-group">
+							<i class="fa fa-user"></i>
+							<input type="text" value="{{username}}" id="username" placeholder="Username">
+						</div>
+						<div class="form-group">
+							<i class="fa fa-birthday-cake"></i>
+							<input type="text" value="{{getBirthDate}}" id="birthday" placeholder="Data di nascita">
+						</div>
+						<div class="form-group text-area">
+							<i class="fa fa-map-marker"></i>
+							<textarea class="autosize" id="city" placeholder="Luogo di origine">{{profile.city}}</textarea>
+						</div>
+						<div class="form-group text-area">
+							<i class="fa fa-book"></i>
+							<textarea class="autosize" id="bio" placeholder="Biografia">{{profile.bio}}</textarea>
+						</div>
+						<div class="form-group check-box">
+							<i class="fa fa-heart"></i>
+							<div class="light">
+								<div class="checkround">
+									<input type="radio" name="status" value="busy" id="busy" {{checkStatus 'busy' this}}>
+									<label for="busy"></label>
+								</div>
+								<div class="checkround">
+									<input type="radio" name="status" value="none" id="none" {{checkStatus 'none' this}}>
+									<label for="none"></label>
+								</div>
+								<div class="checkround">
+									<input type="radio" name="status" value="free" id="free" {{checkStatus 'free' this}}>
+									<label for="free"></label>
 								</div>
 							</div>
-							<button type="submit" data-animation="loading" class="yellow">Modifica</button>
-						</form>
-						{{#unless withFacebook}}
-						<form id="account-form" class="form-row">
-							<div class="divider white-bg"><span>informazioni account</span></div>
-							<div class="form-group">
-								<i class="fa fa-envelope"></i>
-								<input type="text" id="email" value="{{getEmail}}" placeholder="Indirizzo e-mail">
-							</div>
-							<div class="form-group">
-								<i class="fa fa-lock"></i>
-								<input type="password" id="password" placeholder="Nuova password">
-							</div>
-							<div class="form-group">
-								<i class="fa fa-lock"></i>
-								<input type="password" id="passwordConfirmed" placeholder="Conferma password">
-							</div>
-							<button type="submit" data-animation="loading" class="yellow">Modifica</button>
-							<p>Il nuovo indirizzo e-mail, per diventare attivo, deve essere verificato attraverso il link presente nella mail che invieremo automaticamente.</p>
-							<p>Il cambio e-mail e il cambio password comportano un immediato logout dal sistema.</p>
-						</form>
-						{{/unless}}
-						<form id="settings-form" class="form-row">
-							<!-- <div class="divider white-bg"><span>settaggi account</span></div>
-							<ul class="item-list">
-								<li>
-									<div class="li-wrapper">
-										<p>Resta collegato</p>
-										<div class="checkbox">
-											<div class="checkround">
-												<input type="checkbox" id="share-uid1">
-												<label for="share-uid1"></label>
-											</div>
+						</div>
+						<button type="submit" data-animation="loading" class="yellow">Modifica</button>
+					</form>
+					{{#unless withFacebook}}
+					<form id="account-form" class="form-row">
+						<div class="divider white-bg"><span>informazioni account</span></div>
+						<div class="form-group">
+							<i class="fa fa-envelope"></i>
+							<input type="email" id="email" value="{{getEmail}}" placeholder="Indirizzo e-mail">
+						</div>
+						<div class="form-group">
+							<i class="fa fa-lock"></i>
+							<input type="password" id="password" placeholder="Nuova password">
+						</div>
+						<div class="form-group">
+							<i class="fa fa-lock"></i>
+							<input type="password" id="passwordConfirmed" placeholder="Conferma password">
+						</div>
+						<button type="submit" data-animation="loading" class="yellow">Modifica</button>
+						<p>Il nuovo indirizzo e-mail, per diventare attivo, deve essere verificato attraverso il link presente nella mail che invieremo automaticamente.</p>
+						<p>Il cambio e-mail e il cambio password comportano un immediato logout dal sistema.</p>
+					</form>
+					{{/unless}}
+					<form id="settings-form" class="form-row list">
+						<div class="divider white-bg"><span>impostazioni notifiche</span></div>
+						<ul class="item-list">
+							<li>
+								<div class="li-wrapper">
+									<label for="enable-audio">Ricevi notifiche sonore</label>
+									<div class="checkbox">
+										<div class="checkround">
+											<input type="checkbox" id="enable-audio" checked="{{profile.notifyAudio}}">
+											<label for="enable-audio"></label>
 										</div>
 									</div>
-								</li>
-								<li>
-									<div class="li-wrapper">
-										<p>Resta collegato</p>
-										<div class="checkbox">
-											<div class="checkround">
-												<input type="checkbox" id="share-uid1">
-												<label for="share-uid1"></label>
-											</div>
+								</div>
+							</li>
+							<li>
+								<div class="li-wrapper">
+									<label for="enable-mail">Ricevi notifiche e-mail</label>
+									<div class="checkbox">
+										<div class="checkround">
+											<input type="checkbox" id="enable-mail" checked="{{profile.notifyMail}}">
+											<label for="enable-mail"></label>
 										</div>
 									</div>
-								</li>
-								<li>
-									<div class="li-wrapper">
-										<p>Resta collegato</p>
-										<div class="checkbox">
-											<div class="checkround">
-												<input type="checkbox" id="share-uid1">
-												<label for="share-uid1"></label>
-											</div>
-										</div>
+								</div>
+							</li>
+							<li>
+								<div class="li-wrapper">
+									<label>La newsletter di Bisiacaria.com</label>
+									<div class="checkbox">
+										<button data-animation="loading" id="newsletter-signup">Iscriviti</button>
 									</div>
-								</li>
-							</ul> -->
-							<div class="divider white-bg"><span>tipo di account: {{getAccount}}</span></div>
-						</form>
-					</div>
+								</div>
+								<small>Potrai disiscriverti nella newsletter ricevuta.</small>
+							</li>
+						</ul>
+						<div class="divider white-bg">
+							<span>tipo di account: {{getAccount}}</span>
+						</div>
+					</form>
 				</div>
-				{{/with}}
-				<div class="row">
-					<div class="col-xs-12 buttons">
-						<button class="full-width" id="blockedusers">
-							Utenti bloccati
-						</button>
-					</div>
+			</div>
+			{{/with}}
+			<div class="row">
+				<div class="col-xs-12 buttons">
+					<button class="full-width" id="blockedusers">
+						Utenti bloccati
+					</button>
 				</div>
 			</div>
 		</div>
-		<div class="md-overlay gray"></div>
-		{{> loadingPage}}
 	</div>
-	{{> questionModal}}
-	{{> loveHateModal}}
-	{{> blockedUsersModal}}
+	<div class="md-overlay gray"></div>
 </template>

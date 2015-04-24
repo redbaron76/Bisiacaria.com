@@ -14,3 +14,20 @@
 		</div>
 	</div>
 </template>
+
+<template name="commentPopup">
+	<div class="md-popup md-show">
+		<div class="animation">
+			<div class="md-message animated bounceIn">
+				<button type="button" class="close">&times;</button>
+				{{#with targetPost}}
+				<p>Commenta questo post!</p>
+				<form id="comment-form" role="form" class="form-row message">
+					<textarea id="comment-text"></textarea>
+					<button type="submit" class="send-comment">Invia commento</button>
+				</form>
+				{{/with}}
+			</div>
+		</div>
+	</div>
+</template>

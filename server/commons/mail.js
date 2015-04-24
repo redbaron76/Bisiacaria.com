@@ -54,7 +54,7 @@ Bisia.Mail = {
 	 */
 	mailSettings: function() {
 		this.Tpl.siteName 	= "Bisiacaria.com";
-		this.Tpl.from 		= "Bisiacaria.com <noreply@bisiacaria.com>";
+		this.Tpl.from 		= "Bisiacaria.com <bisiacaria@gmail.com>";
 	},
 
 	/**

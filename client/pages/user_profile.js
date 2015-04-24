@@ -38,19 +38,13 @@ Template.userProfile.events({
 		e.preventDefault();
 		Bisia.Ui.toggleClass('flip', '.flip-container', t);
 	},
-	'click #new-post': function(e, t) {
+	'click #new-post-profile': function(e, t) {
 		e.preventDefault();
-		var tabObj = Bisia.Ui.getTabObject({
-			userId: this._id,
-			friends: this.friends,
-			categories: this.profile.categories || []
-		}, 'newPostTab');
-		Bisia.Ui.setReactive('tab', tabObj);
-		Bisia.Ui.toggleModal(e);
+		$('#new-post').trigger('click');
 	},
 	'click #question-lovehate': function(e, t) {
 		e.preventDefault();
-		Bisia.Ui.toggleModal(e);
+		Bisia.Ui.toggleModal(e, 'questionLovehateModal', this);
 	},
 	'click #write-message': function(e, t) {
 		e.preventDefault();
@@ -77,5 +71,12 @@ Template.userProfile.events({
 			targetId: t.data.user._id,
 			check: e.target.checked
 		});
+	},
+	'click .go-top': function(e, t) {
+		Bisia.Ui.goTop(e);
+	},
+	'scroll .content': function(e, t) {
+		Bisia.Ui.toggleAtOffset(e, '#profile', 468, 'top-show');
+		Bisia.Ui.toggleAtBottom(e, '#profile', 'bottom-show');
 	}
 });

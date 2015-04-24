@@ -18,8 +18,12 @@ Meteor.methods({
 
 		var friend = _.extend(friendObj, {
 			userId: user._id,
-			createdAt: Bisia.Time.now('server')
+			createdAt: Bisia.Time.serverTime
 		});
+
+		// Block if targetId is blocked
+		if (Bisia.User.isBlocked(friendObj.targetId))
+			return true;
 
 		if (isFriend) {
 			Users.update(friendObj.targetId, { $addToSet: { 'friends': user._id } });
@@ -57,16 +61,18 @@ Meteor.methods({
 			}
 		});
 
-		if (flooding && Bisia.Notification.enableFloodProtect) {
+		if (flooding && Bisia.Notification.enableFloodProtect)
 			throw new Meteor.Error('error-visit', 'Sei tornato a visitare troppo velocemente');
-		}
 
 		var visit = _.extend(visitObj, {
 			userId: user._id,
-			createdAt: Bisia.Time.now('server')
+			createdAt: Bisia.Time.serverTime
 		});
 
-		return Bisia.Notification.emit('visit', visit);
+		// Get people blocked
+		var blockIds = Bisia.User.getBlockIds(this.userId);
+
+		return Bisia.Notification.emit('visit', visit, blockIds);
 	},
 	voteUser: function(voteObj) {
 		check(this.userId, String);
@@ -92,9 +98,13 @@ Meteor.methods({
 		if (alreadyVotedToday)
 			throw new Meteor.Error('invalid-vote', 'Oggi hai già votato questo utente!');
 
+		// Block if targetId is blocked
+		if (Bisia.User.isBlocked(voteObj.targetId))
+			return true;
+
 		var vote = _.extend(voteObj, {
 			userId: user._id,
-			createdAt: Bisia.Time.now('server')
+			createdAt: Bisia.Time.serverTime
 		});
 
 		Users.update(voteObj.targetId, { $inc: { 'profile.votesCount': 1 } });
@@ -121,8 +131,8 @@ Meteor.methods({
 
 		var user = Meteor.user();
 		var postObj = _.extend(formObj, {
-			userId: user._id,
-			createdAt: Bisia.Time.now()
+			authorId: user._id,
+			createdAt: Bisia.Time.serverTime
 		});
 
 		var errors = Bisia.Validation.validateNewPost(postObj);
@@ -133,8 +143,20 @@ Meteor.methods({
 		if (!!postObj.category)
 			Users.update(user._id, { $addToSet: { 'profile.categories': postObj.category } });
 
+		// add counter arrays
+		postObj = _.extend(postObj, {
+			likes: [],
+			unlikes: [],
+			comments: []
+		});
+
 		// Insert into collection
 		postObj._id = Posts.insert(postObj);
+
+		var details = {
+			imageUrl: postObj.imageUrl,
+			position: postObj.position
+		};
 
 		//Notify to all followers
 		_.each(myFollowers, function(el) {
@@ -142,7 +164,8 @@ Meteor.methods({
 				userId: user._id,
 				targetId: el,
 				actionId: postObj._id,
-				actionKey: 'post'
+				actionKey: 'post',
+				message: Bisia.Notification.postEventMsg('post', postObj, details)
 			}, postObj.dateTimePost);
 		});
 
@@ -161,8 +184,10 @@ Meteor.methods({
 
 		var user = Meteor.user();
 		var eventObj = _.extend(formObj, {
-			userId: user._id,
-			createdAt: Bisia.Time.now()
+			authorId: user._id,
+			createdAt: Bisia.Time.serverTime,
+			joins: [],
+			comments: []
 		});
 
 		var errors = Bisia.Validation.validateNewEvent(eventObj, 'SERVER');
@@ -172,16 +197,42 @@ Meteor.methods({
 		// Insert into collection
 		eventObj._id = Events.insert(eventObj);
 
+		var details = {
+			text: eventObj.text,
+			imageUrl: eventObj.imageUrl,
+			position: eventObj.position
+		};
+
 		//Notify to all followers
 		_.each(myFollowers, function(el) {
 			Bisia.Notification.emit('news', {
 				userId: user._id,
 				targetId: el,
 				actionId: eventObj._id,
-				actionKey: 'event'
+				actionKey: 'event',
+				message: Bisia.Notification.postEventMsg('event', eventObj, details)
 			});
 		});
 
 		return true;
+	},
+	newsletterSignup: function(email) {
+		check(this.userId, String);
+		check(email, String);
+		if (email) {
+			var mailingLists = new MailChimpLists();
+			var params = {
+				id: Meteor.settings.private.MailChimp.listId,
+				email: {
+					email: email
+				},
+				merge_vars: {
+					'QUESTION': 'SI'
+				}
+			};
+
+			mailingLists.subscribe(params);
+			return true;
+		}
 	}
 });

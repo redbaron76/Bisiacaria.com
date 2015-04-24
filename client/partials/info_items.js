@@ -20,3 +20,15 @@ Template.categoryItem.events({
 		$li.fadeOut('slow').remove();
 	}
 });
+
+Template.infoConfirm.events({
+	'click #confirm-no': function(e, t) {
+		e.preventDefault();
+		$('#info-close').trigger('click');
+	},
+	'click #confirm-yes': function(e, t) {
+		e.preventDefault();
+		Bisia.executeFunctionByName(this.method, window, this.event, this.context);
+		Bisia.Ui.unsetReactive('info');
+	}
+});

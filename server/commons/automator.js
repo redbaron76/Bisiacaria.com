@@ -1,8 +1,16 @@
 
 Bisia.Automator = {
 
+	/**
+	 * Container for interval handlers
+	 * @type {Object}
+	 */
 	automators: {},
 
+	/**
+	 * Interval seconds object
+	 * @type {Object}
+	 */
 	timers: Meteor.settings.automator,
 
 	/**
@@ -14,16 +22,32 @@ Bisia.Automator = {
 	},
 
 	/**
+	 * Delete broadcasted Notifications
+	 * @param {Integer} olderThan
+	 * @return {Void}
+	 */
+	deleteNotifications: function(olderThan) {
+		// Remove visit greater than a week ago
+		Notifications.remove({ 'isBroadcasted': true, 'isRead': true, 'createdAt': { '$lt': Bisia.Time.timeAgo(olderThan) } });
+	},
+
+	/**
 	 * Broadcast notifications
 	 * @return {Integer} N. of modified records
 	 */
 	broadcastNotifications: function() {
+
+		// delete broadcasted notifications
+		this.deleteNotifications(Bisia.Time.msWeek);
+
+		// Update multiple notifications when are isBroadcasted
 		return Notifications.update({
-			'broadcastedAt': { $lte: Bisia.Time.now() },
+			'broadcastedAt': Bisia.Time.nowStart(),
 			'isBroadcasted': false,
 			'isRead': false
 		}, {
 			$set: {
+				'broadcastedAt': Bisia.Time.now(),
 				'isBroadcasted': true
 			}
 		}, true);

@@ -1,0 +1,94 @@
+<template name="singlePost">
+	{{> navbarTop title="Post"}}
+	<div class="content container-fluid">
+		<div id="profile">
+		{{#with postWithAuthor}}
+			<div class="row">
+				<div class="col-xs-12 posts">
+
+					<article>
+						<header class="article {{statusGender}}">
+							<a href="{{pathFor 'userProfile'}}">
+								{{> avatarImage data=this online=this.profile.online}}
+								<div class="username">
+									<small>{{username}}</small> <span class="time">{{timeAgo}}</span>
+									{{#if category}}
+										<h5>{{category}}</h5>
+									{{/if}}
+								</div>
+							</a>
+						</header>
+						{{#if imageUrl}}
+							<div class="thumbnail"><img src="{{imageUrl}}" alt=""></div>
+						{{/if}}
+						<p>{{{br text}}}</p>
+						{{#if position.loc}}
+							<p class="location">{{position.loc}}</p>
+						{{/if}}
+						<div class="row">
+							<div class="col-xs-12 buttons">
+								<button id="like-this">
+									<i class="fa fa-thumbs-up"></i>
+									{{totLikes}}
+								</button>
+								<button id="unlike-this">
+									<i class="fa fa-thumbs-down"></i>
+									{{totUnlikes}}
+								</button>
+								<button id="share-this">
+									<i class="fa fa-share"></i>
+									Condividi
+								</button>
+								<button id="info-this">
+									<i class="fa fa-question"></i>
+								</button>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-12 comment">
+								<form id="comment-post-form">
+									<textarea placeholder="Commenta il post..." class="autosize" id="comment-text"></textarea>
+									<button type="submit">
+										<i class="fa fa-comment"></i>
+									</button>
+								</form>
+							</div>
+						</div>
+						<ul class="comments-list">
+							{{#each comments}}
+								{{#with commentWithAuthor}}
+								<li class="{{statusGender}}">
+									<a href="{{pathFor 'userProfile'}}">
+										{{> avatarImage data=this online=this.profile.online}}
+										<div class="username">
+											<small>{{username}}</small> <span class="time">{{timeAgo}}</span>
+										</div>
+									</a>
+									<p>{{{br text}}}</p>
+								</li>
+								{{/with}}
+							{{/each}}
+						</ul>
+					</article>
+
+				</div>
+			</div>
+			{{#if category}}
+			<div class="row">
+				<div class="col-xs-12 helpbar title">
+					<h2>{{category}}</h2>
+				</div>
+			</div>
+			{{/if}}
+			<div class="row">
+				<div class="col-xs-12 helpbar bottom">
+					<button class="thumb go-top">
+						<i class="fa fa-arrow-up"></i>
+					</button>
+				</div>
+			</div>
+		{{/with}}
+		</div>
+	</div>
+	<div class="md-overlay gray"></div>
+</template>

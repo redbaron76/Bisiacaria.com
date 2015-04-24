@@ -13,7 +13,7 @@ Template.userSettings.rendered = function() {
 		progress: 'settingsCloudinaryProgress',
 		done: 'settingsCloudinaryDone'
 	}
-	Bisia.Img.cloudinaryUpload('#image-form', 'bisia-upload', settings, bindings, this);
+	Bisia.Img.cloudinaryUpload('#avatar-profile', 'bisia-upload', settings, bindings, this);
 
 	var counter = {
 		countDown: true,
@@ -44,26 +44,19 @@ Template.userSettings.helpers({
 Template.userSettings.events({
 	'click #question': function(e, t) {
 		e.preventDefault();
-		Bisia.Ui.toggleModal(e);
+		Bisia.Ui.toggleModal(e, 'questionModal');
 	},
 	'click #lovehate': function(e, t) {
 		e.preventDefault();
-		Bisia.Ui.toggleModal(e);
+		Bisia.Ui.toggleModal(e, 'loveHateModal');
 	},
 	'click #blockedusers': function(e, t) {
 		e.preventDefault();
-		Bisia.Ui.toggleModal(e);
+		Bisia.Ui.toggleModal(e, 'blockedUsersModal');
 	},
 	'click #delete-img': function(e, t) {
 		e.preventDefault();
 		Users.update({ '_id': Meteor.userId() }, { $set: { 'profile.avatar': '' }});
-	},
-	'click .avatar': function(e, t) {
-		e.preventDefault();
-		var $preview = $(e.target);
-		var $form = $preview.parents('.uploader').next('#image-form');
-		$form.trigger('click');
-		return false;
 	},
 	'submit #profile-form': function(e, t) {
 		e.preventDefault();
@@ -121,5 +114,21 @@ Template.userSettings.events({
 				return result;
 			});
 		}
+	},
+	'change #enable-audio': function(e, t) {
+		var status = e.currentTarget.checked;
+		Users.update(Meteor.userId(), {'$set': {'profile.notifyAudio': status}});
+	},
+	'change #enable-mail': function(e, t) {
+		var status = e.currentTarget.checked;
+		Users.update(Meteor.userId(), {'$set': {'profile.notifyMail': status}});
+	},
+	'click #newsletter-signup': function(e, t) {
+		e.preventDefault();
+		var email = Bisia.User.getUser("emails", this)[0].address;
+		Meteor.call('newsletterSignup', email, function(error, result) {
+			if (result)
+				return Bisia.Ui.submitSuccess('La tua iscrizione alla newsletter è andata a buon fine!');
+		});
 	}
 });

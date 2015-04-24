@@ -5,10 +5,11 @@
 
 Template.newPostEventModal.events({
 	'click [data-change=tab]': function(e, t) {
+		var user = (this.user) ? this.user : this;
 		Bisia.Ui.manageTab(e, {
-			userId: this.user._id,
-			friends: this.user.friends,
-			categories: this.user.profile.categories,
+			userId: user._id,
+			friends: user.friends,
+			categories: user.profile.categories,
 		});
 	}
 });

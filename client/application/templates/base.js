@@ -1,3 +1,10 @@
+Template.base.helpers({
+	isLogged: function() {
+		if (Bisia.User.isLogged())
+			return 'logged';
+	}
+});
+
 /**
  * Template Events
  */
@@ -22,5 +29,11 @@ Template.device.events({
 	'click [data-device]': function(e, t) {
 		e.preventDefault();
 		Bisia.Ui.changeDevice(e);
+	}
+});
+
+Template.modalWrapper.helpers({
+	hasModal: function() {
+		return Bisia.Ui.modal.get();
 	}
 });

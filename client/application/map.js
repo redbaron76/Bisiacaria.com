@@ -34,10 +34,22 @@ Bisia.Map = {
 	geoLocation: null,
 
 	/**
+	 * Map owner username
+	 * @type {String}
+	 */
+	owner: null,
+
+	/**
 	 * Your actual position
 	 * @type {Array}
 	 */
 	yourLatLng: null,
+
+	/**
+	 * Geocoder location
+	 * @type {String}
+	 */
+	yourLocation: null,
 
 	/**
 	 * Clicked position on map
@@ -76,7 +88,7 @@ Bisia.Map = {
 	 * @return {Void}
 	 */
 	init: function(geocoder) {
-		L.Icon.Default.imagePath = 'packages/leaflet/images';
+		L.Icon.Default.imagePath = Meteor.absoluteUrl('packages/leaflet/images');
 		this.map = L.map(this.wrapper, this.settings);
 		L.tileLayer.provider('OpenMapSurfer.Roads').addTo(this.map);
 		if (geocoder) this.initGeocode();
@@ -100,7 +112,16 @@ Bisia.Map = {
 		this.marker.setLatLng(this.yourLatLng);
 	},
 
-
+	/**
+	 * Create a Map Object
+	 * @param  {Object} positionObj
+	 * @param  {Integer} zoom
+	 * @return {Object}
+	 */
+	getCenterMap: function(posObj, zoom) {
+		this.yourLocation = posObj.loc;
+		return L.latLng(posObj.lat, posObj.lng);
+	},
 
 	/**
 	 * Click the green button to set position
@@ -160,16 +181,19 @@ Bisia.Map = {
 	 */
 	triggerMapCreation: function(wrapper, geocoder) {
 		var parent = this;
+		var position = arguments[2] ? arguments[2] : null;
+		geocoder = geocoder || false;
 		this.wrapper = wrapper;
 
 		Bisia.Ui.setReactive('map', {
-			wrapper: this.wrapper
+			wrapper: this.wrapper,
+			commands: geocoder
 		});
 
 		Meteor.setTimeout(function() {
 			parent.init(geocoder)					// Init the map
-				  .yourPosition()			// Find your position and triggers onPositionFound
-				  .listenPositionClick();	// Listen for clicks on the map
+				  .yourPosition(position)			// Find your position and triggers onPositionFound
+				  .listenPositionClick(geocoder);			// Listen for clicks on the map
 		}, 500);
 	},
 
@@ -177,8 +201,9 @@ Bisia.Map = {
 	 * Triggers the click position on the map
 	 * @returns {Bisia.Map}
 	 */
-	listenPositionClick: function() {
-		this.map.on('click', this.onClickPosition);
+	listenPositionClick: function(geocoder) {
+		if (geocoder)
+			this.map.on('click', this.onClickPosition);
 		return this;
 	},
 
@@ -191,9 +216,17 @@ Bisia.Map = {
 	 * Finds your actual gps position
 	 * @return {Bisia.Map}
 	 */
-	yourPosition: function() {
-		this.map.locate({ setView: true, maxZoom: this.zoom });
-		this.map.on('locationfound', this.onPositionFound);
+	yourPosition: function(position) {
+		if (position) {
+			var mapObj = this.getCenterMap(position);
+			this.map.setView(mapObj, this.zoom);
+			this.setGeoPosition(mapObj, this.zoom);
+		} else {
+			this.owner = null;
+			this.yourLocation = null;
+			this.map.locate({ setView: true, maxZoom: this.zoom });
+			this.map.on('locationfound', this.onPositionFound);
+		}
 		return this;
 	},
 
@@ -246,7 +279,11 @@ Bisia.Map = {
 				Bisia.Map.marker = L.marker(position).addTo(Bisia.Map.map).bindPopup(result.address.Match_addr).openPopup();
 			});
 		} else {
-			Bisia.Map.marker = L.marker(position).addTo(Bisia.Map.map).bindPopup('Ti trovi qui!').openPopup();
+			var location = Bisia.Map.yourLocation || 'Ti trovi qui!';
+			if (Bisia.Map.owner) {
+				location = "<span>" + Bisia.Map.owner + " era qui:</span>" + location;
+			}
+			Bisia.Map.marker = L.marker(position).addTo(Bisia.Map.map).bindPopup(location).openPopup();
 		}
 		if (radius) {
 			Bisia.Map.circle = L.circle(position, radius).addTo(Bisia.Map.map);

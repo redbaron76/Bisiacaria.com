@@ -72,6 +72,17 @@ Template.chatItem.helpers({
 	}
 });
 
+Template.chatItem.events({
+	'click [data-action=block-user]': function(e, t) {
+		e.preventDefault();
+		var data = _.extend(this, {
+			infoTitle: "Bloccare questo utente?",
+			infoText: "Stai per bloccare questo utente!<br>Non sarà più in grado di vederti online nè di interagire con te."
+		});
+		Bisia.Ui.confirmDialog('Bisia.User.blockUser', e, data);
+	}
+});
+
 Template.replyForm.rendered = function() {
 	this.$('.autosize').textareaAutoSize().focus();
 };

@@ -1,11 +1,18 @@
 <template name="base">
 	<div class="wrapper {{addDevice}}{{addMobile 'mobile'}} show-phone-v">
-		{{> yield}}
+		<div class="body-wrapper {{isLogged}}">
+			{{> yield}}
+		</div>
+
+		{{> modalWrapper}}
 
 		{{#if currentUser}}
 			{{> sidebarMenu}}
 			{{> sidebarUsers}}
 			{{> overlayWrapper}}
+		{{else}}
+			{{> infoWrapper}}
+			<div class="md-overlay"></div>
 		{{/if}}
 	</div>
 	{{> device}}
@@ -37,5 +44,13 @@
 		</button>
 
 	</div>
+	{{/if}}
+</template>
+
+<template name="modalWrapper">
+	{{#if hasModal}}
+		{{#with hasModal}}
+			{{> Template.dynamic template=template data=data}}
+		{{/with}}
 	{{/if}}
 </template>

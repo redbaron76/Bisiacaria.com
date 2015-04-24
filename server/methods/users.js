@@ -1,5 +1,24 @@
 // Users Methods
 Meteor.methods({
+	blockUser: function(blockObj) {
+		check(this.userId, String);
+		check(blockObj, {
+			chatId: String,
+			blockId: String,
+			username: String
+		});
+
+		// Insert to blocked user
+		Users.update(blockObj.blockId, { $addToSet: { 'blockBy': this.userId }, $pull: { 'friends': this.userId } });
+		// Insert blocked to user
+		Users.update(this.userId, { $addToSet: { 'blocked': blockObj.blockId }, $pull: { 'friends': blockObj.blockId } });
+		// Remove me from blocked friends
+		Friends.remove({ 'targetId': this.userId, 'userId': blockObj.blockId });
+		// Remove blocked from my friends
+		Friends.remove({ 'targetId': blockObj.blockId, 'userId': this.userId });
+
+		return true;
+	},
 	loginFacebook: function(login) {
 		return Bisia.Session.logInOuts(login.userId, login.service, true, headers.methodClientIP(this));
 	},

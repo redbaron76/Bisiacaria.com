@@ -1,0 +1,24 @@
+<template name="sharePostModal">
+	<div class="md-modal right" data-content="share-this">
+		{{> navbarModal title="Condividi" action="share" target="share-post-form"}}
+		<div class="content container-fluid">
+			<div class="list">
+				<div class="row">
+					<div class="col-xs-12">
+						<form id="share-post-form">
+							<ul class="item-list">
+								{{#each friends}}
+									{{#with joinWithAuthor}}
+										{{> listCheckbox}}
+									{{/with}}
+								{{else}}
+									{{> emptyLi}}
+								{{/each}}
+							</ul>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</template>

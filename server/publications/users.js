@@ -9,10 +9,13 @@ Meteor.publish('countUsers', function() {
 // Publish online users
 Meteor.publish('onlineUsers', function() {
 	if (this.userId) {
-		// Bisia.log('publishing onlineUsers from '+where+'...');
+
 		// Meteor._sleepForMs(5000);
 
-		// Notifications count
+		// Total Notifications count ['like', 'unlike', 'comment', 'share']
+		Counts.publish(this, 'totNotifies', Notifications.find(Bisia.Notification.getPublishObject(this.userId, 'note')), { noReady: true });
+
+		// Single Notifications count
 		Counts.publish(this, 'news', Notifications.find(Bisia.Notification.getPublishObject(this.userId, 'news')), { noReady: true });
 		Counts.publish(this, 'newMessages', Notifications.find(Bisia.Notification.getPublishObject(this.userId, 'message')), { noReady: true });
 		Counts.publish(this, 'newVisits', Notifications.find(Bisia.Notification.getPublishObject(this.userId, 'visit')), { noReady: true });
@@ -30,27 +33,36 @@ Meteor.publish('onlineUsers', function() {
 		// Count birthday of the day
 		Counts.publish(this, 'birthdayDay', Users.find({ 'profile.birthday': Bisia.Time.getTodayBirthday() }));
 
+		// Get array of people to hide/block
+		var toBlock = Bisia.User.getBlockIds(this.userId);
+		// Build query to get all users online
+		var query = { 'profile.online': true };
+		// Exclude people to hide if any
+		if (! _.isEmpty(toBlock))
+			query = _.extend(query, {
+				'_id': { '$nin': toBlock }
+			});
+
 		// Publish online users
-		return Users.find({ 'profile.online': true }, { 'fields': { 'emails': false, 'friends': false, 'services': false } });
+		return Users.find(query, {
+			'fields': {
+				'emails': false,
+				'blocked': false,
+				'blockBy': false,
+				'friends': false,
+				'services': false
+			}
+		});
 	}
 });
 
 // Publish a user profile in router.js
-Meteor.publish('userProfile', function(username) {
-	check(username, String);
-	// Meteor._sleepForMs(1000);
-	var user = Users.find({ 'username': username }, { 'fields': { 'emails': false, 'services': false } });
-	var userId = _.pluck(user.fetch(), '_id')[0];
-	Counts.publish(this, 'totFriends', Friends.find({ 'userId': userId }), { noReady: true });
-	return user;
-});
-
-// Publish a user profile in router.js
-Meteor.publish('userSettings', function() {
+Meteor.reactivePublish('userSettings', function() {
 	if (this.userId) {
 		check(this.userId, String);
-		// Meteor._sleepForMs(1000);
-		return Users.find({	'_id': this.userId });
+		// Meteor._sleepForMs(5000);
+		var user =  Users.find({ '_id': this.userId });
+		return user;
 	}
 });
 

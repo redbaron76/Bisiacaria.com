@@ -34,12 +34,10 @@ Template.messagesFrom.helpers({
 Template.messagesFrom.events({
 	'click [data-action=open]': function(e, t) {
 		e.preventDefault();
-		Bisia.Ui.swipeUserListItem(e);
+		Bisia.Ui.swipeUserListItem(e, 'li', 'tools-open');
 	},
 	'click #delete-message': function(e, t) {
 		e.preventDefault();
-		if (confirm('Sei sicuro?')) {
-			Bisia.Message.deleteMessage(e, this);
-		}
+		Bisia.Ui.confirmDialog('Bisia.Message.deleteMessage', e, this);
 	},
 });

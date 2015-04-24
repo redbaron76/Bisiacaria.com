@@ -1,141 +1,139 @@
 <template name="userProfile">
-	<div class="body-wrapper">
-		{{> navbarTop title="Profilo"}}
-		<div class="content container-fluid">
-			<div id="profile">
-				{{#with user}}
-				<div class="row">
-					<div class="col-xs-12 header {{statusGender}}">
-						<div class="flip-container">
-							<div class="flipper">
-								<div class="front">
-									<div class="front-wrapper">
-										<a href="#">
-											{{> avatarImage data=this online=true}}
-											<div class="username">
-												{{username}}
-												<span>{{profile.city}}</span>
-											</div>
-										</a>
-										<p class="cite">{{profile.bio}}</p>
+	{{> navbarTop title="Profilo"}}
+	<div class="content container-fluid">
+		<div id="profile">
+		{{#with user}}
+			<div class="row">
+				<div class="col-xs-12 header {{statusGender}}">
+					<div class="flip-container">
+						<div class="flipper">
+							<div class="front">
+								<div class="front-wrapper">
+									<a href="#">
+										{{> avatarImage data=this online=true}}
+										<div class="username">
+											{{username}}
+											<span>{{profile.city}}</span>
+										</div>
+									</a>
+									<p class="cite">{{profile.bio}}</p>
+								</div>
+							</div>
+							<div class="back {{getGender}}">
+								<div class="row">
+									<div class="col-xs-12">
+										<h3 class="username">
+										{{username}}
+										</h3>
 									</div>
 								</div>
-								<div class="back {{getGender}}">
-									<div class="row">
-										<div class="col-xs-12">
-											<h3 class="username">
-											{{username}}
-											</h3>
-										</div>
-									</div>
-									<div class="row first">
-										<div class="col-xs-12">
-											<div class="light-wrapper">
-												<div id="light" class=" status-busy">
-													<span id="red"></span>
-													<span id="orange"></span>
-													<span id="green"></span>
-												</div>
+								<div class="row first">
+									<div class="col-xs-12">
+										<div class="light-wrapper">
+											<div id="light" class=" status-busy">
+												<span id="red"></span>
+												<span id="orange"></span>
+												<span id="green"></span>
 											</div>
-											<ul>
-												<li>
-													<div class="label-profile">
-														<i class="fa fa-calendar"></i>
-														<span>età</span>
-														{{getAge}}<!--  <small>(Leone)</small> -->
-													</div>
-												</li>
-												<li>
-													<div class="label-profile">
-														<i class="fa fa-birthday-cake"></i>
-														<span>compleanno tra</span>
-														{{nextBirthDay}} giorni
-													</div>
-												</li>
-												<li>
-													<div class="label-profile">
-														<i class="fa fa-pencil-square-o"></i>
-														<span>{{mf 'iscritto' 'iscritta'}} dal</span>
-														{{signupDate}}
-													</div>
-												</li>
-												<li>
-													<div class="label-profile">
-														<i class="fa fa-globe"></i>
-														<span>Ultima presenza</span>
-														{{lastTimeOnline}}
-													</div>
-												</li>
-											</ul>
 										</div>
+										<ul>
+											<li>
+												<div class="label-profile">
+													<i class="fa fa-calendar"></i>
+													<span>età</span>
+													{{getAge}}<!--  <small>(Leone)</small> -->
+												</div>
+											</li>
+											<li>
+												<div class="label-profile">
+													<i class="fa fa-birthday-cake"></i>
+													<span>compleanno tra</span>
+													{{nextBirthDay}} giorni
+												</div>
+											</li>
+											<li>
+												<div class="label-profile">
+													<i class="fa fa-pencil-square-o"></i>
+													<span>{{mf 'iscritto' 'iscritta'}} dal</span>
+													{{signupDate}}
+												</div>
+											</li>
+											<li>
+												<div class="label-profile">
+													<i class="fa fa-globe"></i>
+													<span>Ultima presenza</span>
+													{{lastTimeOnline}}
+												</div>
+											</li>
+										</ul>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="row">
-					<div class="col-xs-12 buttons">
-						<button class="info toggle-info"></button>
-						<button class="question toggle-question" id="question-lovehate"></button>
-						{{#unless itsMe}}
-						<button class="envelope" id="write-message"></button>
-						<button class="thumb" id="send-vote"></button>
-						{{else}}
-						<button class="envelope" id="go-messages"></button>
-						<button class="gear" id="go-settings"></button>
-						{{/unless}}
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-xs-12 counters">
-						<ul>
-							<li>
-								conoscenze
-								<span id="count-knowledge">{{getPublishedCount 'totFriends'}}</span>
-							</li>
-							<li>
-								{{mf 'lo' 'la'}} conoscono
-								<span id="counter-knowers">{{followCount}}</span>
-							</li>
-							<li>
-								voti ricevuti
-								<span id="counter-votes">{{votesCount}}</span>
-							</li>
-						</ul>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-xs-12 know">
-						{{#unless itsMe}}
-							{{#if iFollowYou}}
-								<p class="{{getGender}}">Ricevi le notifiche da <span class="username">{{username}}</span></p>
-							{{else}}
-								<p class="{{getGender}}">Conosci <span class="username">{{username}}</span> anche tu?</p>
-							{{/if}}
-							<div class="btn-wrapper">
-								<label class="switch switch-green">
-									<input type="checkbox" class="switch-input" id="toggle-know" {{youKnowThis}}>
-									<span class="switch-label" data-on="Si" data-off="No"></span>
-									<span class="switch-handle"></span>
-								</label>
-							</div>
-						{{else}}
-							<button id="new-post">
-								<i class="fa fa-pencil-square-o"></i>
-								Pubblica nuovi <span>Blog</span> o <span>Eventi</span>
-							</button>
-						{{/unless}}
-					</div>
-				</div>
-				{{/with}}
 			</div>
+			<div class="row">
+				<div class="col-xs-12 buttons">
+					<button class="info toggle-info"></button>
+					<button class="question toggle-question" id="question-lovehate"></button>
+					{{#unless itsMe}}
+					<button class="envelope" id="write-message"></button>
+					<button class="thumb" id="send-vote"></button>
+					{{else}}
+					<button class="envelope" id="go-messages"></button>
+					<button class="gear" id="go-settings"></button>
+					{{/unless}}
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12 counters">
+					<ul>
+						<li>
+							conoscenze
+							<span id="count-knowledge">{{getPublishedCount 'totFriends'}}</span>
+						</li>
+						<li>
+							{{#if itsMe}}
+								ti conoscono
+							{{else}}
+								{{mf 'lo' 'la'}} conoscono
+							{{/if}}
+							<span id="counter-knowers">{{followCount}}</span>
+						</li>
+						<li>
+							voti ricevuti
+							<span id="counter-votes">{{votesCount}}</span>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12 know">
+					{{#unless itsMe}}
+						{{#if iFollowYou}}
+							<p class="{{getGender}}">Ricevi le notifiche da <span class="username">{{username}}</span></p>
+						{{else}}
+							<p class="{{getGender}}">Conosci <span class="username">{{username}}</span> anche tu?</p>
+						{{/if}}
+						<div class="btn-wrapper">
+							<label class="switch switch-green">
+								<input type="checkbox" class="switch-input" id="toggle-know" {{youKnowThis}}>
+								<span class="switch-label" data-on="Si" data-off="No"></span>
+								<span class="switch-handle"></span>
+							</label>
+						</div>
+					{{else}}
+						<button id="new-post-profile">
+							<i class="fa fa-pencil-square-o"></i>
+							Pubblica nuovi <span>Blog</span> o <span>Eventi</span>
+						</button>
+					{{/unless}}
+				</div>
+			</div>
+			{{> postsList this}}
+		{{/with}}
 		</div>
-		<div class="md-overlay gray"></div>
-		{{> loadingPage}}
 	</div>
-	{{> questionLovehateModal}}
-	{{#if itsMe this.user}}
-		{{> newPostEventModal}}
-	{{/if}}
+	<div class="md-overlay gray"></div>
 </template>

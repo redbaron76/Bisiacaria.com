@@ -1,84 +1,76 @@
 <template name="registerUser">
-
-	<div class="body-wrapper">
-		<div class="content container-fluid">
-			<div id="register">
-				<div class="row">
-					<div class="col-xs-12 logo">
-						{{#if isRegistered}}
-						<h1>Ci siamo quasi!</h1>
-						{{else}}
-						<h1>Registrati</h1>
-						{{/if}}
-						<div class="caret-down"></div>
-					</div>
+	<div class="content container-fluid">
+		<div id="register">
+			<div class="row">
+				<div class="col-xs-12 logo">
+					{{#if isRegistered}}
+					<h1>Ci siamo quasi!</h1>
+					{{else}}
+					<h1>Registrati</h1>
+					{{/if}}
+					<div class="caret-down"></div>
 				</div>
-				<div class="row">
-					<div class="col-xs-12 social">
-						{{#if isRegistered}}
-						<h2>Conferma la tua mail</h2>
-						{{else}}
-						<h2>Crea il tuo account</h2>
-						{{/if}}
-					</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12 social">
+					{{#if isRegistered}}
+					<h2>Conferma la tua mail</h2>
+					{{else}}
+					<h2>Crea il tuo account</h2>
+					{{/if}}
 				</div>
-				<div class="row">
-					<div class="col-xs-12 form">
-						<form id="register-user" role="form" class="form-row">
-							{{#if isRegistered}}
-								<p>Abbiamo inviato una mail di conferma all'indirizzo da te specificato in fase di iscrizione.</p>
-								<p>Clicca il link presente nella mail che ti abbiamo inviato ed entra a far parte di Bisiacaria.com!</p>
-								<p>Nel caso non dovesse arrivarti la mail per la conferma della tua iscrizione, ti invitiamo a verificare la cartella SPAM del tuo account di posta ed eventualmente a contattarci all'indirizzo: bisiacaria@gmail.com</p>
-							{{else}}
-								<div class="divider white-bg"><span>i tuoi dati di accesso</span></div>
-								<div class="form-group">
-									<i class="fa fa-envelope"></i>
-									<input type="text" id="email" placeholder="Indirizzo e-mail">
+			</div>
+			<div class="row">
+				<div class="col-xs-12 form">
+					<form id="register-user" role="form" class="form-row">
+						{{#if isRegistered}}
+							<p>Abbiamo inviato una mail di conferma all'indirizzo da te specificato in fase di iscrizione.</p>
+							<p>Clicca il link presente nella mail che ti abbiamo inviato ed entra a far parte di Bisiacaria.com!</p>
+							<p>Nel caso non dovesse arrivarti la mail per la conferma della tua iscrizione, ti invitiamo a verificare la cartella SPAM del tuo account di posta ed eventualmente a contattarci all'indirizzo: bisiacaria@gmail.com</p>
+						{{else}}
+							<div class="divider white-bg"><span>i tuoi dati di accesso</span></div>
+							<div class="form-group">
+								<i class="fa fa-envelope"></i>
+								<input type="text" id="email" placeholder="Indirizzo e-mail">
+							</div>
+							<div class="form-group">
+								<i class="fa fa-lock"></i>
+								<input type="password" id="password" placeholder="Password">
+							</div>
+							<div class="form-group">
+								<i class="fa fa-lock"></i>
+								<input type="password" id="passwordConfirmed" placeholder="Ripeti password">
+							</div>
+							<div class="divider white-bg"><span>i tuoi dati anagrafici</span></div>
+							<div class="form-group">
+								<i class="fa fa-user"></i>
+								<input type="text" id="username" placeholder="Nickname">
+							</div>
+							<div class="form-group">
+								<i class="fa fa-birthday-cake"></i>
+								<input type="text" id="birthday" placeholder="Data di nascita">
+							</div>
+							<div class="form-group check-box">
+								<i class="fa fa-male"></i>
+								<div class="checkround">
+									<input type="radio" name="gender" value="male" id="male">
+									<label for="male"></label>
 								</div>
-								<div class="form-group">
-									<i class="fa fa-lock"></i>
-									<input type="password" id="password" placeholder="Password">
+								<label for="male">Uomo</label>
+								<i class="fa fa-female"></i>
+								<div class="checkround">
+									<input type="radio" name="gender" value="female" id="female">
+									<label for="female"></label>
 								</div>
-								<div class="form-group">
-									<i class="fa fa-lock"></i>
-									<input type="password" id="passwordConfirmed" placeholder="Ripeti password">
-								</div>
-								<div class="divider white-bg"><span>i tuoi dati anagrafici</span></div>
-								<div class="form-group">
-									<i class="fa fa-user"></i>
-									<input type="text" id="username" placeholder="Nickname">
-								</div>
-								<div class="form-group">
-									<i class="fa fa-birthday-cake"></i>
-									<input type="text" id="birthday" placeholder="Data di nascita">
-								</div>
-								<div class="form-group check-box">
-									<i class="fa fa-male"></i>
-									<div class="checkround">
-										<input type="radio" name="gender" value="male" id="male">
-										<label for="male"></label>
-									</div>
-									<label for="male">Uomo</label>
-									<i class="fa fa-female"></i>
-									<div class="checkround">
-										<input type="radio" name="gender" value="female" id="female">
-										<label for="female"></label>
-									</div>
-									<label for="female">Donna</label>
-								</div>
+								<label for="female">Donna</label>
+							</div>
 
-								<p>Iscrivendoti con questo form, accetti i <a href="#" id="terms-conditions">termini e le condizioni</a> del servizio offerto da Bisiacaria.com</p>
-								<button type="submit" data-animation="loading" class="yellow">Iscriviti</button>
-							{{/if}}
-						</form>
-					</div>
+							<p>Iscrivendoti con questo form, accetti i <a href="#" id="terms-conditions">termini e le condizioni</a> del servizio offerto da Bisiacaria.com</p>
+							<button type="submit" data-animation="loading" class="yellow">Iscriviti</button>
+						{{/if}}
+					</form>
 				</div>
 			</div>
 		</div>
 	</div>
-
-	{{> termsConditionsModal}}
-	{{> infoWrapper}}
-	<div class="md-overlay"></div>
-
 </template>

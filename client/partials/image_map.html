@@ -1,15 +1,10 @@
 <template name="addImage">
-	<button class="button-row" id="attached-image" data-action="add">
+	<div class="button-row" id="attached-image" data-action="add">
+		<input type="file" name="file" id="add-image-upload" accept="image/*">
 		<i class="fa fa-picture-o"></i>
 		<span>Aggiungi un'immagine</span>
 		<div class="indicator"></div>
-	</button>
-</template>
-
-<template name="addImageForm">
-	<form id="form-image-upload">
-		<input type="file" name="file" id="image-upload" accept="image/*">
-	</form>
+	</div>
 </template>
 
 <template name="addMap">

@@ -33,8 +33,10 @@ Meteor.reactivePublish('messagesList', function(query, options, authorId) {
 	return [messages, authors];
 });
 
-Meteor.reactivePublish('messageAuthor', function(query, options, limit) {
+Meteor.publish('messageAuthor', function(query, options, limit) {
 	check(this.userId, String);
+
+	// Meteor._sleepForMs(2000);
 
 	var userId = this.userId;
 	// Extend to be sure userId has access to message
@@ -52,7 +54,6 @@ Meteor.reactivePublish('messageAuthor', function(query, options, limit) {
 	var first = messages.fetch()[0];
 	var authors = Users.find({ '_id': { '$in': [first.userId, first.targetId] }});
 
-	// Meteor._sleepForMs(1000);
 	// return cursors
 	return [messages, authors];
 });

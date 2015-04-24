@@ -47,3 +47,71 @@
 		<span data-highlight="{{id}}">{{{msg}}}</span>
 	</li>
 </template>
+
+<template name="likeUnlikeList">
+	<div class="md-info md-show list">
+		{{> infoClose title="Pareri su questo post:"}}
+		<div class="wrapper-info list-wrapper">
+			{{#if hasLikers}}
+			<ul class="item-list">
+				<h2 class="like">
+					Sono d'accordo...
+					<i class="fa fa-thumbs-up">{{hasLikers}}</i>
+				</h2>
+				{{#each likers}}
+					{{> likeUnlikeItem}}
+				{{/each}}
+			</ul>
+			{{/if}}
+			{{#if hasUnlikers}}
+			<ul class="item-list">
+				<h2 class="unlike">
+					Non sono d'accordo...
+					<i class="fa fa-thumbs-down">{{hasUnlikers}}</i>
+				</h2>
+				{{#each unlikers}}
+					{{> likeUnlikeItem}}
+				{{/each}}
+			</ul>
+			{{/if}}
+			{{#if noOpinion}}
+			<ul class="item-list">
+				<li>Clicca su <i class="fa fa-thumbs-up"></i> e <i class="fa fa-thumbs-down"></i> per essere tu a dare il primo parere!</li>
+			</ul>
+			{{/if}}
+		</div>
+	</div>
+</template>
+
+<template name="likeUnlikeItem">
+	<li class="{{statusGender}}">
+		<div class="li-wrapper">
+			<a href="{{pathFor 'userProfile'}}">
+				{{> avatarImage data=this online=this.profile.online}}
+				<div class="username">
+					{{username}}
+					<span>{{profile.city}}</span>
+				</div>
+			</a>
+		</div>
+	</li>
+</template>
+
+<template name="infoConfirm">{{log}}
+	<div class="md-info md-show list">
+		{{> infoClose title=context.infoTitle}}
+		<div class="wrapper-info list-wrapper">
+			{{#if context.infoText}}
+				<p>{{{context.infoText}}}</p>
+			{{/if}}
+			<ul class="item-list buttons">
+				<li>
+					<button id="confirm-yes" class="green">Si, procedi</button>
+				</li>
+				<li>
+					<button id="confirm-no" class="red">No, annulla</button>
+				</li>
+			</ul>
+		</div>
+	</div>
+</template>

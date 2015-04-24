@@ -64,11 +64,16 @@ Template.registerHelper('hasOverlay', function() {
 
 // HELPERS
 
+Template.registerHelper('br', function(text) {
+	text = text.replace(/(\r\n|\n|\r)/gm, '<br>');
+	return text;
+});
+
 Template.registerHelper('timeAgo', function() {
 	if (this.createdAt) {
 		var dateAgo = moment(this.createdAt);
 		if(dateAgo.toDate() < moment(Bisia.Time.now('server')).subtract(24, 'hour').toDate()) {
-			return dateAgo.format('ddd DD MMMM YYYY [alle] HH:mm');
+			return dateAgo.format('ddd DD MMM HH:mm');
 		} else {
 			return dateAgo.from(Bisia.Time.beatTime.get());
 		}
@@ -78,17 +83,17 @@ Template.registerHelper('timeAgo', function() {
 
 Template.registerHelper('timeFormat', function() {
 	if (this.createdAt) {
-		return moment(this.createdAt).format('ddd DD MMMM YYYY [alle] HH:mm');
+		return moment(this.createdAt).format('ddd DD MMMM YYYY HH:mm');
 	}
 	return '--:--';
 });
 
 Template.registerHelper('shortText', function(text, len) {
 	var ret = text;
-    if (ret.length > len) {
-        ret = ret.substr(0, len - 3) + "...";
-    }
-    return ret;
+	if (ret.length > len) {
+		ret = ret.substr(0, len - 3) + "...";
+	}
+	return ret;
 });
 
 // PROFILE

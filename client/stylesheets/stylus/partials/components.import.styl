@@ -5,8 +5,9 @@
 
 	&.online::after {
 		fa('\f111');
-		absolute: left 0 bottom 0;
+		absolute: left 0 top 0;
 		color: lighten($green, 15%);
+		line-height: 100%;
 		z-index: 3;
 	}
 }
@@ -49,6 +50,7 @@
 }
 
 .button-row {
+	display: block;
 	position: relative;
 	width: 100%;
 	border: 2px solid $gray-bar;
@@ -56,8 +58,10 @@
 	background-color: transparent;
 	padding: 10px 0;
 	margin-top: 15px;
+	text-align: center;
+	cursor: pointer;
 
-	&:first-of-type {
+	&:first-child {
 		margin-top: 0;
 	}
 
@@ -80,6 +84,15 @@
 
 	& + button[type=submit] {
 		margin-top: 35px !important;
+	}
+
+	input[type=file] {
+		absolute: top 0 right 0 bottom 0 left 0;
+		width: inherit;
+		margin: 0;
+		padding: 0;
+		z-index: 3;
+		opacity: 0;
 	}
 
 	.indicator {
@@ -311,7 +324,7 @@
 		}
 
 		& ~ .content {
-			padding-top: $navbar-height;
+			//padding-top: $navbar-height;
 		}
 	}
 
@@ -366,6 +379,7 @@
 	// transition: transform .2s;
 	background: $sidebar-bg;
 	width: $sidebar-width;
+	overflow: hidden;
 	z-index: 1;
 
 	visibility: hidden;
@@ -396,6 +410,16 @@
 	margin: 0 auto;
 	width: 200px;
 	cursor: pointer;
+
+	input[type=file] {
+		// background-color: lime;
+		absolute: top 0 right 0 bottom 0 left 0;
+		width: inherit;
+		margin: 0;
+		padding: 0;
+		z-index: 3;
+		opacity: 0;
+	}
 
 	.indicator {
 		background-color: rgba(0, 0, 0, 0.6);

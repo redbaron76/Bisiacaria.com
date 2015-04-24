@@ -5,6 +5,7 @@ Meteor.methods({
 		if (this.userId) {
 			var now = new Date();
 			Sessions.upsert({ 'userId': this.userId	}, { $set: { 'loginCheck': now } });
+			Bisia.Time.serverTime = now;
 			return now;
 		}
 	}

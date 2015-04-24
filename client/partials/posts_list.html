@@ -1,0 +1,69 @@
+<template name="postsList">
+	{{#with detectFirstBlock}}
+		{{#if postDisplay}}
+		<div class="row">
+			<div class="col-xs-12 helpbar title">
+				<h2 class="{{getGender}}">Ultimi post di
+					<span class="username">{{username}}</span>
+				</h2>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12 posts">
+
+				{{#each posts}}
+					{{#with joinWithCounters}}
+						{{> postArticle}}
+					{{/with}}
+				{{/each}}
+
+			</div>
+		</div>
+		<div class="row helpbar">
+			<div class="col-xs-12 bottom">
+				{{#if hasMoreLinks}}
+				<button class="load-more">
+					{{#if pageReady}}
+					<i class="fa fa-refresh"></i> Carica altri elementi
+					{{else}}
+					<i class="fa fa-refresh fa-spin"></i> Sto caricando...
+					{{/if}}
+				</button>
+				{{/if}}
+				<button class="thumb go-top">
+					<i class="fa fa-arrow-up"></i>
+				</button>
+			</div>
+		</div>
+		{{else}}
+			{{> spinner}}
+		{{/if}}
+	{{/with}}
+</template>
+
+<template name="postArticle">
+	<article>
+		<a href="{{pathFor 'singlePost'}}">
+			{{#if category}}
+				<header>
+					<h5>{{category}}</h5>
+				</header>
+			{{/if}}
+			{{#if imageUrl}}
+				<div class="thumbnail"><img src="{{imageUrl}}" alt=""></div>
+			{{/if}}
+			<p>{{{shortText text 300}}}</p>
+			{{#if position.loc}}
+				<p class="location">{{position.loc}}</p>
+			{{/if}}
+		</a>
+		<footer>
+			{{#with postedTime}}<span class="{{classTime}}">{{postTime}}</span>{{/with}}
+			<span class="counter">
+				<i class="fa fa-comment do-comment"><big>{{totComments}}</big></i>
+				<i class="fa fa-thumbs-up do-like"><big>{{totLikes}}</big></i>
+				<i class="fa fa-thumbs-down do-unlike"><big>{{totUnlikes}}</big></i>
+			</span>
+		</footer>
+	</article>
+</template>

@@ -23,6 +23,27 @@
 		}
 	}
 
+	h2 {
+		font-size: 16px;
+		color: $white;
+		padding: 5px;
+		border-radius: 5px;
+
+		.fa {
+			float: right;
+			&::before {
+				margin-right: 5px;
+			}
+		}
+
+		&.like {
+			background-color: $green;
+		}
+		&.unlike {
+			background-color: $red;
+		}
+	}
+
 	.buttons {
 		z-index: 1002;
 		border: none;
@@ -46,6 +67,22 @@
 
 		padding: 0 9%;
 
+		p {
+			padding: 80px 10px 0 10px;
+			margin: 0;
+
+			& + p {
+				margin-top: 10px;
+			}
+
+			& + .item-list {
+				padding-top: 0;
+				li {
+					padding-top: 20px !important;
+				}
+			}
+		}
+
 		.item-list {
 			padding-top: 80px;
 
@@ -57,6 +94,10 @@
 					width: 90%;
 					padding-right: 2%;
 					cursor: pointer;
+				}
+				& > i.fa {
+					display: inline;
+					margin: 0 3px;
 				}
 				i {
 					text-align: center;
@@ -83,10 +124,44 @@
 				&:last-child {
 					border: none;
 				}
+
+				.username {
+					span {
+						color: $gray-bar;
+					}
+				}
+			}
+
+			& + .item-list {
+				padding-top: 20px;
+			}
+
+			&.buttons {
+				width: 100%;
+				display: table;
+				li {
+					border: none;
+					padding-top: 30px;
+					display: table-cell;
+					text-align: center;
+					width: 50%;
+				}
+
+				button {
+					padding: 10px;
+					border-radius: 5px;
+					border: none;
+					width: 95%;
+					&.green {
+						background-color: $green
+					}
+					&.red {
+						background-color: $red
+					}
+				}
 			}
 		}
 
-		// background-color: lime;
 	}
 
 

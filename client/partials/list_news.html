@@ -1,0 +1,14 @@
+<template name="newsEventList">
+	<li class="{{statusGender}}">
+		<div class="li-wrapper">
+			<a href="{{pathFor 'singlePost' _id=this.actionId}}">
+				{{> avatarImage data=this online=true}}
+				<div class="username text">
+					{{username}}
+					<p>{{{message}}}</p>
+					<span class="time">{{timeAgo}}</span>
+				</div>
+			</a>
+		</div>
+	</li>
+</template>

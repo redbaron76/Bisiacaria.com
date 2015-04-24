@@ -1,0 +1,19 @@
+<template name="listCheckbox">
+	<li class="{{statusGender}}">
+		<div class="li-wrapper">
+			<label class="namelist" for="share-{{userId}}">
+				{{> avatarImage data=this online=true}}
+				<div class="username">
+					{{username}}
+					<span>{{profile.city}}</span>
+				</div>
+			</label>
+			<div class="checkbox">
+				<div class="checkround">
+					<input type="checkbox" name="share" value="{{userId}}" id="share-{{userId}}">
+					<label for="share-{{userId}}"></label>
+				</div>
+			</div>
+		</div>
+	</li>
+</template>

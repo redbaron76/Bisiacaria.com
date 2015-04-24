@@ -35,7 +35,7 @@ Template.loginUser.events({
 	},
 	'click #recover-password-modal': function(e, t) {
 		e.preventDefault();
-		Bisia.Ui.toggleModal(e);
+		Bisia.Ui.toggleModal(e, 'recoverPasswordModal');
 	},
 });
 

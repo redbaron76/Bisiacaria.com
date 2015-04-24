@@ -24,3 +24,18 @@ Meteor.reactivePublish('friendsList', function(query, options, authorId) {
 	// return cursors
 	return [friends, authors];
 });
+
+// Publish your friends
+Meteor.publish('myFriends', function() {
+	check(this.userId, String);
+
+	// Meteor._sleepForMs(500);
+
+	// Get friends cursor
+	var friends = Friends.find({ 'targetId': this.userId });
+	// map the authorIds
+	var userIds = friends.map(function(doc) { return doc['userId'] });
+	var authors = Users.find({ '_id': { '$in': userIds }});
+	// return cursors
+	return [friends, authors];
+});

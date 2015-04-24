@@ -8,17 +8,17 @@
 		transform: translateY(-50%);
 		margin: 0 auto;
 		z-index: 4;
-		
+
 		&.show-phone-v {
 			width: 320px;
 			height: 570px;
 		}
-		
+
 		&.show-tablet-v {
 			width: 660px;
 			height: 875px;
 		}
-		
+
 		&.show-phone-h {
 			height: 320px;
 			width: 570px;
@@ -29,41 +29,48 @@
 			width: 875px;
 			tablet-h();
 		}
+
+		.bottom-show {
+			.item-list,
+			.posts {
+				padding-bottom: 80px !important;
+			}
+		}
 	}
-	
+
 	.wrapper.desktop + .device {
 		display: block;
-		
+
 		& + .device-switcher {
 			display: table;
 		}
 	}
-	
+
 	.device {
 		position: fixed;
 		top: 50%;
 		left: 50%;
 		transform: translate(-50%, -50%);
 		z-index: 1;
-		
+
 		&.show-phone-v {
 			width: 366px;
 			height: 750px;
 			background: url('img/phone_v.png') 0 0 no-repeat;
 		}
-		
+
 		&.show-tablet-v {
 			width: 818px;
 			height: 1062px;
 			background: url('img/tablet_v.png') 0 0 no-repeat;
 		}
-		
+
 		&.show-phone-h {
 			height: 366px;
 			width: 750px;
 			background: url('img/phone_h.png') 0 0 no-repeat;
 		}
-		
+
 		&.show-tablet-h {
 			height: 818px;
 			width: 1062px;
