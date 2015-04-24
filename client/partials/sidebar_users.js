@@ -22,11 +22,24 @@ Template.sidebarUsers.created = function() {
 
 	// The cursor
 	instance.onlineUsers = function() {
-		return Users.find(
-			{ 'profile.online': true },
-			{
-				fields: { 'username': 1, 'profile': 1 },
-				sort: { 'profile.loginSince': -1 }
+		// Get array of people to hide/block
+		var toBlock = Bisia.User.getBlockIds(Meteor.userId());
+		// Build query to get all users online
+		var query = { 'profile.online': true };
+		// Exclude people to hide if any
+		if ( ! _.isEmpty(toBlock))
+			query = _.extend(query, {
+				'_id': { '$nin': toBlock }
+			});
+
+		return Users.find(query, {
+				'fields': {
+					'username': true,
+					'profile': true
+				},
+				'sort': {
+					'profile.loginSince': -1
+				}
 			}
 		);
 	};

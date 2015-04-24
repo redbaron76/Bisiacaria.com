@@ -52,7 +52,10 @@ Template.userSettings.events({
 	},
 	'click #blockedusers': function(e, t) {
 		e.preventDefault();
-		Bisia.Ui.toggleModal(e, 'blockedUsersModal');
+		Bisia.Ui.setReactive('info', {
+			template: 'blockedList',
+			blocked: this.blocked
+		});
 	},
 	'click #delete-img': function(e, t) {
 		e.preventDefault();

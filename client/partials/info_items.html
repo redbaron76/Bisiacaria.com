@@ -115,3 +115,35 @@
 		</div>
 	</div>
 </template>
+
+<template name="blockedList">
+	<div class="md-info md-show list">
+		{{> infoClose title="Utenti bloccati"}}
+		<div class="wrapper-info list-wrapper">
+			<ul class="item-list">
+				{{#each blocked}}
+					{{> blockedItem this}}
+				{{else}}
+					{{> emptyLi}}
+				{{/each}}
+			</ul>
+		</div>
+	</div>
+</template>
+
+<template name="blockedItem">
+	{{#with getUserAuthor this}}
+	<li class="{{statusGender}} blocked">
+		<div class="li-wrapper">
+			<a href="{{pathFor 'userProfile'}}">
+				{{> avatarImage data=this online=this.profile.online}}
+				<div class="username">
+					{{username}}
+					<span>{{profile.city}}</span>
+				</div>
+			</a>
+			<i class="fa fa-trash"></i>
+		</div>
+	</li>
+	{{/with}}
+</template>

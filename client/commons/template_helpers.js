@@ -98,6 +98,18 @@ Template.registerHelper('shortText', function(text, len) {
 
 // PROFILE
 
+Template.registerHelper('getUserAuthor', function(userId) {
+	var user = Users.findOne({ '_id': userId }, { 'fields': {
+		'username': 1,
+		'profile.city': 1,
+		'profile.gender': 1,
+		'profile.status': 1,
+		'profile.avatar': 1,
+		'profile.online': 1
+	}});
+	return user;
+});
+
 Template.registerHelper('getAge', function() {
 	var user = arguments[0] || this;
 	var birthday = moment(Bisia.User.getProfile("birthday", user), 'DD-MM-YYYY', true);

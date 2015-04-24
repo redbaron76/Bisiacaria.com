@@ -32,3 +32,15 @@ Template.infoConfirm.events({
 		Bisia.Ui.unsetReactive('info');
 	}
 });
+
+Template.blockedItem.events({
+	'click .fa-trash': function(e, t) {
+		e.preventDefault();
+		var $li = $(e.target).parents('li.blocked');
+		var blockedId = this._id;
+		Meteor.call('unblockUser', blockedId, function(error, result) {
+			if (result)
+				$li.fadeOut('slow').remove();
+		});
+	}
+});

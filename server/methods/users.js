@@ -1,24 +1,5 @@
 // Users Methods
 Meteor.methods({
-	blockUser: function(blockObj) {
-		check(this.userId, String);
-		check(blockObj, {
-			chatId: String,
-			blockId: String,
-			username: String
-		});
-
-		// Insert to blocked user
-		Users.update(blockObj.blockId, { $addToSet: { 'blockBy': this.userId }, $pull: { 'friends': this.userId } });
-		// Insert blocked to user
-		Users.update(this.userId, { $addToSet: { 'blocked': blockObj.blockId }, $pull: { 'friends': blockObj.blockId } });
-		// Remove me from blocked friends
-		Friends.remove({ 'targetId': this.userId, 'userId': blockObj.blockId });
-		// Remove blocked from my friends
-		Friends.remove({ 'targetId': blockObj.blockId, 'userId': this.userId });
-
-		return true;
-	},
 	loginFacebook: function(login) {
 		return Bisia.Session.logInOuts(login.userId, login.service, true, headers.methodClientIP(this));
 	},
@@ -145,5 +126,33 @@ Meteor.methods({
 			Users.upsert(currentUser, { $set: { 'profile.lovehate': questionObj }});
 		}
 		return true;
-	}
+	},
+	unblockUser: function(unblockId) {
+		check(this.userId, String);
+		check(unblockId, String);
+		// Delete from blocked user
+		Users.update(unblockId, { $pull: { 'blockBy': this.userId } });
+		// Delete blocked from user
+		Users.update(this.userId, { $pull: { 'blocked': unblockId } });
+		return true;
+	},
+	blockUser: function(blockObj) {
+		check(this.userId, String);
+		check(blockObj, {
+			chatId: String,
+			blockId: String,
+			username: String
+		});
+
+		// Insert to blocked user
+		Users.update(blockObj.blockId, { $addToSet: { 'blockBy': this.userId }, $pull: { 'friends': this.userId } });
+		// Insert blocked to user
+		Users.update(this.userId, { $addToSet: { 'blocked': blockObj.blockId }, $pull: { 'friends': blockObj.blockId } });
+		// Remove me from blocked friends
+		Friends.remove({ 'targetId': this.userId, 'userId': blockObj.blockId });
+		// Remove blocked from my friends
+		Friends.remove({ 'targetId': blockObj.blockId, 'userId': this.userId });
+
+		return true;
+	},
 });

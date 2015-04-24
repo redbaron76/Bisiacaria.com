@@ -62,7 +62,11 @@ Meteor.reactivePublish('userSettings', function() {
 		check(this.userId, String);
 		// Meteor._sleepForMs(5000);
 		var user =  Users.find({ '_id': this.userId });
-		return user;
+		// get blocked ids
+		var blockIds = Bisia.User.getBlockIds(this.userId);
+		var blocked = Users.find({ '_id': { '$in': blockIds }});
+		// return cursor
+		return [user, blocked];
 	}
 });
 
