@@ -120,7 +120,10 @@
 							<span>tipo di account: {{getAccount}}</span>
 						</div>
 						<button type="submit" class="yellow" id="blockedusers">
-							Utenti bloccati
+							Utenti bloccati 
+							{{#if countBlocked}}
+								({{countBlocked}})
+							{{/if}}
 						</button>
 					</form>
 				</div>

@@ -33,6 +33,9 @@ Template.userSettings.helpers({
 		var status = user.profile.status;
 		return Bisia.Ui.isChecked(val, status);
 	},
+	countBlocked: function() {
+		return this.blocked.length;
+	},
 	getAccount: function() {
 		return Bisia.User.getProfile('loggedWith');
 	},
