@@ -1,7 +1,7 @@
 <template name="infiniteList">
 	{{> navbarTop title=title}}
 	<div class="content container-fluid">
-		<div class="list">
+		<div class="list" id="list">
 
 			{{#if topLink}}
 				<div class="row buttons-toppad">
@@ -13,30 +13,43 @@
 				</div>
 			{{/if}}
 
-			{{#with detectFirstPage}}
-				{{#if pageDisplay}}
-					<div class="row">
-						<div class="col-xs-12 list-wrapper">
-							<ul class="item-list">
-								{{#each items}}
-									{{#with joinWithAuthor}}
-										{{> Template.dynamic template=../../viewTemplate}}
-									{{/with}}
-								{{else}}
-									{{> emptyLi}}
-								{{/each}}
-							</ul>
-						</div>
-					</div>
-					{{> paginator}}
-				{{else}}
-					{{> spinner}}
-				{{/if}}
-			{{/with}}
+			{{#if searchUsers}}
+				{{> searchUsersForm}}
+			{{/if}}
+
+			{{> infiniteBlock}}
 
 		</div>
 	</div>
 	<div class="md-overlay gray"></div>
+</template>
+
+<template name="infiniteBlock">
+	{{#with detectFirstPage}}
+		{{#if pageDisplay}}
+			<div class="row">
+				<div class="col-xs-12 posts list-wrapper">
+					{{#if foundUsers}}
+						<h4>Utenti trovati</h4>
+					{{/if}}
+					<ul class="item-list">
+						{{#each items}}
+							{{#with joinWithAuthor}}
+								{{> Template.dynamic template=../../viewTemplate}}
+							{{/with}}
+						{{else}}
+							{{#unless searchUsers}}
+								{{> emptyLi}}
+							{{/unless}}
+						{{/each}}
+					</ul>
+				</div>
+			</div>
+			{{> paginator}}
+		{{else}}
+			{{> loading}}
+		{{/if}}
+	{{/with}}
 </template>
 
 <template name="topLinkButton">
@@ -44,8 +57,8 @@
 </template>
 
 <template name="paginator">
-	<div class="row helpbar">
-		<div class="col-xs-12 bottom">
+	<div class="row">
+		<div class="col-xs-12 helpbar gotopmore">
 			{{#if hasMoreLinks}}
 			<button class="load-more">
 				{{#if pageReady}}

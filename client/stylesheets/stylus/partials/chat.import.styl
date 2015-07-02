@@ -1,0 +1,73 @@
+.chatpage {
+	.chat {
+		.item-list {
+			padding-top: 10px;
+			padding-bottom: 140px;
+		}
+	}
+
+	& + .reply-form {
+		background-color: $gray-bar;
+		backface-visibility: hidden;
+		transform: translateZ(0);
+		transition: transform .5s;
+		// fixed: bottom 0;
+		absolute: left 0 bottom 0 right 0; // ie
+		width: 100%;
+		z-index: 5;
+
+		& > div {
+			padding: 0;
+		}
+
+		form {
+			width: 100%;
+			margin: 0;
+			padding: 10px 0 0 10px;
+			display: block;
+			// display: table;
+			// table-layout: fixed;
+
+			textarea {
+				border: 0;
+				border-radius: 5px;
+				padding: 5px 10px;
+				margin: 0;
+				font-size: 12px;
+				color: $gray-row-hl;
+				background-color: $white;
+				width: 84%;
+				height: 50px;
+				min-height: 50px;
+				resize: none;
+				// display: table-cell;
+				display: inline-block;
+			}
+
+			button {
+				border: none;
+				width: 15%;
+				line-height: 22px;
+				margin: 0 0 15px 0;
+				background-color: transparent;
+				color: $blue;
+				font-family: $font-semibold;
+				text-align: center;
+				vertical-align: bottom;
+				// display: table-cell;
+				display: inline-block;
+			}
+		}
+		label {
+			padding: 5px 0;
+			text-align: right;
+			display: inline-block;
+			font-size: 10px;
+			color: $white;
+			width: 84%;
+			input {
+				margin-left: 5px;
+			}
+		}
+	}
+}

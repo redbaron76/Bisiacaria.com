@@ -1,26 +1,25 @@
 <template name="chatList">
-	{{> navbarTop title='Chat'}}
-	<div class="content container-fluid">
+	{{> navbarTop title=this.title}}
+	<div class="buttons-toppad">
+		<div class="col-xs-12 buttons-top">
+		{{#if topLink}}
+			{{#each topLink}}
+				{{> topLinkButton}}
+			{{/each}}
+		{{/if}}
+		{{#if hasMoreLinks}}
+		<a href="{{nextPath}}" class="load-more selected">
+			{{#if pageReady}}
+			<i class="fa fa-refresh"></i> Carica precedenti
+			{{else}}
+			<i class="fa fa-refresh fa-spin"></i> Sto caricando...
+			{{/if}}
+		</a>
+		{{/if}}
+		</div>
+	</div>
+	<div class="content container-fluid chatpage">
 		<div class="list">
-
-			<div class="row buttons-toppad">
-				<div class="col-xs-12 buttons-top">
-				{{#if topLink}}
-					{{#each topLink}}
-						{{> topLinkButton}}
-					{{/each}}
-				{{/if}}
-				{{#if hasMoreLinks}}
-				<a href="{{nextPath}}" class="load-more selected">
-					{{#if pageReady}}
-					<i class="fa fa-refresh"></i> Carica precedenti
-					{{else}}
-					<i class="fa fa-refresh fa-spin"></i> Sto caricando...
-					{{/if}}
-				</a>
-				{{/if}}
-				</div>
-			</div>
 
 			{{#with detectFirstPage}}
 				{{#if pageDisplay}}
@@ -37,14 +36,16 @@
 							</ul>
 						</div>
 					</div>
-					{{> replyForm}}
 				{{else}}
-					{{> spinner}}
+					{{> loading}}
 				{{/if}}
 			{{/with}}
 
 		</div>
 	</div>
+	{{#if pageDisplay}}
+		{{> replyForm}}
+	{{/if}}
 	<div class="md-overlay gray"></div>
 </template>
 
@@ -59,13 +60,13 @@
 					Tu
 					<span class="time">{{timeAgo}}</span>
 				</a>
-				{{{br text}}}
+				<span>{{{br text}}}</span>
 			</p>
 			<a href="{{pathFor 'userProfile'}}">
 				{{> avatarImage data=this online=false}}
 			</a>
 		{{else}}
-			<a href="#" data-action="block-user">
+			<a href="{{pathFor 'userProfile'}}">
 				{{> avatarImage data=this online=true}}
 			</a>
 			<p>
@@ -74,7 +75,7 @@
 					{{username}}
 					<span class="time">{{timeAgo}}</span>
 				</a>
-				{{{br text}}}
+				<span>{{{br text}}}</span>
 			</p>
 		{{/if}}
 		</div>
@@ -83,16 +84,16 @@
 </template>
 
 <template name="replyForm">
-	<div class="row reply-form">
+	<div class="reply-form">
 		<div class="col-xs-12">
 			<form id="reply-form">
 				<textarea placeholder="Rispondi..." id="message-reply" class="autosize"></textarea>
 				<button type="submit">Invia</button>
-				<label for="submit-on-enter">
+			</form>
+			<label for="submit-on-enter">
 					invia premendo Enter
 					<input type="checkbox" id="submit-on-enter">
-				</label>
-			</form>
+			</label>
 		</div>
 	</div>
 </template>

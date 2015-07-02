@@ -1,4 +1,4 @@
-Template.userSettings.rendered = function() {
+Template.userSettings.onRendered(function() {
 
 	// UPLOAD IMAGE TO CLOUDINARY
 	var settings = {
@@ -13,7 +13,7 @@ Template.userSettings.rendered = function() {
 		progress: 'settingsCloudinaryProgress',
 		done: 'settingsCloudinaryDone'
 	}
-	Bisia.Img.cloudinaryUpload('#avatar-profile', 'bisia-upload', settings, bindings, this);
+	Bisia.Img.cloudinaryUpload('#avatar-profile', 'profile', settings, bindings, this);
 
 	var counter = {
 		countDown: true,
@@ -26,7 +26,7 @@ Template.userSettings.rendered = function() {
 	this.$('.count').textcounter(_.extend(counter, { max: 100}));
 	this.$('.autosize').textareaAutoSize();
 
-};
+});
 
 Template.userSettings.helpers({
 	checkStatus: function(val, user) {
@@ -60,9 +60,21 @@ Template.userSettings.events({
 			blocked: this.blocked
 		});
 	},
+	'click #deleteaccount': function(e, t) {
+		e.preventDefault();
+		var data = _.extend(this, {
+			infoTitle: "Eliminare l'account?",
+			infoText: "Procedendo con l'eliminazione, il tuo profilo non sarà più disponibile entro le prossime 24 ore."
+		});
+		Bisia.Ui.confirmDialog('Bisia.User.deleteUser', e, data);
+	},
 	'click #delete-img': function(e, t) {
 		e.preventDefault();
-		Users.update({ '_id': Meteor.userId() }, { $set: { 'profile.avatar': '' }});
+		var data = _.extend(this, {
+			infoTitle: "Eliminare la foto?",
+			infoText: "Il tuo avatar verrà rimosso completamente dal sistema."
+		});
+		Bisia.Ui.confirmDialog('Bisia.User.deleteAvatar', e, data);
 	},
 	'submit #profile-form': function(e, t) {
 		e.preventDefault();
@@ -83,8 +95,10 @@ Template.userSettings.events({
 			'profile.birthday': 'birthDate'
 		});
 
+		var username = Meteor.user()['username'];
+
 		if (formObject) {
-			Meteor.call('saveProfileData', formObject, function(error, result) {
+			Meteor.call('saveProfileData', formObject, username, function(error, result) {
 				if(error) {
 					Bisia.log('saveProfileData', error);
 					Bisia.Ui.loadingRemove();
@@ -123,10 +137,12 @@ Template.userSettings.events({
 	},
 	'change #enable-audio': function(e, t) {
 		var status = e.currentTarget.checked;
+		Bisia.User.notifyAudio = status;
 		Users.update(Meteor.userId(), {'$set': {'profile.notifyAudio': status}});
 	},
 	'change #enable-mail': function(e, t) {
 		var status = e.currentTarget.checked;
+		Bisia.User.notifyMail = status;
 		Users.update(Meteor.userId(), {'$set': {'profile.notifyMail': status}});
 	},
 	'click #newsletter-signup': function(e, t) {

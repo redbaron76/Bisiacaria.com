@@ -1,11 +1,11 @@
-Template.registerUser.created = function() {
+Template.registerUser.onCreated(function() {
 	// Set flag as false
 	Session.set('userIsRegistered', false);
-};
+});
 
-Template.registerUser.rendered = function() {
+Template.registerUser.onRendered(function() {
 	this.$('#birthday').mask('99/99/9999', {placeholder: 'gg/mm/anno'});
-}
+});
 
 Template.registerUser.events({
 	'submit form': function(e) {
@@ -16,6 +16,7 @@ Template.registerUser.events({
 			'birthday': 'birthDate.date',
 			'gender': 'profile.gender'
 		}, {
+			'verifyKey': '',
 			'birthDate?.separator': '/',
 			'profile.city': 'Nuova iscrizione',
 			'profile.status': 'none',
@@ -46,10 +47,14 @@ Template.registerUser.events({
 		}
 
 	},
-	'click #terms-conditions': function(e, t) {
+	'click #privacy-policy': function(e, t) {
 		e.preventDefault();
-		Bisia.Ui.toggleModal(e, 'termsConditionsModal');
+		Bisia.Ui.toggleModal(e, 'privacyPolicyModal');
 	},
+	'click #regolamento': function(e, t) {
+		e.preventDefault();
+		Bisia.Ui.toggleModal(e, 'regolamentoModal');
+	}
 });
 
 Template.registerUser.helpers({

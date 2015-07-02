@@ -40,4 +40,13 @@ Template.messagesFrom.events({
 		e.preventDefault();
 		Bisia.Ui.confirmDialog('Bisia.Message.deleteMessage', e, this);
 	},
+	'click #block-user': function(e, t) {
+		e.preventDefault();
+		e.preventDefault();
+		var data = _.extend(this, {
+			infoTitle: "Bloccare questo utente?",
+			infoText: "Stai per bloccare questo utente!<br>Non sarà più in grado di vederti online nè di interagire con te."
+		});
+		Bisia.Ui.confirmDialog('Bisia.User.blockUser', e, data);
+	},
 });

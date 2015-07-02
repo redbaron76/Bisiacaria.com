@@ -91,9 +91,21 @@
 				padding: 10px 0;
 				span {
 					display: table-cell;
-					width: 90%;
+					width: 95%;
 					padding-right: 2%;
 					cursor: pointer;
+
+					&.apply-tag {
+						width: 70%;
+						& + small {
+							display: table-cell;
+							width: 30%;
+							font-size: 11px;
+							font-family: $font-light;
+							font-style: italic;
+							text-align: right;
+						}
+					}
 				}
 				& > i.fa {
 					display: inline;
@@ -160,10 +172,16 @@
 					}
 				}
 			}
+
+			& + .item-list {
+				padding-top: 0;
+			}
 		}
 
 	}
 
-
+	& + #map-wrapper {
+		z-index: 1000;
+	}
 
 }

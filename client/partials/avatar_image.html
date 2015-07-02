@@ -1,7 +1,7 @@
 <template name="avatarImage">
 	<div class="avatar-wrapper {{itsOnline}}">
 		{{#if hasImage}}
-			<img src="{{avatarImage}}" class="avatar">
+			<img src="{{avatarImage}}" class="avatar" onerror="Bisia.Img.addToInvalidUrls(this)">
 		{{else}}
 			<div class="avatar default"></div>
 		{{/if}}

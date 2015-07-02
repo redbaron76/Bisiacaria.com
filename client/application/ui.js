@@ -23,6 +23,18 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 	sidebarLock: false,
 
 	/**
+	 * [title description]
+	 * @type {String}
+	 */
+	topTitle: new ReactiveVar(),
+
+	/**
+	 * [title description]
+	 * @type {String}
+	 */
+	browserTitle: new ReactiveVar(),
+
+	/**
 	 * [$modal description]
 	 * @type {[type]}
 	 */
@@ -39,6 +51,12 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 	 * @type {ReactiveVar}
 	 */
 	info: new ReactiveVar(),
+
+	/**
+	 * Popup reactive variable
+	 * @type {ReactiveVar}
+	 */
+	img: new ReactiveVar(),
 
 	/**
 	 * Popup reactive variable
@@ -73,6 +91,22 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 	},
 
 	/**
+	 * [checkOnline description]
+	 * @return {[type]} [description]
+	 */
+	blockIfNotConnected: function() {
+		var isOnline = Bisia.Session.connStatus.get();
+		// console.log('blockIfNotConnected', isOnline);
+		if (! isOnline) {
+			this.setReactive('info', {
+				template: 'currentOffline'
+			});
+		} else {
+			this.unsetReactive('info');
+		}
+	},
+
+	/**
 	 * Chenge the device
 	 * @param  {Object} e
 	 * @return {Bisia.Ui}
@@ -81,16 +115,73 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 		$el = $(e.currentTarget);
 		var newDevice = $el.data('device');
 		var deviceClass = 'show-' + newDevice;
-		var deviceArr = ['show-phone-v', 'show-phone-h', 'show-tablet-v', 'show-tablet-h'];
-		var $wrapper = $('.wrapper');
-		var $device = $('.device');
+		var deviceArr = ['show-desktop-full', 'show-phone-v', 'show-phone-h', 'show-tablet-v', 'show-tablet-h'];
+		var $body = $('body');
+		// var $wrapper = $('.wrapper');
+		// var $device = $('.device');
 		_.each(deviceArr, function(el, i) {
-			$wrapper.removeClass(el);
-			$device.removeClass(el);
+			$body.removeClass(el);
+			// $wrapper.removeClass(el);
+			// $device.removeClass(el);
 		});
-		$wrapper.addClass(deviceClass);
-		$device.addClass(deviceClass);
+		$body.addClass(deviceClass);
+		Session.set('layout', deviceClass);
+		// $wrapper.addClass(deviceClass);
+		// $device.addClass(deviceClass);
 		return this;
+	},
+
+	/**
+	 * Transform cite to link
+	 * @param  {String} text [description]
+	 * @return {String}      [description]
+	 */
+	citeToLink: function(text) {
+		if (text) {
+			var usernames = text.match(/(\s+)?@(.+?)(?=[\r\n\s\.,:?!]|$)/gmi);
+			if (!_.isEmpty(usernames)) {
+				_.each(_.uniq(usernames), function(citename) {
+					citename = citename.trim().replace(/(\r\n|\n|\r)/gim, '');
+					var url = citename.trim().replace('@', '');
+					var link = '<a href="/' + url + '" class="cite-inline">' + citename + '</a>';
+					var regExp = new RegExp(citename, 'g');
+					text = text.replace(regExp, link);
+				});
+			}
+		}
+		return text;
+	},
+
+	/**
+	 * Transform url to link
+	 * @param  {[type]} text [description]
+	 * @return {[type]}      [description]
+	 */
+	urlToLink: function(text) {
+		if (text) {
+			var urls = text.match(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi);
+			if (!_.isEmpty(urls)) {
+				_.each(_.uniq(urls), function(url) {
+					var link = url;
+					var checkUrl = link.toLowerCase();
+					if (checkUrl.indexOf('youtube.com') > -1 || checkUrl.indexOf('youtu.be') > -1) {
+						var ytId = Bisia.Img.getYoutubeId(url);
+						if (ytId) {
+							var embed = '<div class="video-wrapper"><iframe src="//www.youtube.com/embed/'
+    									+ ytId + '" frameborder="0" allowfullscreen></iframe></div>';
+    						text = text.replace(url, embed);
+						} else {
+							link = '<a href="' + url + '" class="cite-inline link" target="_blank">' + link + '</a>';
+							text = text.replace(url, link);
+						}
+					} else {
+						link = '<a href="' + url + '" class="cite-inline link" target="_blank">' + link + '</a>';
+						text = text.replace(url, link);
+					}
+				});
+			}
+		}
+		return text;
 	},
 
 	/**
@@ -296,14 +387,24 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 	 * @return {Bool}
 	 */
 	submitSuccess: function(message) {
+		var parent = this;
 		var title = (arguments[1]) ? arguments[1] : 'Operazione riuscita!';
 		var icon = (arguments[2]) ? arguments[2] : 'fa-check';
+		var autoClose = arguments[3] || false;
 		var success = [{
 			id: '',
 			msg: message,
 			icon: icon
 		}];
-		this.submitReactive(success, title, 'success');
+		if (autoClose) {
+			this.runAfter(function() {
+				parent.submitReactive(success, title, 'success');
+			}, function() {
+				parent.unsetReactive('info');
+			}, 3);
+		} else {
+			parent.submitReactive(success, title, 'success');
+		}
 		return true;
 	},
 
@@ -340,6 +441,21 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 	},
 
 	/**
+	 * Run second after xx seconds from first
+	 * @param  {Function} runFirst
+	 * @param  {Function} runSecond
+	 * @param  {Int} timeout   seconds
+	 * @return {Bisia.Ui}
+	 */
+	runAfter: function(runFirst, runSecond, timeout) {
+		runFirst();
+		Meteor.setTimeout(function() {
+			runSecond();
+		}, timeout * 1000);
+		return this;
+	},
+
+	/**
 	 * Send message animation and unset target
 	 * @return {Void}
 	 */
@@ -350,6 +466,23 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 						.one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
 							parent.unsetReactive('popup');
 						});
+	},
+
+	/**
+	 * Set browser title
+	 * @return {Void}
+	 */
+	setBrowserTitle: function() {
+		var parent = this;
+		// Tracker.autorun(function () {
+			var title = parent.browserTitle.get();
+			var total = Bisia.Notification.total.get();
+			// Add notifications number
+			if (total > 0) {
+				title = '('+total+') ' + title;
+			}
+			$('title').html(title);
+		// });
 	},
 
 	/**
@@ -408,26 +541,22 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 	 * @return {Bisia.Ui}
 	 */
 	toggleAtBottom: function(e, element, className) {
+		//if (!this.$content)
 		this.$content = $(e.target);
 
 		var $el = this.$content.find(element);
-		//var $target = this.$content.find(target);
+		var elTop = $el.offset().top;
 
-		//if ($target.offset()) {
-			//var targetTop = $target.offset().top;
-			var elTop = $el.offset().top;
+		// Bisia.log($el.height(), '>=', (this.$document.height()*2), this.$content.height(), this.$document.height(), '>=', (elTop + $el.height() - 50));
 
-			// add 15 if isCordova (padding top navbar)
-			//if (Meteor.isCordova) targetTop = targetTop - 15;
-
-			// Bisia.log(this.$document.height() >= (elTop + $el.height() - 50));
-
+		// Enable only if content is twice browser height
+		if ($el.height() >= (this.$document.height() * 2) || $('.load-more').length > 0) {
 			if (this.$document.height() >= (elTop + $el.height() - 50)) {
 				$el.addClass(className);
 			} else {
 				$el.removeClass(className);
 			}
-		//}
+		}
 		return this;
 	},
 
@@ -493,6 +622,7 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 			Meteor.setTimeout(function() {
 				parent.$modal = $('[data-content='+id+']');
 				parent.$modal.toggleClass('md-open');
+				$('.autosize').textareaAutoSize();
 			}, 100);
 		}
 		return this;
@@ -542,5 +672,16 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 			self.$prolinks.removeClass('links-open');
 		}
 		return this;
+	},
+
+	/**
+	 * Trigger image in fullscreen
+	 * @param  {Object} e
+	 * @return {Void}
+	 */
+	triggerFullScreenImage: function(e) {
+		var url = $(e.currentTarget).data('img');
+		if (url)
+			Bisia.Ui.setReactive('img', url);
 	}
 };

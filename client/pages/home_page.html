@@ -1,20 +1,201 @@
 <template name="homePage">
 	{{> navbarTop}}
 	<div class="content container-fluid">
-		<div id="profile">
+		<div id="homepage" class="list events">
+
+			{{#if blogSelection}}
 			<div class="row">
-				<div class="col-xs-12 posts">
-					{{currentUser.username}}<br>
-					{{currentUser._id}}
-					<br><br>
-					{{#if isTV}}TV{{/if}}
-					{{#if isTablet}}Tablet{{/if}}
-					{{#if isPhone}}Phone{{/if}}
-					{{#if isDesktop}}Desktop{{/if}}
-					{{#if isBot}}Bot{{/if}}
+				<div class="col-xs-12 posts list-wrapper">
+					<h4>I Blog più in vista</h4>
+					{{#each blogSelection}}
+						{{#with getPost this}}
+							{{> postArticle}}
+						{{/with}}
+					{{/each}}
 				</div>
 			</div>
+			{{/if}}
+
+			<div class="row">
+				{{#if todayEvents}}
+				<div class="col-xs-12 list-wrapper">
+					<h4>Eventi di oggi</h4>
+					<ul class="item-list">
+					{{#each todayEvents}}
+						<li>
+						{{#with getEvent this}}
+							{{> eventItem}}
+						{{/with}}
+						</li>
+					{{/each}}
+					</ul>
+				</div>
+				{{/if}}
+				{{#if tomorrowEvents}}
+				<div class="col-xs-12 list-wrapper">
+					<h4>Eventi di domani</h4>
+					<ul class="item-list">
+					{{#each tomorrowEvents}}
+						<li>
+						{{#with getEvent this}}
+							{{> eventItem}}
+						{{/with}}
+						</li>
+					{{/each}}
+					</ul>
+				</div>
+				{{/if}}
+			</div>
+
+			<div class="row">
+				{{#if lastGeoTags}}
+				<div class="col-xs-12 col-md-6 list-wrapper">
+					<h4>Ultime registrazioni</h4>
+					<ul class="item-list">
+					{{#each lastGeoTags}}
+						{{#with getPost this}}
+							{{> lastPlaceList}}
+						{{/with}}
+					{{/each}}
+					</ul>
+				</div>
+				{{/if}}
+				{{#if mostPlaces}}
+				<div class="col-xs-12 col-md-6 list-wrapper">
+					<h4>Posti più frequentati</h4>
+					<ul class="item-list">
+					{{#each mostPlaces}}
+						{{#with getPosition this}}
+							{{> mostPlaceList}}
+						{{/with}}
+					{{/each}}
+					</ul>
+				</div>
+				{{/if}}
+			</div>
+
+			{{#if lastSignupUsers}}
+			<div class="row">
+				<div class="col-xs-12 list-wrapper">
+					<h4>Ultimi iscritti a Bisiacaria.com</h4>
+					<ul class="item-list">
+					{{#each lastSignupUsers}}
+						{{#with getUserAuthor this.userId this}}
+							{{> lastSignupList}}
+						{{/with}}
+					{{/each}}
+					</ul>
+				</div>
+			</div>
+			{{/if}}
+
+			<div class="row">
+				{{#if mostVisited}}
+				<div class="col-xs-12 col-md-6 list-wrapper">
+					<h4>Gli utenti più visitati di ieri</h4>
+					<ul class="item-list">
+					{{#each mostVisited}}
+						{{#with getUserAuthor this.userId this}}
+							{{> mostListItem}}
+						{{/with}}
+					{{/each}}
+					</ul>
+				</div>
+				{{/if}}
+				{{#if mostVoted}}
+				<div class="col-xs-12 col-md-6 list-wrapper">
+					<h4>Gli utenti più votati di ieri</h4>
+					<ul class="item-list">
+					{{#each mostVoted}}
+						{{#with getUserAuthor this.userId this}}
+							{{> mostListItem}}
+						{{/with}}
+					{{/each}}
+					</ul>
+				</div>
+				{{/if}}
+			</div>
+
+			<div class="row">
+				<div class="col-xs-12 helpbar gotopmore">
+					<button class="thumb go-top">
+						<i class="fa fa-arrow-up"></i>
+					</button>
+				</div>
+			</div>
+
 		</div>
 	</div>
 	<div class="md-overlay gray"></div>
+</template>
+
+<template name="mostListItem">
+	<li class="{{statusGender}}">
+		<div class="li-wrapper">
+			<a href="{{pathFor 'userProfile'}}">
+				{{> avatarImage data=this online=true}}
+				<div class="username">
+					{{username}}
+					<span class="location">{{profile.city}}</span>
+				</div>
+				<div class="right-aligned">
+					<div class="age">
+						{{genericCounter this.counter this.singular this.plural}}
+					</div>
+				</div>
+			</a>
+		</div>
+	</li>
+</template>
+
+<template name="placeItem">
+	<div class="li-wrapper">
+		<a href="{{pathFor 'singleEvent'}}">
+			<div class="time-wrapper">
+				<span>{{getEventTime dateTimeEvent}}</span>
+			</div>
+			<div class="title-wrapper">
+				{{titleEvent}}
+				<span>{{locationEvent}}</span>
+			</div>
+		</a>
+		<div class="right-aligned">
+			<div class="age">
+				{{genericCounter joinersCount 'partecipa' 'partecipano'}}
+			</div>
+		</div>
+	</div>
+</template>
+
+<template name="lastPlaceList">
+	<li class="{{statusGender}}">
+		<div class="li-wrapper">
+			<a href="{{pathFor 'singlePost'}}">
+				{{> avatarImage data=this online=true}}
+				<div class="username location">
+					{{usern}} <small>{{timeAgo}}</small>
+					{{#if position.tag}}
+						<span class="location">{{position.tag}} {{onlyCity position.location}}</span>
+					{{else}}
+						<span class="location">{{position.location}}</span>
+					{{/if}}
+				</div>
+			</a>
+		</div>
+	</li>
+</template>
+
+<template name="mostPlaceList">
+	<li>
+		<div class="li-wrapper places">
+			<a href="#" data-action="open">
+				<span class="location">{{tag}}</span>
+			</a>
+			<div class="right-aligned">
+				<div class="age">
+					{{joinersCount}}
+				</div>
+			</div>
+		</div>
+	</li>
 </template>

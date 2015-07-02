@@ -1,4 +1,13 @@
-Template.infiniteList.helpers({
+/*Template.infiniteList.helpers({
+});*/
+
+Template.infiniteList.events({
+	'scroll .content': function(e, t) {
+		Bisia.Ui.toggleAtBottom(e, '.list', 'bottom-show');
+	}
+});
+
+Template.infiniteBlock.helpers({
 	joinWithAuthor: function() {
 		var item = this;
 		var authorId = Iron.controller().getAuthor();
@@ -26,12 +35,9 @@ Template.infiniteList.helpers({
 		return _.extend(this, {
 			pageDisplay: pageDisplay
 		});
-	}
-});
-
-Template.infiniteList.events({
-	'scroll .content': function(e, t) {
-		Bisia.Ui.toggleAtBottom(e, '.list', 'bottom-show');
+	},
+	foundUsers: function() {
+		return this.searchUsers && this.items.count() > 0;
 	}
 });
 

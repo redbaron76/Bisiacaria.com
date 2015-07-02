@@ -10,17 +10,13 @@
 		</div>
 		<div class="row">
 			<div class="col-xs-12 posts">
-
 				{{#each posts}}
-					{{#with joinWithCounters}}
-						{{> postArticle}}
-					{{/with}}
+					{{> postArticle}}
 				{{/each}}
-
 			</div>
 		</div>
-		<div class="row helpbar">
-			<div class="col-xs-12 bottom">
+		<div class="row">
+			<div class="col-xs-12 helpbar gotopmore">
 				{{#if hasMoreLinks}}
 				<button class="load-more">
 					{{#if pageReady}}
@@ -36,34 +32,71 @@
 			</div>
 		</div>
 		{{else}}
-			{{> spinner}}
+			<div class="row relative">
+				{{> spinning}}
+			</div>
 		{{/if}}
 	{{/with}}
 </template>
 
 <template name="postArticle">
+	{{#with joinWithCounters}}
 	<article>
 		<a href="{{pathFor 'singlePost'}}">
-			{{#if category}}
-				<header>
-					<h5>{{category}}</h5>
-				</header>
+			{{#if showHeader}}
+			<header class="article {{statusGender}}">
+				<a href="{{pathFor 'singlePost'}}">
+					{{> avatarImage data=this online=true}}
+					<div class="username">
+						<small>{{usern}}</small>
+						{{#if category}}
+							<h5>{{category}}</h5>
+						{{/if}}
+					</div>
+				</a>
+			</header>
+			{{else}}
+				{{#if category}}
+					<header>
+						<h5>{{category}}</h5>
+					</header>
+				{{/if}}
 			{{/if}}
+
+			{{#if position.tag}}
+				<p class="location">
+					{{position.tag}} {{onlyCity position.location}}
+				</p>
+			{{/if}}
+
 			{{#if imageUrl}}
-				<div class="thumbnail"><img src="{{imageUrl}}" alt=""></div>
+				<!-- <div class="thumby">
+					<img src="{{imageUrl}}" data-img="{{imageUrl}}" class="ri">
+				</div> -->
+				<div class="thumbimg">
+					<img src="{{imageUrl}}" data-img="{{imageUrl}}" class="ri">
+				</div>
 			{{/if}}
-			<p>{{{shortText text 300}}}</p>
-			{{#if position.loc}}
-				<p class="location">{{position.loc}}</p>
+			{{#if text}}
+				<p>{{{shortText text 300 true}}}</p>
 			{{/if}}
+
+			{{#unless position.tag}}
+				{{#if position.location}}
+					<p class="location">
+						{{position.location}}
+					</p>
+				{{/if}}
+			{{/unless}}
 		</a>
 		<footer>
-			{{#with postedTime}}<span class="{{classTime}}">{{postTime}}</span>{{/with}}
+			{{> timeDelete data=this look="dateTimePost"}}
 			<span class="counter">
 				<i class="fa fa-comment do-comment"><big>{{totComments}}</big></i>
-				<i class="fa fa-thumbs-up do-like"><big>{{totLikes}}</big></i>
-				<i class="fa fa-thumbs-down do-unlike"><big>{{totUnlikes}}</big></i>
+				<i class="fa fa-thumbs-up {{iLike}} do-like"><big>{{totLikes}}</big></i>
+				<i class="fa fa-thumbs-down {{iUnlike}} do-unlike"><big>{{totUnlikes}}</big></i>
 			</span>
 		</footer>
 	</article>
+	{{/with}}
 </template>

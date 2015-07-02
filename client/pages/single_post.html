@@ -9,29 +9,47 @@
 					<article>
 						<header class="article {{statusGender}}">
 							<a href="{{pathFor 'userProfile'}}">
-								{{> avatarImage data=this online=this.profile.online}}
+								{{> avatarImage data=this online=true}}
 								<div class="username">
-									<small>{{username}}</small> <span class="time">{{timeAgo}}</span>
+									<small>{{username}}</small>
+									{{> timeDelete data=this look="dateTimePost"}}
 									{{#if category}}
 										<h5>{{category}}</h5>
 									{{/if}}
 								</div>
 							</a>
 						</header>
+
+						{{#if position.tag}}
+							<p class="location">
+								{{position.tag}} {{onlyCity position.location}}
+							</p>
+						{{/if}}
+
 						{{#if imageUrl}}
-							<div class="thumbnail"><img src="{{imageUrl}}" alt=""></div>
+							<div class="thumby">
+								<img src="{{imageUrl}}" data-img="{{imageUrl}}" class="ri">
+							</div>
 						{{/if}}
-						<p>{{{br text}}}</p>
-						{{#if position.loc}}
-							<p class="location">{{position.loc}}</p>
+						{{#if text}}
+							<p>{{{br text}}}</p>
 						{{/if}}
+
+						{{#unless position.tag}}
+							{{#if position.location}}
+								<p class="location">
+									{{position.location}}
+								</p>
+							{{/if}}
+						{{/unless}}
+
 						<div class="row">
 							<div class="col-xs-12 buttons">
-								<button id="like-this">
+								<button id="like-this" class="{{iLike}}">
 									<i class="fa fa-thumbs-up"></i>
 									{{totLikes}}
 								</button>
-								<button id="unlike-this">
+								<button id="unlike-this" class="{{iUnlike}}">
 									<i class="fa fa-thumbs-down"></i>
 									{{totUnlikes}}
 								</button>
@@ -44,24 +62,16 @@
 								</button>
 							</div>
 						</div>
-						<div class="row">
-							<div class="col-xs-12 comment">
-								<form id="comment-post-form">
-									<textarea placeholder="Commenta il post..." class="autosize" id="comment-text"></textarea>
-									<button type="submit">
-										<i class="fa fa-comment"></i>
-									</button>
-								</form>
-							</div>
-						</div>
+						{{#if comments}}
 						<ul class="comments-list">
 							{{#each comments}}
 								{{#with commentWithAuthor}}
 								<li class="{{statusGender}}">
 									<a href="{{pathFor 'userProfile'}}">
-										{{> avatarImage data=this online=this.profile.online}}
+										{{> avatarImage data=this online=true}}
 										<div class="username">
-											<small>{{username}}</small> <span class="time">{{timeAgo}}</span>
+											<small>{{username}}</small>
+											{{> timeDelete data=this look="createdAt"}}
 										</div>
 									</a>
 									<p>{{{br text}}}</p>
@@ -69,6 +79,17 @@
 								{{/with}}
 							{{/each}}
 						</ul>
+						{{/if}}
+						<div class="row">
+							<div class="col-xs-12 comment">
+								<form id="comment-post-form">
+									<textarea placeholder="Commenta il post..." class="autosize" id="comment-text"></textarea>
+									<button type="submit">
+										<i class="fa fa-paper-plane"></i>
+									</button>
+								</form>
+							</div>
+						</div>
 					</article>
 
 				</div>
@@ -81,7 +102,7 @@
 			</div>
 			{{/if}}
 			<div class="row">
-				<div class="col-xs-12 helpbar bottom">
+				<div class="col-xs-12 helpbar gotopmore">
 					<button class="thumb go-top">
 						<i class="fa fa-arrow-up"></i>
 					</button>

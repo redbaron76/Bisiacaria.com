@@ -1,4 +1,5 @@
 <template name="overlayWrapper">
+	{{> imgWrapper}}
 	{{> bubbleWrapper}}
 	{{> infoWrapper}}
 	{{> mapWrapper}}
@@ -22,27 +23,43 @@
 	{{/if}}
 </template>
 
+<template name="imgWrapper">
+	{{#if imgUrl}}
+		<div id="img-wrapper" style="background-image:url({{imgUrl}})">
+			<span class="fa-stack fa-lg" id="img-close">
+				<i class="fa fa-circle fa-stack-2x fa-inverse"></i>
+				<i class="fa fa-times-circle fa-stack-2x"></i>
+			</span>
+		</div>
+	{{/if}}
+</template>
+
 <template name="mapWrapper">
 	{{#if hasMap}}
 		{{#with hasMap}}
-			<div id="{{wrapper}}">
-				{{#if commands}}
-				<span class="fa-stack fa-lg" id="map-set">
-					<i class="fa fa-circle fa-stack-2x fa-inverse"></i>
-					<i class="fa fa-check-circle fa-stack-2x"></i>
-				</span>
-				<span class="fa-stack fa-lg" id="map-center">
-					<i class="fa fa-circle fa-stack-2x fa-inverse"></i>
-					<i class="fa fa-bullseye fa-stack-2x"></i>
-				</span>
-				{{/if}}
-				<span class="fa-stack fa-lg" id="map-close">
-					<i class="fa fa-circle fa-stack-2x fa-inverse"></i>
-					<i class="fa fa-times-circle fa-stack-2x"></i>
-				</span>
-			</div>
+			{{> mapContainer}}
 		{{/with}}
 	{{/if}}
+</template>
+
+<template name="mapContainer">
+	<div id="{{wrapper}}">
+		{{> spinning}}
+		{{#if commands}}
+		<span class="fa-stack fa-lg" id="map-set">
+			<i class="fa fa-circle fa-stack-2x fa-inverse"></i>
+			<i class="fa fa-check-circle fa-stack-2x"></i>
+		</span>
+		<span class="fa-stack fa-lg" id="map-center">
+			<i class="fa fa-circle fa-stack-2x fa-inverse"></i>
+			<i class="fa fa-bullseye fa-stack-2x"></i>
+		</span>
+		{{/if}}
+		<span class="fa-stack fa-lg" id="map-close">
+			<i class="fa fa-circle fa-stack-2x fa-inverse"></i>
+			<i class="fa fa-times-circle fa-stack-2x"></i>
+		</span>
+	</div>
 </template>
 
 <template name="popupWrapper">

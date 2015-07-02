@@ -24,6 +24,34 @@
 	animation: blink 1s step-start 0s infinite;
 }
 
+.cite-inline {
+	color: $blue !important;
+	display: inline !important;
+	white-space: pre-wrap;
+	word-wrap: break-word;
+	undecorate();
+}
+
+.video-wrapper {
+	position: relative;
+	padding-bottom: 56.25%; /* 16:9 */
+	padding-top: 25px;
+	margin: 15px 0;
+	height: 0;
+	iframe {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+	}
+}
+
+.css-emoticon {
+	// font-size: 14px !important;
+	margin: 0 .4em;
+}
+
 // buttons-top
 
 .row.buttons-toppad + .row {
@@ -32,6 +60,7 @@
 
 .row.buttons-toppad {
 	fixed: top $navbar-height;
+	// absolute: top $navbar-height; // ie
 	width: 100%;
 	z-index: 5;
 }
@@ -205,6 +234,14 @@
 	absolute: right 0 top 0 bottom 0;
 	margin: auto;
 	z-index: 2;
+
+	&.username {
+		border-top: 20px solid transparent;
+		border-bottom: 20px solid transparent;
+		border-right: 10px solid $gray-row-hl;
+		width: 0 !important;
+		z-index: 1;
+	}
 }
 
 .clearfix {
@@ -212,6 +249,7 @@
 }
 
 .device-switcher {
+	display: none;
 	position: fixed;
 	bottom: 0;
 	right: 0;
@@ -226,29 +264,106 @@
 	}
 
 	button {
-		color: $white;
+		color: $gray-bg;
 		font-size: 2em;
 		display: table-cell;
 		margin: 0;
 		padding: 0;
 		width: 35px;
-		background-color: $black;
 		border: none;
-
-		&:first-of-type {
-			border-top-left-radius: 5px;
-		}
+		background: none;
 	}
 }
 
 .spacer {
-	margin-top: 15px !important;
+	margin-top: 12px !important;
+}
+
+// Images
+
+.img-preview {
+	width: 100%
+	height: auto;
+	padding: 1%;
+	margin: 15px 0 0 0;
+	border: 1px solid $white-border;
+	border-radius: 4px;
+
+	& + p {
+		margin-top: 10px;
+	}
+
+	& img {
+		width: inherit;
+		height: auto;
+		cursor: pointer;
+	}
+}
+
+.thumby {
+	position: relative;
+	width: inherit;
+	height: auto;
+	margin-top: 20px;
+
+	img.ri {
+		width: 100%;
+		height: auto;
+		border-radius: 3px;
+		box-shadow: 0 3px 6px rgba(0,0,0,0.9);
+	}
+
+	& + p {
+		margin-top: 10px;
+	}
+}
+
+.thumbimg {
+	position: relative;
+	width: 100%;
+	height: 160px;
+	overflow: hidden;
+	border: none;
+	border-radius: 3px;
+	margin: 0;
+	padding: 0;
+	box-shadow: 0 3px 6px rgba(0,0,0,0.9);
+
+	img {
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		width: 101%;
+		height: auto;
+		transform: translate(-50.1%,-50%);
+	}
+
+	// min-width: 480px
+	@media (min-width: 480px) {
+		height: 250px;
+	}
+
+	// min-width: 600px
+	@media (min-width: 600px) {
+		height: 280px;
+	}
+
+	// min-width: 768px
+	@media (min-width: $screen-sm-min) {
+		height: 300px;
+	}
+
+	// min-width: 1280px
+	@media (min-width: $screen-lg-min) {
+		height: 350px;
+	}
 }
 
 // Overlay
 
 .md-overlay {
-	position: fixed;
+	// position: fixed;
+	position: absolute; // ie
 	width: 100%;
 	height: 100%;
 	visibility: hidden;
@@ -266,18 +381,116 @@
 
 	&.loading {
 		transition: visibility 0s .2s, opacity .2s linear;
-		background: rgba(255,255,255,0.6);
+		background-color: $white-bg;
 		visibility: visible;
 		z-index: 99;
 		opacity: 1;
+
+		#logo-wrapper {
+			width: 120px;
+			position: relative;
+			left: 50%;
+			top: 50%;
+			transform: translate(-50%, -50%);
+
+			.logo-loader {
+				display: block;
+				width: 120px;
+				height: 120px;
+				background-image: url('img/logo_loading.svg');
+				background-size: cover;
+				margin: 0 auto;
+			}
+
+			& > h5.waiting {
+				text-align: center;
+				font-size: 14px;
+				color: $gray-row-pin;
+				margin: 20px 0;
+			}
+
+		}
+
 	}
 
 }
 
-.md-show ~ .md-overlay {
+.spinning {
+	margin: auto;
+	absolute: top 0 right 0 bottom 0 left 0;
+	& > div.spinner-loader {
+		position: absolute;
+		top: 50% !important;
+		transform: translateY(-50%);
+		margin: auto !important;
+		width: 100%;
+	}
+}
+
+.spinner-loader {
+	margin: 20px auto 0;
+	width: 70px;
+	text-align: center;
+
+	& > div {
+		width: 18px;
+		height: 18px;
+		background-color: $gray-row-pin;
+
+		border-radius: 100%;
+		display: inline-block;
+		// -webkit-animation: bouncedelay 1.4s infinite ease-in-out;
+		animation: bouncedelay 1.4s infinite ease-in-out;
+		/* Prevent first frame from flickering when animation starts */
+		// -webkit-animation-fill-mode: both;
+		animation-fill-mode: both;
+	}
+
+	& .bounce1 {
+		// -webkit-animation-delay: -0.32s;
+		animation-delay: -0.32s;
+	}
+
+	& .bounce2 {
+		// -webkit-animation-delay: -0.16s;
+		animation-delay: -0.16s;
+	}
+
+}
+
+@-webkit-keyframes bouncedelay {
+  0%, 80%, 100% { -webkit-transform: scale(0.0) }
+  40% { -webkit-transform: scale(1.0) }
+}
+
+@keyframes bouncedelay {
+  0%, 80%, 100% {
+    transform: scale(0.0);
+    -webkit-transform: scale(0.0);
+  } 40% {
+    transform: scale(1.0);
+    -webkit-transform: scale(1.0);
+  }
+}
+
+.relative {
+	position: relative;
+	&.row {
+		height: 100px;
+	}
+}
+
+.md-show ~ .md-overlay,
+#map-wrapper ~ .md-overlay {
 	opacity: 1;
 	visibility: visible;
 	transition: opacity .1s linear;
+}
+
+.no-overlay ~ .md-overlay {
+	opacity: 0;
+	visibility: hidden;
+	// transition: opacity .1s linear;
 }
 
 .md-show {
@@ -288,7 +501,8 @@
 // Bar
 
 .bar {
-	fixed: right 0 left 0;
+	// fixed: right 0 left 0;
+	absolute: right 0 left 0; // ie
 	width: 100%;
 	min-height: $navbar-height;
 	padding: 0 10px;
@@ -299,6 +513,13 @@
 		top: 0;
 		background-color: $bisia;
 
+		&.bar-modal {
+			background-color: $gray-row-hl;
+			h1 {
+				color: $white;
+			}
+		}
+
 		h1 {
 			text-align: center;
 			font-family: $font-bisia;
@@ -306,10 +527,11 @@
 			line-height: $navbar-height;
 			color: $gray-bg;
 			margin: 0;
-			padding: 0;
+			padding: 0 60px;
+			ellipsis();
 		}
 
-		button {
+		div {
 			absolute: bottom 10px;
 
 			&.left {
@@ -350,23 +572,29 @@
 	padding: 5px 12px;
 	text-align: center;
 	width: 40px;
+	cursor: pointer;
 
-	span {
-		badge($red);
+	& > span {
+		display: none;
 		absolute: top -5px;
 		transform: translate3d(-50%, 0, 0);
+		badge($red);
+
+		&.appear {
+			display: block;
+		}
 	}
 
 	&.left {
-		span {
-			absolute: right -50%;
+		& > span {
+			right: -50%;
 			transform: translate3d(-50%, 0, 0);
 		}
 	}
 
 	&.right {
-		span {
-			absolute: left -50%;
+		& > span {
+			left: -50%;
 			transform: translate3d(50%, 0, 0);
 		}
 	}
@@ -384,8 +612,16 @@
 
 	visibility: hidden;
 
+	ul li {
+		margin-top: 2px;
+		&:first-child {
+			margin-top: 0;
+		}
+	}
+
 	&.left {
-		fixed: left 0;
+		// fixed: left 0;
+		absolute: left 0; // ie
 		min-height: 100%;
 		border: 0;
 		border-right: 2px solid $gray-bg;
@@ -393,7 +629,8 @@
 	}
 
 	&.right {
-		fixed: right 0;
+		// fixed: right 0;
+		absolute: right 0; // ie
 		min-height: 100%;
 		border: 0;
 		border-left: 2px solid $gray-bg;
@@ -410,6 +647,7 @@
 	margin: 0 auto;
 	width: 200px;
 	cursor: pointer;
+	z-index: 3;
 
 	input[type=file] {
 		// background-color: lime;
@@ -424,7 +662,7 @@
 	.indicator {
 		background-color: rgba(0, 0, 0, 0.6);
 		absolute: right 0 bottom 0 left 0;
-		z-index: 2;
+		z-index: 3;
 
 		width: 100%;
 		height: 0%;
@@ -480,10 +718,12 @@ button:focus {
 
 // IMPORTS
 
+@import 'chat.import';
 @import 'list.import';
 @import 'form.import';
 @import 'bubble.import';
 @import 'info.import';
+@import 'img.import';
 @import 'map.import';
 @import 'modal.import';
 @import 'popup.import';

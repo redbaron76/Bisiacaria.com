@@ -1,6 +1,6 @@
 // Publish messages list received/sent
-Meteor.reactivePublish('messagesList', function(query, options, authorId) {
-	check(this.userId, String);
+Meteor.publish('messagesList', function(query, options, authorId) {
+	// check(this.userId, String);
 	check(authorId, String);
 	check(query, Object);
 	check(options, {
@@ -17,24 +17,28 @@ Meteor.reactivePublish('messagesList', function(query, options, authorId) {
 	query = _.extend(query, owner);
 	// get cursors
 	var messages = Messages.find(query, options);
-	// map the authorIds
-	var userIds = messages.map(function(doc) { return doc[authorId] });
-	var chatIds = messages.map(function(doc) { return doc.chatId });
 
-	// Publish each counter of unread messages per chatId
-	_.each(chatIds, function(el, index) {
-		Counts.publish(this, el, Messages.find({ 'chatId': el, 'targetId': this.userId, 'isRead': false }), { noReady: true });
-	}, this);
+	if (messages.count() > 0) {
+		// map the authorIds
+		var userIds = messages.map(function(doc) { return doc[authorId] });
+		var chatIds = messages.map(function(doc) { return doc.chatId });
 
-	var authors = Users.find({ '_id': { '$in': userIds }});
+		// Publish each counter of unread messages per chatId
+		_.each(chatIds, function(el, index) {
+			Counts.publish(this, el, Messages.find({ 'chatId': el, 'targetId': this.userId, 'isRead': false }), { noReady: true });
+		}, this);
 
-	// Meteor._sleepForMs(1000);
-	// return cursors
-	return [messages, authors];
+		var authors = Users.find({ '_id': { '$in': userIds }});
+
+		// Meteor._sleepForMs(1000);
+		// return cursors
+		return [messages, authors];
+	}
+	return messages;
 });
 
 Meteor.publish('messageAuthor', function(query, options, limit) {
-	check(this.userId, String);
+	// check(this.userId, String);
 
 	// Meteor._sleepForMs(2000);
 
@@ -49,11 +53,14 @@ Meteor.publish('messageAuthor', function(query, options, limit) {
 		}]
 	});
 
-	// Return cursor
-	var messages = Messages.find(query, options);
-	var first = messages.fetch()[0];
-	var authors = Users.find({ '_id': { '$in': [first.userId, first.targetId] }});
-
-	// return cursors
-	return [messages, authors];
+	if (this.userId) {
+		// Return cursor
+		var messages = Messages.find(query, options);
+		if (messages.count() > 0) {
+			var first = messages.fetch()[0];
+			var authors = Users.find({ '_id': { '$in': [first.userId, first.targetId] }});
+			return [messages, authors];
+		}
+		return messages;
+	}
 });

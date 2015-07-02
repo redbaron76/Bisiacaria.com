@@ -1,30 +1,3 @@
-// Publish friends
-/*Meteor.reactivePublish('friendsList', function(query, options, authorId) {
-	check(this.userId, String);
-	check(authorId, String);
-	check(query, Object);
-	check(options, {
-		sort: Object,
-		limit: Number
-	});
-	// Get the subject (opposite of authorId)
-	var target = Bisia.inverseAuthor(authorId);
-	// Build owner subject (the one to get from the query)
-	var owner = {};
-	owner[target] = this.userId;
-	// Extend query object
-	query = _.extend(query, owner);
-	// get cursors
-	var friends = Friends.find(query, options);
-	// map the authorIds
-	var userIds = friends.map(function(doc) { return doc[authorId] });
-	var authors = Users.find({ '_id': { '$in': userIds }});
-
-	// Meteor._sleepForMs(1000);
-	// return cursors
-	return [friends, authors];
-});*/
-
 // Publish events of the week
 Meteor.publish('nextWeekEvents', function(options) {
 
@@ -34,12 +7,42 @@ Meteor.publish('nextWeekEvents', function(options) {
 		'$lte': Bisia.Time.dayEnd(7)
 	};
 
-	Bisia.log(thisWeek);
+	// Bisia.log(thisWeek);
 	// Get friends cursor
 	var events = Events.find({ 'dateTimeEvent': thisWeek }, options);
-	// map the authorIds
-	var userIds = events.map(function(doc) { return doc['authorId'] });
-	var authors = Users.find({ '_id': { '$in': userIds }});
-	// return cursors
-	return [events, authors];
+
+	if (events.count() > 0) {
+		// map the authorIds
+		var userIds = events.map(function(doc) { return doc['authorId'] });
+		var authors = Users.find({ '_id': { '$in': userIds }});
+		// return cursors
+		return [events, authors];
+	}
+	return events;
+});
+
+// Publish a single Event
+Meteor.publish('singleEvent', function(eventId) {
+	check(eventId, String);
+
+	// Meteor._sleepForMs(500);
+
+	// Get the event
+	var event = Events.find({ '_id': eventId });
+
+	if (event.count() > 0) {
+		// map the authorIds
+		var userIds = event.map(function(doc) {
+			return _.map(doc['joiners'], function(value, key) {
+				return value['authorId'];
+			});
+		});
+
+		// get authors of likes and comments
+		var authors = Users.find({ '_id': { '$in': userIds[0] }});
+
+		// Return cursor
+		return [event, authors];
+	}
+	return event;
 });

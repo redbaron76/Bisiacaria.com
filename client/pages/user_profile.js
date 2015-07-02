@@ -1,10 +1,10 @@
-Template.userProfile.rendered = function() {
+Template.userProfile.onRendered(function() {
 	if(this.data.user._id !== Meteor.userId()) {
 		Meteor.call('visitUser', {
 			targetId: this.data.user._id
 		});
 	}
-};
+});
 
 
 Template.userProfile.helpers({
@@ -16,20 +16,43 @@ Template.userProfile.helpers({
 		var birthday = moment(Bisia.User.getProfile("birthday", this), 'DD-MM-YYYY', true);
 		var now = moment();
 		var day = birthday.get('date'), month = birthday.get('month'), year = now.get('year');
-		return (now.diff([year, month, day], 'days') * -1);
+		var thisYearBirthday = moment([year, month, day]);
+
+		if (now.isAfter(thisYearBirthday)) {
+			return now.diff(thisYearBirthday.add(1, 'y'), 'days') * -1;
+		} else {
+			return now.diff(thisYearBirthday, 'days') * -1;
+		}
+	},
+	birthdayIsToday: function() {
+		var birthday = moment(Bisia.User.getProfile("birthday", this), 'DD-MM-YYYY', true);
+		var now = moment();
+		var day = birthday.get('date'), month = birthday.get('month'), year = now.get('year');
+		var thisYearBirthday = moment([year, month, day]);
+		return (now.isSame(thisYearBirthday, 'day')) ? true : false;
 	},
 	signupDate: function() {
+		var memberFrom = Bisia.User.getProfile("memberFrom", this);
 		var signup = moment(Bisia.User.getUser("createdAt", this));
-		return moment(signup).format("DD/MM/YYYY");
+		if (memberFrom !== undefined) {
+			memberFrom = moment(memberFrom);
+		}
+		var date = memberFrom ? memberFrom : signup;
+		return moment(date).format("DD/MM/YYYY");
 	},
 	votesCount: function() {
 		return (this.profile.votesCount) ? this.profile.votesCount : 0;
 	},
-	followCount: function() {
-		return (this.friends) ? this.friends.length : 0;
+	// Da quanti son seguito
+	followersCount: function() {
+		return (this.followers) ? this.followers.length : 0;
+	},
+	// Quanti seguo
+	followingCount: function() {
+		return (this.following) ? this.following.length : 0;
 	},
 	youKnowThis: function() {
-		return (this.friends && _.indexOf(this.friends, Meteor.userId()) >= 0) ? 'checked' : '';
+		return (this.followers && _.indexOf(this.followers, Meteor.userId()) >= 0) ? 'checked' : '';
 	}
 });
 
@@ -53,8 +76,20 @@ Template.userProfile.events({
 	},
 	'click #send-vote': function(e, t) {
 		e.preventDefault();
-		Meteor.call('voteUser', {
-			targetId: t.data.user._id
+
+		var voteObj = {	targetId: t.data.user._id };
+		var gender = t.data.user.profile.gender;
+
+		Meteor.call('voteUser', voteObj, gender, function(error, result) {
+			Bisia.Ui.runAfter(function() {
+				Bisia.Ui.setReactive('bubble', {
+					template: 'voteBubble',
+					user: t.data.user,
+					message: error ? error : result
+				});
+			}, function() {
+				Bisia.Ui.unsetReactive('bubble');
+			}, 3);
 		});
 	},
 	'click #go-messages': function(e) {
@@ -65,11 +100,21 @@ Template.userProfile.events({
 		e.preventDefault();
 		Router.go('userSettings');
 	},
+	'click #user-know': function(e, t) {
+		e.preventDefault();
+		Bisia.Ui.toggleModal(e, 'userKnowModal', this);
+	},
+	'click #know-user': function(e, t) {
+		e.preventDefault();
+		Bisia.Ui.toggleModal(e, 'knowUserModal', this);
+	},
 	'change #toggle-know': function(e, t) {
 		e.preventDefault();
+		var checked = e.target.checked;
+		var targetId = t.data.user._id;
 		Meteor.call('knowUser', {
-			targetId: t.data.user._id,
-			check: e.target.checked
+			targetId: targetId,
+			check: checked
 		});
 	},
 	'click .go-top': function(e, t) {

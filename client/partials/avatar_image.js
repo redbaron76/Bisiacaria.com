@@ -1,7 +1,10 @@
 Template.avatarImage.helpers({
 	hasImage: function() {
 		var avatar = this.data.profile.avatar;
-		return avatar && avatar.length > 0;
+		if(avatar && avatar.length > 0 && ! Bisia.Img.imageIsInvalid(avatar)) {
+			return true;
+		}
+		return false;
 	},
 	avatarImage: function() {
 		var avatar = this.data.profile.avatar;

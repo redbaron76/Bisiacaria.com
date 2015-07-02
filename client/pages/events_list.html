@@ -1,0 +1,54 @@
+<template name="nextEventList">
+	{{> navbarTop title='Eventi della settimana'}}
+	<div class="content container-fluid">
+		<div class="list events">
+			<div class="row">
+				<div class="col-xs-12 list-wrapper">
+					<ul class="item-list">
+					{{#with formatEvents}}
+						{{#each data}}
+						<li>
+						{{#with formatDay}}
+							<h4>{{getEventDay day}}</h4>
+							{{#each eventObj}}
+								{{> eventItem}}
+							{{/each}}
+						{{/with}}
+						</li>
+						{{else}}
+							{{> emptyLi}}
+						{{/each}}
+					{{/with}}
+					</ul>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12 helpbar gotopmore">
+					<button class="thumb go-top">
+						<i class="fa fa-arrow-up"></i>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="md-overlay gray"></div>
+</template>
+
+<template name="eventItem">
+	<div class="li-wrapper">
+		<a href="{{pathFor 'singleEvent'}}">
+			<div class="time-wrapper">
+				<span>{{getEventTime dateTimeEvent}}</span>
+			</div>
+			<div class="title-wrapper">
+				{{titleEvent}}
+				<span>{{locationEvent}}</span>
+			</div>
+		</a>
+		<div class="right-aligned">
+			<div class="age">
+				{{genericCounter joinersCount 'partecipa' 'partecipano'}}
+			</div>
+		</div>
+	</div>
+</template>

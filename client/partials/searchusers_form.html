@@ -1,0 +1,58 @@
+<template name="searchUsersForm">
+	<div class="row" id="usersearch">
+		<div class="col-xs-12 form">
+			<form id="user-search" role="form" class="form-row">
+				<div class="divider white-bg"><span>imposta i criteri di ricerca</span></div>
+				<div class="form-group">
+					<i class="fa fa-user"></i>
+					<input type="text" id="username" placeholder="Nickname">
+				</div>
+				<div class="form-group check-box">
+					<i class="fa fa-male"></i>
+					<div class="checkround male">
+						<input type="radio" name="gender" value="male" id="male">
+						<label for="male"></label>
+					</div>
+					<label for="male" class="show-label">Uomo</label>
+					<i class="fa fa-female"></i>
+					<div class="checkround female">
+						<input type="radio" name="gender" value="female" id="female">
+						<label for="female"></label>
+					</div>
+					<label for="female" class="show-label">Donna</label>
+				</div>
+				<div class="form-group">
+					<i class="fa fa-map-marker"></i>
+					<input type="text" id="city" placeholder="Luogo di origine">
+				</div>
+				<div class="form-group">
+					<i class="fa fa-birthday-cake"></i>
+					<div class="slider-wrapper">
+						<span class="slider-from">20</span>
+						<input id="age-slider" type="text" class="bisia-slider" name="age" >
+						<span class="slider-to">40</span>
+					</div>
+				</div>
+				<div class="form-group check-box status-radio">
+					<i class="fa fa-heart"></i>
+					<div class="checkround busy">
+						<input type="radio" name="status" value="busy" id="busy">
+						<label for="busy"></label>
+					</div>
+					<label for="busy">Impegnato</label>
+					<div class="checkround none">
+						<input type="radio" name="status" value="none" id="none">
+						<label for="none"></label>
+					</div>
+					<label for="none">Indeciso</label>
+					<div class="checkround free">
+						<input type="radio" name="status" value="free" id="free">
+						<label for="free"></label>
+					</div>
+					<label for="free">Single</label>
+				</div>
+				<button type="submit" class="yellow">Cerca utenti</button>
+			</form>
+		</div>
+	</div>
+</template>

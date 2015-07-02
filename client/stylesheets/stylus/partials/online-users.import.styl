@@ -5,36 +5,32 @@
 		position: relative;
 		padding: 9px 10px 9px 10px;
 		overflow: hidden;
-		display: block;
+		display: table;
 		white-space: nowrap;
 
-		form {
-			display: inline;
-			transform: translate3d(-100%, 0, 0);
-			transition: transform .2s;
+		.counter {
+			display: table-cell;
+			counter();
+			&.users {
+				display: inline-block;
+			}
+		}
 
+		.noty {
+			noty-button();
+			display: table-cell;
+			height: 31px;
+		}
+
+		form {
+			display: table-cell;
+			padding-left: 10px;
 			input {
 				input-search();
-				width: 80%;
+				width: 100%;
 			}
 		}
 
-		&.open-search {
-			form {
-				transform: translate3d(0, 0, 0);
-				.toggle-search {
-					background-color: $bisia;
-				}
-			}
-		}
-	}
-
-	.counter {
-		counter();
-
-		&.users {
-			display: inline-block;
-		}
 	}
 
 	.users-list {

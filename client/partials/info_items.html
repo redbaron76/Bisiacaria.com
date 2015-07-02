@@ -1,9 +1,11 @@
 <template name="infoClose">
 	<h1>{{title}}</h1>
+	{{#unless hideClose}}
 	<span class="buttons fa-stack fa-lg" id="info-close">
 		<i class="fa fa-circle fa-stack-2x"></i>
 		<i class="fa fa-times-circle fa-stack-2x fa-inverse"></i>
 	</span>
+	{{/unless}}
 </template>
 
 <template name="categoryList">
@@ -26,6 +28,54 @@
 		<span>{{this}}</span>
 		<i class="fa fa-trash"></i>
 	</li>
+</template>
+
+<template name="geotagList">
+	<div class="md-info md-show list">
+		{{> infoClose title="Sei in uno di questi posti?"}}
+		<div class="wrapper-info list-wrapper">
+			<ul class="item-list">
+				{{#each geotags}}
+					{{> geotagItem data=this position=../position save=../saveFly}}
+				{{else}}
+					{{> emptyLi}}
+				{{/each}}
+			</ul>
+			<ul class="item-list buttons">
+				<li>
+					<button id="just-position" class="red">
+						No, imposta solo la posizione
+					</button>
+				</li>
+			</ul>
+		</div>
+	</div>
+</template>
+
+<template name="geotagItem">
+	<li>
+		{{#if itsMine data}}
+			<i class="fa fa-trash" data-id="{{data._id}}"></i>
+		{{else}}
+			<i class="fa fa-map-marker"></i>
+		{{/if}}
+		<span data-id="{{data._id}}" class="apply-tag">{{data.tag}}</span>
+		<small>dist. {{distance data.lat data.lng}}m</small>
+	</li>
+</template>
+
+<template name="currentOffline">
+	<div class="md-info md-show list error">
+		{{> infoClose title=infoTitle hideClose=true}}
+		<div class="wrapper-info list-wrapper">
+			<ul class="item-list">
+				<li>
+					<i class="fa fa-exclamation-triangle"></i>
+					<span>In questo momento non hai una connessione Internet attiva.</span>
+				</li>
+			</ul>
+		</div>
+	</div>
 </template>
 
 <template name="infoList">

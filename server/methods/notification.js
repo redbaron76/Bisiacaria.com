@@ -1,12 +1,21 @@
 // Notification methods
 Meteor.methods({
-	resetNotification: function(action) {
+	likeUnlike: function(action, obj) {
+		Bisia.Notification.emit(action, obj);
+	},
+	resetNotification: function(action, actionKey) {
 		check(action, String);
-		var result = Notifications.update({
+		var query = {
 			'targetId': Meteor.userId(),
 			'action': action,
 			'isRead': false
-		}, {
+		};
+		if (actionKey) {
+			query = _.extend(query, {
+				actionKey: actionKey
+			});
+		}
+		var result = Notifications.update(query, {
 			$set: {
 				'isRead': true
 			}
@@ -28,7 +37,7 @@ Meteor.methods({
 		});
 
 		// Get people blocked
-		var blockIds = Bisia.User.getBlockIds(this.notify.userId);
+		var blockIds = Bisia.User.getBlockIds(userId);
 
 		Bisia.Notification.emit('note', {
 			actionId: postObj._id,
@@ -51,6 +60,21 @@ Meteor.methods({
 		});
 
 		return true;
+	},
+	queueNotificationMail: function(target, notyObj) {
+		var obj = _.pick(notyObj, 'createdAt', 'message');
+		var saveObj = _.extend(obj, {
+			email: target.email,
+			username: target.username,
+		});
+
+		var alreadyQueued = Emails.findOne({
+			email: target.email,
+			actionId: notyObj.actionId
+		});
+
+		if (saveObj.email && saveObj.message && ! alreadyQueued)
+			Emails.insert(saveObj);
 	}
 });
 

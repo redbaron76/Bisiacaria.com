@@ -1,6 +1,7 @@
 <template name="loginUser">
 	<div class="content container-fluid">
 		<div id="login">
+			{{> cookieAdvice}}
 			<div class="row">
 				<div class="col-xs-12 logo">
 					<div class="counter signed">
@@ -19,15 +20,22 @@
 			{{#if fbReady}}
 			<div class="row">
 				<div class="col-xs-12 social">
+				{{#unless sitePreview}}
 					<a href="#" id="login-fb">Clicca ed entra con
 						<span class="fa-stack">
 							<i class="fa fa-square fa-stack-2x"></i>
 							<i class="fa fa-facebook-square fa-stack-2x fa-inverse"></i>
 						</span>
 					</a>
+				{{else}}
+					<a href="#">
+						Bisia Beta-Testing
+					</a>
+				{{/unless}}
 				</div>
 			</div>
 			{{/if}}
+
 			<div class="row">
 				<div class="col-xs-12 form">
 					<div class="divider white-bg"><span>oppure usa il tuo account</span></div>

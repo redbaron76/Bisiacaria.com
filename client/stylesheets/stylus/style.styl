@@ -5,12 +5,18 @@ html, body {
 	height: 100%;
 	font-family: $font-book;
 	color: $gray-row-hl;
+	background-color: $gray-bg;
+}
+
+body {
+	overflow: hidden; // ie
 }
 
 .wrapper {
 	width: 100%;
 	height: inherit;
 	overflow-x: hidden;
+	background-color: $white-bg;
 
 	&.sidebar-open-left {
 		.body-wrapper {
@@ -36,7 +42,9 @@ html, body {
 			background-color: $sidebar-bg;
 		}
 		.body-wrapper {
-			fixed: top 0;
+			// fixed: top 0;
+			position: relative;
+			top: 0; // ie
 			& .content { overflow: hidden; }
 			& .md-overlay {
 				transition: opacity .2s linear;
@@ -44,7 +52,7 @@ html, body {
 				opacity: 1;
 				z-index: 99;
 			}
-			.title, .bottom {
+			.title, .gotopmore {
 				visibility: hidden !important;
 				// transform: translate3d(0, 100%, 0);
 			}
@@ -61,12 +69,22 @@ html, body {
 }
 
 .body-wrapper {
-	relative: left 0;
+	// relative: left 0;
+	absolute: left 0; // ie
 	display: block;
 	width: 100%;
 	height: inherit;
-	z-index: 3;
+	z-index: 3; // 3
 	transition: transform .25s;
+
+	// hack to keep position absolute on .gotopmore
+	overflow: hidden;
+
+	&.unlogged {
+		.content {
+			background-color: $gray-bg;
+		}
+	}
 
 	&.logged {
 		padding-top: $navbar-height;
@@ -80,7 +98,11 @@ html, body {
 	right: 0;
 	bottom: 0;
 	left: 0;
+
 	overflow: auto;
+	z-index: 0;
+	// enable touch feeling on iOs
+	-webkit-overflow-scrolling: touch;
 
 	height: inherit;
 
@@ -95,6 +117,12 @@ html, body {
 	& div + p:first-of-type {
 		margin-top: 0;
 	}
+
+	/*& .list {
+		article, li {
+			transform: translate3d(0, 0, 0) !important;
+		}
+	}*/
 }
 
 .device,
@@ -119,24 +147,13 @@ button:hover
 
 @import 'partials/components.import';
 
+@import 'pages/homepage.import';
 @import 'pages/login.import';
 @import 'pages/profile.import';
 @import 'pages/register.import';
 @import 'pages/settings.import';
 
-@import 'ios-fixies.import';
+@import 'system/devices.import';
+@import 'system/virtuals.import';
 
-@import 'mediaqueries.import';
-
-// DEMO
-/*nav + .wrapper {
-	padding-top: 70px;
-}
-
-.navbar-brand > img {
-	width: 25px;
-}
-
-h1 {
-	font-size: 2em;
-}*/
+// @import 'ios-fixies.import';

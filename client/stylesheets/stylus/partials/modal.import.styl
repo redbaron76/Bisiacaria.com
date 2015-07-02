@@ -1,11 +1,16 @@
 .md-modal {
-	fixed: left 0 top 0 right 0;
+	// fixed: left 0 top 0 right 0;
+	absolute: left 0 top 0 right 0; // ie
 	transition: transform .25s;
 	transition-timing-function: cubic-bezier(0.1, 0.5, 0.1, 1);
-	background-color: $white;
+	background-color: transparent;
 	height: 100%;
-	// opacity: 0;
+	margin: 0 auto;
 	z-index: 10;
+
+	.content {
+		position: relative;
+	}
 
 	h4 {
 		font-family: $font-semibold;
@@ -71,7 +76,7 @@
 		overflow-y: auto;
 		height: 100%;
 	}
-	
+
 	label {
 		margin: 0;
 	}
@@ -79,5 +84,47 @@
 	&.md-open {
 		transform: translate3d(0, 0, 0);
 		// opacity: 1;
+	}
+
+	#map-wrapper {
+		height: 230px;
+		absolute: top 0 right 0 left 0;
+		border-bottom: 1px solid $gray-row;
+		z-index: 1;
+
+		& + #form-map-position {
+			padding-top: 230px;
+		}
+	}
+
+}
+
+
+// Style modal just on logged pages
+.logged.show-desktop-full {
+	.md-modal {
+		// min-width: 768px
+		@media (min-width: $screen-sm-min) {
+			padding-left: $sidebar-width; // ie
+			.bar-modal {
+				left: $sidebar-width;
+				width: calc(100% - 260px);
+			}
+			.buttons-toppad {
+				// width: calc(100% - 260px) !important;
+			}
+		}
+
+		// min-width: 1280px
+		@media (min-width: $screen-lg-min) {
+			padding-right: $sidebar-width;
+			.bar-modal {
+				right: $sidebar-width;
+				width: calc(100% - 520px);
+			}
+			.buttons-toppad {
+				// width: calc(100% - 520px) !important;
+			}
+		}
 	}
 }

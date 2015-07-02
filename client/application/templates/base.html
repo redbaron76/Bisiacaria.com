@@ -1,5 +1,5 @@
 <template name="base">
-	<div class="wrapper {{addDevice}}{{addMobile 'mobile'}} show-phone-v">
+	<div class="wrapper {{addDevice}} {{showLayoutVersion}} {{isLogged}}">
 		<div class="body-wrapper {{isLogged}}">
 			{{> yield}}
 		</div>
@@ -19,13 +19,18 @@
 </template>
 
 <template name="device">
-	<div class="device {{addDevice}} show-phone-v"></div>
 	{{#if isDesktop}}
+	<div class="device {{addDevice}} {{showLayoutVersion}}"></div>
+	{{> deviceSwitcher}}
+	{{/if}}
+</template>
+
+<template name="deviceSwitcher">
 	<div class="device-switcher">
-		<p>
-			Prova Bisia su smartphone o tablet
-			<i class="fa fa-arrow-right"></i>
-		</p>
+
+		<button data-device="desktop-full">
+			<i class="fa fa-desktop"></i>
+		</button>
 
 		<button data-device="phone-v">
 			<i class="fa fa-mobile"></i>
@@ -44,7 +49,6 @@
 		</button>
 
 	</div>
-	{{/if}}
 </template>
 
 <template name="modalWrapper">

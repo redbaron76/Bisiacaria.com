@@ -34,10 +34,10 @@ Bisia.Map = {
 	geoLocation: null,
 
 	/**
-	 * Map owner username
-	 * @type {String}
+	 * position object of the owner
+	 * @type {Object}
 	 */
-	owner: null,
+	ownerPosition: null,
 
 	/**
 	 * Your actual position
@@ -52,6 +52,13 @@ Bisia.Map = {
 	yourLocation: null,
 
 	/**
+	 * GeoTag when set
+	 * Set in user.js
+	 * @type {String}
+	 */
+	myPosition: null,
+
+	/**
 	 * Clicked position on map
 	 * @type {Array}
 	 */
@@ -62,6 +69,17 @@ Bisia.Map = {
 	 * @type {Array}
 	 */
 	genericLatLng: [45.81133, 13.51404],
+
+	/**
+	 * subscription handler
+	 */
+	nearPlaces: null,
+
+	/**
+	 * Save position on press button green
+	 * @type {Boolean}
+	 */
+	saveOnSet: false,
 
 	/**
 	 * Global settings for map object
@@ -84,15 +102,35 @@ Bisia.Map = {
 	wrapper: 'map-wrapper',
 
 	/**
+	 * Layer from markers of users
+	 * @type {[type]}
+	 */
+	markersLayer: null,
+
+	/**
 	 * Init function
 	 * @return {Void}
 	 */
 	init: function(geocoder) {
+		L.Map = this.mapCreate();
 		L.Icon.Default.imagePath = Meteor.absoluteUrl('packages/leaflet/images');
-		this.map = L.map(this.wrapper, this.settings);
+		this.map = new L.Map(this.wrapper, this.settings);
 		L.tileLayer.provider('OpenMapSurfer.Roads').addTo(this.map);
 		if (geocoder) this.initGeocode();
 		return this;
+	},
+
+	mapCreate: function() {
+		return L.Map.extend({
+			openPopup: function(popup) {
+				//  this.closePopup();
+				this._popup = popup;
+
+				return this.addLayer(popup).fire('popupopen', {
+					popup: this._popup
+				});
+			}
+		});
 	},
 
 	/**
@@ -113,14 +151,45 @@ Bisia.Map = {
 	},
 
 	/**
+	 * Get distance in meters between 2 points
+	 * @param  {Float} oLat
+	 * @param  {Float} oLng
+	 * @return {Int}
+	 */
+	distInMeters: function(oLat, oLng) {
+		var oLatLng = L.latLng(oLat, oLng);
+		return L.latLng(this.clickLatLng).distanceTo(oLatLng);
+	},
+
+	/**
 	 * Create a Map Object
 	 * @param  {Object} positionObj
 	 * @param  {Integer} zoom
 	 * @return {Object}
 	 */
 	getCenterMap: function(posObj, zoom) {
-		this.yourLocation = posObj.loc;
 		return L.latLng(posObj.lat, posObj.lng);
+	},
+
+	/**
+	 * Get published places
+	 * @param  {Int} limit
+	 * @return {Mongo.Cursor}
+	 */
+	getNearPlaces: function(distance, limit) {
+		var lat = this.clickLatLng.lat;
+		var lng = this.clickLatLng.lng;
+		var max = distance || 100;
+
+		var places = Places.find({
+			'loc': {
+				'$near': [ parseFloat(lat), parseFloat(lng) ],
+				'$maxDistance': max
+			}
+		}, {
+			'limit': limit
+		});
+		return places;
 	},
 
 	/**
@@ -128,21 +197,72 @@ Bisia.Map = {
 	 */
 	setMapPosition: function() {
 		var position = this.clickLatLng;
-		this.$mapButton = $('#map-position');
-		this.$mapButton.attr('data-action', 'remove');
-		this.$mapButton.find('i').toggleClass('fa-globe fa-times');
-		this.$mapButton.find('span').html('Rimuovi la posizione');
-		var lat = $('<input/>', {type: 'hidden', name: 'lat', value: position.lat, id: 'position-lat'});
-		var lng = $('<input/>', {type: 'hidden', name: 'lng', value: position.lng, id: 'position-lng'});
-		this.$mapButton.parent('form').append(lat);
-		this.$mapButton.parent('form').append(lng);
-		if (this.geoLocation) {
-			var location = $('<input/>', {type: 'hidden', name: 'location', value: this.geoLocation, id: 'location'});
-			this.$mapButton.parent('form').append(location);
-			var p = $('<p/>', {'class': 'geo-location'}).html(this.geoLocation);
-			this.$mapButton.before(p).fadeIn();
+
+		if (this.saveOnSet) {
+
+			// Add geoLocation to position if present
+			if (this.geoLocation) {
+				position = _.extend(position, {
+					location: this.geoLocation
+				});
+			}
+			// Load places if any
+			var places = Bisia.Map.getNearPlaces(100, 10);
+			if (places.count() > 0) {
+				Meteor.setTimeout(function() {
+					Bisia.Ui.setReactive('info', {
+						template: 'geotagList',
+						geotags: places,
+						position: position,
+						saveFly: true
+					});
+				}, 500);
+			} else {
+				this.saveFlyPosition(position);
+			}
+
+		} else {
+
+			var hiddenInputs = {};
+			this.$mapButton = $('#map-position');
+			this.$mapButton.attr('data-action', 'remove');
+			this.$mapButton.find('i').toggleClass('fa-globe fa-times');
+			this.$mapButton.find('span').html('Rimuovi la posizione');
+			var $mapForm = this.$mapButton.parent('form');
+
+			this.$mapButton.next('.form-group').find('.show-categories').hide()
+			this.$mapButton.next('.form-group').find('.show-geotags').css({display: 'table-cell'});
+			// add elements to tmp object
+			hiddenInputs.lat = $('<input/>', {type: 'hidden', name: 'lat', value: position.lat, id: 'position-lat'});
+			hiddenInputs.lng = $('<input/>', {type: 'hidden', name: 'lng', value: position.lng, id: 'position-lng'});
+			if (this.geoLocation) {
+				hiddenInputs.location = $('<input/>', {type: 'hidden', name: 'location', value: this.geoLocation, id: 'location'});
+				var $p = $('<p/>', {'class': 'geo-location'}).html(this.geoLocation);
+				if ($('.geo-location').length == 0) this.$mapButton.before($p).fadeIn();
+			}
+
+			// Append elements to form
+			_.each(hiddenInputs, function($el) {
+				if (! jQuery.contains(document, $el[0])) {
+					$mapForm.append($el);
+				}
+			});
+
+			// Load places if any
+			var places = Bisia.Map.getNearPlaces(100, 10);
+			if (places.count() > 0) {
+				Meteor.setTimeout(function() {
+					Bisia.Ui.setReactive('info', {
+						template: 'geotagList',
+						geotags: places,
+						saveFly: false
+					});
+				}, 500);
+			} else {
+				// Close map
+				Bisia.Ui.unsetReactive('map');
+			}
 		}
-		Bisia.Ui.unsetReactive('map');
 	},
 
 	/**
@@ -151,14 +271,37 @@ Bisia.Map = {
 	 */
 	removeMapPosition: function() {
 		if (this.$mapButton) {
-			Bisia.log('removeMapPosition', this.$mapButton);
 			this.$mapButton.attr('data-action', 'add');
 			this.$mapButton.find('i').toggleClass('fa-times fa-globe');
 			this.$mapButton.find('span').html('Posizione sulla mappa');
 			this.$mapButton.parent('form').find('#position-lat').remove();
 			this.$mapButton.parent('form').find('#position-lng').remove();
 			this.$mapButton.parent('form').find('#location').remove();
+			this.$mapButton.parent('form').find('#tag-id').remove();
 			this.$mapButton.prev('p').fadeOut().remove();
+			this.$mapButton.next('.form-group').find('.show-geotags').hide()
+			this.$mapButton.next('.form-group').find('.show-categories').css({display: 'table-cell'});
+		}
+	},
+
+	/**
+	 * Save the position on the fly
+	 * @param  {Object} position
+	 * @return {Vois}
+	 */
+	saveFlyPosition: function(position) {
+		console.log(position, this.saveOnSet);
+		if (this.saveOnSet) {
+			Meteor.call('saveFlyPosition', position, function (error, result) {
+				if (result) {
+					Bisia.Ui.unsetReactive('map');
+					Meteor.setTimeout(function() {
+						// record position to user.js
+						Bisia.User.recordLastPosition(position);
+						return Bisia.Ui.submitSuccess('La tua posizione è stata registrata con successo!', 'GeoTag inserito!', null, true);
+					}, 500);
+				}
+			});
 		}
 	},
 
@@ -181,19 +324,24 @@ Bisia.Map = {
 	 */
 	triggerMapCreation: function(wrapper, geocoder) {
 		var parent = this;
+		geocoder = (geocoder) ? geocoder : false;
 		var position = arguments[2] ? arguments[2] : null;
-		geocoder = geocoder || false;
+		this.saveOnSet = arguments[3] ? arguments[3] : false;
+		var manageInstance = arguments[4] ? arguments[4] : false;
 		this.wrapper = wrapper;
 
 		Bisia.Ui.setReactive('map', {
 			wrapper: this.wrapper,
-			commands: geocoder
+			commands: geocoder,
+			position: position,
+			instance: manageInstance
 		});
 
 		Meteor.setTimeout(function() {
 			parent.init(geocoder)					// Init the map
 				  .yourPosition(position)			// Find your position and triggers onPositionFound
-				  .listenPositionClick(geocoder);			// Listen for clicks on the map
+				  .listenPositionClick(geocoder);	// Listen for clicks on the map
+				  //.listenPopupClose();
 		}, 500);
 	},
 
@@ -212,6 +360,11 @@ Bisia.Map = {
 		return this;
 	},
 
+	listenPopupClose: function() {
+		this.map.on('popupclose', this.onClosePopup);
+		return this;
+	},
+
 	/**
 	 * Finds your actual gps position
 	 * @return {Bisia.Map}
@@ -219,15 +372,25 @@ Bisia.Map = {
 	yourPosition: function(position) {
 		if (position) {
 			var mapObj = this.getCenterMap(position);
+			this.geocode = null;
+			this.ownerPosition = position;
 			this.map.setView(mapObj, this.zoom);
 			this.setGeoPosition(mapObj, this.zoom);
 		} else {
-			this.owner = null;
-			this.yourLocation = null;
+			this.ownerPosition = null;
 			this.map.locate({ setView: true, maxZoom: this.zoom });
 			this.map.on('locationfound', this.onPositionFound);
+			this.map.on('locationerror', this.tryCordovaGeolocation);
 		}
 		return this;
+	},
+
+	/**
+	 * Close the radius circle on closing popup
+	 * @return {[type]} [description]
+	 */
+	onClosePopup: function() {
+		Bisia.Map.map.removeLayer(Bisia.Map.circle);
 	},
 
 	/**
@@ -236,20 +399,31 @@ Bisia.Map = {
 	 * @return {Void}
 	 */
 	onClickPosition: function(e) {
-		var target = e.originalEvent.target.toString();
-		if (target == "[object SVGSVGElement]") {
+		var tmpLocation, target = e.originalEvent.target.toString();
+		if (target == "[object SVGSVGElement]" || target == "[object HTMLImageElement]") {
 			if (Bisia.Map.geocode) {
 				Bisia.Map.geocode.reverse().latlng(e.latlng).run(function(error, result) {
-					if (! error) {
-						Bisia.Map.clickLatLng = e.latlng;
-						Bisia.Map.geoLocation = result.address.Match_addr;
-						Bisia.Map.marker.setLatLng(Bisia.Map.clickLatLng).update();
+					if (error) {
+						tmpLocation = 'Posizione sconosciuta';
+					} else {
+						tmpLocation = result.address.Match_addr;
 					}
+					Bisia.Map.geoLocation = tmpLocation;
+					Bisia.Map.clickLatLng = e.latlng;
+					Bisia.Map.marker.setLatLng(Bisia.Map.clickLatLng).update();
+
+					var popContent = '<span>Ti sei spostato qui:</span>' + tmpLocation;
+					Bisia.Map.marker.setPopupContent(popContent).openPopup();
 				});
 			} else {
 				Bisia.Map.clickLatLng = e.latlng;
 				Bisia.Map.marker.setLatLng(Bisia.Map.clickLatLng).update();
 			}
+
+			// Stop nearPlaces
+			if (Bisia.Map.nearPlaces) Bisia.Map.nearPlaces.stop();
+			// Subscribe near locations
+			Bisia.Map.nearPlaces = Meteor.subscribe('nearPlaces', e.latlng.lat, e.latlng.lng, 100);
 		}
 	},
 
@@ -261,9 +435,49 @@ Bisia.Map = {
 	onPositionFound: function(e) {
 		var radius = e.accuracy / 2;
 		var position = e.latlng;
+
 		Bisia.Map.clickLatLng = position;
 		Bisia.Map.yourLatLng = position;
 		Bisia.Map.setGeoPosition(position, radius);
+
+		// Stop nearPlaces
+		if (Bisia.Map.nearPlaces) Bisia.Map.nearPlaces.stop();
+		// Subscribe near locations
+		Bisia.Map.nearPlaces = Meteor.subscribe('nearPlaces', position.lat, position.lng, 100);
+	},
+
+	/**
+	 * Get position by Cordova
+	 * @return {Void}
+	 */
+	tryCordovaGeolocation: function() {
+		navigator.geolocation.getCurrentPosition(Bisia.Map.onCordovaSuccess, Bisia.Map.onCordovaError);
+	},
+
+	/**
+	 * Mimic onPositionFound on Cordova
+	 * @param  {Object} position
+	 * @return {Void}
+	 */
+	onCordovaSuccess: function(position) {
+		var lat = position.position.coords.latitude;
+		var lng = position.position.coords.longitude;
+		var radius = position.coords.accuracy / 2;
+		var pos = L.latLng(lat, lng);
+
+		Bisia.Map.clickLatLng = pos;
+		Bisia.Map.yourLatLng = pos;
+		Bisia.Map.setGeoPosition(pos, radius);
+	},
+
+	/**
+	 * On Cordova Error
+	 * @param  {Object} error
+	 * @return {Void}
+	 */
+	onCordovaError: function(error) {
+		Bisia.log(error);
+		alert('Impossibile rilevare la posizione!');
 	},
 
 	/**
@@ -273,21 +487,153 @@ Bisia.Map = {
 	 * @return {Void}
 	 */
 	setGeoPosition: function(position, radius) {
+		var popup = this.getPopupContent();
 		if (Bisia.Map.geocode) {
 			this.geocode.reverse().latlng(position).run(function(error, result) {
 				Bisia.Map.geoLocation = result.address.Match_addr;
-				Bisia.Map.marker = L.marker(position).addTo(Bisia.Map.map).bindPopup(result.address.Match_addr).openPopup();
+				Bisia.Map.marker = L.marker(position).addTo(Bisia.Map.map).bindPopup(popup + result.address.Match_addr).openPopup();
 			});
 		} else {
-			var location = Bisia.Map.yourLocation || 'Ti trovi qui!';
-			if (Bisia.Map.owner) {
-				location = "<span>" + Bisia.Map.owner + " era qui:</span>" + location;
-			}
-			Bisia.Map.marker = L.marker(position).addTo(Bisia.Map.map).bindPopup(location).openPopup();
+			Bisia.Map.marker = L.marker(position).addTo(Bisia.Map.map).bindPopup(popup).openPopup();
 		}
-		if (radius) {
+		/*if (radius) {
 			Bisia.Map.circle = L.circle(position, radius).addTo(Bisia.Map.map);
+		}*/
+	},
+
+	/**
+	 * Fill the popup content accordingly to position data
+	 * @return {String}
+	 */
+	getPopupContent: function() {
+		var string, verb, timeAgo, location, city = '', popupClass = '';
+		var verb = 'è';
+		var position = this.ownerPosition;
+		if (position) { // tag esistente
+			var createdAt = moment(position.createdAt);
+			var usePast = createdAt.isBefore(moment().subtract(5, 'minute')) ? true : false;
+			if(position.titleEvent) {
+				string = '<span>' + position.titleEvent + '</span>';
+				timeAgo = createdAt.format('dddd DD MMMM [alle] HH:mm');
+				location = (!!position.tag) ? position.tag : position.location;
+				popupClass = 'event';
+			} else {
+				if (position.userId == Meteor.userId()) {
+					verb = usePast ? 'eri' : 'sei';
+					string = '<span>Tu '+verb+' qui:</span>';
+				} else {
+					verb = usePast ? 'era' : 'è';
+					string = '<span>' + position.username + ' '+verb+' qui:</span>';
+				}
+				timeAgo = createdAt.fromNow();
+				location = (!!position.tag) ? position.tag : position.location;
+			}
+			timeAgo = '<small>' + timeAgo + '</small>';
+			if (position.tag && !!position.location) city = ' - ' + _.last(position.location.split(', '));
+			var content = (position.justName) ? location : string + location + city + timeAgo;
+			return '<div class="'+popupClass+'">' + content + '</div>';
+		} else { // tag da impostare
+			return '<span>Tu sei qui:</span>';
 		}
+	},
+
+	/**
+	 * Popup content of people near you
+	 * @param  {Object} userObj
+	 * @return {String}
+	 */
+	getPopupNearYou: function(userObj) {
+		var profile = userObj.profile;
+		var position = profile.position;
+		var location = (!!position.tag) ? position.tag : position.location;
+		location = '<span>' + location + '</span>';
+		var timeAgo = moment(position.createdAt).fromNow();
+		timeAgo = '<small>' + timeAgo + '</small>';
+		var nickname = '<big class="'+profile.gender+'">'+ userObj.username +'</big>';
+		var content = nickname + location + timeAgo;
+		return '<div class="write-message"' +
+				'data-target="'+userObj._id+'"' +
+				'data-username="'+userObj.username+'"' +
+				'data-gender="'+userObj.profile.gender+'">' + content + '</div>';
+	},
+
+	/**
+	 * Show positions of all users
+	 * @param  {Template.instance} instance
+	 * @return {Void}
+	 */
+	templateInstance: function(instance) {
+		var parent = this;
+		// Init reactive vars
+		instance.ready = new ReactiveVar(false);
+		// remove layer
+		// this.map.removeLayer(this.circle);
+		// Autorun
+		instance.autorun(function() {
+			// subscribe to publication
+			var subscription = Meteor.subscribe('nearYou', instance.data.position, 500);	// distance in m
+			// trigger reactivity
+			if (subscription.ready()) {
+				instance.ready.set(true);
+			} else {
+				instance.ready.set(false);
+			}
+
+			// always remove all old user markers
+			if (parent.markersLayer) {
+				parent.map.removeLayer(parent.markersLayer);
+			}
+
+			// Get users
+			var users = Bisia.User.getUsersAroundMe(instance.data.position, 500);
+			// Create a layer for markers
+			parent.markersLayer = new L.FeatureGroup();
+
+			// track all popups
+			var popups = [];
+
+			// Loop through users
+			_.each(users, function(user) {
+				var position = parent.getCenterMap(parent.spanCoordinates(user.profile.position));
+				var popup = parent.getPopupNearYou(user);
+				var markerUser = L.marker(position).bindPopup(popup);
+				parent.markersLayer.addLayer(markerUser);
+				// add marker to array
+				popups.push(markerUser);
+			});
+			// add layer to the map
+			parent.map.addLayer(parent.markersLayer);
+
+			// center on me
+			var mapObj = parent.getCenterMap(parent.ownerPosition);
+			parent.setView(mapObj, parent.zoom);
+
+			// open all popups
+			_.each(popups, function(popup) {
+				popup.openPopup();
+			});
+		});
+		// create range 500m
+		this.circle = L.circle(this.ownerPosition, 500, {
+			'color': '#ffcc00',
+			'weight': 3,
+		}).addTo(this.map);
+	},
+
+	/**
+	 * Span coordinates randomly in the same position
+	 * @param  {Object} position
+	 * @return {Object}
+	 */
+	spanCoordinates: function(position) {
+		// +- 0.0005
+		var rndLat = parseFloat(_.random(-5, 5) * 0.0001 + parseFloat(position.lat));
+		// console.log(position.lat, rndLat);
+		position.lat = rndLat;
+		var rndLng = parseFloat(_.random(-5, 5) * 0.0001 + parseFloat(position.lng));
+		// console.log(position.lng, rndLng);
+		position.lng = rndLng;
+		return position;
 	}
 
 };

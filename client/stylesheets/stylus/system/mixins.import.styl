@@ -44,18 +44,20 @@ badge(bcolor = $gray-row-pin) {
 	line-height: 20px;
 	min-width: 20px;
 	min-height: 20px;
+	z-index: 10;
 }
 
 bottom-bar() {
 	display: table;
-	width: 100%;
+	// width: 100%;
 	height: 40px;
 	padding: 0;
 	z-index: 10;
 	fixed: bottom 0;
-	opacity: .9;
+	//absolute: bottom 0; // ie
+	opacity: 0;
 	transform: translate3d(0, 100%, 0);
-	transition: transform .5s;
+	transition: transform .5s, opacity .5s;
 
 	button {
 		border: 0;
@@ -91,7 +93,8 @@ checkround(color = $bisia, diam = 30px, border = 4px, gap = 2px) {
 
 	width:  diam// 28px;
 	height: diam // 28px;
-	margin: 0 auto;
+	// margin: 0 auto;
+	margin-left: 15px;
 
 	position: relative;
 	border-radius: 50px;
@@ -214,7 +217,7 @@ image-avatar(dim = 40px, borderw = 2px) {
 
 input-search() {
 	position: relative;
-	font-family: 'FontAwesome';
+	font-family: $font-bootstrap;;
 	border: none;
 	border-radius: 20px;
 	padding: 5px 10px;
@@ -263,11 +266,26 @@ navbar-modal(icon) {
 	color: $white;
 }
 
+noty-button() {
+	undecorate();
+	background-color: $gray-row-hl;
+	border-radius: 5px;
+	border: 0;
+	color: $white;
+	margin: 0;
+	padding: 5px 12px;
+	text-align: center;
+	width: 40px;
+}
+
 scrollable(height = 200px) {
 	height: calc(100% - height);
 	overflow-x: hidden;
 	overflow-y: auto;
 	absolute: top height left 0 right 0 bottom 0;
+	z-index: 0;
+	// enable touch feeling on iOs
+	-webkit-overflow-scrolling: touch;
 }
 
 status() {
@@ -322,18 +340,19 @@ notify(color = $black-text, margin-right = 10px, valign = middle) {
 	}
 }
 
-switch() {
+switch(margin = 0, display = 'inline-block') {
 
 	.switch {
 		overflow: hidden;
 		position: relative;
-		display: block;
+		display: display;
 		width: 80px;
 		height: 30px;
 		padding: 0;
-		margin: 0 auto;
+		margin: margin;
 		border-radius: 18px;
 		cursor: pointer;
+		vertical-align: middle;
 	}
 
 	.switch-input {
@@ -350,7 +369,8 @@ switch() {
 		font-size: 10px;
 		text-transform: uppercase;
 		background: $red;
-		border-radius: inherit;
+		// border-radius: inherit;
+		border-radius: 18px;
 		transition: 0.15s ease-out;
 		transition-property: opacity background;
 	}
@@ -397,9 +417,6 @@ switch() {
 	.switch-green > .switch-input:checked ~ .switch-label {
 		background: $green;
 	}
-
-
-
 }
 
 timestamp(right = 5px, padding = 0px) {
@@ -445,6 +462,27 @@ username(font-size = 10px, margin-left = 10px, inline = true) {
 			}
 		}
 
+		&.time.delete {
+			cursor: pointer;
+			&::before {
+				fa('\f00d');
+				color: $red;
+				font-size: 130%;
+				margin-right: .5em;
+			}
+			&.future {
+				color: $red;
+			}
+		}
+
+		&.location {
+			&::before {
+				fa('\f041');
+				margin-left: .15em;
+				margin-right: .5em;
+			}
+		}
+
 		&.message {
 			&::before {
 				fa('\f0e0');
@@ -480,8 +518,8 @@ undecorate() {
 /* Medium devices (desktops, 992px and up) */
 tablet-h() {
 
-	.helpbar .title,
-	.helpbar .bottom {
+	.title,
+	.gotopmore {
 		left: 0;
 		padding-left: $sidebar-width !important;
 	}
@@ -513,13 +551,34 @@ tablet-h() {
 		& > .bar {
 			padding-left: $sidebar-width + 15px;
 
-			& + .content {
+			& ~ .content {
 				padding-left: $sidebar-width + 15px;
+			}
+			& ~ .buttons-toppad,
+			& ~ .reply-form {
+				padding-left: $sidebar-width;
 			}
 		}
 		.row.buttons-toppad,
 		.row.reply-form {
 			width: 875px - $sidebar-width;
+		}
+		&.unlogged {
+			.logo {
+				.counter {
+					&.signed {
+						left: 15% !important;
+					}
+					&.online {
+						right: 15% !important;
+					}
+				}
+			}
+			.cookie {
+				p {
+					text-align: center;
+				}
+			}
 		}
 	}
 
@@ -529,9 +588,12 @@ tablet-h() {
 		.online { right: 25% !important; }
 
 		.form {
-			width: 66%;
+			// width: 66%;
 			margin: 0 auto;
-			float: none;
+			// float: none;
+			form {
+				padding: 0 15%;
+			}
 		}
 	}
 }

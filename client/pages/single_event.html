@@ -1,0 +1,153 @@
+<template name="singleEvent">
+	{{> navbarTop title="Evento"}}
+	<div class="content container-fluid">
+		<div id="event" class="event list">
+		{{#with event}}
+			<div class="row">
+				<div class="col-xs-12 header">
+					<div class="flip-container">
+						<div class="flipper">
+							<div class="front" style="background-image:url({{imageUrl}})">
+								<div class="front-wrapper">
+									<a href="#" data-img="{{imageUrl}}">
+										{{#with formatDate dateTimeEvent}}
+										<div class="date-event">
+											<p>{{weekday}}<big>{{number}}</big>{{month}}</p>
+										</div>
+										<p class="time-event">ore {{time}}</p>
+										<div class="title-event">
+											{{titleEvent}}
+											<span>{{locationEvent}} {{onlyCity this.position.location}}</span>
+										</div>
+										{{/with}}
+									</a>
+								</div>
+							</div>
+							<div class="back">
+							{{#with formatDate dateTimeEvent}}
+								<h4>{{titleEvent}}</h4>
+								<p class="date-time">{{weekday}} {{number}} {{month}} alle ore {{time}}</p>
+								<p class="location">
+									{{locationEvent}}
+									{{#if position.location}}
+										- {{position.location}}
+									{{/if}}
+								</p>
+								{{#with commentWithAuthor}}
+								<p class="owner">{{username}}</p>
+								{{/with}}
+								<p class="descr">{{{br text}}}</p>
+							{{/with}}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12 buttons">
+					{{#if itsMine}}
+					<button class="delete delete-event"></button>
+					{{/if}}
+					<button class="info toggle-info"></button>
+					<button class="marker location"></button>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12 counters">
+					<ul>
+						<li>
+							visite ricevute
+							<span id="count-visitors">{{visitorsCount}}</span>
+						</li>
+						<li>
+							partecipanti
+							<span id="count-joiners">{{joinersCount}}</span>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12 know">
+					<div>
+					{{#if iJoinEvent}}
+						Anche tu parteciperai all'evento
+					{{else}}
+						Parteciperai a questo evento?
+					{{/if}}
+						<label class="switch switch-green">
+							<input type="checkbox" class="switch-input" id="toggle-join" {{youJoinThis}}>
+							<span class="switch-label" data-on="Si" data-off="No"></span>
+							<span class="switch-handle"></span>
+						</label>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-12 helpbar title">
+					<h2>{{titleEvent}}</h2>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12 posts">
+				{{#with backJoiners}}
+					{{#each joiners}}
+						{{#with commentWithAuthor}}
+							{{> joinUser}}
+						{{/with}}
+					{{/each}}
+				{{/with}}
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12 helpbar title">
+					<h2>{{titleEvent}}</h2>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12 helpbar gotopmore">
+					<button class="thumb go-top">
+						<i class="fa fa-arrow-up"></i>
+					</button>
+				</div>
+			</div>
+		{{/with}}
+		</div>
+	</div>
+	<div class="md-overlay gray"></div>
+</template>
+
+<template name="joinUser">
+	<article>
+		<header class="article {{statusGender}}">
+			<a href="{{pathFor 'userProfile'}}">
+				{{> avatarImage data=this online=true}}
+				<div class="username">
+					<small>{{username}}</small>
+					{{> timeDelete data=this look="createdAt"}}
+					{{#if itsMe}}
+					<h5>anche tu parteciperai all'evento!</h5>
+					{{else}}
+					<h5>parteciperà all'evento!</h5>
+					{{/if}}
+				</div>
+			</a>
+		</header>
+		{{#if text}}
+			<p>{{{br text}}}</p>
+		{{else}}
+			{{#if itsMine}}
+			<div class="row">
+				<div class="col-xs-12 comment">
+					<form id="comment-event-form">
+						<textarea placeholder="Commenta la tua partecipazione..." class="autosize" id="comment-text"></textarea>
+						<button type="submit">
+							<i class="fa fa-paper-plane"></i>
+						</button>
+					</form>
+				</div>
+			</div>
+			{{/if}}
+		{{/if}}
+	</article>
+</template>

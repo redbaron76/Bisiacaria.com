@@ -1,14 +1,18 @@
 <template name="navbarTop">
 	<nav class="bar bar-nav">
 		<h1>{{printTitle}}</h1>
-		<button class="navbar-btn left toggle-menu">
+		<div class="navbar-btn left toggle-menu">
+			{{> counterNotification}}
 			<i class="fa fa-lg fa-bars"></i>
-			{{#if totNotifications}}
-			<span>{{totNotifications}}</span>
-			{{/if}}
-		</button>
-		<button class="navbar-btn right toggle-users">
+		</div>
+		<div class="navbar-btn right toggle-users">
 			<i class="fa fa-lg fa-user"></i>
-		</button>
+		</div>
 	</nav>
+</template>
+
+<template name="counterNotification">
+	{{#with totNotifications}}
+		<span class="{{class}}">{{total}}</span>
+	{{/with}}
 </template>

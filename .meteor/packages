@@ -9,7 +9,6 @@ underscore
 iron:router
 sacha:spin
 accounts-password
-#mrt:moment
 momentjs:moment
 gadicohen:headers
 accounts-facebook
@@ -18,22 +17,30 @@ linto:fontawesome
 email
 stylus
 # gadicohen:reactive-window
-mdg:camera
 mdg:geolocation
 
 gwendall:body-events
 dburles:mongo-collection-instances
 jquery-waypoints
-elfoslav:css-emoticons
+#elfoslav:css-emoticons
 fastclick
 launch-screen
 tmeasday:publish-counts
 reactive-var
-mrt:reactive-publish
+#mrt:reactive-publish
+#mrt:modernizr-meteor
 mystor:device-detection
-# infinitedg:winston
-mizzao:autocomplete
+infinitedg:winston
+#mizzao:autocomplete
 mrt:leaflet
 meteorhacks:ssr
 http
 miro:mailchimp-lists
+meteorhacks:fast-render
+qnub:emojione
+percolate:synced-cron
+lepozepo:cloudinary
+djedi:sanitize-html
+
+jabbslad:basic-auth
+#meteorhacks:sikka

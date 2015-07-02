@@ -1,27 +1,18 @@
-<template name="messageWrapper">
-	<div class="md-bubble">
-		<div class="animation">
-			<div class="md-notification message hide">
-				<a href="" class="status-busy male">
-					<img src="/img/redbaron76.jpg" alt="">
-					<p><em class="username">redbaron76</em> ti ha inviato un nuovo messaggio privato! <span>3s</span></p>
-				</a>
-				<button type="button" class="close">&times;</button>
-			</div>
-		</div>
-	</div>
-</template>
-
 <template name="voteBubble">
-	<div class="md-bubble">
+	<div class="md-bubble md-show">
 		<div class="animation">
-			<div class="md-notification vote hide">
-				<a href="" class="status-busy male">
-					<img src="/img/redbaron76.jpg" alt="">
-					<p><em class="username">redbaron76</em> ti ha votato! <span>10s</span></p>
+		{{#with user}}
+			<div class="md-notification  animated bounceInUp {{statusGender}}">
+				<a href="{{pathFor 'userProfile'}}">
+					{{> avatarImage data=this online=true}}
+					<div class="username">
+						<small>{{username}}</small>
+					</div>
 				</a>
+				<p>{{../message}}</p>
 				<button type="button" class="close">&times;</button>
 			</div>
+		{{/with}}
 		</div>
 	</div>
 </template>

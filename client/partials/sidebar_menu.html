@@ -1,7 +1,9 @@
 <template name="sidebarMenu">
 	<aside class="sidebar left bisia-menu">
 		<header>
-			<a href="{{pathFor 'homePage'}}" data-action="close" class="counter signed">{{getPublishedCount 'totUsers'}} <span>iscritti</span></a>
+			<a href="{{pathFor 'lastSignupList'}}" data-action="close" class="counter signed">
+				{{getPublishedCount 'totUsers'}} <span>iscritti</span>
+			</a>
 			<a href="{{pathFor 'notificationList'}}" data-action="close" class="noty">
 				<i class="fa fa-bell"></i>
 				{{#if totNotifies}}
@@ -18,24 +20,27 @@
 				{{> avatarImage data=this online=false}}
 				<div class="username">
 					{{username}}
-					<span>{{profile.city}}</span>
+					<span>{{getCity}}</span>
 				</div>
 			</a>
+			<div class="caret-right username"></div>
 			<div class="action">
 				<a href="{{pathFor 'userProfile'}}" data-action="close" class="profile-btn">
 					<i class="fa fa-user"></i>
 				</a>
 				<button class="post-btn" id="new-post">
-					<i class="fa fa-pencil-square-o"></i>
+					<i class="fa fa-pencil"></i>
+				</button>
+				<button class="post-btn" id="new-position">
+					<i class="fa fa-map-marker"></i>
 				</button>
 			</div>
 		</div>
-		<div class="menu-list{{addClass 'hover'}}">
+		<div class="menu-list">
 			<ul>
 				{{#each menuItems}}
 					{{> menuItem}}
 				{{/each}}
-
 				<li class="spacer">
 					<a href="{{pathFor 'userSettings'}}" data-action="close">
 						<i class="fa fa-lg fa-cog"></i>
@@ -49,6 +54,7 @@
 					</a>
 				</li>
 			</ul>
+			{{> deviceSwitcher}}
 		</div>
 		{{/with}}
 	</aside>
@@ -56,11 +62,19 @@
 
 <template name="menuItem">
 	<li class="{{spacer}}">
-		<a href="{{pathFor path}}" data-action="close">
-			<i class="fa fa-lg {{icon}} {{hlClass}}"></i>
-			{{label}}
-			{{> notificationCount this}}
-		</a>
+		{{#if path}}
+			<a href="{{pathFor path}}" data-action="close">
+				<i class="fa fa-lg {{icon}} {{hlClass}}"></i>
+				{{{text}}}
+				{{> notificationCount this}}
+			</a>
+		{{else}}
+			<a href="#" data-action="{{action}}">
+				<i class="fa fa-lg {{icon}} {{hlClass}}"></i>
+				{{{text}}}
+				{{> notificationCount this}}
+			</a>
+		{{/if}}
 	</li>
 </template>
 

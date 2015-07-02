@@ -1,27 +1,47 @@
 Template.singlePost.onRendered(function() {
 	this.$('.autosize').textareaAutoSize();
+	// this.$('.emoticonize').emoticonize(Bisia.Config.emoticonizeSettings());
 });
 
 Template.singlePost.helpers({
 	postWithAuthor: function() {
-		var author = Users.findOne({ '_id': this.post.authorId }, { 'fields': { 'username': true, 'profile': true, 'online': true } });
-		var post = _.extend(this.post, _.omit(author, '_id'));
-		return _.extend(post, {
-			totLikes: post.likes.length,
-			totUnlikes: post.unlikes.length,
-			totComments: post.comments.length
-		});
+		if (this.post) {
+			var author = Users.findOne({ '_id': this.post.authorId }, { 'fields': { 'username': true, 'profile': true, 'online': true } });
+			var post = _.extend(this.post, _.omit(author, '_id'));
+			return _.extend(post, {
+				totLikes: post.likes.length,
+				totUnlikes: post.unlikes.length,
+				totComments: post.comments.length,
+				delete: 'post'
+			});
+		}
 	},
 	commentWithAuthor: function() {
-		var author = Users.findOne({ '_id': this.authorId }, { 'fields': { 'username': true, 'profile': true, 'online': true } });
-		return _.extend(this, author);
+		var postId = Bisia.getController('params')['_id'];
+		if (this.authorId) {
+			var author = Users.findOne({ '_id': this.authorId }, { 'fields': { 'username': true, 'profile': true, 'online': true } });
+			var obj = _.extend(_.omit(author, '_id'), {
+				authorId: this.authorId,
+				postId: postId,
+				delete: 'comment'
+			});
+			return _.extend(this, obj);
+		}
+	},
+	iLike: function() {
+		return _.contains(this.likes, Meteor.userId()) ? 'me-too' : null;
+	},
+	iUnlike: function() {
+		return _.contains(this.unlikes, Meteor.userId()) ? 'me-too' : null;
 	}
 });
 
 Template.singlePost.events({
 	'click .location': function(e, t) {
 		e.preventDefault();
-		Bisia.Map.triggerMapCreation('map-wrapper', false, this.position);
+		var username = this.usern || this.username;
+		var position = Bisia.User.augmentPosition(this.position, this.authorId, username, this.createdAt);
+		Bisia.Map.triggerMapCreation('map-wrapper', false, position);
 	},
 	'submit #comment-post-form': function(e, t) {
 		e.preventDefault();
@@ -36,11 +56,11 @@ Template.singlePost.events({
 	'click #like-this': function(e, t) {
 		e.preventDefault();
 		if ( ! Bisia.User.isBlocked(this.authorId)) {
-			var result = Posts.update(this._id, { $addToSet: { 'likes': Meteor.userId() } });
+			var result = Posts.update(this._id, { $addToSet: { 'likes': Meteor.userId() }, $inc: { 'likesRating': 1 } });
 			if (result) {
 				// remove from unlikes
 				Posts.update(this._id, { $pull: { 'unlikes': Meteor.userId() } });
-				Bisia.Notification.emit('note', {
+				Meteor.call('likeUnlike', 'note', {
 					actionId: this._id,
 					actionKey: 'like',
 					targetId: this.authorId,
@@ -53,11 +73,11 @@ Template.singlePost.events({
 	'click #unlike-this': function(e, t) {
 		e.preventDefault();
 		if ( ! Bisia.User.isBlocked(this.authorId)) {
-			var result = Posts.update(this._id, { $addToSet: { 'unlikes': Meteor.userId() } });
+			var result = Posts.update(this._id, { $addToSet: { 'unlikes': Meteor.userId() }, $inc: { 'likesRating': -11 } });
 			if (result) {
 				// remove from likes
 				Posts.update(this._id, { $pull: { 'likes': Meteor.userId() } });
-				Bisia.Notification.emit('note', {
+				Meteor.call('likeUnlike', 'note', {
 					actionId: this._id,
 					actionKey: 'unlike',
 					targetId: this.authorId,

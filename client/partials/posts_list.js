@@ -45,7 +45,6 @@ Template.postsList.onCreated(function() {
 });
 
 Template.postsList.helpers({
-
 	posts: function() {
 		return Template.instance().posts();
 	},
@@ -69,24 +68,12 @@ Template.postsList.helpers({
 			postDisplay = instance.ready.get();
 		}
 		// Set map owner
-		Bisia.Map.owner = this.username;
+		//Bisia.Map.owner = this.usern || this.username;
 		// Add postDisplay to this
 		return _.extend(this, {
 			postDisplay: postDisplay
 		});
-	},
-	joinWithCounters: function() {
-		var post = this;
-		post = _.extend(post, {
-			username: Bisia.getController('params')['username'],
-			totLikes: post.likes.length,
-			totUnlikes: post.unlikes.length,
-			totComments: post.comments.length
-		});
-
-		return post;
-
-	},
+	}
 });
 
 Template.postsList.events({
@@ -102,9 +89,24 @@ Template.postsList.events({
 });
 
 
-
+Template.postArticle.onRendered(function() {
+	// this.$('.emoticonize').emoticonize(Bisia.Config.emoticonizeSettings());
+});
 
 Template.postArticle.helpers({
+	joinWithCounters: function() {
+		var post = this;
+		post = _.extend(post, {
+			username: Bisia.getController('params')['username'],
+			totLikes: post.likes.length,
+			totUnlikes: post.unlikes.length,
+			totComments: post.comments.length,
+			delete: 'post'
+		});
+
+		return post;
+
+	},
 	postedTime: function() {
 		var dateTime = moment(this.dateTimePost);
 		var now = moment(Bisia.Time.beatTime.get());
@@ -127,13 +129,21 @@ Template.postArticle.helpers({
 			postTime: dt,
 			classTime: classTime
 		}
+	},
+	iLike: function() {
+		return _.contains(this.likes, Meteor.userId()) ? 'me-too' : null;
+	},
+	iUnlike: function() {
+		return _.contains(this.unlikes, Meteor.userId()) ? 'me-too' : null;
 	}
 });
 
 Template.postArticle.events({
 	'click .location': function(e, t) {
 		e.preventDefault();
-		Bisia.Map.triggerMapCreation('map-wrapper', false, this.position);
+		var username = this.usern || this.username;
+		var position = Bisia.User.augmentPosition(this.position, this.authorId, username, this.createdAt);
+		Bisia.Map.triggerMapCreation('map-wrapper', false, position);
 	},
 	'click .do-comment': function(e, t) {
 		e.preventDefault();
@@ -143,11 +153,11 @@ Template.postArticle.events({
 	'click .do-like': function(e, t) {
 		e.preventDefault();
 		if ( ! Bisia.User.isBlocked(this.authorId)) {
-			var result = Posts.update(this._id, { $addToSet: { 'likes': Meteor.userId() } });
+			var result = Posts.update(this._id, { $addToSet: { 'likes': Meteor.userId() }, $inc: { 'likesRating': 1 } });
 			if (result) {
 				// remove from unlikes
 				Posts.update(this._id, { $pull: { 'unlikes': Meteor.userId() } });
-				Bisia.Notification.emit('note', {
+				Meteor.call('likeUnlike', 'note', {
 					actionId: this._id,
 					actionKey: 'like',
 					targetId: this.authorId,
@@ -160,11 +170,11 @@ Template.postArticle.events({
 	'click .do-unlike': function(e, t) {
 		e.preventDefault();
 		if ( ! Bisia.User.isBlocked(this.authorId)) {
-			var result = Posts.update(this._id, { $addToSet: { 'unlikes': Meteor.userId() } });
+			var result = Posts.update(this._id, { $addToSet: { 'unlikes': Meteor.userId() }, $inc: { 'likesRating': -1 } });
 			if (result) {
 				// remove from likes
 				Posts.update(this._id, { $pull: { 'likes': Meteor.userId() } });
-				Bisia.Notification.emit('note', {
+				Meteor.call('likeUnlike', 'note', {
 					actionId: this._id,
 					actionKey: 'unlike',
 					targetId: this.authorId,

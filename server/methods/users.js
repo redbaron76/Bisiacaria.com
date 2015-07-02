@@ -1,5 +1,8 @@
 // Users Methods
 Meteor.methods({
+	getIp: function() {
+		return headers.methodClientIP(this);
+	},
 	loginFacebook: function(login) {
 		return Bisia.Session.logInOuts(login.userId, login.service, true, headers.methodClientIP(this));
 	},
@@ -11,6 +14,7 @@ Meteor.methods({
 	},
 	registerUser: function(userAttr) {
 		check(userAttr, {
+			verifyKey: String,
 			username: String,
 			email: String,
 			password: String,
@@ -25,10 +29,60 @@ Meteor.methods({
 			}
 		});
 
+		var blockPreviuser = false, userVerified = false;
+
+		// Check name or nick
+		if (Meteor.settings.public.sitePreview) {
+			if (userAttr.verifyKey) {
+				var oldDate = null;
+				var key = userAttr.verifyKey.replace(/ /g, '').toUpperCase();
+				var previuser = Previusers.findOne({
+					'checkedAt': { '$exists': false },
+					'$or': [
+						{ 'name': key },
+						{ 'nickname': key }
+					]
+				});
+
+				if (previuser) {
+					// flag the check date
+					Previusers.update(previuser._id, { '$set': { 'username': userAttr.username, 'checkedAt': new Date() } });
+					if (previuser.date) {
+						userAttr['profile']['memberFrom'] = moment(previuser.date, 'YYYYMMDD HH:mm:ss', true).toDate();
+					}
+					blockPreviuser = false;
+					userVerified = true;
+				}
+
+				// Check newsletter code
+				if (key == Meteor.settings.public.newsletterCode) {
+					var previuser = Previusers.findOne({
+						'checkedAt': { '$exists': false },
+						'email': userAttr.email
+					});
+
+					if (previuser) {
+						Previusers.update(previuser._id, { '$set': { 'username': userAttr.username, 'checkedAt': new Date() } });
+						blockPreviuser = false;
+						userVerified = true;
+					}
+				}
+
+				blockPreviuser = true;
+			}
+			blockPreviuser = true;
+		}
+
 		// Extend userAttr with now flags
-		userAttr['profile']['loginSince'] = Bisia.Time.now();
+		userAttr['profile']['loginSince'] = new Date();
+		userAttr['profile']['birthdate'] = moment(userAttr.profile.birthday, 'DD-MM-YYYY', true).toDate();
 
 		var errors = Bisia.Validation.validateRegister(userAttr);
+
+		if (blockPreviuser && ! userVerified)
+			errors.previuser =  "Non è stato possibile autorizzare la tua iscrizione con il NOME e COGNOME o il NICKNAME immesso.<br><br>" +
+								"Assicurati di aver usato lo stesso NICKNAME o lo stesso NOME e COGNOME che ci hai comunicato su GROWISH o durante il contributo a mano.<br><br>" +
+								"Contattaci per chiarimenti su bisiacaria@gmail.com o sulla Pagina Facebook di Bisiacaria.com|exec";
 
 		var usernameTaken = Users.findOne({ 'username': userAttr.username });
 		if (usernameTaken)
@@ -42,9 +96,12 @@ Meteor.methods({
 
 		var userId = Accounts.createUser(userAttr);
 
+		Bisia.Log.info('register user', userAttr);
+
 		return true;
 	},
-	saveProfileData: function(dataAttr) {
+	saveProfileData: function(dataAttr, currentUsername) {
+		check(currentUsername, String);
 		check(dataAttr, {
 			username: String,
 			profile: {
@@ -66,14 +123,28 @@ Meteor.methods({
 
 		if (Bisia.has(errors)) return Bisia.serverErrors(errors);
 
-		var userId = Users.update(currentUser, { $set: {
+		var profileObj = {
 			'username': dataAttr.username,
 			'profile.bio': dataAttr.profile.bio,
 			'profile.birthday': dataAttr.profile.birthday,
+			'profile.birthdate': moment(dataAttr.profile.birthday, 'DD-MM-YYYY', true).toDate(),
 			'profile.city': dataAttr.profile.city,
 			'profile.status': dataAttr.profile.status,
 			'profile.lastUpdate': new Date()
-		} });
+		};
+
+		var userId = Users.update(currentUser, { $set: profileObj });
+
+		// Log profile update
+		Bisia.Log.info('profile data', profileObj);
+
+		if (currentUsername != dataAttr.username && dataAttr._id == Meteor.userId()) {
+			// nickname changed
+			Bisia.Notification.notifyMyFollowers('note', 'nicknameChanged', profileObj, { nickname: currentUsername });
+		} else {
+			Bisia.Notification.notifyMyFollowers('note', 'profileData', profileObj, {});
+		}
+
 
 		return true;
 	},
@@ -117,6 +188,8 @@ Meteor.methods({
 		var currentUser = Meteor.userId();
 		if (questionObj && currentUser) {
 			Users.upsert(currentUser, { $set: { 'profile.question': questionObj }});
+			Bisia.Log.info('profile questions', questionObj);
+			Bisia.Notification.notifyMyFollowers('note', 'question', questionObj, {});
 		}
 		return true;
 	},
@@ -124,6 +197,8 @@ Meteor.methods({
 		var currentUser = Meteor.userId();
 		if (questionObj && currentUser) {
 			Users.upsert(currentUser, { $set: { 'profile.lovehate': questionObj }});
+			Bisia.Log.info('profile lovehate', questionObj);
+			Bisia.Notification.notifyMyFollowers('note', 'loveHate', questionObj, {});
 		}
 		return true;
 	},
@@ -145,14 +220,21 @@ Meteor.methods({
 		});
 
 		// Insert to blocked user
-		Users.update(blockObj.blockId, { $addToSet: { 'blockBy': this.userId }, $pull: { 'friends': this.userId } });
+		Users.update(blockObj.blockId, { $addToSet: { 'blockBy': this.userId }, $pull: { 'followers': this.userId, 'following': this.userId } });
 		// Insert blocked to user
-		Users.update(this.userId, { $addToSet: { 'blocked': blockObj.blockId }, $pull: { 'friends': blockObj.blockId } });
-		// Remove me from blocked friends
+		Users.update(this.userId, { $addToSet: { 'blocked': blockObj.blockId }, $pull: { 'followers': blockObj.blockId, 'following': blockObj.blockId } });
+		// Remove me from blocked followed
 		Friends.remove({ 'targetId': this.userId, 'userId': blockObj.blockId });
-		// Remove blocked from my friends
+		// Remove blocked from my following
 		Friends.remove({ 'targetId': blockObj.blockId, 'userId': this.userId });
+
+		Bisia.Log.info('block user', blockObj);
 
 		return true;
 	},
+	deleteUser: function() {
+		check(this.userId, String);
+		Users.update(this.userId, { $set: { 'scheduledDelete': Bisia.Time.now() } })
+		return true;
+	}
 });

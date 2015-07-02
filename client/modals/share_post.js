@@ -22,8 +22,9 @@ Template.sharePostModal.events({
 
 		var formObject = Bisia.Form.getFields($target, null);
 		var shareArr = formObject['share'];
-		Bisia.log(shareArr);
-		if (shareArr.length > 0) {
+		var arrLength = shareArr.length;
+
+		if (arrLength > 0) {
 			Meteor.call('sharePost', this.post, shareArr, function(error, result) {
 				if(error) {
 					Bisia.log('sharePost', error);
@@ -36,7 +37,10 @@ Template.sharePostModal.events({
 
 				if (result) {
 					Bisia.Form.cleanFormFields();
-					Bisia.Ui.toggleModal(e);
+					// Bisia.Ui.toggleModal(e);
+					Bisia.Ui.loadingRemove()
+							.toggleModal(e, 'tab')
+							.submitSuccess('Hai condiviso questo post con ' + arrLength + ' dei tuoi contatti.', 'Condiviso!', null, true);
 				}
 			});
 		}

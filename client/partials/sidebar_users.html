@@ -2,8 +2,14 @@
 	<aside class="sidebar right online-users">
 		<header>
 			<div class="counter users">{{getPublishedCount 'totOnline'}} <span>online</span></div>
+			<a href="{{pathFor 'searchUsers'}}" data-action="close" class="noty">
+				<i class="fa fa-search"></i>
+				{{#if totNotifies}}
+					<span>{{totNotifies}}</span>
+				{{/if}}
+			</a>
 			<form action="#">
-				<input type="search" placeholder="&#xf002; Filtra nickname">
+				<input type="search" id="filter-nickname" placeholder="Filtra nick in lista...">
 			</form>
 		</header>
 
@@ -15,7 +21,7 @@
 				{{/each}}
 			</ul>
 			{{else}}
-				{{> spinner}}
+				{{> spinning}}
 			{{/if}}
 		</div>
 
@@ -23,12 +29,12 @@
 </template>
 
 <template name="onlineUser">
-	<li class="{{statusGender}}">
+	<li class="{{statusGender}}" data-username="{{lowercase username}}">
 		<a href="{{pathFor 'userProfile'}}" data-action="{{setOpenClose}}">
 			{{> avatarImage data=this online=false}}
 			<div class="username">
 				{{username}}
-				<span>{{profile.city}}</span>
+				<span>{{getCity}}</span>
 			</div>
 		</a>
 		<div class="caret-right"></div>

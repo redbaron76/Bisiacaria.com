@@ -6,6 +6,13 @@ Template.bubbleWrapper.helpers({
 	}
 });
 
+Template.bubbleWrapper.events({
+	'click .close': function(e, t) {
+		e.preventDefault();
+		Bisia.Ui.unsetReactive('bubble');
+	}
+});
+
 // INFO WRAPPER
 
 Template.infoWrapper.helpers({
@@ -14,7 +21,23 @@ Template.infoWrapper.helpers({
 	}
 });
 
+// IMG WRAPPER
+
+Template.imgWrapper.helpers({
+	imgUrl: function() {
+		return Bisia.Ui.img.get();
+	},
+});
+
+Template.imgWrapper.events({
+	'click #img-close': function(e, t) {
+		e.preventDefault();
+		Bisia.Ui.unsetReactive('img');
+	}
+});
+
 // MAP WRAPPER
+
 
 Template.mapWrapper.helpers({
 	hasMap: function() {
@@ -22,7 +45,17 @@ Template.mapWrapper.helpers({
 	},
 });
 
-Template.mapWrapper.events({
+Template.mapContainer.onCreated(function() {
+	// only when map is for people near you
+	var parent = this;
+	if (parent.data.instance) {
+		Meteor.setTimeout(function() {
+			Bisia.Map.templateInstance(parent);
+		},1000);
+	}
+});
+
+Template.mapContainer.events({
 	'click #map-set': function(e, t) {
 		e.preventDefault();
 		Bisia.Map.setMapPosition();
@@ -34,6 +67,20 @@ Template.mapWrapper.events({
 	'click #map-center': function(e, t) {
 		e.preventDefault();
 		Bisia.Map.backToYourPosition();
+	},
+	'click .write-message': function(e, t) {
+		e.preventDefault();
+		var target = $(e.currentTarget).data('target');
+		var gender = $(e.currentTarget).data('gender');
+		var username = $(e.currentTarget).data('username');
+
+		var msgObj = {
+			template: 'messagePopup',
+			targetId: target,
+			username: username,
+			gender: gender
+		};
+		Bisia.Ui.setReactive('popup', msgObj);
 	}
 });
 

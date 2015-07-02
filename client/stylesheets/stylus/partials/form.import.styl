@@ -112,6 +112,9 @@
 			}
 		}
 
+		.show-geotags {
+			display: none;
+		}
 	}
 
 	button#newsletter-signup {
@@ -129,8 +132,18 @@
 			background-color: $bisiad;
 		}
 
+		&.gray {
+			background-color: $gray-row-pin;
+			color: $white;
+		}
+
 		&.blue {
 			background-color: $blue;
+			color: $white;
+		}
+
+		&.red {
+			background-color: $red;
 			color: $white;
 		}
 
@@ -213,8 +226,9 @@
 			checkround();
 
 			& + label {
+				display: none;
 				vertical-align: text-bottom;
-				margin-left: 5%;
+				margin-left: 10px;
 
 				color: $gray-row-pin;
 				font-family: $font-light;
@@ -222,6 +236,10 @@
 
 				& + span.error {
 					absolute: top 39px;
+				}
+
+				&.show-label {
+					display: inline-block;
 				}
 			}
 		}
@@ -235,6 +253,76 @@
 		a {
 			color: $blue;
 			text-decoration: none;
+		}
+	}
+}
+
+#usersearch {
+
+	.divider {
+		divider(10%);
+	}
+
+	.status-radio {
+		text-align: right;
+	}
+
+	.checkround {
+
+		&.male {
+			checkround($blue, 26px, 3px , 4px);
+		}
+
+		&.female {
+			checkround($pink, 26px, 3px , 4px);
+		}
+
+		&.busy {
+			checkround($red, 26px, 3px , 4px);
+		}
+
+		&.none {
+			checkround($bisia, 26px, 3px , 4px);
+		}
+
+		&.free {
+			checkround($green, 26px, 3px , 4px);
+		}
+	}
+
+	.slider-wrapper {
+		display: table;
+		.slider, span {
+			display: table-cell;
+		}
+		span {
+			width: 25px;
+			color: $gray-row-pin;
+			font-size: 16px;
+
+			&:nth-of-type(1) {
+				padding-left: 10px;
+				padding-right: 15px;
+			}
+			&:nth-of-type(2) {
+				padding-left: 15px;
+			}
+		}
+		.slider {
+			width: 100%;
+			margin: 0 10px;
+			.slider-handle {
+				background-color: $gray-row-pin;
+				background-image: none;
+			}
+			.slider-track {
+				background-image: none;
+				background-color: $white-border;
+				.slider-selection {
+					background: none;
+					box-shadow: none;
+				}
+			}
 		}
 	}
 }

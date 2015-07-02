@@ -1,7 +1,7 @@
 <template name="questionLovehateModal">
 	{{#with this}}
 	<div class="md-modal bottom" data-content="question-lovehate">
-		{{> navbarModal data=this title=user.username action="thumbs-up"}}
+		{{> navbarModal data=this title=username action="thumbs-up" avoidToMe=true}}
 		<div class="content container-fluid">
 			<div class="row second">
 				<div class="col-xs-12 question">
@@ -76,7 +76,7 @@
 								{{> answerProfileQuestion q='q17' data=this title='il mio ultimo viaggio' }}
 							</div>
 							<div class="col-xs12 col-sm-6">
-								{{> answerProfileQuestion q='q18' data=this title='viaggi in programa?' }}
+								{{> answerProfileQuestion q='q18' data=this title='viaggi in programma?' }}
 							</div>
 						</div>
 						<div class="row">
@@ -89,7 +89,7 @@
 						</div>
 						<div class="row">
 							<div class="col-xs12 col-sm-6">
-								{{> answerProfileQuestion q='q21' data=this title='in amore vince...' }}
+								{{> answerProfileQuestion q='q21' data=this title='quando mi annoio...' }}
 							</div>
 							<div class="col-xs12 col-sm-6">
 								{{> answerProfileQuestion q='q22' data=this title='nei weekend mi piace...' }}
@@ -167,6 +167,6 @@
 <template name="answerProfileQuestion">
 	<div class="label-profile">
 		<span>{{question}}</span>
-		{{answer}}
+		{{br answer}}
 	</div>
 </template>

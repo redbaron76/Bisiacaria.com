@@ -1,0 +1,19 @@
+<template name="lastSignupList">
+	<li class="{{statusGender}}">
+		<div class="li-wrapper">
+			<a href="{{pathFor 'userProfile'}}">
+				{{> avatarImage data=this online=true}}
+				<div class="username">
+					{{username}}
+					<span class="location">{{profile.city}}</span>
+					<span class="time">{{timeFormat 'dddd DD MMMM YYYY [alle] HH:mm'}}</span>
+				</div>
+				<div class="right-aligned">
+					<div class="age">
+						{{getAge}}
+					</div>
+				</div>
+			</a>
+		</div>
+	</li>
+</template>

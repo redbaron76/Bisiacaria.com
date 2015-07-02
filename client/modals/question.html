@@ -3,7 +3,7 @@
 		{{> navbarModal title="Domande e Risposte" action="check" target="question-form"}}
 		<div class="content container-fluid">
 			<div class="row">
-				<div class="col-xs-12 question">
+				<div class="col-xs-12 form question">
 					{{#with currentUser}}
 					<form id="question-form" class="form-row">
 						{{> answerQuestion q='q1' data=profile.question title='altezza' }}
@@ -40,13 +40,13 @@
 
 						{{> answerQuestion q='q17' data=profile.question title='il mio ultimo viaggio' }}
 
-						{{> answerQuestion q='q18' data=profile.question title='viaggi in programa?' }}
+						{{> answerQuestion q='q18' data=profile.question title='viaggi in programma?' }}
 
 						{{> answerQuestion q='q19' data=profile.question title='programma TV preferito?' }}
 
 						{{> answerQuestion q='q20' data=profile.question title='fiore preferito?' }}
 
-						{{> answerQuestion q='q21' data=profile.question title='in amore vince...' }}
+						{{> answerQuestion q='q21' data=profile.question title='quando mi annoio...' }}
 
 						{{> answerQuestion q='q22' data=profile.question title='nei weekend mi piace...' }}
 
@@ -58,7 +58,7 @@
 
 						{{> answerQuestion q='q26' data=profile.question title='in amore vince...' }}
 
-						<button type="submit" data-animation="loading" class="yellow">Salva</button>
+						<button type="submit" data-animation="loading" class="gray">Salva</button>
 					</form>
 					{{/with}}
 				</div>

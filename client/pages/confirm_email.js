@@ -8,6 +8,7 @@ Template.confirmEmail.events({
 			if (error) {
 				return Bisia.Ui.submitError(Bisia.Login.messages.unableVerifyEmail, 'Verifica non riuscita!');
 			}
+
 			Bisia.Login.assertLogin('loginUser', 'password');
 		});
 		return false;

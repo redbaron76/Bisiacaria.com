@@ -7,4 +7,9 @@ Meteor.startup(function () {
 	Bisia.Mail.init();
 	// Init Automator
 	Bisia.Automator.init();
+	// Init Winston logger
+	Bisia.Log.init();
+
+	// Enabled in settings.json
+	Bisia.Login.basicAuthProtect();
 });

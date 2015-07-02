@@ -1,10 +1,10 @@
-Template.chatList.rendered = function() {
+Template.chatList.onRendered(function() {
 	if (Bisia.User.isLogged()) {
 		// set message as isRead = true
 		var chatId = Bisia.getController('params')['chatId'];
 		Meteor.call('messageOpen', chatId);
 	}
-}
+});
 
 Template.chatList.helpers({
 	joinWithAuthor: function() {
@@ -50,7 +50,8 @@ Template.chatList.events({
 	}
 });
 
-Template.chatItem.rendered = function() {
+Template.chatItem.onRendered(function() {
+	// this.$('.emoticonize').emoticonize(Bisia.Config.emoticonizeSettings());
 	if(Bisia.Message.goToBottom) {
 		Bisia.Ui.goBottom();
 		// set isRead when received message from other user
@@ -58,7 +59,7 @@ Template.chatItem.rendered = function() {
 			Meteor.call('messageOpen', this.data.chatId);
 		}
 	}
-}
+});
 
 Template.chatItem.helpers({
 	detectMe: function() {
@@ -73,26 +74,29 @@ Template.chatItem.helpers({
 });
 
 Template.chatItem.events({
-	'click [data-action=block-user]': function(e, t) {
+	/*'click [data-action=block-user]': function(e, t) {
 		e.preventDefault();
 		var data = _.extend(this, {
 			infoTitle: "Bloccare questo utente?",
 			infoText: "Stai per bloccare questo utente!<br>Non sarà più in grado di vederti online nè di interagire con te."
 		});
 		Bisia.Ui.confirmDialog('Bisia.User.blockUser', e, data);
-	}
+	}*/
 });
 
-Template.replyForm.rendered = function() {
-	this.$('.autosize').textareaAutoSize().focus();
-};
+Template.replyForm.onRendered(function() {
+	// Not focus if tablet or phone
+	if (Meteor.Device.isDesktop()) {
+		this.$('.autosize').textareaAutoSize().focus();
+	}
+});
 
 Template.replyForm.events({
 	'submit #reply-form': function(e, t) {
 		e.preventDefault();
 		var chatId = Bisia.getController('params')['chatId'];
 		var $textarea = $(e.target).find('#message-reply');
-		if(Bisia.Message.sendMessage($textarea.val(), false, chatId)) {
+		if(Bisia.Message.sendMessage($textarea.val(), chatId)) {
 			$textarea.val('').css({'height': 'auto'});
 		}
 	},

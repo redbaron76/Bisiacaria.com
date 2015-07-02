@@ -7,7 +7,7 @@
 				<div class="username">
 					<small>{{ada}}:</small>
 					{{username}}
-					<span class="message">{{shortText text 50}}</span>
+					<span class="message">{{{shortText text 50 true}}}</span>
 					<span class="time">{{timeAgo}}</span>
 					{{#unless isSent}}
 						{{#if countUnread}}
@@ -24,11 +24,17 @@
 			<div class="action">
 				{{#with formatChatId}}
 				<a href="{{pathFor 'readMessage'}}" class="reply" data-action="close">
-					<i class="fa fa-reply"></i>
+					<i class="fa fa-folder-open"></i>
 				</a>
 				{{/with}}
 				<button class="trash" id="delete-message">
 					<i class="fa fa-trash"></i>
+				</button>
+				<button class="block" id="block-user">
+					<span class="fa-stack fa-lg">
+						<i class="fa fa-user fa-stack-1x"></i>
+						<i class="fa fa-ban fa-stack-1x text-danger"></i>
+					</span>
 				</button>
 			</div>
 			{{/if}}

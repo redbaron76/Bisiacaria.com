@@ -1,6 +1,7 @@
 // On Meteor Startup - CLIENT SIDE
 Meteor.startup(function() {
-	Bisia.Audio.init('noty.mp3');
+	// Check the connection status
+	Bisia.Session.connectionStatus();
 });
 
 // Autorun hearthbeat when Meteor.userId()
@@ -9,5 +10,5 @@ Tracker.autorun(function () {
 	// Track hearthBeat
 	Bisia.Session.hearthBeat();
 	// Force Unlog by the server
-	Bisia.Login.forceUnlogged();
+	// Bisia.Login.forceUnlogged();
 });

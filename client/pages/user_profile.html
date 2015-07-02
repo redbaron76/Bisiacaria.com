@@ -1,5 +1,5 @@
 <template name="userProfile">
-	{{> navbarTop title="Profilo"}}
+	{{> navbarTop title=this.nickname}}
 	<div class="content container-fluid">
 		<div id="profile">
 		{{#with user}}
@@ -9,11 +9,11 @@
 						<div class="flipper">
 							<div class="front">
 								<div class="front-wrapper">
-									<a href="#">
+									<a href="#" data-img="{{profile.picture}}">
 										{{> avatarImage data=this online=true}}
 										<div class="username">
 											{{username}}
-											<span>{{profile.city}}</span>
+											<span>{{getCity}}</span>
 										</div>
 									</a>
 									<p class="cite">{{profile.bio}}</p>
@@ -30,7 +30,7 @@
 								<div class="row first">
 									<div class="col-xs-12">
 										<div class="light-wrapper">
-											<div id="light" class=" status-busy">
+											<div id="light" class="{{getStatus}}">
 												<span id="red"></span>
 												<span id="orange"></span>
 												<span id="green"></span>
@@ -45,10 +45,14 @@
 												</div>
 											</li>
 											<li>
-												<div class="label-profile">
+												<div class="label-profile birthday">
 													<i class="fa fa-birthday-cake"></i>
-													<span>compleanno tra</span>
-													{{nextBirthDay}} giorni
+													{{#if birthdayIsToday}}
+														<big>TANTI AUGURI {{username}}!</big>
+													{{else}}
+														<span>compleanno tra</span>
+														{{nextBirthDay}} giorni
+													{{/if}}
 												</div>
 											</li>
 											<li>
@@ -90,16 +94,20 @@
 				<div class="col-xs-12 counters">
 					<ul>
 						<li>
-							conoscenze
-							<span id="count-knowledge">{{getPublishedCount 'totFriends'}}</span>
+							<a href="#" id="user-know">
+								conoscenze
+								<span id="count-knowledge">{{followingCount}}</span>
+							</a>
 						</li>
 						<li>
-							{{#if itsMe}}
-								ti conoscono
-							{{else}}
-								{{mf 'lo' 'la'}} conoscono
-							{{/if}}
-							<span id="counter-knowers">{{followCount}}</span>
+							<a href="#" id="know-user">
+								{{#if itsMe}}
+									ti conoscono
+								{{else}}
+									{{mf 'lo' 'la'}} conoscono
+								{{/if}}
+								<span id="counter-knowers">{{followersCount}}</span>
+							</a>
 						</li>
 						<li>
 							voti ricevuti
@@ -111,12 +119,12 @@
 			<div class="row">
 				<div class="col-xs-12 know">
 					{{#unless itsMe}}
+						<div class="{{getGender}}">
 						{{#if iFollowYou}}
-							<p class="{{getGender}}">Ricevi le notifiche da <span class="username">{{username}}</span></p>
+							Notifiche da <span class="username">{{username}}</span>
 						{{else}}
-							<p class="{{getGender}}">Conosci <span class="username">{{username}}</span> anche tu?</p>
+							Conosci <span class="username">{{username}}</span>?
 						{{/if}}
-						<div class="btn-wrapper">
 							<label class="switch switch-green">
 								<input type="checkbox" class="switch-input" id="toggle-know" {{youKnowThis}}>
 								<span class="switch-label" data-on="Si" data-off="No"></span>
@@ -125,7 +133,7 @@
 						</div>
 					{{else}}
 						<button id="new-post-profile">
-							<i class="fa fa-pencil-square-o"></i>
+							<i class="fa fa-pencil"></i>
 							Pubblica nuovi <span>Blog</span> o <span>Eventi</span>
 						</button>
 					{{/unless}}

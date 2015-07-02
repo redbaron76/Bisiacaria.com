@@ -1,0 +1,55 @@
+// DEVICES
+// @import 'devices/phone.import';
+@import 'devices/tablet.import';
+@import 'devices/desktop.import';
+
+// Phone
+.phone {
+
+}
+
+// Tablet
+.tablet {
+
+	// min-width: 768px
+	@media (min-width: $screen-sm-min) {
+		min768();
+		cookie(2%);
+	}
+
+	// min-width: 992px
+	@media (min-width: $screen-md-min) {
+		cookie(5%);
+	}
+
+	// disable device-switcher
+	disable-device-switcher();
+
+}
+
+.desktop {
+
+	&.show-desktop-full {
+
+		// min-width: 768px
+		@media (min-width: $screen-sm-min) {
+			min768();
+		}
+
+		// min-width: 992px
+		@media (min-width: $screen-md-min) {
+			min992();
+		}
+
+		// min-width: 1280px
+		@media (min-width: $screen-lg-min) {
+			min1280();
+		}
+
+		// min-width: 1281px and more
+		@media (min-width: $screen-infinite) {
+			more1280();
+		}
+	}
+
+}

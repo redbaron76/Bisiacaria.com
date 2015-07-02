@@ -1,0 +1,26 @@
+<template name="friendPosts">
+	{{> navbarTop title=title}}
+	<div class="content container-fluid">
+		<div class="list" id="list">
+			{{#with detectFirstPage}}
+				{{#if pageDisplay}}
+					<div class="row">
+						<div class="col-xs-12 posts">
+							{{#each items}}
+								{{#with getPost this}}
+									{{> postArticle}}
+								{{/with}}
+							{{else}}
+								{{> emptyArticle}}
+							{{/each}}
+						</div>
+					</div>
+					{{> paginator}}
+				{{else}}
+					{{> loading}}
+				{{/if}}
+			{{/with}}
+		</div>
+	</div>
+	<div class="md-overlay gray"></div>
+</template>

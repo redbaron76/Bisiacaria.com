@@ -1,6 +1,6 @@
 // Publish visits from notifications collection
-Meteor.reactivePublish('visitsList', function(query, options, authorId) {
-	check(this.userId, String);
+Meteor.publish('visitsList', function(query, options, authorId) {
+	// // check(this.userId, String);
 	check(authorId, String);
 	check(query, Object);
 	check(options, {
@@ -16,18 +16,22 @@ Meteor.reactivePublish('visitsList', function(query, options, authorId) {
 	query = _.extend(query, owner);
 	// get cursors
 	var visits = Notifications.find(query, options);
-	// map the authorIds
-	var userIds = visits.map(function(doc) { return doc[authorId] });
-	var authors = Users.find({ '_id': { '$in': userIds }});
 
-	// Meteor._sleepForMs(1000);
-	// return cursors
-	return [visits, authors];
+	if (visits.count() > 0) {
+		// map the authorIds
+		var userIds = visits.map(function(doc) { return doc[authorId] });
+		var authors = Users.find({ '_id': { '$in': userIds }});
+
+		// Meteor._sleepForMs(5000);
+		// return cursors
+		return [visits, authors];
+	}
+	return visits;
 });
 
 // Publish news from friends from notifications collection
-Meteor.reactivePublish('newsList', function(query, options, authorId) {
-	check(this.userId, String);
+Meteor.publish('newsList', function(query, options, authorId) {
+	// check(this.userId, String);
 	check(authorId, String);
 	check(query, Object);
 	check(options, {
@@ -43,11 +47,15 @@ Meteor.reactivePublish('newsList', function(query, options, authorId) {
 	query = _.extend(query, owner);
 	// get cursors
 	var news = Notifications.find(query, options);
-	// map the authorIds
-	var userIds = news.map(function(doc) { return doc[authorId] });
-	var authors = Users.find({ '_id': { '$in': userIds }});
 
-	// Meteor._sleepForMs(1000);
-	// return cursors
-	return [news, authors];
+	if (news.count() > 0) {
+		// map the authorIds
+		var userIds = news.map(function(doc) { return doc[authorId] });
+		var authors = Users.find({ '_id': { '$in': userIds }});
+
+		// Meteor._sleepForMs(1000);
+		// return cursors
+		return [news, authors];
+	}
+	return news;
 });

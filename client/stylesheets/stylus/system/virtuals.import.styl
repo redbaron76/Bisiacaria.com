@@ -1,0 +1,140 @@
+// VIRTUAL DEVICES
+
+@media (min-width: $screen-sm-min) {
+
+	body {
+		&.show-phone-v,
+		&.show-tablet-v,
+		&.show-phone-h,
+		&.show-tablet-h {
+			background-color: $white;
+		}
+	}
+
+	.wrapper.desktop {
+		// top: 50%;
+		overflow: hidden;
+		position: relative;
+		// transform: translateY(-50%);
+		margin: 0 auto;
+		z-index: 4;
+
+		& + .device {
+			display: block;
+
+			&.show-phone-v + .device-switcher,
+			&.show-tablet-v + .device-switcher,
+			&.show-phone-h + .device-switcher,
+			&.show-tablet-h + .device-switcher {
+				display: table;
+			}
+		}
+
+		&.show-phone-v {
+			top: 50%; // ie
+			transform: translateY(-50%); // ie
+
+			width: 320px;
+			height: 570px;
+		}
+
+		&.show-tablet-v {
+			top: 50%; // ie
+			transform: translateY(-50%); // ie
+
+			width: 660px;
+			height: 875px;
+		}
+
+		&.show-phone-h {
+			top: 50%; // ie
+			transform: translateY(-50%); // ie
+
+			height: 320px;
+			width: 570px;
+		}
+
+		&.show-tablet-h {
+			top: 50%; // ie
+			transform: translateY(-50%); // ie
+
+			height: 660px;
+			width: 875px;
+			tablet-h();
+		}
+
+		.content {
+			height: 100% !important;
+		}
+
+		&.show-phone-v {
+			.col-sm-6 {
+				width: 100% !important;
+			}
+			.col-md-6 {
+				width: 100% !important;
+			}
+			.status-radio {
+				text-align: right !important;
+			}
+
+			.check-box {
+				.checkround {
+					& + label {
+						display: none;
+						&.show-label {
+							display: inline-block;
+						}
+					}
+				}
+			}
+		}
+
+		&.show-tablet-h {
+			.md-bubble {
+				position: absolute;
+				left: 5px;
+				bottom: 5px;
+				width: $sidebar-width - 10px;
+				min-width: $sidebar-width - 10px;
+				transform: none;
+			}
+			.loading {
+				padding-left: $sidebar-width + 15px;
+			}
+		}
+	}
+
+	.device {
+		position: fixed;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		z-index: 1;
+
+		&.show-phone-v {
+			width: 366px;
+			height: 750px;
+			background: url('img/phone_v.png') 0 0 no-repeat;
+		}
+
+		&.show-tablet-v {
+			width: 818px;
+			height: 1062px;
+			background: url('img/tablet_v.png') 0 0 no-repeat;
+		}
+
+		&.show-phone-h {
+			height: 366px;
+			width: 750px;
+			background: url('img/phone_h.png') 0 0 no-repeat;
+		}
+
+		&.show-tablet-h {
+			height: 818px;
+			width: 1062px;
+			background: url('img/tablet_h.png') 0 0 no-repeat;
+		}
+	}
+
+}

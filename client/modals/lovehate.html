@@ -3,7 +3,7 @@
 		{{> navbarModal title="Amo e Odio" action="check" target="lovehate-form"}}
 		<div class="content container-fluid">
 			<div class="row">
-				<div class="col-xs-12 lovehate">
+				<div class="col-xs-12 form lovehate">
 					{{#with currentUser}}
 					<form id="lovehate-form" class="form-row">
 						<h6>amo</h6>
@@ -19,7 +19,7 @@
 						{{> answerLoveHate lh='lh9' data=profile.lovehate }}
 						{{> answerLoveHate lh='lh10' data=profile.lovehate }}
 
-						<button type="submit" data-animation="loading" class="yellow">Salva</button>
+						<button type="submit" data-animation="loading" class="gray">Salva</button>
 					</form>
 					{{/with}}
 				</div>

@@ -32,7 +32,7 @@
 						</div>
 						<div class="form-group">
 							<i class="fa fa-birthday-cake"></i>
-							<input type="text" value="{{getBirthDate}}" id="birthday" placeholder="Data di nascita">
+							<input type="text" pattern="[0-9/]*" value="{{getBirthDate}}" id="birthday" placeholder="Data di nascita">
 						</div>
 						<div class="form-group text-area">
 							<i class="fa fa-map-marker"></i>
@@ -119,11 +119,19 @@
 						<div class="divider white-bg">
 							<span>tipo di account: {{getAccount}}</span>
 						</div>
+						<p>La lista di utenti che hai bloccato e che non sono più in grado di comunicare con te.</p>
 						<button type="submit" class="yellow" id="blockedusers">
-							Utenti bloccati 
+							Utenti bloccati
 							{{#if countBlocked}}
 								({{countBlocked}})
 							{{/if}}
+						</button>
+						<div class="divider white-bg">
+							<span>cancellazione profilo</span>
+						</div>
+						<p>Il tuo profilo verrà eliminato definitivamente da Bisiacaria.com entro 24 ore e non sarà più recuperabile.</p>
+						<button type="submit" class="red" id="deleteaccount">
+							Elimina account
 						</button>
 					</form>
 				</div>

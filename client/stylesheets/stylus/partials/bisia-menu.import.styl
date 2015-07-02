@@ -11,6 +11,7 @@
 			height: 150px;
 			color: $gray-row-hl;
 			fill: currentColor;
+			margin-left: 10px;
 		}
 
 		.counter {
@@ -23,16 +24,8 @@
 		}
 
 		.noty {
-			undecorate();
 			absolute: bottom 10px right 10px;
-			background-color: $gray-row-hl;
-			border-radius: 5px;
-			border: 0;
-			color: $white;
-			margin: 0;
-			padding: 5px 12px;
-			text-align: center;
-			width: 40px;
+			noty-button();
 			span {
 				badge($red);
 				absolute: top -5px left -50%;
@@ -46,13 +39,15 @@
 		malefemale();
 		undecorate();
 		a-wrapper();
-		padding: 10px 10px;
+		padding: 10px 10px 10px 0;
 		position: relative;
 
 		.profile-wrapper {
 			transition: transform .2s;
 		}
-
+		.avatar-wrapper {
+			padding: 0 5px;
+		}
 		.avatar {
 			avatar(50px, 2px);
 		}
@@ -60,6 +55,8 @@
 		.username {
 			username(14px);
 			width: 100%;
+			padding-left: 5px;
+			ellipsis();
 
 			span {
 				ellipsis();
@@ -69,7 +66,7 @@
 
 		.action {
 			display: table;
-			absolute: top 10px right -87px;
+			absolute: top 10px right -131px; // 87
 			transition: transform .2s;
 			height: 50px;
 			z-index: 2;
@@ -100,7 +97,7 @@
 			}
 
 			.action {
-				transform: translate3d(-87px, 0, 0);
+				transform: translate3d(-131px, 0, 0); // 87
 			}
 		}
 	}
@@ -108,12 +105,6 @@
 	.menu-list {
 		scrollable(190px);
 		// background-color: lime;
-
-		&.hover {
-			li:hover {
-				background-color: $gray-row-hl;
-			}
-		}
 
 		ul {
 			ul-list();
@@ -153,6 +144,11 @@
 							background-color: $blue;
 						}
 					}
+					small {
+						font-size: 10px;
+						padding-left: 3px;
+						color: $gray-row-pin;
+					}
 				}
 
 
@@ -164,6 +160,15 @@
 					margin-bottom: 0;
 				}
 			}
+		}
+	}
+}
+
+// Hover on menu in desktop mode only
+.desktop {
+	.menu-list {
+		li:hover {
+			background-color: $gray-row-hl;
 		}
 	}
 }

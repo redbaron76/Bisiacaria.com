@@ -1,7 +1,8 @@
 <template name="newsEventList">
 	<li class="{{statusGender}}">
 		<div class="li-wrapper">
-			<a href="{{pathFor 'singlePost' _id=this.actionId}}">
+			{{#with getLocation}}
+			<a href="{{pathFor this.routeTo _id=this.actionId}}">
 				{{> avatarImage data=this online=true}}
 				<div class="username text">
 					{{username}}
@@ -9,6 +10,7 @@
 					<span class="time">{{timeAgo}}</span>
 				</div>
 			</a>
+			{{/with}}
 		</div>
 	</li>
 </template>

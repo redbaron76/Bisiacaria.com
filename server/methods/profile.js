@@ -7,18 +7,19 @@ Meteor.methods({
 			check: Boolean
 		});
 
+		var parent = this;
 		var user = Meteor.user();
 		var isFriend = friendObj.check;
 
 		// Remove check field
 		friendObj = _.omit(friendObj, 'check');
 
-		if (user._id == friendObj.targetId)
+		if (parent.userId == friendObj.targetId)
 			throw new Meteor.Error('error-know', 'Non puoi conoscere te stesso!');
 
 		var friend = _.extend(friendObj, {
-			userId: user._id,
-			createdAt: Bisia.Time.serverTime
+			userId: parent.userId,
+			createdAt: Bisia.Time.setServerTime()
 		});
 
 		// Block if targetId is blocked
@@ -26,18 +27,23 @@ Meteor.methods({
 			return true;
 
 		if (isFriend) {
-			Users.update(friendObj.targetId, { $addToSet: { 'friends': user._id } });
-			friend._id = Friends.insert(friendObj);
-			// Notify friendship to target user
-			Bisia.Notification.emit('friend', {
-				userId: user._id,
-				targetId: friend.targetId,
-				actionId: friend._id
-			});
+			// se non siamo già amici
+			if (Friends.find({ 'targetId': friendObj.targetId, 'userId': this.userId }).count() == 0) {
+				Users.update(friendObj.targetId, { $addToSet: { 'followers': parent.userId } });
+				Users.update(parent.userId, { $addToSet: { 'following': friendObj.targetId } });
+				friend._id = Friends.insert(friendObj);
+				// Notify friendship to target user
+				Bisia.Notification.emit('friend', {
+					userId: parent.userId,
+					targetId: friend.targetId,
+					actionId: friend._id
+				});
+			}
 		} else {
-			Users.update(friendObj.targetId, { $pull: { 'friends': user._id } });
-			Friends.remove({ 'userId': user._id, 'targetId': friendObj.targetId });
-			Notifications.remove({ 'userId': user._id, 'targetId': friendObj.targetId, 'isRead': false });
+			Users.update(friendObj.targetId, { $pull: { 'followers': parent.userId } });
+			Users.update(parent.userId, { $pull: { 'following': friendObj.targetId } });
+			Friends.remove({ 'userId': parent.userId, 'targetId': friendObj.targetId });
+			Notifications.remove({ 'userId': parent.userId, 'targetId': friendObj.targetId, 'isRead': false });
 		}
 
 	},
@@ -62,11 +68,13 @@ Meteor.methods({
 		});
 
 		if (flooding && Bisia.Notification.enableFloodProtect)
-			throw new Meteor.Error('error-visit', 'Sei tornato a visitare troppo velocemente');
+			// throw new Meteor.Error('error-visit', 'Sei tornato a visitare troppo velocemente');
+			return false;
 
 		var visit = _.extend(visitObj, {
 			userId: user._id,
-			createdAt: Bisia.Time.serverTime
+			createdAt: Bisia.Time.setServerTime(),
+			message: 'ha visitato il tuo profilo.'
 		});
 
 		// Get people blocked
@@ -74,8 +82,9 @@ Meteor.methods({
 
 		return Bisia.Notification.emit('visit', visit, blockIds);
 	},
-	voteUser: function(voteObj) {
+	voteUser: function(voteObj, gender) {
 		check(this.userId, String);
+		check(gender, String);
 		check(voteObj, {
 			targetId: String
 		});
@@ -83,7 +92,8 @@ Meteor.methods({
 		var user = Meteor.user();
 
 		if (user._id == voteObj.targetId)
-			throw new Meteor.Error('error-vote', 'Non puoi votare te stesso!');
+			// throw new Meteor.Error('error-vote', 'Non puoi votare te stesso!');
+			return;
 
 		// Already voted for today
 		var alreadyVotedToday = Votes.findOne({
@@ -96,15 +106,16 @@ Meteor.methods({
 		});
 
 		if (alreadyVotedToday)
-			throw new Meteor.Error('invalid-vote', 'Oggi hai già votato questo utente!');
+			//throw new Meteor.Error('invalid-vote', 'è già stato votato per oggi!');
+			return Bisia.Notification.postVoteMessage(false, gender);
 
 		// Block if targetId is blocked
 		if (Bisia.User.isBlocked(voteObj.targetId))
-			return true;
+			return;
 
 		var vote = _.extend(voteObj, {
 			userId: user._id,
-			createdAt: Bisia.Time.serverTime
+			createdAt: Bisia.Time.setServerTime()
 		});
 
 		Users.update(voteObj.targetId, { $inc: { 'profile.votesCount': 1 } });
@@ -114,107 +125,12 @@ Meteor.methods({
 		Bisia.Notification.emit('vote', {
 			userId: user._id,
 			targetId: vote.targetId,
-			actionId: vote._id
+			actionId: vote._id,
+			message: 'ti ha inviato un nuovo voto.'
 		});
 
-		return vote._id;
-	},
-	saveNewPost: function(formObj, myFollowers) {
-		check(this.userId, String);
-		check(formObj, {
-			text: String,
-			category: String,
-			dateTimePost: Date,
-			imageUrl: String,
-			position: Object
-		});
-
-		var user = Meteor.user();
-		var postObj = _.extend(formObj, {
-			authorId: user._id,
-			createdAt: Bisia.Time.serverTime
-		});
-
-		var errors = Bisia.Validation.validateNewPost(postObj);
-
-		if (Bisia.has(errors)) return Bisia.serverErrors(errors);
-
-		// add category if any and not present
-		if (!!postObj.category)
-			Users.update(user._id, { $addToSet: { 'profile.categories': postObj.category } });
-
-		// add counter arrays
-		postObj = _.extend(postObj, {
-			likes: [],
-			unlikes: [],
-			comments: []
-		});
-
-		// Insert into collection
-		postObj._id = Posts.insert(postObj);
-
-		var details = {
-			imageUrl: postObj.imageUrl,
-			position: postObj.position
-		};
-
-		//Notify to all followers
-		_.each(myFollowers, function(el) {
-			Bisia.Notification.emit('news', {
-				userId: user._id,
-				targetId: el,
-				actionId: postObj._id,
-				actionKey: 'post',
-				message: Bisia.Notification.postEventMsg('post', postObj, details)
-			}, postObj.dateTimePost);
-		});
-
-		return true;
-	},
-	saveNewEvent: function(formObj, myFollowers) {
-		check(this.userId, String);
-		check(formObj, {
-			text: String,
-			titleEvent: String,
-			locationEvent: String,
-			dateTimeEvent: Date,
-			imageUrl: String,
-			position: Object
-		});
-
-		var user = Meteor.user();
-		var eventObj = _.extend(formObj, {
-			authorId: user._id,
-			createdAt: Bisia.Time.serverTime,
-			joins: [],
-			comments: []
-		});
-
-		var errors = Bisia.Validation.validateNewEvent(eventObj, 'SERVER');
-
-		if (Bisia.has(errors)) return Bisia.serverErrors(errors);
-
-		// Insert into collection
-		eventObj._id = Events.insert(eventObj);
-
-		var details = {
-			text: eventObj.text,
-			imageUrl: eventObj.imageUrl,
-			position: eventObj.position
-		};
-
-		//Notify to all followers
-		_.each(myFollowers, function(el) {
-			Bisia.Notification.emit('news', {
-				userId: user._id,
-				targetId: el,
-				actionId: eventObj._id,
-				actionKey: 'event',
-				message: Bisia.Notification.postEventMsg('event', eventObj, details)
-			});
-		});
-
-		return true;
+		//return vote._id;
+		return Bisia.Notification.postVoteMessage(true, gender);
 	},
 	newsletterSignup: function(email) {
 		check(this.userId, String);

@@ -1,6 +1,8 @@
 .md-bubble {
-	fixed: bottom 0 left 50%;
-	transform: translateX(-50%);
+	// fixed: bottom 0 left 50%;
+	// transform: translateX(-50%);
+	fixed: top 50% left 50%;
+	transform: translate(-50%, -50%);
 	width: 90%;
 	max-width: 750px;
 	min-width: 300px;
@@ -14,24 +16,60 @@
 		visibility: visible;
 	}
 
-	// background-color: lime;
+	.animation {
+		relative: top 0 bottom 0;
+		width: 100%;
+		height: auto;
+	}
 
 	.md-notification {
 		position: relative;
 		background-color: $white;
+		border: 1px solid $white-border;
 		border-radius: 5px;
 		padding: 10px 30px 10px 10px;
 		margin-bottom: 5px;
 		background-color: $white;
-		notify($black-text);
+		// notify($black-text);
+
+		status();
+		malefemale();
+		undecorate();
+		a-wrapper();
+
 		a {
-			status();
-			malefemale();
+			width: 100%;
+			display: table;
 			undecorate();
 		}
+		.avatar-wrapper {
+			display: table-cell;
+			width: 35px;
+			.avatar {
+				avatar(35px, 2px);
+			}
+		}
+
+		p {
+			margin-left: 45px;
+			margin-top: -15px;
+			margin-bottom: 0;
+			color: $gray-row-hl;
+			font-family: $font-book;
+			font-size: 12px;
+			padding: 0;
+		}
+
+		.username {
+			username(14px);
+			display: table-cell;
+			vertical-align: top;
+		}
+
 		button.close {
 			font-family: $font-bootstrap;
-			absolute: top 0 right 10px bottom 0;
+			absolute: top 10px right 10px;
 		}
+
 	}
 }

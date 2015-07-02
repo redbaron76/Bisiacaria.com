@@ -3,19 +3,27 @@
 Bisia.Menu = {
 
 	structure: [
-	{
-			"key": "message",
-			"icon": "fa-envelope",
-			"label": "Messaggi privati",
-			"path": "getMessages",
-			"nClass": "new",
-		},
 		{
 			"key": "news",
 			"icon": "fa-star",
 			"label": "Novità da chi conosci",
 			"path": "newsList",
-			"nClass": "new"
+			"nClass": "live"
+		},
+		{
+			"key": "around",
+			"icon": "fa-map-marker",
+			"label": "Utenti geotaggati",
+			"newLabel": "Utenti nei dintorni <small>(0.5km)</small>",
+			"action": "around-you",
+			"nClass": "live"
+		},
+		{
+			"key": "message",
+			"icon": "fa-envelope",
+			"label": "Messaggi privati",
+			"path": "getMessages",
+			"nClass": "new",
 		},
 		{
 			"key": "event",
@@ -35,7 +43,7 @@ Bisia.Menu = {
 		{
 			"key": "visit",
 			"icon": "fa-exclamation-circle",
-			"label": "Ti stanno visitando",
+			"label": "Ti hanno visitato",
 			"path": "visitsList",
 			"nClass": "new",
 			"spacer": true

@@ -1,6 +1,6 @@
 // Publish votes
-Meteor.reactivePublish('votesList', function(query, options, authorId) {
-	check(this.userId, String);
+Meteor.publish('votesList', function(query, options, authorId) {
+	// check(this.userId, String);
 	check(authorId, String);
 	check(query, Object);
 	check(options, {
@@ -16,11 +16,15 @@ Meteor.reactivePublish('votesList', function(query, options, authorId) {
 	query = _.extend(query, owner);
 	// get cursors
 	var visits = Votes.find(query, options);
-	// map the authorIds
-	var userIds = visits.map(function(doc) { return doc[authorId] });
-	var authors = Users.find({ '_id': { '$in': userIds }});
 
-	// Meteor._sleepForMs(1000);
-	// return cursors
-	return [visits, authors];
+	if (visits.count()) {
+		// map the authorIds
+		var userIds = visits.map(function(doc) { return doc[authorId] });
+		var authors = Users.find({ '_id': { '$in': userIds }});
+
+		// Meteor._sleepForMs(1000);
+		// return cursors
+		return [visits, authors];
+	}
+	return visits;
 });

@@ -1,4 +1,4 @@
-Template.sidebarUsers.created = function() {
+Template.sidebarUsers.onCreated(function() {
 
 	// Initialization
 	var instance = this;
@@ -7,44 +7,44 @@ Template.sidebarUsers.created = function() {
 	instance.ready = new ReactiveVar(false);
 
 	// Autorun when reactive var changes
-	instance.autorun(function() {
-
+	instance.autorun(function() {;
 		// Subscribe to publication
-		var subscription = Meteor.subscribe('onlineUsers');
-
-		if (subscription.ready()) {
+		var subscription = Meteor.subscribe('onlineUsers', Bisia.User.getUserPosition());
+		// trigger reactivity
+		if (subscription.ready() && Bisia.Session.connStatus.get()) {
 			instance.ready.set(true);
 		} else {
 			instance.ready.set(false);
 		}
-
 	});
 
 	// The cursor
 	instance.onlineUsers = function() {
-		// Get array of people to hide/block
-		var toBlock = Bisia.User.getBlockIds(Meteor.userId());
-		// Build query to get all users online
-		var query = { 'profile.online': true };
-		// Exclude people to hide if any
-		if ( ! _.isEmpty(toBlock))
-			query = _.extend(query, {
-				'_id': { '$nin': toBlock }
-			});
-
-		return Users.find(query, {
-				'fields': {
-					'username': true,
-					'profile': true
-				},
-				'sort': {
-					'profile.loginSince': -1
-				}
+		if (Bisia.User.isLogged) {
+			// Get array of people to hide/block
+			var toBlock = Bisia.User.getBlockIds(Meteor.userId());
+			// Build query to get all users online
+			var query = { 'profile.online': true };
+			// Exclude people to hide if any
+			if ( ! _.isEmpty(toBlock)) {
+				query = _.extend(query, {
+					'_id': { '$nin': toBlock }
+				});
 			}
-		);
+
+			return Users.find(query, {
+					'fields': {
+						'username': true,
+						'profile': true
+					},
+					'sort': { 'profile.loginSince': -1 }
+				}
+			);
+		}
+		return;
 	};
 
-};
+});
 
 Template.sidebarUsers.helpers({
 	onlineUsers: function() {
@@ -53,6 +53,44 @@ Template.sidebarUsers.helpers({
 	usersReady: function() {
 		return Template.instance().ready.get();
 	}
+});
+
+Template.sidebarUsers.events({
+	'keyup #filter-nickname': function(e, t) {
+		var text = $(e.target).val().toLowerCase();
+		$('#usersList > li').each(function() {
+			var $this = $(this);
+			var username = $this.data('username');
+			(username.indexOf(text) == 0) ? $this.show() : $this.hide();
+		});
+	}
+});
+
+Template.onlineUser.onRendered(function() {
+	var user = this.data;
+	if (user._id != Meteor.userId() && Bisia.Session.connStatus.get()) {
+		var youFollow = Meteor.user()['following'];
+		var bubbled = AlertFollowing.findOne({targetId: user._id, seen: true});
+		var message = 'in questo momento è online!';
+		if (_.contains(youFollow, user._id) && !bubbled) {
+			Bisia.Ui.runAfter(function() {
+				Bisia.Ui.setReactive('bubble', {
+					template: 'voteBubble',
+					user: user,
+					message: message
+				});
+				Bisia.Audio.playPresent();
+				AlertFollowing.insert({targetId: user._id, seen: true});
+			}, function() {
+				Bisia.Ui.unsetReactive('bubble');
+			}, 5);
+		}
+	}
+});
+
+Template.onlineUser.onDestroyed(function() {
+	var user = this.data;
+	// AlertFollowing.remove({targetId: user._id});
 });
 
 Template.onlineUser.events({
@@ -67,8 +105,20 @@ Template.onlineUser.events({
 	},
 	'click .send-vote': function(e, t) {
 		e.preventDefault();
-		Meteor.call('voteUser', {
-			targetId: t.data._id
+
+		var voteObj = {	targetId: t.data._id };
+		var gender = t.data.profile.gender;
+
+		Meteor.call('voteUser', voteObj, gender, function(error, result) {
+			Bisia.Ui.runAfter(function() {
+				Bisia.Ui.setReactive('bubble', {
+					template: 'voteBubble',
+					user: t.data,
+					message: error ? error : result
+				});
+			}, function() {
+				Bisia.Ui.unsetReactive('bubble');
+			}, 3);
 		});
 	}
 });

@@ -1,7 +1,10 @@
 Template.base.helpers({
 	isLogged: function() {
-		if (Bisia.User.isLogged())
+		if (Bisia.User.isLogged()) {
 			return 'logged';
+		} else {
+			return 'unlogged';
+		}
 	}
 });
 
@@ -22,13 +25,17 @@ Template.base.events({
 	'click [data-target]': function(e, t) {
 		e.preventDefault();
 		Bisia.Form.triggerSubmit(e);
+	},
+	'click [data-img]': function(e, t) {
+		e.preventDefault();
+		Bisia.Ui.triggerFullScreenImage(e);
 	}
 });
 
-Template.device.events({
+Template.deviceSwitcher.events({
 	'click [data-device]': function(e, t) {
 		e.preventDefault();
-		Bisia.Ui.changeDevice(e);
+		Bisia.Ui.toggleSidebar().changeDevice(e);
 	}
 });
 

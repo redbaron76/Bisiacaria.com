@@ -1,0 +1,53 @@
+<template name="userKnowModal">
+	<div class="md-modal top" data-content="user-know">
+		{{#with titleBuilder ':username conosce...' ':username'}}
+			{{> navbarModal data=this title=this.sectionTitle }}
+			<div class="content container-fluid">
+				{{#if pageReady}}
+				<div class="list" id="list">
+					<div class="row">
+						<div class="col-xs-12  posts list-wrapper">
+							<ul class="item-list">
+								{{#each friendUsers}}
+									{{#with getUserAuthor this.targetId}}
+										{{> friendUser}}
+									{{/with}}
+								{{/each}}
+							</ul>
+						</div>
+					</div>
+				</div>
+				{{else}}
+					{{> loading}}
+				{{/if}}
+			</div>
+		{{/with}}
+	</div>
+</template>
+
+<template name="knowUserModal">
+	<div class="md-modal top" data-content="know-user">
+		{{#with titleBuilder 'Conoscono :username' ':username'}}
+			{{> navbarModal data=this title=this.sectionTitle }}
+			<div class="content container-fluid">
+				{{#if pageReady}}
+				<div class="list" id="list">
+					<div class="row">
+						<div class="col-xs-12  posts list-wrapper">
+							<ul class="item-list">
+								{{#each friendUsers}}
+									{{#with getUserAuthor this.userId}}
+										{{> friendUser}}
+									{{/with}}
+								{{/each}}
+							</ul>
+						</div>
+					</div>
+				</div>
+				{{else}}
+					{{> loading}}
+				{{/if}}
+			</div>
+		{{/with}}
+	</div>
+</template>

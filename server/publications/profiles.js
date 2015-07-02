@@ -3,12 +3,8 @@ Meteor.publish('userProfile', function(username) {
 	check(username, String);
 
 	// Meteor._sleepForMs(1000);
-	var user = Users.find({ 'username': username }, { 'fields': { 'emails': false, 'services': false } });
-	var userId = _.pluck(user.fetch(), '_id')[0];
-
-	Counts.publish(this, 'totFriends', Friends.find({ 'userId': userId }), { noReady: true });
-
-	// Return cursor
+	// var user = Users.find({ 'username': username }, { 'fields': { 'emails': false, 'services': false } });
+	var user = Users.find({ 'username': { '$regex': username, '$options': 'i' }}, { 'fields': { 'emails': false, 'services': false } });
 	return user;
 });
 
@@ -19,6 +15,8 @@ Meteor.publish('userPosts', function(query, options) {
 		sort: Object,
 		limit: Number
 	});
+
+	// Meteor._sleepForMs(500000);
 
 	var posts = Posts.find(query, options);
 
@@ -49,29 +47,35 @@ Meteor.publish('singlePost', function(postId) {
 	// Get the post
 	var post = Posts.find({ '_id': postId });
 
-	// map the authorIds
-	var userIds = post.map(function(doc) {
-		var commentAuthors = _.map(doc['comments'], function(value, key) {
-			return value['authorId'];
+	if (post.count() > 0) {
+		// map the authorIds
+		var userIds = post.map(function(doc) {
+			var commentAuthors = _.map(doc['comments'], function(value, key) {
+				return value['authorId'];
+			});
+			return _.union(commentAuthors, doc['likes'], doc['unlikes']);
 		});
-		return _.union(commentAuthors, doc['likes'], doc['unlikes']);
-	});
 
-	var authorId = post.fetch()[0]['authorId'];
+		var authorId = post.fetch()[0]['authorId'];
+		var authors = {};
 
-	// Get author's followers
-	var followers = _.pick(Users.findOne({ '_id': authorId}), 'friends');
-	if (followers) followers = followers.friends;
+		if (authorId) {
+			// Get author's followers
+			var user = _.pick(Users.findOne({ '_id': authorId}), 'followers');
+			if (user) followers = user.followers;
 
-	// Add authorId to userIds to load
-	userIds[0].push(authorId);
+			// Add authorId to userIds to load
+			userIds[0].push(authorId);
 
-	// Unite joiners + followers and set unique
-	var userIds = _.unique(_.union(userIds[0], followers));
+			// Unite joiners + followers and set unique
+			var userIds = _.unique(_.union(userIds[0], followers));
 
-	// get authors of likes and comments
-	var authors = Users.find({ '_id': { '$in': userIds }});
+			// get authors of likes and comments
+			var authors = Users.find({ '_id': { '$in': userIds }});
+		}
 
-	// Return cursor
-	return [post, authors];
+		// Return cursor
+		return [post, authors];
+	}
+	return post;
 });

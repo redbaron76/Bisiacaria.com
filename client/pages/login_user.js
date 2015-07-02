@@ -26,6 +26,7 @@ Template.loginUser.events({
 		if (formObject) {
 			Meteor.loginWithPassword(formObject.email, formObject.password, function(error) {
 				if (error) {
+					Bisia.log(error);
 					return Bisia.Login.failLogin('loginFormFail');
 				}
 				Bisia.Login.assertLogin('loginUser', 'password');

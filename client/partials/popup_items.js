@@ -6,15 +6,15 @@ Template.messagePopup.helpers({
 	}
 });
 
-Template.messagePopup.rendered = function() {
+Template.messagePopup.onRendered(function() {
 	parent.$('#message-text').textareaAutoSize().focus();
-};
+});
 
 Template.messagePopup.events({
 	'submit #message-form': function(e, t) {
 		e.preventDefault();
 		var text = $(e.target).find('#message-text').val();
-		Bisia.Message.sendMessage(text, true);
+		Bisia.Message.sendMessage(text);
 	},
 	'click .md-popup .close': function(e, t) {
 		e.preventDefault();
@@ -30,9 +30,9 @@ Template.commentPopup.helpers({
 	}
 });
 
-Template.commentPopup.rendered = function() {
+Template.commentPopup.onRendered(function() {
 	parent.$('#comment-text').textareaAutoSize().focus();
-};
+});
 
 Template.commentPopup.events({
 	'submit #comment-form': function(e, t) {

@@ -9,12 +9,14 @@ Template.navbarTop.events({
 	}
 });
 
-Template.navbarTop.helpers({
+Template.counterNotification.helpers({
 	totNotifications: function() {
-		var count = Bisia.Notification.countTotal();
-		if (count > 0) {
-			// Bisia.Audio.playNoty();
-			return count;
-		}
+		var total = Bisia.Notification.total.get();
+		if (total > 0)
+			Bisia.Audio.playNoty();
+		return {
+			total: total,
+			class: (total > 0) ? 'appear' : null
+		};
 	}
 });

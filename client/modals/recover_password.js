@@ -10,6 +10,7 @@ Template.recoverPasswordModal.events({
 				if (error) {
 					return Bisia.Ui.submitError(Bisia.Login.messages.emailNotPresent, 'Recupero non riuscito!');
 				}
+				$('#emailRecover').val('');
 				return Bisia.Ui.submitSuccess(Bisia.Login.messages.passwordRecovered);
 			});
 			return false;

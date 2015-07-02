@@ -1,17 +1,13 @@
 <template name="navbarModal">
-	<nav class="bar bar-nav">
-		<h1>{{#if title}}
-				{{title}}
-			{{else}}
-				{{printTitle}}
-			{{/if}}
-		</h1>
-		<button class="navbar-btn left md-close">
-		</button>
+	<nav class="bar bar-nav bar-modal">
+		<h1>{{title}}</h1>
+		<div class="navbar-btn left md-close"></div>
 		{{#if action}}
-			<button class="navbar-btn right send-{{action}}" data-target="{{target}}">
-				<i class="fa fa-{{action}}"></i>
-			</button>
+			{{#with checkItsMe}}
+				<div class="navbar-btn right send-{{action}}" data-target="{{target}}">
+					<i class="fa fa-{{action}}"></i>
+				</div>
+			{{/with}}
 		{{/if}}
 	</nav>
 </template>

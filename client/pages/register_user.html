@@ -28,10 +28,25 @@
 							<p>Clicca il link presente nella mail che ti abbiamo inviato ed entra a far parte di Bisiacaria.com!</p>
 							<p>Nel caso non dovesse arrivarti la mail per la conferma della tua iscrizione, ti invitiamo a verificare la cartella SPAM del tuo account di posta ed eventualmente a contattarci all'indirizzo: bisiacaria@gmail.com</p>
 						{{else}}
+
+							{{#if sitePreview}}
+							<div class="divider white-bg"><span>Accesso riservato ai soli sostenitori</span></div>
+							<p>L'iscrizione a questo <strong>Beta-Test</strong> è riservata ai soli utenti che hanno contribuito materialmente alla rinascita del portale.</p>
+							<p><strong>ATTENZIONE!<br>Per autorizzare il tuo accesso, comunicaci il tuo CODICE ricevuto nella newsletter o il tuo NOME e COGNOME che hai usato per contribuire su GROWISH oppure il NICKNAME che utilizzavi nella prima versione di Bisiacaria.com e che ci hai comunicato contribuendo di persona.</strong></p>
+							<div class="form-group">
+								<i class="fa fa-question"></i>
+								<input type="text" id="verifyKey" placeholder="NOME, NICKNAME o CODICE">
+							</div>
+							<p>Nel caso volessi iscriverti ora con un nuovo nickname, potrai modificarlo in seguito all'interno dell'applicazione.</p>
+							<p>A titolo di ringraziamento per il sostegno e la fiducia dimostrata nei nostri confronti, ti imposteremo automaticamente (se sarà possibile stabilire una correlazione tra vecchio e nuovo profilo) la <strong>data di iscrizione</strong> che il tuo profilo aveva nella <strong>prima versione di Bisiacaria.com</strong></p>
+							<p><strong>ATTENZIONE!<br>Per ottenere la data di iscrizione originale dovrai impostare lo stesso nickname che avevi nella prima versione di Bisiacaria.com</strong></p>
+							<p><strong>ATTENZIONE!<br>Se dovessi riscontrare difficoltà nell'iscrizione a questo Beta-Test, inviaci una mail a bisiacaria@gmail.com oppure contattaci sulla nostra Pagine Facebook.</strong></p>
+							{{/if}}
+
 							<div class="divider white-bg"><span>i tuoi dati di accesso</span></div>
 							<div class="form-group">
 								<i class="fa fa-envelope"></i>
-								<input type="text" id="email" placeholder="Indirizzo e-mail">
+								<input type="email" id="email" placeholder="Indirizzo e-mail">
 							</div>
 							<div class="form-group">
 								<i class="fa fa-lock"></i>
@@ -48,7 +63,7 @@
 							</div>
 							<div class="form-group">
 								<i class="fa fa-birthday-cake"></i>
-								<input type="text" id="birthday" placeholder="Data di nascita">
+								<input type="text" pattern="[0-9/]*" id="birthday" placeholder="Data di nascita">
 							</div>
 							<div class="form-group check-box">
 								<i class="fa fa-male"></i>
@@ -56,19 +71,24 @@
 									<input type="radio" name="gender" value="male" id="male">
 									<label for="male"></label>
 								</div>
-								<label for="male">Uomo</label>
+								<label for="male" class="show-label">Uomo</label>
 								<i class="fa fa-female"></i>
 								<div class="checkround">
 									<input type="radio" name="gender" value="female" id="female">
 									<label for="female"></label>
 								</div>
-								<label for="female">Donna</label>
+								<label for="female" class="show-label">Donna</label>
 							</div>
 
-							<p>Iscrivendoti con questo form, accetti i <a href="#" id="terms-conditions">termini e le condizioni</a> del servizio offerto da Bisiacaria.com</p>
+							<p>Iscrivendoti con questo form, <strong>ACCETTI</strong> il <a href="#" id="regolamento">regolamento</a> di Bisiacaria.com e la <a href="#" id="privacy-policy">privacy policy</a> che regolano la fruizione del servizio.</p>
 							<button type="submit" data-animation="loading" class="yellow">Iscriviti</button>
 						{{/if}}
 					</form>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12 register">
+					<a href="{{pathFor 'loginUser'}}">Hai già un account? <span>Entra ora!</span></a>
 				</div>
 			</div>
 		</div>

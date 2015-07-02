@@ -40,19 +40,22 @@
 		{{> addImage}}
 		{{> addMap}}
 		<div class="form-group">
-			<i class="fa fa-plus" id="open-categories"></i>
-			<input type="text" id="category" placeholder="Categoria">
+			<i class="fa fa-plus show-categories" id="open-categories"></i>
+			<input type="text" id="category" class="show-categories" placeholder="Categoria">
+
+			<i class="fa fa-map-marker show-geotags" id="open-geotags"></i>
+			<input type="text" id="geotag" class="show-geotags" placeholder="Località, hotel, bar, ristorante...">
 		</div>
 		<div class="form-group">
 			<i class="fa fa-calendar"></i>
-			<input type="text" id="date-post" placeholder="Pubblica il...">
+			<input type="text" id="date-post" value="{{dateNow}}" placeholder="Pubblica il...">
 		</div>
 		<div class="form-group">
 			<i class="fa fa-clock-o"></i>
-			<input type="text" id="time-post" placeholder="Pubblica alle...">
+			<input type="text" id="time-post" value="{{timeNow}}" placeholder="Pubblica alle...">
 		</div>
 
-		<button type="submit" data-animation="loading" class="yellow">Pubblica Post</button>
+		<button type="submit" data-animation="loading" class="gray">Pubblica Post</button>
 	</form>
 </template>
 
@@ -72,16 +75,16 @@
 		</div>
 		<div class="form-group">
 			<i class="fa fa-calendar"></i>
-			<input type="text" id="date-event" placeholder="Data dell'evento">
+			<input type="text" id="date-event" value="{{dateNow}}" placeholder="Data dell'evento">
 		</div>
 		<div class="form-group">
 			<i class="fa fa-clock-o"></i>
-			<input type="text" id="time-event" placeholder="Ora dell'evento">
+			<input type="text" id="time-event" value="{{timeNow}}" placeholder="Ora dell'evento">
 		</div>
 		<div class="divider white-bg"><span>opzioni evento</span></div>
 		{{> addImage}}
 		{{> addMap}}
-		<button type="submit" data-animation="loading" class="yellow">Pubblica Evento</button>
+		<button type="submit" data-animation="loading" class="gray">Pubblica Evento</button>
 	</form>
 	<!-- {{> addImageForm}} -->
 </template>
