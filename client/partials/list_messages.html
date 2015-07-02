@@ -2,7 +2,7 @@
 	<li class="{{statusGender}}">
 		{{#with messagePath}}
 		<div class="li-wrapper">
-			<a href="{{pathFor 'readMessage'}}" data-action="{{setOpenClose}}">
+			<a href="{{pathFor 'readMessage'}}">
 				{{> avatarImage data=this online=true}}
 				<div class="username">
 					<small>{{ada}}:</small>
@@ -16,12 +16,7 @@
 					{{/unless}}
 				</div>
 			</a>
-			{{#if isSent}}
-			<div class="right-aligned">
-				<i class="fa {{getIcon}}"></i>
-			</div>
-			{{else}}
-			<div class="action">
+			<!-- <div class="action">
 				{{#with formatChatId}}
 				<a href="{{pathFor 'readMessage'}}" class="reply" data-action="close">
 					<i class="fa fa-folder-open"></i>
@@ -36,8 +31,7 @@
 						<i class="fa fa-ban fa-stack-1x text-danger"></i>
 					</span>
 				</button>
-			</div>
-			{{/if}}
+			</div> -->
 		</div>
 		{{/with}}
 	</li>
