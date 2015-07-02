@@ -20,7 +20,6 @@
 	</div>
 	<div class="content container-fluid chatpage">
 		<div class="list">
-
 			{{#with detectFirstPage}}
 				{{#if pageDisplay}}
 					<div class="row chat">
@@ -40,7 +39,6 @@
 					{{> loading}}
 				{{/if}}
 			{{/with}}
-
 		</div>
 	</div>
 	{{#if pageDisplay}}
@@ -58,7 +56,7 @@
 				<span class="caret-chat right"></span>
 				<a href="{{pathFor 'userProfile'}}" class="username">
 					Tu
-					<span class="time">{{timeAgo}}</span>
+					<span class="time {{isRead}}">{{timeAgo}}</span>
 				</a>
 				<span>{{{br text}}}</span>
 			</p>
@@ -90,10 +88,21 @@
 				<textarea placeholder="Rispondi..." id="message-reply" class="autosize"></textarea>
 				<button type="submit">Invia</button>
 			</form>
-			<label for="submit-on-enter">
+			<div class="chat-commands">
+				<button class="trash" id="delete-message">
+					<i class="fa fa-trash"></i>
+				</button>
+				<button class="block" id="block-user">
+					<span class="fa-stack">
+						<i class="fa fa-user fa-stack-1x"></i>
+						<i class="fa fa-ban fa-stack-1x text-danger"></i>
+					</span>
+				</button>
+				<label for="submit-on-enter">
 					invia premendo Enter
 					<input type="checkbox" id="submit-on-enter">
-			</label>
+				</label>
+			</div>
 		</div>
 	</div>
 </template>

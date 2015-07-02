@@ -2,7 +2,96 @@
 	.chat {
 		.item-list {
 			padding-top: 10px;
-			padding-bottom: 140px;
+			padding-bottom: 150px;
+
+			li.message {
+				border: none;
+
+				.avatar-wrapper {
+					width: 50px;
+					display: block;
+					font-size: .8em;
+					padding-top: 10px;
+					.avatar {
+						avatar(35px, 2px);
+					}
+					&.online::after {
+						top: 10px;
+					}
+				}
+
+				p {
+					position: relative;
+					display: table-cell;
+					width: 100%;
+					padding: 10px;
+					border-radius: 5px;
+					background-color: $white-border;
+					vertical-align: top;
+					font-size: 14px;
+
+					a.username {
+						undecorate();
+						display: block;
+						padding-left: 0;
+						padding-bottom: 5px;
+						width: 100%;
+						span.time {
+							absolute: top 0 right 0;
+							color: $gray-bar;
+						}
+					}
+
+					.caret-chat {
+						width: 0;
+						height: 0;
+						border-top: 8px solid transparent;
+						border-bottom: 8px solid transparent;
+
+						&.left {
+							border-right: 8px solid $white-border;
+							absolute: top 19px left -8px;
+						}
+
+						&.right {
+							border-left: 8px solid $white;
+							absolute: top 19px right -8px;
+						}
+					}
+				}
+
+				&.me {
+					.avatar-wrapper {
+						text-align: right;
+						div {
+							margin-left: auto;
+							margin-right: 0;
+						}
+					}
+
+					a.username {
+						text-align: right;
+						span.time {
+							left: 0;
+							right: auto;
+
+							&::after {
+								fa('\f00c');
+								margin-left: 5px;
+							}
+
+							&.read {
+								&::after {
+									color: $green;
+								}
+							}
+						}
+					}
+					p {
+						background-color: $white;
+					}
+				}
+			}
 		}
 	}
 
@@ -33,7 +122,7 @@
 				border-radius: 5px;
 				padding: 5px 10px;
 				margin: 0;
-				font-size: 12px;
+				font-size: 14px;
 				color: $gray-row-hl;
 				background-color: $white;
 				width: 84%;
@@ -58,15 +147,39 @@
 				display: inline-block;
 			}
 		}
-		label {
-			padding: 5px 0;
-			text-align: right;
-			display: inline-block;
-			font-size: 10px;
-			color: $white;
+
+		.chat-commands {
+			display: table;
 			width: 84%;
-			input {
-				margin-left: 5px;
+			button, label {
+				display: table-cell;
+				vertical-align: middle;
+				cursor: pointer;
+			}
+			button {
+				border: none;
+				background-color: transparent;
+				color: $white;
+				line-height: inherit;
+				padding: 0 10%;
+				height: 30px;
+				i {
+					font-size: 18px;
+					&.fa-ban {
+						font-size: 24px;
+					}
+				}
+			}
+			label {
+				// background-color: blue;
+				padding: 5px 0;
+				text-align: right;
+				font-size: 10px;
+				color: $white;
+				width: 60%;
+				input {
+					margin-left: 5px;
+				}
 			}
 		}
 	}

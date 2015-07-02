@@ -70,18 +70,10 @@ Template.chatItem.helpers({
 			itsMeClass: classMe,
 			thisIsMe: itsMe
 		});
-	}
-});
-
-Template.chatItem.events({
-	/*'click [data-action=block-user]': function(e, t) {
-		e.preventDefault();
-		var data = _.extend(this, {
-			infoTitle: "Bloccare questo utente?",
-			infoText: "Stai per bloccare questo utente!<br>Non sarà più in grado di vederti online nè di interagire con te."
-		});
-		Bisia.Ui.confirmDialog('Bisia.User.blockUser', e, data);
-	}*/
+	},
+	isRead: function() {
+		return this.isRead ? 'read' : '';
+	},
 });
 
 Template.replyForm.onRendered(function() {
@@ -99,6 +91,22 @@ Template.replyForm.events({
 		if(Bisia.Message.sendMessage($textarea.val(), chatId)) {
 			$textarea.val('').css({'height': 'auto'});
 		}
+	},
+	'click #delete-message': function(e, t) {
+		e.preventDefault();
+		var data = _.extend(this, {
+			infoTitle: "Eliminare questa chat?",
+			infoText: "Stai per eliminare questa chat!<br>Il tuo interlocutore potrà ad ogni modo rispondere e continuare a scriverti su questa chat."
+		});
+		Bisia.Ui.confirmDialog('Bisia.Message.deleteMessage', e, data);
+	},
+	'click #block-user': function(e, t) {
+		e.preventDefault();
+		var data = _.extend(this, {
+			infoTitle: "Bloccare questo utente?",
+			infoText: "Stai per bloccare questo utente!<br>Non sarà più in grado di vederti online nè di interagire con te."
+		});
+		Bisia.Ui.confirmDialog('Bisia.User.blockUser', e, data);
 	},
 	'keypress #message-reply': function(e, t) {
 		if (e.which === 13 && $('#submit-on-enter').prop('checked')) {

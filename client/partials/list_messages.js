@@ -31,7 +31,7 @@ Template.messagesFrom.helpers({
 	}
 });
 
-Template.messagesFrom.events({
+/*Template.messagesFrom.events({
 	'click [data-action=open]': function(e, t) {
 		e.preventDefault();
 		Bisia.Ui.swipeUserListItem(e, 'li', 'tools-open');
@@ -49,4 +49,4 @@ Template.messagesFrom.events({
 		});
 		Bisia.Ui.confirmDialog('Bisia.User.blockUser', e, data);
 	},
-});
+});*/

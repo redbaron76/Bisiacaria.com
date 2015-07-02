@@ -211,24 +211,24 @@ Meteor.methods({
 		Users.update(this.userId, { $pull: { 'blocked': unblockId } });
 		return true;
 	},
-	blockUser: function(blockObj) {
+	blockUser: function(chatId) {
 		check(this.userId, String);
-		check(blockObj, {
-			chatId: String,
-			blockId: String,
-			username: String
-		});
+		check(chatId, String);
+
+		// get userId to block
+		var message = Messages.findOne({ 'chatId': chatId });
+		var blockId = (message.targetId == this.userId) ? message.userId : message.targetId;
 
 		// Insert to blocked user
-		Users.update(blockObj.blockId, { $addToSet: { 'blockBy': this.userId }, $pull: { 'followers': this.userId, 'following': this.userId } });
+		Users.update(blockId, { $addToSet: { 'blockBy': this.userId }, $pull: { 'followers': this.userId, 'following': this.userId } });
 		// Insert blocked to user
-		Users.update(this.userId, { $addToSet: { 'blocked': blockObj.blockId }, $pull: { 'followers': blockObj.blockId, 'following': blockObj.blockId } });
+		Users.update(this.userId, { $addToSet: { 'blocked': blockId }, $pull: { 'followers': blockId, 'following': blockId } });
 		// Remove me from blocked followed
-		Friends.remove({ 'targetId': this.userId, 'userId': blockObj.blockId });
+		Friends.remove({ 'targetId': this.userId, 'userId': blockId });
 		// Remove blocked from my following
-		Friends.remove({ 'targetId': blockObj.blockId, 'userId': this.userId });
+		Friends.remove({ 'targetId': blockId, 'userId': this.userId });
 
-		Bisia.Log.info('block user', blockObj);
+		Bisia.Log.info('block user', blockId);
 
 		return true;
 	},
