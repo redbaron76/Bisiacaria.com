@@ -31,22 +31,13 @@ Template.messagesFrom.helpers({
 	}
 });
 
-/*Template.messagesFrom.events({
-	'click [data-action=open]': function(e, t) {
-		e.preventDefault();
-		Bisia.Ui.swipeUserListItem(e, 'li', 'tools-open');
-	},
+Template.messagesFrom.events({
 	'click #delete-message': function(e, t) {
 		e.preventDefault();
-		Bisia.Ui.confirmDialog('Bisia.Message.deleteMessage', e, this);
-	},
-	'click #block-user': function(e, t) {
-		e.preventDefault();
-		e.preventDefault();
 		var data = _.extend(this, {
-			infoTitle: "Bloccare questo utente?",
-			infoText: "Stai per bloccare questo utente!<br>Non sarà più in grado di vederti online nè di interagire con te."
+			infoTitle: "Eliminare questa chat?",
+			infoText: "Stai per eliminare questa chat!<br>Il tuo interlocutore potrà ad ogni modo rispondere e continuare a scriverti su questa chat."
 		});
-		Bisia.Ui.confirmDialog('Bisia.User.blockUser', e, data);
-	},
-});*/
+		Bisia.Ui.confirmDialog('Bisia.Message.deleteMessage', e, data);
+	}
+});

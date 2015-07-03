@@ -2,15 +2,20 @@
 	<li class="{{statusGender}}">
 		{{#with messagePath}}
 		<div class="li-wrapper">
-			<a href="{{pathFor 'readMessage'}}">
+			<a href="{{pathFor 'readMessage'}}" class="message-preview">
 				{{> avatarImage data=this online=true}}
 				<div class="username">
 					{{username}}
-					<span class="message {{inOrOut}}">{{{abstract text 80}}}</span>
+					<span class="message {{inOrOut}}">{{{abstract text 100}}}</span>
 					<span class="time">{{timeAgo}}</span>
 					{{#if countUnread}}
 						<small class="count">{{countUnread}}</small>
 					{{/if}}
+				</div>
+				<div class="right-aligned quick-action">
+					<button class="trash" id="delete-message">
+						<i class="fa fa-trash"></i>
+					</button>
 				</div>
 			</a>
 		</div>
