@@ -98,7 +98,8 @@ Meteor.methods({
 		if (msg.chatId == '') {
 			// check if a chat between me and my target is already present
 			var existingChat = Messages.findOne({
-				'isDelete': { '$nin': [msg.targetId, this.userId] },
+				// 'isDelete': { '$nin': [msg.targetId, this.userId] },
+				'chatId': { '$exists': true },
 				'$and': [
 					{'$or': [{ 'targetId': this.userId },{ 'userId': this.userId }]},
 					{'$or': [{ 'targetId': msg.targetId },{ 'userId': msg.targetId }]}

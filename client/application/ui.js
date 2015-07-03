@@ -168,7 +168,7 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 						var ytId = Bisia.Img.getYoutubeId(url);
 						if (ytId) {
 							var embed = '<div class="video-wrapper"><iframe src="//www.youtube.com/embed/'
-    									+ ytId + '" frameborder="0" allowfullscreen></iframe></div>';
+    									+ ytId + '?rel=0&autoplay=0" frameborder="0" allowfullscreen></iframe></div>';
     						text = text.replace(url, embed);
 						} else {
 							link = '<a href="' + url + '" class="cite-inline link" target="_blank">' + link + '</a>';

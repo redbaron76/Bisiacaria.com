@@ -246,6 +246,15 @@ Template.registerHelper('playNoty', function() {
 
 // TEXT
 
+Template.registerHelper('abstract', function(text, len) {
+	var content = text;
+	if (content.length > len) {
+		content = content.substr(0, len - 3) + "...";
+	}
+	content = content.replace(/(\r\n|\n|\r)/gm, ' ');
+	return content;
+});
+
 Template.registerHelper('shortText', function(text, len, icon) {
 	var content = text;
 	if (content.length > len) {

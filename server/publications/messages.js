@@ -8,27 +8,21 @@ Meteor.publish('messagesList', function(query, options, authorId) {
 		limit: Number
 	});
 
-	// Get the subject (opposite of authorId)
-	var target = Bisia.inverseAuthor(authorId);
-	// Build owner subject (the one to get from the query)
-	var owner = {};
-	owner[target] = this.userId;
-	// Extend query object
-	query = _.extend(query, owner);
-	// get cursors
 	var messages = Messages.find(query, options);
 
 	if (messages.count() > 0) {
 		// map the authorIds
-		var userIds = messages.map(function(doc) { return doc[authorId] });
+		var userIds = messages.map(function(doc) { return doc['userId'] });
+		var targetIds = messages.map(function(doc) { return doc['targetId'] });
 		var chatIds = messages.map(function(doc) { return doc.chatId });
 
 		// Publish each counter of unread messages per chatId
 		_.each(chatIds, function(el, index) {
 			Counts.publish(this, el, Messages.find({ 'chatId': el, 'targetId': this.userId, 'isRead': false }), { noReady: true });
 		}, this);
-
-		var authors = Users.find({ '_id': { '$in': userIds }});
+		// concat and uniq arrays of authors
+		var authorIds = _.uniq(userIds.concat(targetIds));
+		var authors = Users.find({ '_id': { '$in': authorIds }});
 
 		// Meteor._sleepForMs(1000);
 		// return cursors

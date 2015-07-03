@@ -484,11 +484,21 @@ username(font-size = 10px, margin-left = 10px, inline = true) {
 		}
 
 		&.message {
+			ellipsis();
 			&::before {
 				fa('\f0e0');
 				margin-right: .5em;
 			}
-			ellipsis();
+			&.in-message {
+				&::before {
+					fa('\f060');
+				}
+			}
+			&.out-message {
+				&::before {
+					fa('\f061');
+				}
+			}
 		}
 	}
 }

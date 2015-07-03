@@ -5,10 +5,12 @@
 			<a href="{{pathFor 'readMessage'}}">
 				{{> avatarImage data=this online=true}}
 				<div class="username">
-					<small>{{ada}}:</small>
 					{{username}}
-					<span class="message">{{{shortText text 60 true}}}</span>
+					<span class="message {{inOrOut}}">{{{abstract text 80}}}</span>
 					<span class="time">{{timeAgo}}</span>
+					{{#if countUnread}}
+						<small class="count">{{countUnread}}</small>
+					{{/if}}
 				</div>
 			</a>
 		</div>

@@ -7,9 +7,6 @@ Template.messagesFrom.helpers({
 			countUnread: countUnread
 		});
 	},
-	ada: function() {
-		return Bisia.getController('prefix');
-	},
 	formatChatId: function() {
 		var chatId = this.chatId ? this.chatId : this._id;
 		return _.extend(this, {chatId: chatId});
@@ -19,6 +16,9 @@ Template.messagesFrom.helpers({
 	},
 	isSent: function() {
 		return Bisia.getController('selected') !== 'getMessages';
+	},
+	inOrOut: function() {
+		return (this.targetId == Meteor.userId()) ? 'in-message' : 'out-message';
 	},
 	setOpenClose: function() {
 		if (Bisia.getController('selected') == 'getMessages') {
