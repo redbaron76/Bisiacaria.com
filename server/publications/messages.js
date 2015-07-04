@@ -4,8 +4,8 @@ Meteor.publish('messagesList', function(query, options, authorId) {
 	check(authorId, String);
 	check(query, Object);
 	check(options, {
-		sort: Object/*,
-		limit: Number*/
+		sort: Object,
+		limit: Number
 	});
 
 	var messages = Messages.find(query, options);
