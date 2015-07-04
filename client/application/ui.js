@@ -4,6 +4,10 @@
 Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 
 	$document: $(document),
+
+	$clicked: null,			// button clicked
+	clickedContent: null,	// content to save and replace
+
 	$content: null,		// the cntent wrapper
 	$target: null,		// the target object clicked
 	$ultools: null,		// the ultool open
@@ -167,8 +171,8 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 					if (checkUrl.indexOf('youtube.com') > -1 || checkUrl.indexOf('youtu.be') > -1) {
 						var ytId = Bisia.Img.getYoutubeId(url);
 						if (ytId) {
-							var embed = '<div class="video-wrapper"><iframe src="//www.youtube.com/embed/'
-    									+ ytId + '?rel=0&autoplay=0" frameborder="0" allowfullscreen></iframe></div>';
+							var embed = '<div class="video-wrapper"><iframe src="//www.youtube-nocookie.com/embed/'
+    									+ ytId + '" frameborder="0" allowfullscreen></iframe></div>';
     						text = text.replace(url, embed);
 						} else {
 							link = '<a href="' + url + '" class="cite-inline link" target="_blank">' + link + '</a>';
@@ -683,5 +687,73 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 		var url = $(e.currentTarget).data('img');
 		if (url)
 			Bisia.Ui.setReactive('img', url);
+	},
+
+
+
+
+
+	waitStart: function(e, action) {
+		e.preventDefault();
+		var actionToDo = action || 'replace';
+		var checkAready = arguments[2] || 'me-too';
+		// check if is already something running
+		if (this.$clicked) {
+			// stop other process
+			this.waitStop();
+		}
+		this.$clicked = $(e.currentTarget);
+		// get class list of clicked
+		this.classList = this.$clicked.attr('class');
+		// save clicked content in memory
+		this.clickedContent = this.$clicked.html();
+		// unbind click event
+		this.$clicked.css('pointer-events', 'none');
+		// if me-too present, exit
+		if (this.classList.indexOf(checkAready) > -1) {
+			Bisia.User.abortedExecution = true;
+			return;
+		}
+		// check clicked has icon
+		if (this.$clicked.hasClass('fa')) {
+			// self substitute class with spinner
+			this.$clicked.empty().removeClass().addClass('fa fa-refresh fa-spin');
+		} else if (this.$clicked.has('i.fa').length) {
+			// change icon with spinning
+			this.$clicked.find('i.fa').removeClass().addClass('fa fa-refresh fa-spin');
+		} else {
+			// create spinner
+			var $spinner = $('<i/>', { 'class': 'fa fa-refresh fa-spin' });
+			// insert spinner
+			switch(actionToDo) {
+				case 'append':
+					this.$clicked.append($spinner);
+					break;
+				case 'prepend':
+					this.$clicked.prepend($spinner);
+					break;
+				default:
+					this.$clicked.html($spinner);
+			}
+		}
+		return this;
+	},
+
+	waitStop: function() {
+		if (this.clickedContent) {
+			// re-set original html
+			this.$clicked.html(this.clickedContent);
+		}
+		// bind click back again
+		this.$clicked/*.attr('class', this.classList)*/
+					 .css('pointer-events', 'auto');
+		// Reset flag
+		Bisia.User.abortedExecution = false;
+		// reset content
+		this.clickedContent = null;
+		// set back to null
+		this.$clicked = null;
+		// return
+		return this;
 	}
 };

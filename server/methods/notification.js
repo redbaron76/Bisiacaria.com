@@ -2,6 +2,7 @@
 Meteor.methods({
 	likeUnlike: function(action, obj) {
 		Bisia.Notification.emit(action, obj);
+		return true;
 	},
 	resetNotification: function(action, actionKey) {
 		check(action, String);
