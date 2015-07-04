@@ -167,8 +167,8 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 					if (checkUrl.indexOf('youtube.com') > -1 || checkUrl.indexOf('youtu.be') > -1) {
 						var ytId = Bisia.Img.getYoutubeId(url);
 						if (ytId) {
-							var embed = '<div class="video-wrapper"><iframe src="//www.youtube.com/embed/'
-    									+ ytId + '?rel=0&autoplay=0" frameborder="0" allowfullscreen></iframe></div>';
+							var embed = '<div class="video-wrapper"><iframe src="//www.youtube-nocookie.com/embed/'
+    									+ ytId + '" frameborder="0" allowfullscreen></iframe></div>';
     						text = text.replace(url, embed);
 						} else {
 							link = '<a href="' + url + '" class="cite-inline link" target="_blank">' + link + '</a>';
