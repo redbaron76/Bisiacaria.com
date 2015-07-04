@@ -1,7 +1,9 @@
 // Notification methods
 Meteor.methods({
 	likeUnlike: function(action, obj) {
-		Bisia.Notification.emit(action, obj);
+		if (Notifications.find({'actionId': obj.actionId,'actionKey': obj.actionKey,'targetId': obj.targetId,'userId': obj.userId }).count() == 0) {
+			Bisia.Notification.emit(action, obj);
+		}
 	},
 	resetNotification: function(action, actionKey) {
 		check(action, String);
