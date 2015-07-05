@@ -152,7 +152,7 @@ Template.postArticle.events({
 	},
 	'click .do-like': function(e, t) {
 		// e.preventDefault();
-		Bisia.Ui.waitStart(e);
+		Bisia.Ui.waitStart(e, 'auto');
 		if ( ! Bisia.User.isBlocked(this.authorId)) {
 			var result = Posts.update(this._id, { $addToSet: { 'likes': Meteor.userId() }, $inc: { 'likesRating': 1 } });
 			if (result) {
@@ -164,12 +164,15 @@ Template.postArticle.events({
 					targetId: this.authorId,
 					userId: Meteor.userId(),
 					message: Bisia.Notification.noteMsg('like', {category: this.category}, false)
+				}, function(error, success) {
+					Bisia.Ui.waitStop();
 				});
 			}
 		}
 	},
 	'click .do-unlike': function(e, t) {
-		e.preventDefault();
+		// e.preventDefault();
+		Bisia.Ui.waitStart(e, 'auto');
 		if ( ! Bisia.User.isBlocked(this.authorId)) {
 			var result = Posts.update(this._id, { $addToSet: { 'unlikes': Meteor.userId() }, $inc: { 'likesRating': -1 } });
 			if (result) {
@@ -181,6 +184,8 @@ Template.postArticle.events({
 					targetId: this.authorId,
 					userId: Meteor.userId(),
 					message: Bisia.Notification.noteMsg('unlike', {category: this.category}, false)
+				}, function(error, success) {
+					Bisia.Ui.waitStop();
 				});
 			}
 		}

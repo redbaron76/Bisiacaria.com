@@ -6,7 +6,8 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 	$document: $(document),
 
 	$clicked: null,			// button clicked
-	classList: null,		// list of classes
+	$clickedIcon: null,		// the icon to spin
+	iconClasses: null,		// list of icon classes
 	clickedContent: null,	// content to save and replace
 
 	$content: null,		// the cntent wrapper
@@ -697,7 +698,7 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 	waitStart: function(e, action) {
 		e.preventDefault();
 		var actionToDo = action || 'replace';
-		var checkAready = arguments[2] || 'me-too';
+
 		// check if is already something running
 		if (this.$clicked) {
 			// stop other process
@@ -708,29 +709,24 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 		this.clickedContent = this.$clicked.html();
 		// unbind click event
 		this.$clicked.css('pointer-events', 'none');
-		// save classList
-		var classList = this.$clicked.attr('class');
-		// if me-too present, exit
-		if (classList.indexOf(checkAready) > -1) {
-			Bisia.User.abortedExecution = true;
-			return;
-		}
+
 		// check clicked has icon
-		if (this.$clicked.hasClass('fa')) {
-			// set clickedContent to null
-			this.clickedContent = null;
-			// get class list of clicked
-			this.classList = classList;
-			// self substitute class with spinner
-			this.$clicked.removeClass().addClass('fa fa-refresh fa-spin');
-		} else if (this.$clicked.has('i.fa').length) {
+		if (this.$clicked.has('i.fa').length) {
+			// this is the icon
+			this.$clickedIcon = this.$clicked.find('i.fa');
+			// save iconClasses
+			this.iconClasses = this.$clickedIcon.attr('class');
 			// change icon with spinning
-			this.$clicked.find('i.fa').removeClass().addClass('fa fa-refresh fa-spin');
+			this.$clickedIcon.removeClass().addClass('fa fa-refresh fa-spin');
+			// dont replace original content / auto update
+			if (action == 'auto') this.clickedContent = null;
 		} else {
 			// create spinner
 			var $spinner = $('<i/>', { 'class': 'fa fa-refresh fa-spin' });
 			// insert spinner
 			switch(actionToDo) {
+				case 'auto':
+					this.clickedContent = null;
 				case 'append':
 					this.$clicked.append($spinner);
 					break;
@@ -747,16 +743,16 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 	waitStop: function() {
 		// re-set original html
 		if (this.clickedContent) this.$clicked.html(this.clickedContent);
-		// re-set original classes
-		if (this.classList) this.$clicked.addClass(this.classList);
+		// remove spinner by default and apply original classes
+		this.$clickedIcon.removeClass().addClass(this.iconClasses);
 		// bind click back again
 		this.$clicked.css('pointer-events', 'auto');
-		// Reset flag
-		Bisia.User.abortedExecution = false;
 		// reset content
 		this.clickedContent = null;
 		// set back to null
 		this.$clicked = null;
+		// set clicked icon to null
+		this.$clickedIcon = null;
 		// return
 		return this;
 	}

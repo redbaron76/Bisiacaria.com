@@ -92,9 +92,15 @@
 		<footer>
 			{{> timeDelete data=this look="dateTimePost"}}
 			<span class="counter">
-				<i class="fa fa-comment do-comment"><big>{{totComments}}</big></i>
-				<i class="fa fa-thumbs-up {{iLike}} do-like"><big>{{totLikes}}</big></i>
-				<i class="fa fa-thumbs-down {{iUnlike}} do-unlike"><big>{{totUnlikes}}</big></i>
+				<button class="do-comment">
+					<i class="fa fa-comment"></i><big>{{totComments}}</big>
+				</button>
+				<button class="do-like {{iLike}}">
+					<i class="fa fa-thumbs-up"></i><big>{{totLikes}}</big>
+				</button>
+				<button class="do-unlike {{iUnlike}}">
+					<i class="fa fa-thumbs-down"></i><big>{{totUnlikes}}</big>
+				</button>
 			</span>
 		</footer>
 	</article>
