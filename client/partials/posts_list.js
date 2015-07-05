@@ -151,7 +151,8 @@ Template.postArticle.events({
 		Bisia.Ui.setReactive('popup', postObj);
 	},
 	'click .do-like': function(e, t) {
-		e.preventDefault();
+		// e.preventDefault();
+		Bisia.Ui.waitStart(e);
 		if ( ! Bisia.User.isBlocked(this.authorId)) {
 			var result = Posts.update(this._id, { $addToSet: { 'likes': Meteor.userId() }, $inc: { 'likesRating': 1 } });
 			if (result) {

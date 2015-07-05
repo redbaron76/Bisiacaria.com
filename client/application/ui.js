@@ -6,6 +6,7 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 	$document: $(document),
 
 	$clicked: null,			// button clicked
+	classList: null,		// list of classes
 	clickedContent: null,	// content to save and replace
 
 	$content: null,		// the cntent wrapper
@@ -703,21 +704,25 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 			this.waitStop();
 		}
 		this.$clicked = $(e.currentTarget);
-		// get class list of clicked
-		this.classList = this.$clicked.attr('class');
 		// save clicked content in memory
 		this.clickedContent = this.$clicked.html();
 		// unbind click event
 		this.$clicked.css('pointer-events', 'none');
+		// save classList
+		var classList = this.$clicked.attr('class');
 		// if me-too present, exit
-		if (this.classList.indexOf(checkAready) > -1) {
+		if (classList.indexOf(checkAready) > -1) {
 			Bisia.User.abortedExecution = true;
 			return;
 		}
 		// check clicked has icon
 		if (this.$clicked.hasClass('fa')) {
+			// set clickedContent to null
+			this.clickedContent = null;
+			// get class list of clicked
+			this.classList = classList;
 			// self substitute class with spinner
-			this.$clicked.empty().removeClass().addClass('fa fa-refresh fa-spin');
+			this.$clicked.removeClass().addClass('fa fa-refresh fa-spin');
 		} else if (this.$clicked.has('i.fa').length) {
 			// change icon with spinning
 			this.$clicked.find('i.fa').removeClass().addClass('fa fa-refresh fa-spin');
@@ -740,13 +745,12 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 	},
 
 	waitStop: function() {
-		if (this.clickedContent) {
-			// re-set original html
-			this.$clicked.html(this.clickedContent);
-		}
+		// re-set original html
+		if (this.clickedContent) this.$clicked.html(this.clickedContent);
+		// re-set original classes
+		if (this.classList) this.$clicked.addClass(this.classList);
 		// bind click back again
-		this.$clicked/*.attr('class', this.classList)*/
-					 .css('pointer-events', 'auto');
+		this.$clicked.css('pointer-events', 'auto');
 		// Reset flag
 		Bisia.User.abortedExecution = false;
 		// reset content
