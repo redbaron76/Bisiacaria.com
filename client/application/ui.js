@@ -159,11 +159,13 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 	 */
 	urlToLink: function(text) {
 		if (text) {
-			var urls = text.match(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi);
+			var urls = text.match(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=&amp;]*)/gi);
 			if (!_.isEmpty(urls)) {
 				_.each(_.uniq(urls), function(url) {
-					var link = url;
-					var checkUrl = link.toLowerCase();
+					// var link = $('<div />').html(url).text();
+					var domain = Bisia.extractDomain(url);
+					var link = domain;
+					var checkUrl = url.toLowerCase();
 					if (checkUrl.indexOf('youtube.com') > -1 || checkUrl.indexOf('youtu.be') > -1) {
 						var ytId = Bisia.Img.getYoutubeId(url);
 						if (ytId) {
