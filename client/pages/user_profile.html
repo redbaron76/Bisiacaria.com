@@ -79,14 +79,26 @@
 			</div>
 			<div class="row">
 				<div class="col-xs-12 buttons">
-					<button class="info toggle-info"></button>
-					<button class="question toggle-question" id="question-lovehate"></button>
+					<button class="info toggle-info">
+						<i class="fa fa-info-circle"></i>
+					</button>
+					<button class="question" id="question-lovehate">
+						<i class="fa fa-heart"></i>
+					</button>
 					{{#unless itsMe}}
-					<button class="envelope" id="write-message"></button>
-					<button class="thumb" id="send-vote"></button>
+					<button class="envelope" id="write-message">
+						<i class="fa fa-envelope"></i>
+					</button>
+					<button class="thumb" id="send-vote">
+						<i class="fa fa-thumbs-up"></i>
+					</button>
 					{{else}}
-					<button class="envelope" id="go-messages"></button>
-					<button class="gear" id="go-settings"></button>
+					<button class="envelope" id="go-messages">
+						<i class="fa fa-envelope"></i>
+					</button>
+					<button class="gear" id="go-settings">
+						<i class="fa fa-cog"></i>
+					</button>
 					{{/unless}}
 				</div>
 			</div>

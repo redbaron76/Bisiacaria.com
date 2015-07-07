@@ -75,7 +75,8 @@ Template.userProfile.events({
 		Bisia.Ui.setReactive('popup', userObj);
 	},
 	'click #send-vote': function(e, t) {
-		e.preventDefault();
+		// e.preventDefault();
+		Bisia.Ui.waitStart(e);
 
 		var voteObj = {	targetId: t.data.user._id };
 		var gender = t.data.user.profile.gender;
@@ -86,7 +87,7 @@ Template.userProfile.events({
 					template: 'voteBubble',
 					user: t.data.user,
 					message: error ? error : result
-				});
+				}).waitStop();
 			}, function() {
 				Bisia.Ui.unsetReactive('bubble');
 			}, 3);

@@ -8,12 +8,12 @@ Template.voteUser.events({
 
 		Meteor.call('voteUser', voteObj, gender, function(error, result) {
 			if (result) {
-				Bisia.Ui.waitStop().runAfter(function() {
+				Bisia.Ui.runAfter(function() {
 					Bisia.Ui.setReactive('bubble', {
 						template: 'voteBubble',
 						user: t.data,
 						message: error ? error : result
-					});
+					}).waitStop();
 				}, function() {
 					Bisia.Ui.unsetReactive('bubble');
 				}, 3);
