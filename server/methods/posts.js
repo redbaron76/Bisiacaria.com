@@ -196,5 +196,10 @@ Meteor.methods({
 		Bisia.Notification.notifyMyFollowers('note', 'geotag', postObj, details, 'dateTimePost');
 
 		return true;
+	},
+	resetLikeUnlike: function(target) {
+		// check(target, String);
+		console.log(target);
+		return true;
 	}
 });

@@ -54,7 +54,8 @@ Template.singlePost.events({
 		}
 	},
 	'click #like-this': function(e, t) {
-		e.preventDefault();
+		// e.preventDefault();
+		Bisia.Ui.waitStart(e);
 		if ( ! Bisia.User.isBlocked(this.authorId)) {
 			var result = Posts.update(this._id, { $addToSet: { 'likes': Meteor.userId() }, $inc: { 'likesRating': 1 } });
 			if (result) {
@@ -66,14 +67,17 @@ Template.singlePost.events({
 					targetId: this.authorId,
 					userId: Meteor.userId(),
 					message: Bisia.Notification.noteMsg('like', {category: this.category}, false)
+				}, function(error, success) {
+					Bisia.Ui.waitStop();
 				});
 			}
 		}
 	},
 	'click #unlike-this': function(e, t) {
-		e.preventDefault();
+		// e.preventDefault();
+		Bisia.Ui.waitStart(e);
 		if ( ! Bisia.User.isBlocked(this.authorId)) {
-			var result = Posts.update(this._id, { $addToSet: { 'unlikes': Meteor.userId() }, $inc: { 'likesRating': -11 } });
+			var result = Posts.update(this._id, { $addToSet: { 'unlikes': Meteor.userId() }, $inc: { 'likesRating': -1 } });
 			if (result) {
 				// remove from likes
 				Posts.update(this._id, { $pull: { 'likes': Meteor.userId() } });
@@ -83,9 +87,18 @@ Template.singlePost.events({
 					targetId: this.authorId,
 					userId: Meteor.userId(),
 					message: Bisia.Notification.noteMsg('unlike', {category: this.category}, false)
+				}, function(error, success) {
+					Bisia.Ui.waitStop();
 				});
 			}
 		}
+	},
+	'click .me-too': function(e, t) {
+		Bisia.Ui.waitStart(e);
+		console.log($(e.currentTarget).attr('id'));
+		Meteor.call('resetLikeUnlike', $(e.currentTarget).attr('id'), function(error, success) {
+			//Bisia.Ui.waitStop();
+		});
 	},
 	'click #info-this': function(e, t) {
 		e.preventDefault();
