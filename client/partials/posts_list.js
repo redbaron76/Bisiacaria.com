@@ -150,6 +150,17 @@ Template.postArticle.events({
 		var postObj = Bisia.Message.getCommentObject(this, 'commentPopup');
 		Bisia.Ui.setReactive('popup', postObj);
 	},
+	'click .me-too': function(e, t) {
+		Bisia.Ui.waitStart(e, 'auto');
+		e.stopImmediatePropagation();
+		var action = $(e.currentTarget).attr('class');
+		if (action.indexOf('unlike') > -1) {
+			Posts.update(this._id, { $pull: { 'unlikes': Meteor.userId() } });
+		} else {
+			Posts.update(this._id, { $pull: { 'likes': Meteor.userId() }, $inc: { 'likesRating': -1 } });
+		}
+		Bisia.Ui.waitStop();
+	},
 	'click .do-like': function(e, t) {
 		// e.preventDefault();
 		Bisia.Ui.waitStart(e, 'auto');

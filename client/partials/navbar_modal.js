@@ -19,13 +19,13 @@ Template.navbarModal.events({
 
 		Meteor.call('voteUser', voteObj, gender, function(error, result) {
 			Bisia.Ui.runAfter(function() {
-				Bisia.Ui.setReactive('bubble', {
+				Bisia.Ui.waitStart(e).setReactive('bubble', {
 					template: 'voteBubble',
 					user: parent.data,
 					message: error ? error : result
 				});
 			}, function() {
-				Bisia.Ui.unsetReactive('bubble');
+				Bisia.Ui.waitStop().unsetReactive('bubble');
 			}, 3);
 		});
 	}

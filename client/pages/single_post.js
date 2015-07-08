@@ -53,9 +53,20 @@ Template.singlePost.events({
 			Bisia.Ui.goBottom();
 		}
 	},
+	'click .me-too': function(e, t) {
+		Bisia.Ui.waitStart(e, 'auto');
+		e.stopImmediatePropagation();
+		var action = $(e.currentTarget).attr('id');
+		if (action.indexOf('unlike') == 0) {
+			Posts.update(this._id, { $pull: { 'unlikes': Meteor.userId() } });
+		} else {
+			Posts.update(this._id, { $pull: { 'likes': Meteor.userId() }, $inc: { 'likesRating': -1 } });
+		}
+		Bisia.Ui.waitStop();
+	},
 	'click #like-this': function(e, t) {
 		// e.preventDefault();
-		Bisia.Ui.waitStart(e);
+		Bisia.Ui.waitStart(e, 'auto');
 		if ( ! Bisia.User.isBlocked(this.authorId)) {
 			var result = Posts.update(this._id, { $addToSet: { 'likes': Meteor.userId() }, $inc: { 'likesRating': 1 } });
 			if (result) {
@@ -75,7 +86,7 @@ Template.singlePost.events({
 	},
 	'click #unlike-this': function(e, t) {
 		// e.preventDefault();
-		Bisia.Ui.waitStart(e);
+		Bisia.Ui.waitStart(e, 'auto');
 		if ( ! Bisia.User.isBlocked(this.authorId)) {
 			var result = Posts.update(this._id, { $addToSet: { 'unlikes': Meteor.userId() }, $inc: { 'likesRating': -1 } });
 			if (result) {
@@ -92,13 +103,6 @@ Template.singlePost.events({
 				});
 			}
 		}
-	},
-	'click .me-too': function(e, t) {
-		Bisia.Ui.waitStart(e);
-		console.log($(e.currentTarget).attr('id'));
-		Meteor.call('resetLikeUnlike', $(e.currentTarget).attr('id'), function(error, success) {
-			//Bisia.Ui.waitStop();
-		});
 	},
 	'click #info-this': function(e, t) {
 		e.preventDefault();

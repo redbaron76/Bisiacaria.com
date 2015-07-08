@@ -1,11 +1,15 @@
 Template.navbarTop.events({
 	'click .toggle-menu': function(e, t) {
-		e.preventDefault();
-		Bisia.Ui.toggleSidebar('sidebar-open-left');
+		// e.preventDefault();
+		Bisia.Ui.waitStart(e)
+				.toggleSidebar('sidebar-open-left')
+				.waitStop();
 	},
 	'click .toggle-users': function(e, t) {
-		e.preventDefault();
-		Bisia.Ui.toggleSidebar('sidebar-open-right');
+		// e.preventDefault();
+		Bisia.Ui.waitStart(e)
+				.toggleSidebar('sidebar-open-right')
+				.waitStop();
 	}
 });
 
