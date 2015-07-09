@@ -32,10 +32,12 @@ Bisia.Homepage = {
 		this.authorIds = [];
 		this.eventIds = [];
 		this.postIds = [];
+		this.placeIds = [];
 		// Get partials data
 		var todayEvents = this.pickTodayEvents();
 		var tomorrowEvents = this.pickTomorrowEvents();
-		var blogSelection = this.pickBlogPosts();
+		var mostRecentPosts = this.pickMostRecentPosts();
+		var mostRatedPosts = this.pickMostRatedPosts();
 		var mostVoted = this.pickMostVoted();
 		var mostVisited = this.pickMostVisited();
 		var lastSignupUsers = this.pickLastSignupUsers();
@@ -46,7 +48,8 @@ Bisia.Homepage = {
 			createdAt: new Date(),
 			todayEvents: todayEvents,
 			tomorrowEvents: tomorrowEvents,
-			blogSelection: blogSelection,
+			mostRecentPosts: mostRecentPosts,
+			mostRatedPosts: mostRatedPosts,
 			mostVoted: mostVoted,
 			mostVisited: mostVisited,
 			lastSignupUsers: lastSignupUsers,
@@ -93,22 +96,31 @@ Bisia.Homepage = {
 		return tomorrowEvents;
 	},
 
-	pickBlogPosts: function() {
+	pickMostRecentPosts: function() {
 		var parent = this;
-		var randomPosts = [];
+		var recentPosts = [];
 		// Get most recent 20 posts
-		var recentPosts = Posts.find({
+		Posts.find({
 			'text': { '$ne': null },
-			'createdAt': { '$gt': Bisia.Time.timeAgo(this.mm15) },
+			// 'createdAt': { '$gt': Bisia.Time.timeAgo(this.mm15) },
 			'dateTimePost': { '$lt': Bisia.Time.now() }
 		}, {
+			'sort': { 'dateTimePost': -1 },
 			'limit': 20
 		}).forEach(function(post) {
 			parent.authorIds.push(post.authorId);
-			randomPosts.push(post._id);
+			parent.postIds.push(post._id);
+			recentPosts.push(post._id);
 		});
+		console.log('recentPosts', recentPosts);
+		return recentPosts;
+	},
+
+	pickMostRatedPosts: function() {
+		var parent = this;
+		var ratedPosts = [];
 		// Get most rated 20 posts between 1week ago and now - 15mins
-		var ratedPosts = Posts.find({
+		Posts.find({
 			'text': { '$ne': null },
 			'createdAt': {
 				'$gt': Bisia.Time.daysAgoStart(7),
@@ -118,18 +130,14 @@ Bisia.Homepage = {
 			'likesRating': { '$gte': 0 }
 		}, {
 			'sort': { 'likesRating': -1, 'commentsCount': -1 },
-			'limit': 20
+			'limit': 5
 		}).forEach(function(post) {
 			parent.authorIds.push(post.authorId);
-			randomPosts.push(post._id);
+			parent.postIds.push(post._id);
+			ratedPosts.push(post._id);
 		});
-
-		// Randomize pick
-		var random = _.sample(randomPosts, 20);
-		// set postIds as randoms
-		this.postIds = random;
-		// Bisia.log('random', random);
-		return random;
+		console.log('ratedPosts', ratedPosts);
+		return ratedPosts;
 	},
 
 	pickMostVoted: function() {

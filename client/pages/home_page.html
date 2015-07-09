@@ -3,11 +3,24 @@
 	<div class="content container-fluid">
 		<div id="homepage" class="list events">
 
-			{{#if blogSelection}}
+			{{#if mostRatedPosts}}
 			<div class="row">
 				<div class="col-xs-12 posts list-wrapper">
 					<h4>I Blog più in vista</h4>
-					{{#each blogSelection}}
+					{{#each mostRatedPosts}}
+						{{#with getPost this}}
+							{{> postArticle}}
+						{{/with}}
+					{{/each}}
+				</div>
+			</div>
+			{{/if}}
+
+			{{#if mostRecentPosts}}
+			<div class="row">
+				<div class="col-xs-12 posts list-wrapper">
+					<h4>Ultimi Blog creati</h4>
+					{{#each mostRecentPosts}}
 						{{#with getPost this}}
 							{{> postArticle}}
 						{{/with}}
