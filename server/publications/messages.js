@@ -42,7 +42,6 @@ Meteor.publish('messageAuthor', function(query, options) {
 	});
 
 	if (this.userId) {
-		console.log(query, options);
 		// Return cursor
 		var messages = Messages.find(query, options);
 		if (messages.count() > 0) {

@@ -11,6 +11,7 @@ Meteor.methods({
 		var checkIsDelete = Chats.findOne({ '_id': chatId, 'isDelete': { '$in': [this.userId] } });
 		// delete meets ownerIds length -> delete all messages!
 		if (checkIsDelete.isDelete.length == checkIsDelete.ownerIds.length) {
+			Notifications.remove({ 'action': 'message', 'actionId': chatId });
 			Messages.remove({ 'chatId': chatId });
 			Chats.remove({ '_id': chatId });
 		}
@@ -58,7 +59,9 @@ Meteor.methods({
 						msgTo: msgObj.targetId,
 						text: msg.text,
 						createdAt: msg.createdAt
-					}
+					},
+					// remove targetId from isDelete
+					'$pull': { 'isDelete': msg.targetId }
 				});
 
 			// CREATE NEW CHAT
@@ -91,7 +94,9 @@ Meteor.methods({
 					msgTo: msgObj.targetId,
 					text: msg.text,
 					createdAt: msg.createdAt
-				}
+				},
+				// remove targetId from isDelete
+				'$pull': { 'isDelete': msg.targetId }
 			});
 		}
 
