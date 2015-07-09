@@ -48,7 +48,7 @@ Meteor.methods({
 				var placeId, query;
 
 				// set default category for location
-				postObj.category = 'si trova in questa posizione';
+				postObj.category = 'ha taggato questa posizione';
 
 				// select query to check
 				if (!!tagId) {
@@ -152,7 +152,7 @@ Meteor.methods({
 			authorId: this.userId,
 			createdAt: Bisia.Time.setServerTime(),
 			dateTimePost: Bisia.Time.setServerTime(),
-			category: 'si trova in questa posizione',
+			category: 'ha taggato questa posizione',
 			position: position,
 			imageUrl: '',
 			likes: [],
