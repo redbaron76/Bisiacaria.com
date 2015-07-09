@@ -18,31 +18,39 @@ Template.sharePostModal.helpers({
 Template.sharePostModal.events({
 	'submit #share-post-form': function(e, t) {
 		e.preventDefault();
+		// Bisia.Ui.waitStart(e);
 		var $target = $(e.target);
 
 		var formObject = Bisia.Form.getFields($target, null);
 		var shareArr = formObject['share'];
-		var arrLength = shareArr.length;
 
-		if (arrLength > 0) {
-			Meteor.call('sharePost', this.post, shareArr, function(error, result) {
-				if(error) {
-					Bisia.log('sharePost', error);
-					Bisia.Ui.loadingRemove();
-					return false;
-				}
+		if (shareArr) {
+			var arrLength = shareArr.length;
 
-				if(result.errors)
-					return Bisia.Ui.submitError(result.errors);
+			if (arrLength > 0) {
+				Meteor.call('sharePost', this.post, shareArr, function(error, result) {
+					if(error) {
+						Bisia.log('sharePost', error);
+						Bisia.Ui.loadingRemove();
+						return false;
+					}
 
-				if (result) {
-					Bisia.Form.cleanFormFields();
-					// Bisia.Ui.toggleModal(e);
-					Bisia.Ui.loadingRemove()
-							.toggleModal(e, 'tab')
-							.submitSuccess('Hai condiviso questo post con ' + arrLength + ' dei tuoi contatti.', 'Condiviso!', null, true);
-				}
-			});
+					if(result.errors)
+						return Bisia.Ui.submitError(result.errors);
+
+					if (result) {
+						Bisia.Form.cleanFormFields();
+						// Bisia.Ui.toggleModal(e);
+						Bisia.Ui.loadingRemove()
+								.toggleModal(e, 'tab')
+								// .waitStop()
+								.submitSuccess('Hai condiviso questo post con ' + arrLength + ' dei tuoi contatti.', 'Condiviso!', null, true);
+					}
+				});
+			}
+		/*} else {
+			Bisia.Ui.waitStop();*/
 		}
+
 	}
 });

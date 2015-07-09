@@ -3,7 +3,7 @@ Template.timeDelete.helpers({
 		var itsMine = (this.data.authorId == Meteor.userId()) ? true : false;
 		var format = this.format || 'ddd DD MMM HH:mm';
 		var look = this.look || 'createdAt';
-		var dateTime = this.data[look];
+		if (look) var dateTime = this.data[look];
 		var className = 'time';
 		var isFuture = false;
 		var dataAction = '';
@@ -11,7 +11,6 @@ Template.timeDelete.helpers({
 		var beatTime = Bisia.Time.beatTime.get();
 		var now = Bisia.Time.now();
 		var m = moment(dateTime);
-
 		var displayDateTime = m.format(format);
 
 		if (itsMine) {
@@ -19,7 +18,7 @@ Template.timeDelete.helpers({
 			dataAction = 'delete';
 		}
 
-		if (m.isAfter(now) && m.toDate() != now) {
+		if (m.isAfter(now) && look) {
 			format = '[uscirà] ' + format;
 			displayDateTime = m.format(format);
 			className = className + ' future';
