@@ -1,15 +1,15 @@
 Template.messagesFrom.helpers({
 	messagePath: function() {
-		var countUnread = Counts.get(this.chatId);
+		var countUnread = Counts.get(this._id);
 		return _.extend(this, {
 			chatId: this._id,
 			countUnread: countUnread
 		});
 	},
-	formatChatId: function() {
+/*	formatChatId: function() {
 		var chatId = this.chatId ? this.chatId : this._id;
 		return _.extend(this, {chatId: chatId});
-	},
+	},*/
 	inOrOut: function() {
 		return (this.msgTo == Meteor.userId()) ? 'in-message' : 'out-message';
 	}

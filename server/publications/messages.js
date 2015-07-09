@@ -1,7 +1,6 @@
 // Publish messages list received/sent
 Meteor.publish('messagesList', function(query, options, authorId) {
 	// check(this.userId, String);
-	check(authorId, String);
 	check(query, Object);
 	check(options, {
 		sort: Object,
@@ -43,6 +42,7 @@ Meteor.publish('messageAuthor', function(query, options) {
 	});
 
 	if (this.userId) {
+		console.log(query, options);
 		// Return cursor
 		var messages = Messages.find(query, options);
 		if (messages.count() > 0) {
