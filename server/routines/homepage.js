@@ -112,7 +112,6 @@ Bisia.Homepage = {
 			parent.postIds.push(post._id);
 			recentPosts.push(post._id);
 		});
-		console.log('recentPosts', recentPosts);
 		return recentPosts;
 	},
 
@@ -136,7 +135,6 @@ Bisia.Homepage = {
 			parent.postIds.push(post._id);
 			ratedPosts.push(post._id);
 		});
-		console.log('ratedPosts', ratedPosts);
 		return ratedPosts;
 	},
 
