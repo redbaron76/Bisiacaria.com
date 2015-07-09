@@ -8,43 +8,38 @@ Meteor.publish('messagesList', function(query, options, authorId) {
 		limit: Number
 	});
 
-	var messages = Messages.find(query, options);
+	var authorIds = [], chatIds = [];
+	var chats = Chats.find(query, options);
 
-	if (messages.count() > 0) {
-		// map the authorIds
-		var userIds = messages.map(function(doc) { return doc['userId'] });
-		var targetIds = messages.map(function(doc) { return doc['targetId'] });
-		var chatIds = messages.map(function(doc) { return doc.chatId });
+	chats.forEach(function(chat) {
+		// console.log(chat.ownerIds);
+		authorIds = authorIds.concat(chat.ownerIds);
+		chatIds.push(chat._id);
+	});
 
-		// Publish each counter of unread messages per chatId
-		_.each(chatIds, function(el, index) {
-			Counts.publish(this, el, Messages.find({ 'chatId': el, 'targetId': this.userId, 'isRead': false }), { noReady: true });
-		}, this);
-		// concat and uniq arrays of authors
-		var authorIds = _.uniq(userIds.concat(targetIds));
-		var authors = Users.find({ '_id': { '$in': authorIds }});
+	var authors = Users.find({ '_id': { '$in': _.uniq(authorIds) }});
 
-		// Meteor._sleepForMs(1000);
-		// return cursors
-		return [messages, authors];
-	}
-	return messages;
+	// Publish each counter of unread messages per chatId
+	_.each(chatIds, function(el, index) {
+		Counts.publish(this, el, Messages.find({ 'chatId': el, 'targetId': this.userId, 'isRead': false }), { noReady: true });
+	}, this);
+
+	return [chats, authors];
 });
 
-Meteor.publish('messageAuthor', function(query, options, limit) {
-	// check(this.userId, String);
+Meteor.publish('messageAuthor', function(query, options) {
+	check(this.userId, String);
+	check(query, Object);
+	check(query, Object);
 
-	// Meteor._sleepForMs(2000);
+	// Meteor._sleepForMs(1000);
 
-	var userId = this.userId;
 	// Extend to be sure userId has access to message
 	query = _.extend(query, {
-		'$and': [{
-			'$or': [
-				{ 'targetId': userId },
-				{ 'userId': userId }
-			]
-		}]
+		'$or': [
+			{ 'targetId': this.userId },
+			{ 'userId': this.userId }
+		]
 	});
 
 	if (this.userId) {
@@ -55,6 +50,5 @@ Meteor.publish('messageAuthor', function(query, options, limit) {
 			var authors = Users.find({ '_id': { '$in': [first.userId, first.targetId] }});
 			return [messages, authors];
 		}
-		return messages;
 	}
 });

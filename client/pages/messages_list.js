@@ -7,8 +7,8 @@ Template.messagesList.events({
 Template.messagesBlock.helpers({
 	joinWithChatAuthor: function() {
 		var item = this;
-		var authorId = (item.userId == Meteor.userId()) ? 'targetId': 'userId';
-		var user = Users.findOne({ '_id': item[authorId] }, { 'fields': {
+		var authorId = _.without(this.ownerIds, Meteor.userId())[0];
+		var user = Users.findOne({ '_id': authorId }, { 'fields': {
 			'username': 1,
 			'profile.city': 1,
 			'profile.gender': 1,

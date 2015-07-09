@@ -197,6 +197,69 @@ Meteor.methods({
 
 		return true;
 	},
+	sendComment: function(targetPost, text) {
+		check(this.userId, String);
+		check(text, String);
+		check(targetPost, {
+			postId: String,
+			targetId: String,
+			notifyIds: Array
+		});
+
+		// Block sending comment if targetId is blocked
+		if (Bisia.User.isBlocked(targetPost.targetId))
+			return true;
+
+		var comment = {
+			text: Bisia.Form.sanitizeHTML(text),
+			authorId: this.userId,
+			createdAt: Bisia.Time.setServerTime()
+		};
+
+		comment.text = Bisia.Form.formatEmoj(comment.text);
+
+		// Add comment to post
+		Posts.update(targetPost.postId, { $addToSet: { 'comments': comment }, $inc: { 'commentsCount': 1 } });
+
+		// Log the comment
+		Bisia.Log.info('post comment', {postId: targetPost.postId, comment: comment});
+
+		var authorNick = _.pick(Users.findOne({ '_id': targetPost.targetId }), '_id', 'username');
+
+		targetPost = _.extend(targetPost, {
+			authorId: authorNick._id,
+			authorNick: authorNick.username
+		});
+
+		var citeObj = _.extend(comment, {
+			_id: targetPost.postId
+		});
+
+		Bisia.Notification.notifyCiteUsers('note', 'comment', citeObj, 'commento');
+
+		// Notify post author
+		Bisia.Notification.emit('note', {
+			actionId: targetPost.postId,
+			actionKey: 'comment',
+			targetId: targetPost.targetId,
+			userId: this.userId,
+			message: Bisia.Notification.noteMsg('comment', targetPost, true)
+		});
+
+		// Notify joiners of the post
+		_.each(targetPost.notifyIds, function(targetId) {
+			var selfUser = (comment.authorId == targetPost.authorId) ? true : false;
+			Bisia.Notification.emit('note', {
+				actionId: targetPost.postId,
+				actionKey: 'comment',
+				targetId: targetId,
+				userId: comment.authorId,
+				message: Bisia.Notification.noteMsg('comment', targetPost, false, selfUser)
+			});
+		});
+
+		return true;
+	},
 	resetLikeUnlike: function(target) {
 		// check(target, String);
 		console.log(target);

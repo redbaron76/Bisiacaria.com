@@ -19,7 +19,11 @@ SyncedCron.add({
 	},
 	job: function() {
 		var olderThan = Bisia.Time.msWeek;
-		Notifications.remove({ 'isBroadcasted': true, 'isRead': true, 'createdAt': { '$lt': Bisia.Time.timeAgo(olderThan) } });
+		Notifications.remove({
+			'isBroadcasted': true,
+			'isRead': true,
+			'broadcastedAt': { '$lt': moment().subtract(7, 'days').toDate() }
+		});
 	}
 });
 

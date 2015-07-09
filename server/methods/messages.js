@@ -5,69 +5,15 @@ Meteor.methods({
 		check(chatId, String);
 
 		Messages.update({ 'chatId': chatId }, { $addToSet: { 'isDelete': this.userId } }, { 'multi': true });
-		return true;
-	},
-	sendComment: function(targetPost, text) {
-		check(this.userId, String);
-		check(text, String);
-		check(targetPost, {
-			postId: String,
-			targetId: String,
-			notifyIds: Array
-		});
-
-		// Block sending comment if targetId is blocked
-		if (Bisia.User.isBlocked(targetPost.targetId))
-			return true;
-
-		var comment = {
-			text: Bisia.Form.sanitizeHTML(text),
-			authorId: this.userId,
-			createdAt: Bisia.Time.setServerTime()
-		};
-
-		comment.text = Bisia.Form.formatEmoj(comment.text);
-
-		// Add comment to post
-		Posts.update(targetPost.postId, { $addToSet: { 'comments': comment }, $inc: { 'commentsCount': 1 } });
-
-		// Log the comment
-		Bisia.Log.info('post comment', {postId: targetPost.postId, comment: comment});
-
-		var authorNick = _.pick(Users.findOne({ '_id': targetPost.targetId }), '_id', 'username');
-
-		targetPost = _.extend(targetPost, {
-			authorId: authorNick._id,
-			authorNick: authorNick.username
-		});
-
-		var citeObj = _.extend(comment, {
-			_id: targetPost.postId
-		});
-
-		Bisia.Notification.notifyCiteUsers('note', 'comment', citeObj, 'commento');
-
-		// Notify post author
-		Bisia.Notification.emit('note', {
-			actionId: targetPost.postId,
-			actionKey: 'comment',
-			targetId: targetPost.targetId,
-			userId: this.userId,
-			message: Bisia.Notification.noteMsg('comment', targetPost, true)
-		});
-
-		// Notify joiners of the post
-		_.each(targetPost.notifyIds, function(targetId) {
-			var selfUser = (comment.authorId == targetPost.authorId) ? true : false;
-			Bisia.Notification.emit('note', {
-				actionId: targetPost.postId,
-				actionKey: 'comment',
-				targetId: targetId,
-				userId: comment.authorId,
-				message: Bisia.Notification.noteMsg('comment', targetPost, false, selfUser)
-			});
-		});
-
+		// add me to isDelete on Chats
+		Chats.update(chatId, { $addToSet: { 'isDelete': this.userId } });
+		// get chat to check if both delete the chat
+		var checkIsDelete = Chats.findOne({ '_id': chatId, 'isDelete': { '$in': [this.userId] } });
+		// delete meets ownerIds length -> delete all messages!
+		if (checkIsDelete.isDelete.length == checkIsDelete.ownerIds.length) {
+			Messages.remove({ 'chatId': chatId });
+			Chats.remove({ '_id': chatId });
+		}
 		return true;
 	},
 	sendMessage: function(msgObj) {
@@ -94,37 +40,59 @@ Meteor.methods({
 
 		msg.text = Bisia.Form.formatEmoj(msg.text);
 
-		// if not a valid chatId
+		// first message between two users
 		if (msg.chatId == '') {
 			// check if a chat between me and my target is already present
-			var existingChat = Messages.findOne({
-				// 'isDelete': { '$nin': [msg.targetId, this.userId] },
-				'chatId': { '$exists': true },
-				'$and': [
-					{'$or': [{ 'targetId': this.userId },{ 'userId': this.userId }]},
-					{'$or': [{ 'targetId': msg.targetId },{ 'userId': msg.targetId }]}
-				]
-			});
+			var existingChat = Chats.findOne({ 'ownerIds': { '$all': [this.userId, msgObj.targetId] } });
 
+			// CHAT ALREADY EXISTS
 			if (existingChat) {
-				// Bisia.log('chat esiste', existingChat);
-				msg.chatId = existingChat.chatId;
+				// update chatId
+				msg.chatId = existingChat._id;
 				// Insert new message
 				msg.text = Bisia.Form.sanitizeHTML(msg.text);
 				Messages.insert(msg);
+				// Update Chats
+				Chats.update(msg.chatId, {
+					'$set': {
+						msgTo: msgObj.targetId,
+						text: msg.text,
+						createdAt: msg.createdAt
+					}
+				});
+
+			// CREATE NEW CHAT
 			} else {
-				// Bisia.log('chat non esiste', existingChat);
-				// Insert new message
+				// sanitize HTML
 				msg.text = Bisia.Form.sanitizeHTML(msg.text);
-				msg._id = Messages.insert(msg);
-				Messages.update({ '_id': msg._id }, { '$set': { 'chatId': msg._id }});
-				msg.chatId = msg._id;
+
+				// create Chats entry
+				var newChat = Chats.insert({
+					ownerIds: [this.userId, msgObj.targetId],
+					isDelete: [],
+					msgTo: msgObj.targetId,
+					text: msg.text,
+					createdAt: msg.createdAt
+				});
+				// update chatId
+				msg.chatId = newChat;
+				// Insert new message
+				Messages.insert(msg);
 			}
 
+		// chat already started
 		} else {
 			// Insert new message
 			msg.text = Bisia.Form.sanitizeHTML(msg.text);
 			Messages.insert(msg);
+			// Update Chats
+			Chats.update(msg.chatId, {
+				'$set': {
+					msgTo: msgObj.targetId,
+					text: msg.text,
+					createdAt: msg.createdAt
+				}
+			});
 		}
 
 		// Log chat message

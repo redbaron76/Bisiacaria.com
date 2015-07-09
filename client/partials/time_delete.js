@@ -19,7 +19,7 @@ Template.timeDelete.helpers({
 			dataAction = 'delete';
 		}
 
-		if (m.isAfter(now)) {
+		if (m.isAfter(now) && m.toDate() != now) {
 			format = '[uscirà] ' + format;
 			displayDateTime = m.format(format);
 			className = className + ' future';

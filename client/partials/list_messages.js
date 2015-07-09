@@ -1,9 +1,8 @@
 Template.messagesFrom.helpers({
 	messagePath: function() {
-		var chatId = (this.chatId) ? this.chatId : this._id;
-		var countUnread = Counts.get(chatId);
+		var countUnread = Counts.get(this.chatId);
 		return _.extend(this, {
-			chatId: chatId,
+			chatId: this._id,
 			countUnread: countUnread
 		});
 	},
@@ -11,23 +10,8 @@ Template.messagesFrom.helpers({
 		var chatId = this.chatId ? this.chatId : this._id;
 		return _.extend(this, {chatId: chatId});
 	},
-	getIcon: function() {
-		return this.isRead ? 'fa-folder-open' : 'fa-folder';
-	},
-	isSent: function() {
-		return Bisia.getController('selected') !== 'getMessages';
-	},
 	inOrOut: function() {
-		return (this.targetId == Meteor.userId()) ? 'in-message' : 'out-message';
-	},
-	setOpenClose: function() {
-		if (Bisia.getController('selected') == 'getMessages') {
-			if (this._id && this._id !== Meteor.userId()) {
-				return "open";
-			} else {
-				return "close";
-			}
-		}
+		return (this.msgTo == Meteor.userId()) ? 'in-message' : 'out-message';
 	}
 });
 

@@ -22,7 +22,7 @@ Template.chatList.helpers({
 	},
 	detectFirstPage: function() {
 		var increment = Bisia.getController('increment');
-		var limit = Bisia.getController('params')['pageLimit'];
+		var limit = Bisia.getController('params')['pageLimit'] || null;
 		// Don't show spinner by default
 		var pageDisplay = true;
 		// If we are on the first page...
