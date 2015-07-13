@@ -550,16 +550,13 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 	 */
 	toggleAtBottom: function(e, element, className) {
 		//if (!this.$content)
-		this.$content = $(e.target);
-
+		var c = e.currentTarget;
+		this.$content = $(c);
 		var $el = this.$content.find(element);
-		var elTop = $el.offset().top;
-
-		// Bisia.log($el.height(), '>=', (this.$document.height()*2), this.$content.height(), this.$document.height(), '>=', (elTop + $el.height() - 50));
 
 		// Enable only if content is twice browser height
-		if ($el.height() >= (this.$document.height() * 2) || $('.load-more').length > 0) {
-			if (this.$document.height() >= (elTop + $el.height() - 50)) {
+		if ($el.height() >= (c.offsetHeight * 2) || $('.load-more').length > 0) {
+			if (c.offsetHeight + c.scrollTop >= c.scrollHeight - 50) {
 				$el.addClass(className);
 			} else {
 				$el.removeClass(className);
