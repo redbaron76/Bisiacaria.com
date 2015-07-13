@@ -26,7 +26,6 @@ Meteor.publish('friendsList', function(query, options, authorId) {
 		// return cursors
 		return [friends, authors];
 	}
-	return friends;
 });
 
 Meteor.publish('userFriendsList', function(query, options) {
@@ -63,7 +62,6 @@ Meteor.publish('myFriends', function() {
 		// return cursors
 		return [friends, authors];
 	}
-	return friends;
 });
 
 // Subscribe to following posts
@@ -96,7 +94,6 @@ Meteor.publish('friendPosts', function(query, options) {
 			// return cursors
 			return [posts, authors];
 		}
-		return posts;
 	}
 
 });

@@ -7,6 +7,7 @@ Meteor.publish('votesList', function(query, options, authorId) {
 		sort: Object,
 		limit: Number
 	});
+
 	// Get the subject (opposite of authorId)
 	var target = Bisia.inverseAuthor(authorId);
 	// Build owner subject (the one to get from the query)
@@ -26,5 +27,4 @@ Meteor.publish('votesList', function(query, options, authorId) {
 		// return cursors
 		return [visits, authors];
 	}
-	return visits;
 });

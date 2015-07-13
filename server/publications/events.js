@@ -18,7 +18,6 @@ Meteor.publish('nextWeekEvents', function(options) {
 		// return cursors
 		return [events, authors];
 	}
-	return events;
 });
 
 // Publish a single Event
@@ -44,5 +43,4 @@ Meteor.publish('singleEvent', function(eventId) {
 		// Return cursor
 		return [event, authors];
 	}
-	return event;
 });

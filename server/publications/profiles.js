@@ -34,8 +34,6 @@ Meteor.publish('userPosts', function(query, options) {
 
 		return [posts, authors];
 	}
-
-	return posts;
 });
 
 // Publish a single post
@@ -77,5 +75,4 @@ Meteor.publish('singlePost', function(postId) {
 		// Return cursor
 		return [post, authors];
 	}
-	return post;
 });
