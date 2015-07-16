@@ -120,8 +120,12 @@ body {
 
 	&.bottom-show {
 		#profile .posts,
-		.item-list {
-			padding-bottom: 40px;
+		.row:last-of-type {
+			.list-wrapper:last-of-type {
+				.item-list {
+					padding-bottom: 40px;
+				}
+			}
 		}
 	}
 }
