@@ -4,6 +4,8 @@ Template.userProfile.onRendered(function() {
 			targetId: this.data.user._id
 		});
 	}
+
+	console.log(this);
 });
 
 
@@ -122,7 +124,16 @@ Template.userProfile.events({
 		Bisia.Ui.goTop(e);
 	},
 	'scroll .content': function(e, t) {
-		Bisia.Ui.toggleAtOffset(e, '#profile', 468, 'top-show');
-		Bisia.Ui.toggleAtBottom(e, '#profile', 'bottom-show');
+		Bisia.Ui.toggleAtOffset(e, '#helpbars', 468, 'top-show');
+		Bisia.Ui.toggleAtBottom(e, '#helpbars', 'bottom-show');
+
+		var instance = t.posts;
+		var el = e.currentTarget;
+		var limit = instance.limit.get();
+		limit += instance.increment;
+		var offsetTop = el.offsetHeight + el.scrollTop;
+		if (offsetTop == el.scrollHeight && (!instance.ready.get() || instance.posts().count() >= instance.limit.get())) {
+			instance.limit.set(limit);
+		}
 	}
 });

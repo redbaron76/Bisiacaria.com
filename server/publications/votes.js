@@ -27,4 +27,5 @@ Meteor.publish('votesList', function(query, options, authorId) {
 		// return cursors
 		return [visits, authors];
 	}
+	return visits;
 });

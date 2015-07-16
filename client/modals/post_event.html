@@ -2,17 +2,17 @@
 	{{#with this}}
 	<div class="md-modal top" data-content="new-post">
 		{{> navbarModal data=this title="Pubblica" action="check" target="form-post-event" }}
-		<div class="content container-fluid">
-			<div class="row buttons-toppad">
-				<div class="col-xs-12 buttons-top">
-					<button data-change="tab" data-show="newPostTab" class="selected">
-						Nuovo Post
-					</button>
-					<button data-change="tab" data-show="newEventTab">
-						Nuovo Evento
-					</button>
-				</div>
+		<div class="buttons-toppad">
+			<div class="col-xs-12 buttons-top">
+				<button data-change="tab" data-show="newPostTab" class="selected">
+					Nuovo Post
+				</button>
+				<button data-change="tab" data-show="newEventTab">
+					Nuovo Evento
+				</button>
 			</div>
+		</div>
+		<div class="content container-fluid">
 			<div class="row">
 				<div class="col-xs-12 form postevent">
 					{{> tabPostEventWrapper}}

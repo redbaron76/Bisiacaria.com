@@ -1,17 +1,18 @@
 <template name="infiniteList">
 	{{> navbarTop title=title}}
+
+	{{#if topLink}}
+		<div class="row buttons-toppad">
+			<div class="col-xs-12 buttons-top">
+				{{#each topLink}}
+					{{> topLinkButton}}
+				{{/each}}
+			</div>
+		</div>
+	{{/if}}
+
 	<div class="content container-fluid">
 		<div class="list" id="list">
-
-			{{#if topLink}}
-				<div class="row buttons-toppad">
-					<div class="col-xs-12 buttons-top">
-						{{#each topLink}}
-							{{> topLinkButton}}
-						{{/each}}
-					</div>
-				</div>
-			{{/if}}
 
 			{{#if searchUsers}}
 				{{> searchUsersForm}}
@@ -21,6 +22,9 @@
 
 		</div>
 	</div>
+
+	{{> helpbars loadmore=true gotop=true data=this }}
+
 	<div class="md-overlay gray"></div>
 </template>
 
@@ -28,7 +32,7 @@
 	{{#with detectFirstPage}}
 		{{#if pageDisplay}}
 			<div class="row">
-				<div class="col-xs-12 posts list-wrapper">
+				<div class="col-xs-12 list-wrapper">
 					{{#if foundUsers}}
 						<h4>Utenti trovati</h4>
 					{{/if}}
@@ -45,7 +49,7 @@
 					</ul>
 				</div>
 			</div>
-			{{> paginator}}
+			<!-- {{> paginator}} -->
 		{{else}}
 			{{> loading}}
 		{{/if}}
@@ -54,23 +58,4 @@
 
 <template name="topLinkButton">
 	<a href="{{pathFor path}}" {{attributes}}>{{label}}</a>
-</template>
-
-<template name="paginator">
-	<div class="row">
-		<div class="col-xs-12 helpbar gotopmore">
-			{{#if hasMoreLinks}}
-			<button class="load-more">
-				{{#if pageReady}}
-				<i class="fa fa-refresh"></i> Carica altri elementi
-				{{else}}
-				<i class="fa fa-refresh fa-spin"></i> Sto caricando...
-				{{/if}}
-			</button>
-			{{/if}}
-			<button class="thumb go-top">
-				<i class="fa fa-arrow-up"></i>
-			</button>
-		</div>
-	</div>
 </template>

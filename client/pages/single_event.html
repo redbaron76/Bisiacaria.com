@@ -84,11 +84,6 @@
 			</div>
 
 			<div class="row">
-				<div class="col-xs-12 helpbar title">
-					<h2>{{titleEvent}}</h2>
-				</div>
-			</div>
-			<div class="row">
 				<div class="col-xs-12 posts">
 				{{#with backJoiners}}
 					{{#each joiners}}
@@ -99,21 +94,11 @@
 				{{/with}}
 				</div>
 			</div>
-			<div class="row">
-				<div class="col-xs-12 helpbar title">
-					<h2>{{titleEvent}}</h2>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-xs-12 helpbar gotopmore">
-					<button class="thumb go-top">
-						<i class="fa fa-arrow-up"></i>
-					</button>
-				</div>
-			</div>
+
 		{{/with}}
 		</div>
 	</div>
+	{{> helpbars title="titleEvent" loadmore=false gotop=true data=this }}
 	<div class="md-overlay gray"></div>
 </template>
 

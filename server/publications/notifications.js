@@ -26,6 +26,7 @@ Meteor.publish('visitsList', function(query, options, authorId) {
 		// return cursors
 		return [visits, authors];
 	}
+	return visits;
 });
 
 // Publish news from friends from notifications collection
@@ -56,4 +57,5 @@ Meteor.publish('newsList', function(query, options, authorId) {
 		// return cursors
 		return [news, authors];
 	}
+	return news;
 });

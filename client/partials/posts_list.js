@@ -1,3 +1,22 @@
+/**
+ * Get the parent template instance
+ * @param {Number} [levels] How many levels to go up. Default is 1
+ * @returns {Blaze.TemplateInstance}
+ */
+
+Blaze.TemplateInstance.prototype.parentTemplate = function (levels) {
+    var view = Blaze.currentView;
+    if (typeof levels === "undefined") {
+        levels = 1;
+    }
+    while (view) {
+        if (view.name.substring(0, 9) === "Template." && !(levels--)) {
+            return view.templateInstance();
+        }
+        view = view.parentView;
+    }
+};
+
 Template.postsList.onCreated(function() {
 
 	// set template instance
@@ -11,12 +30,19 @@ Template.postsList.onCreated(function() {
 	instance.ready = new ReactiveVar(false);
 	instance.authorId = new ReactiveVar(this.data._id);
 
+	// Set this instance to profile
+	var profile = instance.parentTemplate();
+	profile.posts = this;
+
+	// console.log(instance.profile);
+
 	// var options = instance.controller['findOptions']();
-	var query, options, authorId = instance.authorId.get();
+	// var query, options, authorId = instance.authorId.get();
+	var query, options, authorId = profile.data.user._id;
 
 	instance.autorun(function() {
 		var limit = instance.limit.get();
-		authorId = instance.authorId.get();
+		// authorId = instance.authorId.get();
 
 		query = {
 			'authorId': authorId
@@ -59,7 +85,7 @@ Template.postsList.helpers({
 		var increment = instance.increment;
 		var loaded = instance.loaded.get();
 		// update the authorId to load posts from
-		instance.authorId.set(this._id);
+		// instance.authorId.set(this._id);
 		// Don't show spinner by default
 		var postDisplay = true;
 		// If we are on the first page...
@@ -79,12 +105,6 @@ Template.postsList.helpers({
 Template.postsList.events({
 	'click .go-top': function(e, t) {
 		Bisia.Ui.goTop(e);
-	},
-	'click .load-more': function(e, instance) {
-		e.preventDefault();
-		var limit = instance.limit.get();
-		limit += instance.increment;
-		instance.limit.set(limit);
 	}
 });
 

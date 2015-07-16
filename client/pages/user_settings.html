@@ -1,17 +1,17 @@
 <template name="userSettings">
 	{{> navbarTop title="Impostazioni"}}
+	<div class="buttons-toppad">
+		<div class="col-xs-12 buttons-top">
+			<button id="question">
+				Domande e Risposte
+			</button>
+			<button id="lovehate">
+				Amo e Odio
+			</button>
+		</div>
+	</div>
 	<div class="content container-fluid">
 		<div id="settings">
-			<div class="row buttons-toppad">
-				<div class="col-xs-12 buttons-top">
-					<button id="question">
-						Domande e Risposte
-					</button>
-					<button id="lovehate">
-						Amo e Odio
-					</button>
-				</div>
-			</div>
 			{{#with currentUser}}
 			<div class="row">
 				<div class="col-xs-12 form">

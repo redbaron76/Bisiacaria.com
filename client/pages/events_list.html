@@ -3,7 +3,7 @@
 	<div class="content container-fluid">
 		<div class="list events">
 			<div class="row">
-				<div class="col-xs-12 list-wrapper">
+				<div class="col-xs-12 posts list-wrapper">
 					<ul class="item-list">
 					{{#with formatEvents}}
 						{{#each data}}
@@ -22,15 +22,9 @@
 					</ul>
 				</div>
 			</div>
-			<div class="row">
-				<div class="col-xs-12 helpbar gotopmore">
-					<button class="thumb go-top">
-						<i class="fa fa-arrow-up"></i>
-					</button>
-				</div>
-			</div>
 		</div>
 	</div>
+	{{> helpbars gotop=true data=this }}
 	<div class="md-overlay gray"></div>
 </template>
 

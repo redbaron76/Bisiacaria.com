@@ -94,22 +94,9 @@
 
 				</div>
 			</div>
-			{{#if category}}
-			<div class="row">
-				<div class="col-xs-12 helpbar title">
-					<h2>{{category}}</h2>
-				</div>
-			</div>
-			{{/if}}
-			<div class="row">
-				<div class="col-xs-12 helpbar gotopmore">
-					<button class="thumb go-top">
-						<i class="fa fa-arrow-up"></i>
-					</button>
-				</div>
-			</div>
 		{{/with}}
 		</div>
 	</div>
+	{{> helpbars title="postCategory" loadmore=false gotop=true data=this }}
 	<div class="md-overlay gray"></div>
 </template>

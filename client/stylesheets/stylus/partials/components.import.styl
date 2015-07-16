@@ -52,17 +52,17 @@
 	margin: 0 .4em;
 }
 
-// buttons-top
+// BUTTONS TOPPAD
 
-.row.buttons-toppad + .row {
-	padding-top: 40px;
-}
-
-.row.buttons-toppad {
+.buttons-toppad {
 	fixed: top $navbar-height;
 	// absolute: top $navbar-height; // ie
 	width: 100%;
 	z-index: 5;
+
+	& + .content {
+		padding-top: 40px;
+	}
 }
 
 #attached-image-preview {
@@ -155,6 +155,75 @@
 
 	& + .geo-location {
 		margin-top: 20px !important;
+	}
+}
+
+// HELPBARS
+
+#helpbars {
+
+	.titlebar {
+		display: block;
+		height: 40px;
+		padding: 0;
+		fixed: top 0;
+		// absolute: top 0;
+		transform: translate3d(0, -100%, 0);
+		transition: transform .5s, opacity .5s;
+		opacity: 0;
+		z-index: 5;
+
+		h2 {
+			text-align: left;
+			font-size: 16px;
+			margin: 0;
+			padding: 15px 30px;
+			malefemale();
+
+			background-color: $gray-row;
+			color: $white-text;
+		}
+	}
+
+	.gotopmore {
+
+		bottom-bar();
+
+		button {
+			&.load-more {
+				width: 80%;
+				background-color: $gray-row;
+				i {
+					margin-right: 5px;
+				}
+
+				& + button {
+					width: 20%;
+				}
+			}
+			&.go-top {
+				background-color: $gray-row-hl;
+			}
+		}
+
+	}
+
+	&.top-show {
+		.titlebar {
+			opacity: .9;
+			transform: translate3d(0, $navbar-height, 0);
+		}
+	}
+
+	&.bottom-show {
+		.posts {
+			padding-bottom: 40px;
+		}
+
+		.gotopmore {
+			opacity: .9;
+			transform: translate3d(0, 0, 0);
+		}
 	}
 }
 

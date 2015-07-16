@@ -271,7 +271,7 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 	 */
 	goTop: function(e) {
 		e.preventDefault();
-		this.$content = (arguments[1]) ? $(arguments[1]) : $(e.target).parents('.content');
+		this.$content = (arguments[1]) ? $(arguments[1]) : this.$content;
 		this.$content.animate({ scrollTop: 0 }, 1000);
 		return this;
 	},
@@ -549,16 +549,19 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 	 * @return {Bisia.Ui}
 	 */
 	toggleAtBottom: function(e, element, className) {
-		//if (!this.$content)
+		this.$content = $(e.target);
+		var $el = this.$content.next(element);	//find
 		var c = e.currentTarget;
-		this.$content = $(c);
-		var $el = this.$content.find(element);
+
+		// console.log(c.offsetHeight + c.scrollTop, c.scrollHeight, this.$document.height());
 
 		// Enable only if content is twice browser height
-		if ($el.height() >= (c.offsetHeight * 2) || $('.load-more').length > 0) {
+		if (c.scrollHeight >= (this.$document.height() * 2) || $('.load-more').length > 0) {
 			if (c.offsetHeight + c.scrollTop >= c.scrollHeight - 50) {
+				this.$content.addClass(className);
 				$el.addClass(className);
 			} else {
+				this.$content.removeClass(className);
 				$el.removeClass(className);
 			}
 		}
@@ -576,7 +579,7 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 	toggleAtOffset: function(e, target, limit, className) {
 		this.$content = $(e.target);
 
-		var $target = this.$content.find(target);
+		var $target = this.$content.next(target);
 		var offsetTop = this.$content.scrollTop() - this.$content.offset().top;
 
 		// add 15 if isCordova (padding top navbar)

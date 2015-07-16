@@ -1,13 +1,7 @@
 <template name="postsList">
 	{{#with detectFirstBlock}}
 		{{#if postDisplay}}
-		<div class="row">
-			<div class="col-xs-12 helpbar title">
-				<h2 class="{{getGender}}">Ultimi post di
-					<span class="username">{{username}}</span>
-				</h2>
-			</div>
-		</div>
+
 		<div class="row">
 			<div class="col-xs-12 posts">
 				{{#each posts}}
@@ -15,22 +9,7 @@
 				{{/each}}
 			</div>
 		</div>
-		<div class="row">
-			<div class="col-xs-12 helpbar gotopmore">
-				{{#if hasMoreLinks}}
-				<button class="load-more">
-					{{#if pageReady}}
-					<i class="fa fa-refresh"></i> Carica altri elementi
-					{{else}}
-					<i class="fa fa-refresh fa-spin"></i> Sto caricando...
-					{{/if}}
-				</button>
-				{{/if}}
-				<button class="thumb go-top">
-					<i class="fa fa-arrow-up"></i>
-				</button>
-			</div>
-		</div>
+
 		{{else}}
 			<div class="row relative">
 				{{> spinning}}

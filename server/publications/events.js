@@ -18,6 +18,7 @@ Meteor.publish('nextWeekEvents', function(options) {
 		// return cursors
 		return [events, authors];
 	}
+	return events;
 });
 
 // Publish a single Event

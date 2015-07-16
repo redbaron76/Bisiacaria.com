@@ -15,12 +15,13 @@
 							{{/each}}
 						</div>
 					</div>
-					{{> paginator}}
+					<!-- {{> paginator}} -->
 				{{else}}
 					{{> loading}}
 				{{/if}}
 			{{/with}}
 		</div>
 	</div>
+	{{> helpbars loadmore=true gotop=true data=this }}
 	<div class="md-overlay gray"></div>
 </template>

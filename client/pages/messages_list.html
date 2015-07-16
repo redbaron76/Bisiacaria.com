@@ -7,6 +7,7 @@
 
 		</div>
 	</div>
+	{{> helpbars loadmore=true gotop=true data=this }}
 	<div class="md-overlay gray"></div>
 </template>
 
@@ -14,7 +15,7 @@
 	{{#with detectFirstPage}}
 		{{#if pageDisplay}}
 			<div class="row">
-				<div class="col-xs-12 posts list-wrapper">
+				<div class="col-xs-12 list-wrapper">
 					<ul class="item-list">
 						{{#each items}}
 							{{#with joinWithChatAuthor}}
@@ -26,7 +27,7 @@
 					</ul>
 				</div>
 			</div>
-			{{> paginator}}
+			<!-- {{> paginator}} -->
 		{{else}}
 			{{> loading}}
 		{{/if}}
