@@ -24,7 +24,7 @@ Template.nextEventList.events({
 		Bisia.Ui.goTop(e);
 	},
 	'scroll .content': function(e, t) {
-		Bisia.Ui.toggleAtBottom(e, '.list', 'bottom-show');
+		Bisia.Ui.toggleAtBottom(e, '#helpbars', 'bottom-show');
 	}
 });
 

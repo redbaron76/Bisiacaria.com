@@ -40,6 +40,6 @@ Template.friendPosts.helpers({
 
 Template.friendPosts.events({
 	'scroll .content': function(e, t) {
-		Bisia.Ui.toggleAtBottom(e, '.list', 'bottom-show');
+		Bisia.Ui.toggleAtBottom(e, '#helpbars', 'bottom-show');
 	}
 });

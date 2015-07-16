@@ -99,7 +99,7 @@ Template.singleEvent.events({
 		Bisia.Ui.goTop(e);
 	},
 	'scroll .content': function(e, t) {
-		Bisia.Ui.toggleAtOffset(e, '.list', 248, 'top-show');
-		Bisia.Ui.toggleAtBottom(e, '.list', 'bottom-show');
+		Bisia.Ui.toggleAtOffset(e, '#helpbars', 248, 'top-show');
+		Bisia.Ui.toggleAtBottom(e, '#helpbars', 'bottom-show');
 	}
 });
