@@ -4,8 +4,6 @@ Template.userProfile.onRendered(function() {
 			targetId: this.data.user._id
 		});
 	}
-
-	console.log(this);
 });
 
 
