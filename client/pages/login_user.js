@@ -8,7 +8,19 @@ Template.loginUser.events({
 		var errors = {};
 
 		Meteor.loginWithFacebook({
-			requestPermission: ['email', 'publish_actions', 'user_birthday', 'user_friends', 'user_about_me', 'user_hometown'],
+			requestPermission: [
+				'email',
+				'publish_actions',
+				'publish_pages',
+				'user_birthday',
+				'user_about_me',
+				'user_hometown',
+				'user_location',
+				'user_about_me',
+				'user_friends',
+				'user_likes',
+				'user_posts'
+			],
 			requestOfflineToken: true
 		}, function(error) {
 			if (error) {

@@ -210,6 +210,12 @@ Template.registerHelper('withFacebook', function() {
 	return Bisia.User.getProfile('loggedWith') === 'facebook';
 });
 
+Template.registerHelper('linkedFacebook', function() {
+	var user = arguments[0] || this;
+	var services = Bisia.User.getUser('services');
+	return (!!services && !!services['facebook']) ? true : false;
+});
+
 Template.registerHelper('mf', function(val1, val2) {
 	var gender = Bisia.User.getProfile('gender', this);
 	return (gender === 'male') ? val1 : val2;
