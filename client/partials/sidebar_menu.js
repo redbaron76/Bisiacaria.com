@@ -62,6 +62,9 @@ Template.sidebarMenu.events({
 				}
 			});
 		});
+	},
+	'click .reset-note': function(e, t) {
+		Bisia.Notification.resetNotify('note');
 	}
 });
 
@@ -69,6 +72,12 @@ Template.menuItem.helpers({
 	spacer: function() {
 		if (this.spacer)
 			return 'spacer';
+	}
+});
+
+Template.menuItem.events({
+	'click a': function(e, t) {
+		Bisia.Notification.resetNotify(t.data.key);
 	}
 });
 

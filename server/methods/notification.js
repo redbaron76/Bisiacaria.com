@@ -18,13 +18,13 @@ Meteor.methods({
 				actionKey: actionKey
 			});
 		}
-		var result = Notifications.update(query, {
-			$set: {
-				'isRead': true
-			}
-		}, {
-			'multi': true
-		});
+
+		if (action == 'note' || action == 'visit') {
+			Notifications.update(query, { '$set': {	'isRead': true } }, { 'multi': true	});
+		} else {
+			Notifications.remove({ 'action': action });
+		}
+
 	},
 	sharePost: function(postObj, shareArr) {
 		check(this.userId, String);

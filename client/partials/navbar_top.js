@@ -16,11 +16,13 @@ Template.navbarTop.events({
 Template.counterNotification.helpers({
 	totNotifications: function() {
 		var total = Bisia.Notification.total.get();
-		if (total > 0)
+		if (total > 0) {
 			Bisia.Audio.playNoty();
-		return {
-			total: total,
-			class: (total > 0) ? 'appear' : null
-		};
+			return {
+				total: total,
+				class: (total > 0) ? 'appear' : null
+			};
+		}
+		return null;
 	}
 });

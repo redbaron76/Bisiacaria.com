@@ -22,7 +22,7 @@ Template.sidebarUsers.onCreated(function() {
 			instance.ready.set(false);
 		}
 
-		if (instance.checkFriends.get()) {
+		if (instance.checkFriends.get() && instance.onlineFriends.length > 0) {
 			var newerUser = instance.onlineFriends.reverse()[0];
 			var totFriends = instance.onlineFriends.length;
 			var msg;
@@ -108,27 +108,31 @@ Template.onlineUser.onRendered(function() {
 	// get user list instance
 	var userList = this.parentTemplate();
 	var yourFriends = Meteor.user()['following'];
+	var alreadyAlerted = AlertFollowing.findOne({userId: user._id});
 	// not me
-	if (user._id != Meteor.userId() && Bisia.Session.connStatus.get()) {
+	if (user._id != Meteor.userId() && Bisia.Session.connStatus.get() && ! alreadyAlerted) {
 		// if the user is someone thai I follow and not already in onlineFriends
 		if (_.contains(yourFriends, user._id) && ! _.contains(userList.onlineFriends, user)) {
 			// add user to array
 			userList.onlineFriends.push(user);
+			AlertFollowing.insert({userId: user._id});
 		}
 	}
 	// increment counter
 	userList.countUsers ++;
-
 	// if last element
-	if(userList.countUsers == userList.totalUsers && userList.onlineFriends.length > 0) {
-		// check flag
-		userList.checkFriends.set(true);
+	if(userList.countUsers == userList.totalUsers) {
+		if (userList.onlineFriends.length > 0) {
+			// check flag
+			userList.checkFriends.set(true);
+		}
 	}
 });
 
 Template.onlineUser.onDestroyed(function() {
 	var user = this.data;
 	var userList = this.parentTemplate();
+	AlertFollowing.remove({userId: user._id});
 	userList.onlineFriends = _.reject(userList.onlineFriends, function(el) {
 		return el._id === user._id;
 	});
