@@ -23,8 +23,8 @@ Template.sidebarUsers.onCreated(function() {
 		}
 
 		if (instance.checkFriends.get() && instance.onlineFriends.length > 0) {
-			var newerUser = instance.onlineFriends.reverse()[0];
-			var totFriends = instance.onlineFriends.length;
+			var newerUser = instance.onlineFriends[0];
+			var totFriends = parseInt(instance.onlineFriends.length);
 			var msg;
 
 			switch(totFriends) {
@@ -35,7 +35,7 @@ Template.sidebarUsers.onCreated(function() {
 					msg = "ed <strong>un'altra persona</strong> sono online!";
 					break;
 				default:
-					msg = "ed <strong>altre " + totFriends - 1 + " persone</strong> sono online!";
+					msg = "ed <strong>altre " + (totFriends-1) + " persone</strong> sono online!";
 			}
 
 			Bisia.Ui.runAfter(function() {
