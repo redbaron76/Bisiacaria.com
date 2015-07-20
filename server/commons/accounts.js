@@ -27,11 +27,15 @@ Accounts.onCreateUser(function(options, user) {
 	if (user.services.facebook) {
 		var accessToken = user.services.facebook.accessToken, result;
 		// Get facebook info
-		result = Meteor.http.get('https://graph.facebook.com/me?fields=id,name,username,gender,email,birthday,bio,hometown,picture', {
+		//result = Meteor.http.get('https://graph.facebook.com/me?fields=id,name,username,gender,email,birthday,bio,hometown,picture', {
+		result = Meteor.http.get('https://graph.facebook.com/me', {
 			params: {
 				access_token: accessToken
 			}
 		});
+
+		console.log(result);
+
 		// log(result);
 		if (result.error)
 			Bisia.log(result.error);
@@ -82,6 +86,8 @@ Accounts.onCreateUser(function(options, user) {
 			email.verified		= true;
 			emails.push(email);
 			user.emails = emails;
+
+			console.log(email.address);
 		}
 	}
 
