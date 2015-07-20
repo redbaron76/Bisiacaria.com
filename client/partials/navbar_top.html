@@ -13,9 +13,11 @@
 </template>
 
 <template name="counterNotification">
-	{{#with totNotifications}}
-		<span class="{{class}}">{{total}}</span>
-	{{/with}}
+	{{#if totNotifications}}
+		{{#with totNotifications}}
+			<span class="{{class}}">{{total}}</span>
+		{{/with}}
+	{{/if}}
 </template>
 
 <template name="onlineCounter">

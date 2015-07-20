@@ -15,7 +15,7 @@ Template.navbarTop.events({
 
 Template.counterNotification.helpers({
 	totNotifications: function() {
-		var total = Bisia.Notification.total.get();
+		var total = parseInt(Bisia.Notification.total.get());
 		if (total > 0) {
 			Bisia.Audio.playNoty();
 			return {
