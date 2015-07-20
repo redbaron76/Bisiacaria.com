@@ -118,6 +118,7 @@
 	input[type=file] {
 		absolute: top 0 right 0 bottom 0 left 0;
 		width: inherit;
+		height: 100%;
 		margin: 0;
 		padding: 0;
 		z-index: 3;
@@ -422,7 +423,7 @@ img.emojione {
 	overflow: hidden;
 	border: none;
 	border-radius: 3px;
-	margin: 0;
+	margin: 0 0 15px 0;
 	padding: 0;
 	box-shadow: 0 3px 6px rgba(0,0,0,0.9);
 
@@ -435,9 +436,9 @@ img.emojione {
 		transform: translate(-50.1%,-50%);
 	}
 
-	& + p {
+	/*& + p {
 		padding-top: 20px !important;
-	}
+	}*/
 
 	// min-width: 480px
 	@media (min-width: 480px) {
@@ -683,6 +684,9 @@ img.emojione {
 
 		&.appear {
 			display: block;
+			&.online {
+				background-color: $bisiad;
+			}
 		}
 	}
 
@@ -754,7 +758,7 @@ img.emojione {
 		// background-color: lime;
 		absolute: top 0 right 0 bottom 0 left 0;
 		width: inherit;
-		height: inherit;
+		height: 100%;
 		margin: 0;
 		padding: 0;
 		z-index: 4;

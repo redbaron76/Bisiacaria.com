@@ -3,6 +3,11 @@ Template.sidebarUsers.onCreated(function() {
 	// Initialization
 	var instance = this;
 
+	instance.countUsers = 0;
+	instance.totalUsers = 0;
+	instance.onlineFriends = [];
+	instance.checkFriends = new ReactiveVar(false);
+
 	// Init reactive vars
 	instance.ready = new ReactiveVar(false);
 
@@ -16,6 +21,36 @@ Template.sidebarUsers.onCreated(function() {
 		} else {
 			instance.ready.set(false);
 		}
+
+		if (instance.checkFriends.get() && instance.onlineFriends.length > 0) {
+			var newerUser = instance.onlineFriends.reverse()[0];
+			var totFriends = instance.onlineFriends.length;
+			var msg;
+
+			switch(totFriends) {
+				case 1:
+					msg = "in questo momento è online!";
+					break;
+				case 2:
+					msg = "ed <strong>un'altra persona</strong> sono online!";
+					break;
+				default:
+					msg = "ed <strong>altre " + totFriends - 1 + " persone</strong> sono online!";
+			}
+
+			Bisia.Ui.runAfter(function() {
+				Bisia.Ui.setReactive('bubble', {
+					template: 'voteBubble',
+					user: newerUser,
+					message: msg
+				});
+				Bisia.Audio.playPresent();
+			}, function() {
+				Bisia.Ui.unsetReactive('bubble');
+				instance.checkFriends.set(false);
+			}, 5);
+		}
+
 	});
 
 	// The cursor
@@ -32,7 +67,7 @@ Template.sidebarUsers.onCreated(function() {
 				});
 			}
 
-			return Users.find(query, {
+			var users = Users.find(query, {
 					'fields': {
 						'username': true,
 						'profile': true
@@ -40,6 +75,8 @@ Template.sidebarUsers.onCreated(function() {
 					'sort': { 'profile.loginSince': -1 }
 				}
 			);
+			instance.totalUsers = users.count();
+			return users;
 		}
 		return;
 	};
@@ -68,29 +105,38 @@ Template.sidebarUsers.events({
 
 Template.onlineUser.onRendered(function() {
 	var user = this.data;
-	if (user._id != Meteor.userId() && Bisia.Session.connStatus.get()) {
-		var youFollow = Meteor.user()['following'];
-		var bubbled = AlertFollowing.findOne({targetId: user._id, seen: true});
-		var message = 'in questo momento è online!';
-		if (_.contains(youFollow, user._id) && !bubbled) {
-			Bisia.Ui.runAfter(function() {
-				Bisia.Ui.setReactive('bubble', {
-					template: 'voteBubble',
-					user: user,
-					message: message
-				});
-				Bisia.Audio.playPresent();
-				AlertFollowing.insert({targetId: user._id, seen: true});
-			}, function() {
-				Bisia.Ui.unsetReactive('bubble');
-			}, 5);
+	// get user list instance
+	var userList = this.parentTemplate();
+	var yourFriends = Meteor.user()['following'];
+	var alreadyAlerted = AlertFollowing.findOne({userId: user._id});
+	// not me
+	if (user._id != Meteor.userId() && Bisia.Session.connStatus.get() && ! alreadyAlerted) {
+		// if the user is someone thai I follow and not already in onlineFriends
+		if (_.contains(yourFriends, user._id) && ! _.contains(userList.onlineFriends, user)) {
+			// add user to array
+			userList.onlineFriends.push(user);
+			AlertFollowing.insert({userId: user._id});
+		}
+	}
+	// increment counter
+	userList.countUsers ++;
+	// if last element
+	if(userList.countUsers == userList.totalUsers) {
+		if (userList.onlineFriends.length > 0) {
+			// check flag
+			userList.checkFriends.set(true);
 		}
 	}
 });
 
 Template.onlineUser.onDestroyed(function() {
 	var user = this.data;
-	// AlertFollowing.remove({targetId: user._id});
+	var userList = this.parentTemplate();
+	AlertFollowing.remove({userId: user._id});
+	userList.onlineFriends = _.reject(userList.onlineFriends, function(el) {
+		return el._id === user._id;
+	});
+	userList.countUsers --;
 });
 
 Template.onlineUser.events({

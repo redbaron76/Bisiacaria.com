@@ -6,6 +6,7 @@
 			<i class="fa fa-lg fa-bars"></i>
 		</div>
 		<div class="navbar-btn right toggle-users">
+			{{> onlineCounter}}
 			<i class="fa fa-lg fa-user"></i>
 		</div>
 	</nav>
@@ -15,4 +16,8 @@
 	{{#with totNotifications}}
 		<span class="{{class}}">{{total}}</span>
 	{{/with}}
+</template>
+
+<template name="onlineCounter">
+	<span class="appear online">{{getPublishedCount 'totOnline'}}</span>
 </template>

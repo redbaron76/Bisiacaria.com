@@ -31,6 +31,9 @@ Meteor.methods({
 
 		var blockPreviuser = false, userVerified = false;
 
+		// lowercase items
+		userAttr.email = userAttr.email.toLowerCase();
+
 		// Check name or nick
 		if (Meteor.settings.public.sitePreview) {
 			if (userAttr.verifyKey) {
@@ -84,7 +87,7 @@ Meteor.methods({
 								"Assicurati di aver usato lo stesso NICKNAME o lo stesso NOME e COGNOME che ci hai comunicato su GROWISH o durante il contributo a mano.<br><br>" +
 								"Contattaci per chiarimenti su bisiacaria@gmail.com o sulla Pagina Facebook di Bisiacaria.com|exec";
 
-		var usernameTaken = Users.findOne({ 'username': userAttr.username });
+		var usernameTaken = Users.findOne({ 'username': { '$regex': userAttr.username, '$options': 'i' }});
 		if (usernameTaken)
 			errors.username = Bisia.Login.messages.nicknameInUse + "|exc";
 
