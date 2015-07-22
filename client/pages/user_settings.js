@@ -157,5 +157,24 @@ Template.userSettings.events({
 			if (result)
 				return Bisia.Ui.submitSuccess('La tua iscrizione alla newsletter è andata a buon fine!');
 		});
-	}
+	},
+	'click #facebook-connect': function(e, t) {
+		e.preventDefault();
+		Package.facebook.Facebook.requestCredential({
+			requestPermission: ['email', 'publish_actions', 'user_birthday', 'user_friends', 'user_about_me', 'user_hometown'],
+			requestOfflineToken: true
+		}, function(token) {
+			var secret = Package.oauth.OAuth._retrieveCredentialSecret(token);
+			Meteor.call('userAddOAuthCredentials', token, secret, 'facebook', function(error) {
+				if (error) console.log(error);
+				// $('#form-facebook').hide();
+			})
+		});
+	},
+	'click #facebook-logout': function(e, t) {
+		e.preventDefault();
+		Meteor.call('userRemoveOAuthCredentials', function(error, success) {
+
+		});
+	},
 });
