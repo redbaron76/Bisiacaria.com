@@ -105,38 +105,48 @@ Template.sidebarUsers.events({
 
 Template.onlineUser.onRendered(function() {
 	var user = this.data;
+	var me = Meteor.user();
 	// get user list instance
-	var userList = this.parentTemplate();
-	var yourFriends = Meteor.user()['following'];
+	var yourFriends = me['following'];
+	var allowNotify = me['profile']['notifyFriends'];
 	var alreadyAlerted = AlertFollowing.findOne({userId: user._id});
-	// not me
-	if (user._id != Meteor.userId() && Bisia.Session.connStatus.get() && ! alreadyAlerted) {
-		// if the user is someone thai I follow and not already in onlineFriends
-		if (_.contains(yourFriends, user._id) && ! _.contains(userList.onlineFriends, user)) {
-			// add user to array
-			userList.onlineFriends.push(user);
-			AlertFollowing.insert({userId: user._id});
+
+	if (allowNotify) {
+		var userList = this.parentTemplate();
+		// not me
+		if (user._id != Meteor.userId() && Bisia.Session.connStatus.get() && ! alreadyAlerted) {
+			// if the user is someone thai I follow and not already in onlineFriends
+			if (_.contains(yourFriends, user._id) && ! _.contains(userList.onlineFriends, user)) {
+				// add user to array
+				userList.onlineFriends.push(user);
+				AlertFollowing.insert({userId: user._id});
+			}
 		}
-	}
-	// increment counter
-	userList.countUsers ++;
-	// if last element
-	if(userList.countUsers == userList.totalUsers) {
-		if (userList.onlineFriends.length > 0) {
-			// check flag
-			userList.checkFriends.set(true);
+		// increment counter
+		userList.countUsers ++;
+		// if last element
+		if(userList.countUsers == userList.totalUsers) {
+			if (userList.onlineFriends.length > 0) {
+				// check flag
+				userList.checkFriends.set(true);
+			}
 		}
 	}
 });
 
 Template.onlineUser.onDestroyed(function() {
 	var user = this.data;
-	var userList = this.parentTemplate();
-	AlertFollowing.remove({userId: user._id});
-	userList.onlineFriends = _.reject(userList.onlineFriends, function(el) {
-		return el._id === user._id;
-	});
-	userList.countUsers --;
+	var me = Meteor.user();
+	var allowNotify = me['profile']['notifyFriends'];
+
+	if (allowNotify) {
+		var userList = this.parentTemplate();
+		AlertFollowing.remove({userId: user._id});
+		userList.onlineFriends = _.reject(userList.onlineFriends, function(el) {
+			return el._id === user._id;
+		});
+		userList.countUsers --;
+	}
 });
 
 Template.onlineUser.events({

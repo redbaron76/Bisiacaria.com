@@ -141,11 +141,10 @@ Meteor.methods({
 		// Log profile update
 		Bisia.Log.info('profile data', profileObj);
 
+		Bisia.Notification.notifyMyFollowers('note', 'profileData', profileObj, {});
+		// nickname changed
 		if (currentUsername != dataAttr.username && dataAttr._id == Meteor.userId()) {
-			// nickname changed
 			Bisia.Notification.notifyMyFollowers('note', 'nicknameChanged', profileObj, { nickname: currentUsername });
-		} else {
-			Bisia.Notification.notifyMyFollowers('note', 'profileData', profileObj, {});
 		}
 
 

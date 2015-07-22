@@ -145,6 +145,11 @@ Template.userSettings.events({
 		Bisia.User.notifyMail = status;
 		Users.update(Meteor.userId(), {'$set': {'profile.notifyMail': status}});
 	},
+	'change #enable-online': function(e, t) {
+		var status = e.currentTarget.checked;
+		Bisia.User.notifyFriends = status;
+		Users.update(Meteor.userId(), {'$set': {'profile.notifyFriends': status}});
+	},
 	'click #newsletter-signup': function(e, t) {
 		e.preventDefault();
 		var email = Bisia.User.getUser("emails", this)[0].address;
