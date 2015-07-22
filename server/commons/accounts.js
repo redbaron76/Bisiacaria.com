@@ -89,15 +89,15 @@ Accounts.onCreateUser(function(options, user) {
 			profile.city 		= (result.data.hometown) ? result.data.hometown.name : "Facebook";
 			profile.bio			= (result.data.bio) ? result.data.bio : null;
 
-			var fbId 			= (result.data.username) ? result.data.username : result.data.id;
+			var fbId 			= result.data.id;
 
-			if (result.data.id) {
+			if (fbId) {
 				profile.avatar = 'http://res.cloudinary.com/bisiacaria-com/image/facebook/w_200,h_200,c_fill,g_faces/'+fbId+'.jpg';
 				profile.picture = 'http://res.cloudinary.com/bisiacaria-com/image/facebook/'+fbId+'.jpg';
-				if (! result.data.username) {
+				/*if (! result.data.username) {
 					profile.avatar = '';
 					profile.picture = '';
-				}
+				}*/
 				// profile.avatar = 'https://graph.facebook.com/'+result.data.id+'/picture?type=square';
 			} else {
 				profile.avatar = '';

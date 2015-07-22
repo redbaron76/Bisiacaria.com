@@ -161,13 +161,25 @@ Template.userSettings.events({
 	'click #facebook-connect': function(e, t) {
 		e.preventDefault();
 		Package.facebook.Facebook.requestCredential({
-			requestPermission: ['email', 'publish_actions', 'user_birthday', 'user_friends', 'user_about_me', 'user_hometown'],
+			requestPermission: [
+				'email',
+				'publish_actions',
+				'publish_pages',
+				'user_birthday',
+				'user_about_me',
+				'user_hometown',
+				'user_location',
+				'user_about_me',
+				'user_friends',
+				'user_likes',
+				'user_posts'
+			],
 			requestOfflineToken: true
 		}, function(token) {
 			var secret = Package.oauth.OAuth._retrieveCredentialSecret(token);
 			Meteor.call('userAddOAuthCredentials', token, secret, 'facebook', function(error) {
-				if (error) console.log(error);
-				// $('#form-facebook').hide();
+				if (error)
+					Bisia.Login.failLogin("facebookConnection", error.reason);
 			})
 		});
 	},

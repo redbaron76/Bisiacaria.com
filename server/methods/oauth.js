@@ -4,14 +4,20 @@ Meteor.methods({
 		var userId = Meteor.userId();
 
 		if (service == 'facebook') {
+			var serviceName = "Facebook";
 			var data = Package.facebook.Facebook.retrieveCredential(token, secret) || {};
 			if (data && data.serviceName == 'facebook' && data.serviceData) {
 				services.facebook = data.serviceData;
 				var serviceSearch = { 'services.facebook.id': services.facebook.id };
 
 				var alreadyLinked = Meteor.users.findOne(serviceSearch);
+
 				if (alreadyLinked) {
-					throw new Meteor.Error(500, "Il tuo account #{service} è già collegato al tuo profilo.");
+					if (alreadyLinked._id == userId) {
+						throw new Meteor.Error(500, "Il tuo account " + serviceName + " è già collegato al tuo profilo.");
+					} else {
+						throw new Meteor.Error(500, "La sessione di " + serviceName + " attiva appartiene ad un altro utente.<br><br>Fai logout da Facebook e riprova.");
+					}
 				}
 
 				Users.update(userId, { '$set': { 'services': services } });
