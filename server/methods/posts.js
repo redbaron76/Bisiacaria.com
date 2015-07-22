@@ -300,8 +300,13 @@ Meteor.methods({
 					});
 					break;
 			}
+
+			// Log the post
+			Bisia.Log.info(editPost.action + 'Edit', editPost);
+
 			return true;
 		}
+
 		return false;
 	},
 	resetLikeUnlike: function(target) {
