@@ -8,11 +8,13 @@
 					<span class="location">{{profile.city}}</span>
 					<span class="time">{{timeFormat 'dddd DD MMMM YYYY [alle] HH:mm'}}</span>
 				</div>
+				{{#if getAge}}
 				<div class="right-aligned">
 					<div class="age">
 						{{getAge}}
 					</div>
 				</div>
+				{{/if}}
 			</a>
 		</div>
 	</li>

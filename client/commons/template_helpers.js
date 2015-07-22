@@ -171,8 +171,10 @@ Template.registerHelper('getUserAuthor', function(userId) {
 Template.registerHelper('getAge', function() {
 	var user = arguments[0] || this;
 	var birthday = moment(Bisia.User.getProfile("birthday", user), 'DD-MM-YYYY', true);
-	// return birthday.fromNow(true);
-	return moment().diff(birthday, 'years') + ' anni';
+	if (birthday.isValid()) {
+		return moment().diff(birthday, 'years') + ' anni';
+	}
+	return false;
 });
 
 Template.registerHelper('getEmail', function() {

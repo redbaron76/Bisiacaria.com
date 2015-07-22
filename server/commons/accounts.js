@@ -4,6 +4,8 @@ var isBisiaLiked = function(accessToken) {
 		params: { access_token: accessToken }
 	});
 
+	console.log(bisia);
+
 	return (bisia.data[0] && bisia.data[0].id == '112762045472584') ? true: false;
 }
 
