@@ -102,7 +102,7 @@ Template.postArticle.helpers({
 			totLikes: post.likes.length,
 			totUnlikes: post.unlikes.length,
 			totComments: post.comments.length,
-			delete: 'post'
+			action: 'post'
 		});
 
 		return post;

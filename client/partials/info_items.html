@@ -154,7 +154,7 @@
 			{{#if context.infoText}}
 				<p>{{{context.infoText}}}</p>
 			{{/if}}
-			<ul class="item-list buttons">
+			<ul class="item-list buttons-dial">
 				<li>
 					<button id="confirm-yes" class="green">Si, procedi</button>
 				</li>
@@ -162,6 +162,47 @@
 					<button id="confirm-no" class="red">No, annulla</button>
 				</li>
 			</ul>
+		</div>
+	</div>
+</template>
+
+<template name="infoActions">
+	<div class="md-info md-show list">
+		{{> infoClose title=context.infoTitle}}
+		<div class="wrapper-info list-wrapper">
+			{{#if context.infoText}}
+				<p>{{{context.infoText}}}</p>
+			{{/if}}
+			<ul class="item-list buttons-dial">
+				<li>
+					<button id="edit-post" class="blue">Modifica</button>
+				</li>
+				<li>
+					<button id="delete-post" class="red">Elimina</button>
+				</li>
+			</ul>
+		</div>
+	</div>
+</template>
+
+<template name="infoEdit">
+	<div class="md-info md-show list">
+		{{> infoClose title="Modifica il testo"}}
+		<div class="wrapper-info list-wrapper">
+			<form id="form-edit">
+				<ul class="item-list text">
+					<li>
+						<textarea id="text" class="autosize" placeholder="Modifica il testo...">{{context.text}}</textarea>
+					</li>
+				</ul>
+				<ul class="item-list buttons-dial">
+					<li>
+						<button type="submit" data-animation="loading" class="gray">
+							Salva e chiudi
+						</button>
+					</li>
+				</ul>
+			</form>
 		</div>
 	</div>
 </template>

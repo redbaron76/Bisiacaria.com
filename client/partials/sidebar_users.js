@@ -32,10 +32,10 @@ Template.sidebarUsers.onCreated(function() {
 					msg = "in questo momento è online!";
 					break;
 				case 2:
-					msg = "ed <strong>un'altra persona</strong> sono online!";
+					msg = "ed <strong>un altro conoscente</strong> sono online!";
 					break;
 				default:
-					msg = "ed <strong>altre " + (totFriends-1) + " persone</strong> sono online!";
+					msg = "ed <strong>altri " + (totFriends-1) + " conoscenti</strong> sono online!";
 			}
 
 			Bisia.Ui.runAfter(function() {

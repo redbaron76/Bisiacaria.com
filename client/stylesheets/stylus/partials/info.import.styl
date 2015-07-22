@@ -86,6 +86,24 @@
 		.item-list {
 			padding-top: 80px;
 
+			&.text {
+				li {
+					padding: 0;
+				}
+
+				textarea {
+					width: 100%;
+					min-height: 30px;
+					max-height: 200px;
+					color: $white;
+					margin: 0;
+					padding: 0;
+					background-color: transparent;
+					border: none;
+					resize: none;
+				}
+			}
+
 			li {
 				display: table;
 				padding: 10px 0;
@@ -148,7 +166,7 @@
 				padding-top: 20px;
 			}
 
-			&.buttons {
+			&.buttons-dial {
 				width: 100%;
 				display: table;
 				li {
@@ -169,6 +187,20 @@
 					}
 					&.red {
 						background-color: $red
+					}
+					&.blue {
+						background-color: $blue
+					}
+					&.gray {
+						background-color: $gray-row-hl
+					}
+					&.loading::before {
+						fa('\f021');
+						font-size: 16px;
+						margin-right: 10px;
+						display: inline-block;
+						vertical-align: top;
+						animation(fa-spin 2s infinite linear);
 					}
 				}
 			}

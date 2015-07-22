@@ -1,7 +1,7 @@
 Template.timeDelete.helpers({
 	formatTime: function() {
 		var itsMine = (this.data.authorId == Meteor.userId()) ? true : false;
-		var format = this.format || 'ddd DD MMM HH:mm';
+		var format = this.format || 'DD MMM HH:mm';
 		var look = this.look || 'createdAt';
 		var dateTime = this.data[look];
 		var className = 'time';
@@ -9,24 +9,25 @@ Template.timeDelete.helpers({
 		var dataAction = '';
 
 		var beatTime = Bisia.Time.beatTime.get();
-		var now = Bisia.Time.now();
-		var m = moment(dateTime).subtract(5, 'seconds');
+		// var now = Bisia.Time.now();
+		var m = moment(dateTime)/*.subtract(5, 'seconds')*/;
 		var displayDateTime = m.format(format);
 
-		if (itsMine) {
-			className = 'time delete';
-			dataAction = 'delete';
-		}
-
-		if (m.isAfter(now)) {
+		// Back of 2 mins and check it's still fmore of beatTime
+		if (m.subtract(2, 'm').isAfter(beatTime)) {
 			format = '[uscirà] ' + format;
-			displayDateTime = m.format(format);
+			displayDateTime = m.add(2, 'm').format(format);
 			className = className + ' future';
 			isFuture = true;
 		}
 
+		if (itsMine) {
+			className = className + ' actions';
+			dataAction = 'actions';
+		}
+
 		//check for not more 24h
-		if (!isFuture && dateTime > moment(now).subtract(24, 'hour').toDate()) {
+		if (!isFuture && dateTime > moment(beatTime).subtract(24, 'hour').toDate()) {
 			displayDateTime = m.from(beatTime);
 		}
 
@@ -42,35 +43,16 @@ Template.timeDelete.helpers({
 });
 
 Template.timeDelete.events({
-	'click [data-action=delete]': function(e, t) {
+	'click [data-action=actions]': function(e, t) {
 		e.preventDefault();
-		var item;
+		var context = this;
 
-		switch (this.context.data.delete) {
-			case 'post':
-				item = 'post';
-				break;
-			case 'comment':
-			case 'commentEvent':
-				item = 'commento'
-				break;
-		}
+		context.infoTitle = 'Cosa vuoi fare?';
+		context.infoText = "Modificare o eliminare definitivamente questo elemento?";
 
-		var obj = _.extend(this.context.data, {
-			infoTitle: "Eliminare questo "+item+"?",
-			infoText: "Il "+item+" da te inserito verrà definitivamente eliminato e non sarà più recuperabile."
+		Bisia.Ui.setReactive('info', {
+			template: 'infoActions',
+			context: context
 		});
-
-		switch (obj.delete) {
-			case 'post':
-				Bisia.Ui.confirmDialog('Bisia.Delete.post', e, obj);
-				break;
-			case 'comment':
-				Bisia.Ui.confirmDialog('Bisia.Delete.postComment', e, obj);
-				break;
-			case 'commentEvent':
-				Bisia.Ui.confirmDialog('Bisia.Delete.eventComment', e, obj);
-				break;
-		}
 	}
 });

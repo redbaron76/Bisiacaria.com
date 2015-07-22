@@ -47,7 +47,7 @@ Template.singleEvent.helpers({
 		var obj = _.extend(_.omit(author, '_id'), {
 			authorId: this.authorId,
 			eventId: eventId,
-			delete: 'commentEvent'
+			action: 'commentEvent'
 		});
 
 		return _.extend(this, obj);
@@ -65,16 +65,6 @@ Template.singleEvent.events({
 			var position = Bisia.User.augmentPosition(this.position, this._id, this.titleEvent, this.dateTimeEvent, true);
 			Bisia.Map.triggerMapCreation('map-wrapper', false, this.position);
 		}
-	},
-	'click .delete-event': function(e, t) {
-		e.preventDefault();
-		var eventId = Bisia.getController('params')['_id'];
-		var obj = {
-			eventId: eventId,
-			infoTitle: "Eliminare questo evento?",
-			infoText: "L'evento da te inserito verrà definitivamente eliminato e non sarà più recuperabile."
-		};
-		Bisia.Ui.confirmDialog('Bisia.Delete.event', e, obj);
 	},
 	'change #toggle-join': function(e, t) {
 		e.preventDefault();

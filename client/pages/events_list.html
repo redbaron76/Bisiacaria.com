@@ -5,7 +5,7 @@
 			<div class="row">
 				<div class="col-xs-12 posts list-wrapper">
 					<ul class="item-list">
-					{{#with formatEvents}}
+					{{#with formatNextEvents}}
 						{{#each data}}
 						<li>
 						{{#with formatDay}}
@@ -22,6 +22,26 @@
 					</ul>
 				</div>
 			</div>
+			{{#if formatYourEvents}}
+			<div class="row">
+				<div class="col-xs-12 posts list-wrapper">
+					<ul class="item-list">
+					{{#with formatYourEvents}}
+						{{#each data}}
+						<li>
+						{{#with formatDay}}
+							<h4>I tuoi eventi</h4>
+							{{#each eventObj}}
+								{{> eventYour}}
+							{{/each}}
+						{{/with}}
+						</li>
+						{{/each}}
+					{{/with}}
+					</ul>
+				</div>
+			</div>
+			{{/if}}
 		</div>
 	</div>
 	{{> helpbars gotop=true data=this }}
@@ -44,5 +64,24 @@
 				{{genericCounter joinersCount 'partecipa' 'partecipano'}}
 			</div>
 		</div>
+	</div>
+</template>
+
+<template name="eventYour">
+	<div class="li-wrapper">
+		<a href="{{pathFor 'singleEvent'}}">
+			<div class="time-wrapper">
+				<span>{{getEventShortDate dateTimeEvent}}</span>
+			</div>
+			<div class="title-wrapper">
+				{{titleEvent}}
+				<span>{{locationEvent}}</span>
+			</div>
+			<div class="right-aligned quick-action">
+				<button class="edit-event" data-action="actions">
+					<i class="fa fa-cog"></i>
+				</button>
+			</div>
+		</a>
 	</div>
 </template>

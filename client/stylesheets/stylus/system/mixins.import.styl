@@ -461,18 +461,19 @@ username(font-size = 10px, margin-left = 10px, inline = true) {
 				fa('\f017');
 				margin-right: .5em;
 			}
-		}
-
-		&.time.delete {
-			cursor: pointer;
-			&::before {
-				fa('\f00d');
-				color: $red;
-				font-size: 130%;
-				margin-right: .5em;
-			}
-			&.future {
-				color: $red;
+			&.actions {
+				cursor: pointer;
+				&::before {
+					fa('\f013');
+					color: $gray-row-pin;
+					margin-right: .5em;
+				}
+				&.future {
+					color: $red;
+					&::before {
+						color: $red;
+					}
+				}
 			}
 		}
 

@@ -9,7 +9,13 @@ Meteor.publish('nextWeekEvents', function(options) {
 
 	// Bisia.log(thisWeek);
 	// Get friends cursor
-	var events = Events.find({ 'dateTimeEvent': thisWeek }, options);
+	// var events = Events.find({ 'dateTimeEvent': thisWeek }, options);
+	var events = Events.find({
+		'$or': [
+			{ 'dateTimeEvent': thisWeek },
+			{ 'authorId': this.userId }
+		]
+	}, options);
 
 	if (events.count() > 0) {
 		// map the authorIds

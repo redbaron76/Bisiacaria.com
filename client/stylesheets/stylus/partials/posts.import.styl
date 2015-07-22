@@ -85,19 +85,21 @@
 				padding-right: 10px;
 				timestamp(0px, 5px);
 
-				&.future {
-					color: $red;
-				}
-
-				&.delete {
+				&.actions {
 					cursor: pointer;
 					&::before {
-						fa('\f00d');
-						color: $red;
-						font-size: 130%;
+						fa('\f013');
+						color: $gray-row-pin;
 						margin-right: .5em;
 					}
+					&.future {
+						color: $red;
+						&::before {
+							color: $red;
+						}
+					}
 				}
+
 			}
 			span.counter {
 				absolute: bottom -9px right 0;

@@ -33,6 +33,98 @@ Template.infoConfirm.events({
 	}
 });
 
+Template.infoActions.events({
+	'click #edit-post': function(e, t) {
+		e.preventDefault();
+		Bisia.Ui.unsetReactive('info');
+		var context = (this.context.context) ? this.context.context.data : this.context;
+		Bisia.Ui.setReactive('info', {
+			template: 'infoEdit',
+			context: context
+		});
+	},
+	'click #delete-post': function(e, t) {
+		e.preventDefault();
+		Bisia.Ui.unsetReactive('info');
+		var item, art, context = (this.context.context) ? this.context.context.data : this.context;
+
+		switch (context.action) {
+			case 'event':
+				art = 'L\' ';
+				item = 'evento';
+				break;
+			case 'post':
+				art = 'Il ';
+				item = 'post';
+				break;
+			case 'comment':
+			case 'commentEvent':
+				art = 'Il ';
+				item = 'commento';
+				break;
+		}
+
+		var obj = _.extend(context, {
+			infoTitle: "Eliminare questo "+item+"?",
+			infoText: art + item + " da te inserito verrà definitivamente eliminato e non sarà più recuperabile."
+		});
+
+		switch (obj.action) {
+			case 'event':
+				Bisia.Ui.confirmDialog('Bisia.Delete.event', e, obj);
+				break;
+			case 'post':
+				Bisia.Ui.confirmDialog('Bisia.Delete.post', e, obj);
+				break;
+			case 'comment':
+				Bisia.Ui.confirmDialog('Bisia.Delete.postComment', e, obj);
+				break;
+			case 'commentEvent':
+				Bisia.Ui.confirmDialog('Bisia.Delete.eventComment', e, obj);
+				break;
+		}
+	}
+});
+
+Template.infoEdit.onRendered(function() {
+	this.$('.autosize').textareaAutoSize();
+});
+
+Template.infoEdit.events({
+	'submit #form-edit': function(e, t) {
+		e.preventDefault();
+		var $target = $(e.target);
+		var context = this.context;
+
+		var formObject = Bisia.Form.getFields($target, 'validateEditText');
+		formObject = _.extend(formObject, {
+			postId: context.postId || context.eventId || context._id,
+			action: context.action,
+			authorId: context.authorId,
+			oldText: context.text
+		});
+
+		if(formObject) {
+			Meteor.call('saveEditText', formObject, function(error, result) {
+				if (error) {
+					Bisia.log('saveEditText', error);
+					Bisia.Ui.loadingRemove();
+					return false;
+				}
+
+				if (result.errors)
+					return Bisia.Ui.submitError(result.errors);
+
+				if (result) {
+					Bisia.Ui.loadingRemove()
+							.submitSuccess('Il testo è stato modificato correttamente.', 'Modificato!', null, true);
+				}
+			});
+		}
+
+	}
+});
+
 Template.blockedItem.events({
 	'click .fa-trash': function(e, t) {
 		e.preventDefault();

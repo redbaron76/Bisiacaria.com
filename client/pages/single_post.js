@@ -12,7 +12,7 @@ Template.singlePost.helpers({
 				totLikes: post.likes.length,
 				totUnlikes: post.unlikes.length,
 				totComments: post.comments.length,
-				delete: 'post'
+				action: 'post'
 			});
 		}
 	},
@@ -23,7 +23,7 @@ Template.singlePost.helpers({
 			var obj = _.extend(_.omit(author, '_id'), {
 				authorId: this.authorId,
 				postId: postId,
-				delete: 'comment'
+				action: 'comment'
 			});
 			return _.extend(this, obj);
 		}

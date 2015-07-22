@@ -1,7 +1,12 @@
 Template.nextEventList.helpers({
-	formatEvents: function() {
+	formatNextEvents: function() {
 		return {
-			data: _.pairs(this)
+			data: _.pairs(this.nextEvents)
+		};
+	},
+	formatYourEvents: function() {
+		return {
+			data: _.pairs(this.yourEvents)
 		};
 	},
 	formatDay: function() {
@@ -31,5 +36,26 @@ Template.nextEventList.events({
 Template.eventItem.helpers({
 	getEventTime: function(dt) {
 		return moment(dt).format('HH:mm');
+	}
+});
+
+Template.eventYour.helpers({
+	getEventShortDate: function(dt) {
+		return moment(dt).format('DD/MM');
+	}
+});
+
+Template.eventYour.events({
+	'click [data-action=actions]': function(e, t) {
+		e.preventDefault();
+		var context = this;
+
+		context.infoTitle = 'Cosa vuoi fare?';
+		context.infoText = "Modificare o eliminare definitivamente questo evento?";
+
+		Bisia.Ui.setReactive('info', {
+			template: 'infoActions',
+			context: context
+		});
 	}
 });

@@ -260,6 +260,50 @@ Meteor.methods({
 
 		return true;
 	},
+	saveEditText: function(editPost) {
+		check(this.userId, String);
+		check(editPost, {
+			postId: String,
+			action: String,
+			authorId: String,
+			oldText: String,
+			text: String
+		});
+
+		if (!!editPost.text) {
+
+			var text = Bisia.Form.sanitizeHTML(editPost.text);
+			text = Bisia.Form.formatEmoj(text);
+
+			switch (editPost.action) {
+				case 'event':
+					Events.update(editPost.postId, { '$set': { 'text': text } });
+					break;
+				case 'post':
+					Posts.update(editPost.postId, { '$set': { 'text': text } });
+					break;
+				case 'comment':
+					Posts.update({
+						'_id': editPost.postId,
+						'comments.authorId': editPost.authorId,
+						'comments.text': editPost.oldText
+					}, {
+						'$set': { 'comments.$.text': text }
+					});
+					break;
+				case 'commentEvent':
+					Events.update({
+						'_id': editPost.postId,
+						'joiners.authorId': editPost.authorId
+					}, {
+						'$set': { 'joiners.$.text': text }
+					});
+					break;
+			}
+			return true;
+		}
+		return false;
+	},
 	resetLikeUnlike: function(target) {
 		// check(target, String);
 		console.log(target);
