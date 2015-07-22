@@ -4,13 +4,16 @@ Meteor.methods({
 		return headers.methodClientIP(this);
 	},
 	loginFacebook: function(login) {
-		return Bisia.Session.logInOuts(login.userId, login.service, true, headers.methodClientIP(this));
+		if (login.userId)
+			return Bisia.Session.logInOuts(login.userId, login.service, true, headers.methodClientIP(this));
 	},
 	loginUser: function(login) {
-		return Bisia.Session.logInOuts(login.userId, login.service, true, headers.methodClientIP(this));
+		if (login.userId)
+			return Bisia.Session.logInOuts(login.userId, login.service, true, headers.methodClientIP(this));
 	},
 	logoutUser: function(logout) {
-		return Bisia.Session.logInOuts(logout.userId, logout.service, false, headers.methodClientIP(this));
+		if (logout.userId)
+			return Bisia.Session.logInOuts(logout.userId, logout.service, false, headers.methodClientIP(this));
 	},
 	registerUser: function(userAttr) {
 		check(userAttr, {
@@ -123,6 +126,11 @@ Meteor.methods({
 		var usernameTaken = Users.findOne({ 'username': dataAttr.username, '_id': { $ne: currentUser } });
 		if (usernameTaken)
 			errors.username = Bisia.Login.messages.nicknameInUse + "|exc";
+
+		var previusername = dataAttr.username.replace(/ /g, '').toUpperCase();
+		var usernameReserved = Previusers.findOne({ 'nickname': previusername, '_id': { $ne: currentUser } });
+		if (usernameReserved)
+			errors.username = Bisia.Login.messages.nicknameReserved + "|exc";
 
 		if (Bisia.has(errors)) return Bisia.serverErrors(errors);
 

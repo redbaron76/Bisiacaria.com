@@ -1,9 +1,31 @@
+// Check Bisia Page like
+var isBisiaLiked = function(accessToken) {
+	var bisia = Meteor.http.get('https://graph.facebook.com/me/likes/112762045472584', {
+		params: { access_token: accessToken }
+	});
+
+	return (bisia.data[0] && bisia.data[0].id == '112762045472584') ? true: false;
+}
+
 // Triggered whenever a login is attempted
 Accounts.validateLoginAttempt(function(attempt) {
 	if (attempt.user && attempt.user.emails && !attempt.user.emails[0].verified ) {
 		throw new Meteor.Error('invalid-login', 'Indirizzo e-mail non ancora verificato via mail');
 		// the login is aborted
 	}
+
+	if (attempt.type == 'facebook' && Meteor.settings.public.sitePreview) {
+		var user = attempt.user;
+		var accessToken = user.services.facebook.accessToken;
+		// Check like Bisiacaria.com
+		var likeBisia = isBisiaLiked(accessToken);
+
+		if (!likeBisia) {
+			Users.update(user._id, { '$set': { 'profile.likeBisia': likeBisia } });
+			throw new Meteor.Error('no-like', 'Clicca su "Mi piace" nella Pagina Facebook di Bisiacaria.com per poter utilizzare questo Beta-Test.');
+		}
+	}
+
 	return true;
 });
 
@@ -25,16 +47,14 @@ Accounts.onCreateUser(function(options, user) {
 
 	// Register with facebook
 	if (user.services.facebook) {
-		var accessToken = user.services.facebook.accessToken, result;
+		var accessToken = user.services.facebook.accessToken;
 		// Get facebook info
 		//result = Meteor.http.get('https://graph.facebook.com/me?fields=id,name,username,gender,email,birthday,bio,hometown,picture', {
-		result = Meteor.http.get('https://graph.facebook.com/me', {
+		var result = Meteor.http.get('https://graph.facebook.com/me', {
 			params: {
 				access_token: accessToken
 			}
 		});
-
-		console.log(result);
 
 		// log(result);
 		if (result.error)
@@ -53,7 +73,13 @@ Accounts.onCreateUser(function(options, user) {
 				user.username 	= Bisia.trimSpaces(result.data.name, '.', true);
 			}
 
+			var likeBisia = isBisiaLiked(accessToken);
+
 			var profile = {};
+
+			// has liked Bisia page?
+			profile.likeBisia	= likeBisia;
+
 			profile.gender 		= result.data.gender;
 			profile.status 		= 'none'		// busy | none | free
 			profile.birthday	= (result.data.birthday) ? moment(result.data.birthday).format('DD-MM-YYYY') : null;
@@ -86,8 +112,6 @@ Accounts.onCreateUser(function(options, user) {
 			email.verified		= true;
 			emails.push(email);
 			user.emails = emails;
-
-			console.log(email.address);
 		}
 	}
 

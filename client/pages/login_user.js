@@ -12,7 +12,8 @@ Template.loginUser.events({
 			requestOfflineToken: true
 		}, function(error) {
 			if (error) {
-				return Bisia.Login.failLogin('facebookEmailExist');
+				// return Bisia.Login.failLogin('facebookEmailExist');
+				Bisia.Login.failLogin("facebookConnection", error.reason);
 			}
 			Bisia.Login.assertLogin('loginFacebook', 'facebook');
 		});

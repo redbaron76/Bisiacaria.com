@@ -20,18 +20,14 @@
 			{{#if fbReady}}
 			<div class="row">
 				<div class="col-xs-12 social">
-				{{#unless sitePreview}}
+				{{#if sitePreview}}
 					<a href="#" id="login-fb">Clicca ed entra con
 						<span class="fa-stack">
 							<i class="fa fa-square fa-stack-2x"></i>
 							<i class="fa fa-facebook-square fa-stack-2x fa-inverse"></i>
 						</span>
 					</a>
-				{{else}}
-					<a href="#">
-						Bisia Beta-Testing
-					</a>
-				{{/unless}}
+				{{/if}}
 				</div>
 			</div>
 			{{/if}}
@@ -53,11 +49,13 @@
 					</form>
 				</div>
 			</div>
+			{{#unless sitePreview}}
 			<div class="row">
 				<div class="col-xs-12 register">
 					<a href="{{pathFor 'registerUser'}}">Non sei in <span>Bisia</span>? Iscriviti <span>ora</span>!</a>
 				</div>
 			</div>
+			{{/unless}}
 		</div>
 	</div>
 </template>

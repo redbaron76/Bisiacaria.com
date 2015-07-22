@@ -560,11 +560,16 @@ img.emojione {
 	}
 }
 
+.md-modal ~ .md-overlay,
 .md-show ~ .md-overlay,
 #map-wrapper ~ .md-overlay {
 	opacity: 1;
 	visibility: visible;
 	transition: opacity .1s linear;
+}
+
+.md-info + .md-overlay {
+	z-index: 1001;
 }
 
 .no-overlay ~ .md-overlay {
