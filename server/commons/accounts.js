@@ -16,7 +16,7 @@ Accounts.validateLoginAttempt(function(attempt) {
 		// the login is aborted
 	}
 
-	if (attempt.type == 'facebook' && Meteor.settings.public.sitePreview) {
+	/*if (attempt.type == 'facebook' && Meteor.settings.public.sitePreview) {
 		var user = attempt.user;
 		var accessToken = user.services.facebook.accessToken;
 		// Check like Bisiacaria.com
@@ -26,7 +26,7 @@ Accounts.validateLoginAttempt(function(attempt) {
 			Users.update(user._id, { '$set': { 'profile.likeBisia': likeBisia } });
 			throw new Meteor.Error('no-like', 'Clicca su "Mi piace" nella Pagina Facebook di Bisiacaria.com per poter utilizzare questo Beta-Test.');
 		}
-	}
+	}*/
 
 	return true;
 });

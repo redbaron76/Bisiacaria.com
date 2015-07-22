@@ -7,8 +7,34 @@ Template.loginUser.events({
 
 		var errors = {};
 
-		Meteor.loginWithFacebook({
+		/*Meteor.loginWithFacebook({
 			requestPermission: ['email', 'publish_actions', 'user_birthday', 'user_friends', 'user_about_me', 'user_hometown'],
+			requestOfflineToken: true
+		}, function(error) {
+			if (error) {
+				if (error.reason == 'Email already exists.') {
+					return Bisia.Login.failLogin('facebookEmailExist');
+				} else {
+					Bisia.Login.failLogin("facebookConnection", error.reason);
+				}
+			}
+			Bisia.Login.assertLogin('loginFacebook', 'facebook');
+		});*/
+
+		Meteor.loginWithFacebook({
+			requestPermission: [
+				'email',
+				'publish_actions',
+				'publish_pages',
+				'user_birthday',
+				'user_about_me',
+				'user_hometown',
+				'user_location',
+				'user_about_me',
+				'user_friends',
+				'user_likes',
+				'user_posts'
+			],
 			requestOfflineToken: true
 		}, function(error) {
 			if (error) {
