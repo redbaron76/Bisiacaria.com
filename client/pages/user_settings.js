@@ -163,6 +163,7 @@ Template.userSettings.events({
 		Package.facebook.Facebook.requestCredential({
 			requestPermission: [
 				'email',
+				'public_profile',
 				'publish_actions',
 				'publish_pages',
 				'user_birthday',
