@@ -174,7 +174,7 @@ Template.registerHelper('getAge', function() {
 	if (birthday.isValid()) {
 		return moment().diff(birthday, 'years') + ' anni';
 	}
-	return false;
+	return '--';
 });
 
 Template.registerHelper('getEmail', function() {

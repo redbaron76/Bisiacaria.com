@@ -6,23 +6,34 @@ Meteor.methods({
 			return true;
 		}
 	},
-	resetNotification: function(action, actionKey) {
+	resetNotification: function(action, actionKey, actionId) {
 		check(action, String);
 		var query = {
 			'targetId': Meteor.userId(),
 			'action': action,
 			'isRead': false
 		};
+
 		if (actionKey) {
 			query = _.extend(query, {
 				actionKey: actionKey
 			});
 		}
 
+		if (actionId) {
+			query = _.extend(query, {
+				actionId: actionId
+			});
+		}
+
+		if (action == 'message') {
+			query = _.omit(query, 'isRead');
+		}
+
 		if (action == 'note' || action == 'visit') {
 			Notifications.update(query, { '$set': {	'isRead': true } }, { 'multi': true	});
 		} else {
-			Notifications.remove({ 'action': action });
+			Notifications.remove(query);
 		}
 
 	},

@@ -18,6 +18,8 @@ Template.userProfile.helpers({
 		var day = birthday.get('date'), month = birthday.get('month'), year = now.get('year');
 		var thisYearBirthday = moment([year, month, day]);
 
+		if (!thisYearBirthday.isValid()) return '??';
+
 		if (now.isAfter(thisYearBirthday)) {
 			return now.diff(thisYearBirthday.add(1, 'y'), 'days') * -1;
 		} else {

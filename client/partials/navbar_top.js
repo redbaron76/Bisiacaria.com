@@ -1,4 +1,7 @@
 Template.navbarTop.events({
+	'click h1': function(e, t) {
+		Bisia.Ui.goTop(e, '.content');
+	},
 	'click .toggle-menu': function(e, t) {
 		// e.preventDefault();
 		Bisia.Ui.waitStart(e)

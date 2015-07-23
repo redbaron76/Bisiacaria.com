@@ -103,7 +103,7 @@ Meteor.methods({
 		// Log chat message
 		Bisia.Log.info('chat', msg);
 
-		// Notify message to target user if not in chat mode
+		// Notify message to target user
 		Bisia.Notification.emit('message', {
 			actionId: msg.chatId,
 			targetId: msg.targetId,
@@ -117,15 +117,24 @@ Meteor.methods({
 		check(this.userId, String);
 		check(chatId, String);
 
+		var userId =  Meteor.userId();
+
 		// set isRead when open a message
 		var open = Messages.update({
 			'chatId': chatId,
-			'targetId': Meteor.userId(),
+			'targetId': userId,
 			'isRead': false
 		}, {
 			'$set': { 'isRead': true }
 		}, {
 			'multi': true
+		});
+
+		// reset notification messages displayed
+		Notifications.remove({
+			'action': 'message',
+			'actionId': chatId,
+			'targetId': userId,
 		});
 	}
 });
