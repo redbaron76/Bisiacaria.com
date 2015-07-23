@@ -2,6 +2,10 @@
  * Template Events
  */
 Template.loginUser.events({
+	'click .fb-like': function(e, t) {
+		e.preventDefault();
+		console.log(e.currentTarget);
+	},
 	'click #login-fb': function(e, t) {
 		e.preventDefault();
 
@@ -62,5 +66,14 @@ Template.loginUser.events({
 Template.loginUser.helpers({
 	fbReady: function() {
 		return Accounts.loginServicesConfigured();
+	},
+	detectLikePage: function() {
+		var instance = Template.instance();
+		Meteor.setTimeout(function() {
+			FB.Event.subscribe('edge.create', function() {
+				console.log('liked!');
+			});
+		}, 1000);
+		return this;
 	}
 });

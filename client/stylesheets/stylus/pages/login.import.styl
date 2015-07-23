@@ -44,19 +44,29 @@
 	}
 	.social {
 		height: 95px;
-		line-height: 95px;
 		background-color: $gray-bg;
 		text-align: center;
 
 		a {
 			color: $white-text;
 			// display: inline-block;
+			line-height: 95px;
 			font-size: 26px;
 			vertical-align: middle;
-			.fa-square { color: $white; }
-			.fa-facebook-square { color: $blue; }
-
+			.fa-facebook-square {
+				background-color: $white;
+				color: $fblue;
+				width: 44px;
+				line-height: 43px;
+				border-radius: 10px;
+				vertical-align: middle;
+				margin: 0 0 5px 6px;
+			}
 			undecorate();
+			span {
+				line-height: 22px;
+				margin: 0 3px;
+			}
 		}
 	}
 	.cookie {
