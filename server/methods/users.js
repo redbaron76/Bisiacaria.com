@@ -127,8 +127,15 @@ Meteor.methods({
 		if (usernameTaken)
 			errors.username = Bisia.Login.messages.nicknameInUse + "|exc";
 
-		var previusername = dataAttr.username.replace(/ /g, '').toUpperCase();
-		var usernameReserved = Previusers.findOne({ 'nickname': previusername, '_id': { $ne: currentUser } });
+		// Set username to uppercase
+		var NEWUSERNAME = dataAttr.username.replace(/ /g, '').toUpperCase();
+		var CURRENTUSERNAME = currentUsername.replace(/ /g, '').toUpperCase();
+		// Set reserved username
+		if (Previusers.find({ 'nickname': CURRENTUSERNAME, 'userId': { '$exists': false } }).count() > 0) {
+			Previusers.update({ 'nickname': CURRENTUSERNAME }, { '$set': { 'userId': currentUser, checkedAt: new Date() } });
+		}
+
+		var usernameReserved = Previusers.findOne({ 'nickname': NEWUSERNAME, 'userId': { $ne: currentUser } });
 		if (usernameReserved)
 			errors.username = Bisia.Login.messages.nicknameReserved + "|exc";
 
