@@ -1,6 +1,15 @@
 /* min 768px */
 min768() {
 
+	&.wrapper {
+		&.sidebar-open-left,
+		&.sidebar-open-right {
+			.body-wrapper {
+				transform: translate3d(0, 0, 0);
+			}
+		}
+	}
+
 	.bottom-show {
 		// .item-list,
 		.posts {
