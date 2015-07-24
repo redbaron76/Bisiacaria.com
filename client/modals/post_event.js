@@ -16,7 +16,9 @@ Template.tabPostEventWrapper.helpers({
 });
 
 Template.newPostTab.onRendered(function() {
-	this.$('.autosize').textareaAutoSize();
+	this.$('.autosize').textareaAutoSize({
+		wrapper: '.content'
+	});
 	this.$('#date-post').mask('99/99/9999', {placeholder: 'gg/mm/anno'});
 	this.$('#time-post').mask('99:99', {placeholder: 'hh:mm'});
 });
@@ -82,7 +84,9 @@ Template.newPostTab.events({
 });
 
 Template.newEventTab.onRendered(function() {
-	this.$('.autosize').textareaAutoSize();
+	this.$('.autosize').textareaAutoSize({
+		wrapper: '.content'
+	});
 	this.$('#date-event').mask('99/99/9999', {placeholder: 'gg/mm/anno'});
 	this.$('#time-event').mask('99:99', {placeholder: 'hh:mm'});
 });

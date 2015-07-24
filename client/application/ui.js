@@ -250,7 +250,8 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 	 */
 	goBottom: function() {
 		this.$content = $('.content');
-		this.$content.animate({ scrollTop: 10000000 }, 'fast');
+		var height = this.$content[0].scrollHeight;
+		this.$content.animate({ scrollTop: height }, 'fast');
 		return this;
 	},
 

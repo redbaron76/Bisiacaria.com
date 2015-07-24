@@ -192,3 +192,24 @@ Template.geotagItem.events({
 		});
 	}
 });
+
+Template.welcomeNewUser.helpers({
+	checkFacebook: function(user) {
+		return {
+			isFB: user.profile.loggedWith === 'facebook'
+		}
+	}
+});
+
+Template.welcomeNewUser.events({
+	'click #go-settings': function(e, t) {
+		e.preventDefault();
+		Bisia.Ui.unsetReactive('info');
+		$('#settings-link').trigger('click');
+		Router.go('userSettings');
+	},
+	'change #set-newuserhint': function(e, t) {
+		var status = e.currentTarget.checked;
+		Users.update(Meteor.userId(), {'$set': {'profile.flags.newUserHint': status}});
+	},
+});

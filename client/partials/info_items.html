@@ -238,3 +238,36 @@
 	</li>
 	{{/with}}
 </template>
+
+<template name="welcomeNewUser">
+	<div class="md-info md-show list info">
+		{{> infoClose title=title}}
+		{{#with checkFacebook user}}
+			<div class="wrapper-info list-wrapper">
+				{{#if isFB}}
+					<p>Abbiamo utilizzato alcuni dati dal tuo account <strong>Facebook</strong> per compilare il tuo profilo. Tuttavia ti consigliamo di personalizzarli per migliorare la tua esperienza su Bisiacaria.com</p>
+				{{else}}
+					<p>Inizia la tua esperienza in Bisiacaria.com personalizzando il tuo profilo.</p>
+				{{/if}}
+				<p><strong>Impostazioni account</strong> è la sezione nella quale potrai:</p>
+				<ul class="item-list">
+					<li>Impostare e modificare il tuo nickname</li>
+					<li>Cambiare l'immagine del tuo avatar</li>
+					<li>Compilare le tue schede personali</li>
+					<li>Modificare i parametri del tuo accesso</li>
+					<li>Gestire notifiche e utenti bloccati</li>
+					<li>Controllare ogni aspetto del tuo profilo</li>
+				</ul>
+				<ul class="item-list buttons-dial">
+					<li>
+						<button type="button" class="yellow" id="go-settings">Modifica il tuo profilo</button>
+					</li>
+				</ul>
+				<label for="set-newuserhint">
+					<input type="checkbox" id="set-newuserhint">
+					non mostrare più questo avviso
+				</label>
+			</div>
+		{{/with}}
+	</div>
+</template>

@@ -15,11 +15,21 @@
   function Plugin(element, options) {
     this.element = element;
     this.$element = $(element);
+
+    if (options) {
+      this.wrapper = options.wrapper || window;
+    } else {
+      this.wrapper = window;
+    }
+
+    this.$wrapper = $(this.wrapper);
+
     this.init();
   }
 
   Plugin.prototype = {
     init: function() {
+      var parent = this;
       var height = this.$element.outerHeight();
       var diff = parseInt(this.$element.css('paddingBottom')) +
                   parseInt(this.$element.css('paddingTop'));
@@ -30,14 +40,14 @@
 
       // keyup is required for IE to properly reset height when deleting text
       this.$element.on('input keyup', function(event) {
-        var $window = $(window);
-        var currentScrollPosition = $window.scrollTop();
+        var $wrapper = $(parent.wrapper);
+        var currentScrollPosition = $wrapper.scrollTop();
 
         $(this)
           .height(0)
           .height(this.scrollHeight - diff);
 
-        $window.scrollTop(currentScrollPosition);
+        $wrapper.scrollTop(currentScrollPosition);
       });
     }
   };

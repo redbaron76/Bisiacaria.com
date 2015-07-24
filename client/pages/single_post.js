@@ -1,5 +1,7 @@
 Template.singlePost.onRendered(function() {
-	this.$('.autosize').textareaAutoSize();
+	this.$('.autosize').textareaAutoSize({
+		wrapper: '.content'
+	});
 	// this.$('.emoticonize').emoticonize(Bisia.Config.emoticonizeSettings());
 });
 

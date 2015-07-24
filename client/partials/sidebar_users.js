@@ -137,15 +137,17 @@ Template.onlineUser.onRendered(function() {
 Template.onlineUser.onDestroyed(function() {
 	var user = this.data;
 	var me = Meteor.user();
-	var allowNotify = me['profile']['notifyFriends'];
+	if (me) {
+		var allowNotify = me['profile']['notifyFriends'];
 
-	if (allowNotify) {
-		var userList = this.parentTemplate();
-		AlertFollowing.remove({userId: user._id});
-		userList.onlineFriends = _.reject(userList.onlineFriends, function(el) {
-			return el._id === user._id;
-		});
-		userList.countUsers --;
+		if (allowNotify) {
+			var userList = this.parentTemplate();
+			AlertFollowing.remove({userId: user._id});
+			userList.onlineFriends = _.reject(userList.onlineFriends, function(el) {
+				return el._id === user._id;
+			});
+			userList.countUsers --;
+		}
 	}
 });
 

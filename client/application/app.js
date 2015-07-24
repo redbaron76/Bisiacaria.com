@@ -11,4 +11,6 @@ Tracker.autorun(function () {
 	Bisia.Session.hearthBeat();
 	// Force Unlog by the server
 	// Bisia.Login.forceUnlogged();
+	// Show New User Hints
+	Bisia.Notification.showNewUserHint();
 });

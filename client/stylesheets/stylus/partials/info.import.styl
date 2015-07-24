@@ -23,6 +23,12 @@
 		}
 	}
 
+	&.info {
+		h1 {
+			background-color: $bisiadd;
+		}
+	}
+
 	h2 {
 		font-size: 16px;
 		color: $white;
@@ -68,8 +74,16 @@
 		padding: 0 9%;
 
 		& > p {
-			padding: 80px 10px 0 10px;
-			margin: 0;
+
+			strong {
+				color: $bisia;
+				font-family: $font-semibold;
+			}
+
+			&:first-of-type {
+				padding: 80px 0 0 0;
+				margin: 0;
+			}
 
 			& + p {
 				margin-top: 10px;
@@ -77,7 +91,7 @@
 
 			& + .item-list {
 				padding-top: 0;
-				li {
+				li:first-of type {
 					padding-top: 20px !important;
 				}
 			}
@@ -183,16 +197,19 @@
 					border: none;
 					width: 95%;
 					&.green {
-						background-color: $green
+						background-color: $green;
 					}
 					&.red {
-						background-color: $red
+						background-color: $red;
 					}
 					&.blue {
-						background-color: $blue
+						background-color: $blue;
 					}
 					&.gray {
-						background-color: $gray-row-hl
+						background-color: $gray-row-hl;
+					}
+					&.yellow {
+						background-color: $bisiadd;
 					}
 					&.loading::before {
 						fa('\f021');
@@ -214,6 +231,14 @@
 
 	& + #map-wrapper {
 		z-index: 1000;
+	}
+
+	label {
+		margin-top: 20px;
+		font-size: 10px;
+		input[type=checkbox] {
+			margin: 0 10px;
+		}
 	}
 
 }

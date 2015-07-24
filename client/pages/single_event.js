@@ -1,6 +1,8 @@
 Template.singleEvent.onRendered(function() {
 	Meteor.call('trackVisitEvent', this.data.event._id);
-	this.$('.autosize').textareaAutoSize();
+	this.$('.autosize').textareaAutoSize({
+		wrapper: '.content'
+	});
 });
 
 Template.joinUser.onRendered(function() {

@@ -92,4 +92,9 @@ Template.sidebarMenu.events({
 			return Bisia.Ui.submitError(message, 'Azione richiesta!');
 		}
 	},
+	'click [data-unlight]': function(e, t) {
+		var $target = $(e.currentTarget);
+		var suffix = $target.data('unlight');
+		$target.find('.fa-' + suffix).removeClass('highlight');
+	}
 });
