@@ -328,20 +328,39 @@
 
 	.know {
 		display: table;
-
 		height: 48px;
 		line-height: 48px;
 		font-family: $font-semibold;
 		background-color: $gray-row;
 		padding: 0;
 
-		div {
-			margin: 0;
+		button.evaluate,
+		div.switch-wrapper {
+			text-transform: uppercase;
+			display: table-cell;
+		}
+
+		div.switch-wrapper {
+			width: 100%;
 			color: $white-text;
 			text-align: center;
 			vertical-align: middle;
-			malefemale();
-			switch(0 0 0 20px);
+			// malefemale();
+			switch(0 5px 0 5px);
+		}
+
+		button.evaluate {
+			width: 100%;
+			padding: 0;
+			border: none;
+			// color: $white;
+			background-color: $gray-bar;
+			line-height: 48px;
+			ellipsis();
+
+			& + div.switch-wrapper {
+				width: 67%;
+			}
 		}
 
 		#new-post-profile {
