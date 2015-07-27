@@ -1,0 +1,30 @@
+<template name="evaluateUserModal">
+	<div class="md-modal bottom" data-content="evaluate-user">
+		{{> navbarModal title=getTitle }}
+		<div class="content container-fluid">
+			<form id="form-user-evaluate" role="form" class="form-row">
+				{{#with prepareEvaluation}}
+					{{#each evaluateItems}}
+						{{> evaluateItem}}
+					{{/each}}
+				{{/with}}
+				<button type="submit" class="gray">Salva valutazioni</button>
+			</form>
+		</div>
+	</div>
+</template>
+
+<template name="evaluateItem">
+	<div class="divider white-bg"><span>{{name}}</span></div>
+	<div class="form-group no-bottom">
+		<div class="slider-wrapper">
+			<input type="text" class="bisia-slider" id="{{name}}" name="{{name}}">
+			<span class="slider-from">{{value}}</span>
+			<span class="slider-to">100</span>
+		</div>
+		<label for="anon-{{name}}">
+			valutazione anonima
+			<input type="checkbox" name="anon-{{name}}" id="anon-{{name}}" checked="{{checked}}">
+		</label>
+	</div>
+</template>

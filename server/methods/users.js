@@ -253,5 +253,45 @@ Meteor.methods({
 		check(this.userId, String);
 		Users.update(this.userId, { $set: { 'scheduledDelete': Bisia.Time.now() } })
 		return true;
+	},
+	evaluateUser: function(targetId, evObj) {
+		check(this.userId, String);
+		check(targetId, String);
+		check(evObj, Object);
+
+		var evalObj = {
+			authorId: this.userId,
+			createdAt: new Date(),
+			values: evObj
+		};
+
+		Users.update(targetId, { '$pull': { 'evaluates': { authorId: this.userId } } });
+		Users.update(targetId, { '$addToSet': { 'evaluates': evalObj } });
+
+		// ricalcola totali e denormalizza risultati in profile
+		var totals = {};
+		var user = Users.findOne({ '_id': targetId }, { 'fields': { 'evaluates': 1 } });
+		var totalUsers = user.evaluates.length;
+		// process each user that evaluates
+		_.each(user.evaluates, function(item, index) {
+			// sum each property of the evaluation
+			_.each(item.values, function(val, label) {
+				if (!totals[label]) totals[label] = 0;
+				totals[label] = totals[label] + parseInt(val[0]);
+			});
+		});
+		// Calculate average values
+		_.each(totals, function(total, label) {
+			totals[label] = totals[label] / totalUsers;
+		});
+
+		var totalEvaluates = {
+			totalUsers: totalUsers,
+			totals: totals
+		}
+		// Update user with total counter
+		Users.update(targetId, { '$set': { 'profile.totalEvaluates': totalEvaluates } });
+
+		return true;
 	}
 });

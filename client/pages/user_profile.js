@@ -59,6 +59,11 @@ Template.userProfile.helpers({
 });
 
 Template.userProfile.events({
+	'click #switch-evaluates': function(e, t) {
+		e.preventDefault();
+		Bisia.Ui.toggleClass('stats', '.front', t);
+		$(e.currentTarget).find('.fa').toggleClass('fa-align-left fa-times');
+	},
 	'click .toggle-info': function(e, t) {
 		e.preventDefault();
 		Bisia.Ui.toggleClass('flip', '.flip-container', t);
@@ -111,6 +116,10 @@ Template.userProfile.events({
 		e.preventDefault();
 		Bisia.Ui.toggleModal(e, 'knowUserModal', this);
 	},
+	'click #evaluate-user': function(e, t) {
+		e.preventDefault();
+		Bisia.Ui.toggleModal(e, 'evaluateUserModal', this);
+	},
 	'change #toggle-know': function(e, t) {
 		e.preventDefault();
 		var checked = e.target.checked;
@@ -137,3 +146,16 @@ Template.userProfile.events({
 		}
 	}
 });
+
+Template.evaluations.helpers({
+	getEvaluatesData: function() {
+		var values = [];
+		_.each(this.totals, function(value, label) {
+			var obj = {};
+			obj.label = label;
+			obj.value = value;
+			values.push(obj);
+		});
+		return values;
+	}
+})

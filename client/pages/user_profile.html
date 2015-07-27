@@ -8,17 +8,12 @@
 					<div class="flip-container">
 						<div class="flipper">
 							<div class="front">
-								<ul id="personal-values">
-									<li>competenza</li>
-									<li>disponibilità</li>
-									<li>efficienza</li>
-									<li>popolarità</li>
-								</ul>
-								<ul id="social-values">
-									<li>figo</li>
-									<li>festaiolo</li>
-									<li>personaggio</li>
-								</ul>
+								{{#if this.profile.totalEvaluates}}
+								<button id="switch-evaluates">
+									<i class="fa fa-align-left"></i>
+								</button>
+								{{> evaluations this.profile.totalEvaluates}}
+								{{/if}}
 								<div class="front-wrapper">
 									<a href="#" data-img="{{profile.picture}}">
 										{{> avatarImage data=this online=true}}
@@ -143,7 +138,7 @@
 				<div class="col-xs-12 know">
 					{{#unless itsMe}}
 						{{#if iFollowYou}}
-							<button class="evaluate">Valuta{{mf 'lo' 'la'}}</button>
+							<button class="evaluate" id="evaluate-user">Valuta{{mf 'lo' 'la'}}</button>
 						{{/if}}
 						<div class="switch-wrapper">
 							{{#if iFollowYou}}
@@ -171,4 +166,22 @@
 	</div>
 	{{> helpbars title="titleLastPosts" loadmore=false gotop=true data=this }}
 	<div class="md-overlay gray"></div>
+</template>
+
+<template name="evaluations">
+	<ul class="evaluates">
+	{{#with getEvaluatesData}}
+		{{#each this}}
+			{{> evaluationItem}}
+		{{/each}}
+	{{/with}}
+		<li class="count">su {{genericCounter totalUsers 'valutazione' 'valutazioni'}}</li>
+	</ul>
+</template>
+
+<template name="evaluationItem">
+	<li>
+		<p>{{label}}</p>
+		<div style="width:{{value}}%">{{value}}%</div>
+	</li>
 </template>

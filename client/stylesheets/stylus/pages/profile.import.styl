@@ -85,15 +85,103 @@
 				// transform: rotateY(0deg);
 				z-index: 2; // ie
 
+				#switch-evaluates {
+					absolute: right 10px top 10px;
+					border: none;
+					color: $gray-row-pin;
+					background-color: transparent;
+					padding: 0px 10px;
+					.fa {
+						vertical-align: baseline;
+						font-size: 12px;
+						&::after {
+							content: 'valutazioni'
+							margin-left: 5px;
+							text-transform: uppercase;
+							font-size: 12px;
+							font-family: $font-semibold;
+						}
+					}
+				}
+
+				&.stats {
+					#switch-evaluates {
+						.fa {
+							&::after {
+								content: 'chiudi'
+							}
+						}
+					}
+					.evaluates {
+						top: 20px;
+						opacity: 1;
+					}
+					.front-wrapper {
+						top: 115%;
+					}
+				}
+
 				.front-wrapper {
-					position: relative;
-					top: 50%;
+					relative: top 50%;
 					transform: translateY(-50%);
+					transition: top .5s;
 
 					a {
 						position: relative;
 						z-index: 7;
 						undecorate();
+					}
+				}
+
+				.evaluates {
+					absolute: top -100% right 0 left 0;
+					transition: top .5s, opacity .6s;
+
+					color: $white;
+					text-align: left;
+					list-style-type: none;
+					opacity: 0;
+					padding: 0;
+					margin-bottom: 20px;
+					p {
+						font-size: 12px;
+						font-family: $font-semibold;
+						text-transform: uppercase;
+						margin: 5px 0 0 20px;
+					}
+					li {
+						padding-right: 3%;
+						div {
+							font-size: 12px;
+							font-family: $font-semibold;
+							text-transform: uppercase;
+							text-align: right;
+							padding-right: 5px;
+							border-radius: 0 3px 3px 0;
+							color: $white;
+						}
+						&:nth-of-type(1) > div {
+							background-color: $eval1;
+						}
+						&:nth-of-type(2) > div {
+							background-color: $eval2;
+						}
+						&:nth-of-type(3) > div {
+							background-color: $eval3;
+						}
+						&:nth-of-type(4) > div {
+							background-color: $eval4;
+						}
+						&:nth-of-type(5) > div {
+							background-color: $eval5;
+						}
+
+						&.count {
+							padding: 10px 0 0 20px;
+							color: $gray-row-pin;
+							font-size: 10px;
+							font-family: $font-semibold;
+						}
 					}
 				}
 			}
