@@ -50,7 +50,6 @@ Template.sidebarUsers.onCreated(function() {
 				instance.checkFriends.set(false);
 			}, 5);
 		}
-
 	});
 
 	// The cursor
@@ -86,6 +85,11 @@ Template.sidebarUsers.onCreated(function() {
 Template.sidebarUsers.helpers({
 	onlineUsers: function() {
 		return Template.instance().onlineUsers();
+	},
+	totOnlineUsers: function() {
+		var number = Counts.get('totOnline');
+		Session.set('totalOnlineUsers', number);
+		return number;
 	},
 	usersReady: function() {
 		return Template.instance().ready.get();

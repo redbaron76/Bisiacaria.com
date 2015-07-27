@@ -30,11 +30,12 @@ Meteor.methods({
 			query = _.omit(query, 'isRead');
 		}
 
-		if (action == 'note' || action == 'visit') {
+		// if (action == 'note' || action == 'visit') {
 			Notifications.update(query, { '$set': {	'isRead': true } }, { 'multi': true	});
-		} else {
+		/*} else {
+			console.log(query);
 			Notifications.remove(query);
-		}
+		}*/
 
 	},
 	sharePost: function(postObj, shareArr) {

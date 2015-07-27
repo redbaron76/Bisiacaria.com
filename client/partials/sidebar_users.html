@@ -1,12 +1,9 @@
 <template name="sidebarUsers">
 	<aside class="sidebar right online-users">
 		<header>
-			<div class="counter users">{{getPublishedCount 'totOnline'}} <span>online</span></div>
+			<div class="counter users">{{totOnlineUsers}} <span>online</span></div>
 			<a href="{{pathFor 'searchUsers'}}" data-action="close" class="noty">
 				<i class="fa fa-search"></i>
-				{{#if totNotifies}}
-					<span>{{totNotifies}}</span>
-				{{/if}}
 			</a>
 			<form action="#">
 				<input type="search" id="filter-nickname" placeholder="Filtra nick in lista...">
