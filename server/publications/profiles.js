@@ -3,9 +3,10 @@ Meteor.publish('userProfile', function(username) {
 	check(username, String);
 
 	// Meteor._sleepForMs(1000);
-	// var user = Users.find({ 'username': username }, { 'fields': { 'emails': false, 'services': false } });
 	var user = Users.find({ 'username': { '$regex': username, '$options': 'i' }}, { 'fields': { 'emails': false, 'services': false } });
-	return user;
+	var targetId = user.fetch()[0]._id;
+	var myEvaluations = Evaluations.find({'targetId': targetId, 'userId': this.userId});
+	return [user, myEvaluations];
 });
 
 // Publish a user profile in router.js
@@ -77,4 +78,24 @@ Meteor.publish('singlePost', function(postId) {
 		return [post, authors];
 	}
 	return posts;
+});
+
+// Publish evaluations for target user
+Meteor.publish('userEvaluationList', function(query, options) {
+	check(query, Object);
+	check(options, Object);
+
+	// get evaluations
+	var evaluations = Evaluations.find(query, options);
+	var authorId = Bisia.inverseAuthor(_.keys(query)[0]);
+	// console.log(query, options);
+	if (evaluations.count() > 0) {
+		// map the authorIds
+		var userIds = evaluations.map(function(doc) { return doc[authorId] });
+		var authors = Users.find({ '_id': { '$in': userIds }});
+		// Meteor._sleepForMs(10000);
+		// return cursors
+		return [evaluations, authors];
+	}
+	return evaluations;
 });

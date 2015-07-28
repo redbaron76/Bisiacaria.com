@@ -254,26 +254,31 @@ Meteor.methods({
 		Users.update(this.userId, { $set: { 'scheduledDelete': Bisia.Time.now() } })
 		return true;
 	},
-	evaluateUser: function(targetId, evObj) {
+	evaluateUser: function(username, targetId, evObj) {
 		check(this.userId, String);
+		check(username, String);
 		check(targetId, String);
 		check(evObj, Object);
 
+		var userId = this.userId;
+
 		var evalObj = {
-			authorId: this.userId,
+			userId: this.userId,
+			targetId: targetId,
 			createdAt: new Date(),
 			values: evObj
 		};
 
-		Users.update(targetId, { '$pull': { 'evaluates': { authorId: this.userId } } });
-		Users.update(targetId, { '$addToSet': { 'evaluates': evalObj } });
+		// Users.update(targetId, { '$pull': { 'evaluates': { authorId: this.userId } } });
+		// Users.update(targetId, { '$addToSet': { 'evaluates': evalObj } });
+		Evaluations.upsert({'userId': userId, 'targetId': targetId}, evalObj);
 
 		// ricalcola totali e denormalizza risultati in profile
 		var totals = {};
-		var user = Users.findOne({ '_id': targetId }, { 'fields': { 'evaluates': 1 } });
-		var totalUsers = user.evaluates.length;
+		var evaluations = Evaluations.find({ 'targetId': targetId });
+		var totalUsers = evaluations.count();
 		// process each user that evaluates
-		_.each(user.evaluates, function(item, index) {
+		evaluations.forEach(function(item, index) {
 			// sum each property of the evaluation
 			_.each(item.values, function(val, label) {
 				if (!totals[label]) totals[label] = 0;
@@ -291,6 +296,14 @@ Meteor.methods({
 		}
 		// Update user with total counter
 		Users.update(targetId, { '$set': { 'profile.totalEvaluates': totalEvaluates } });
+
+		Bisia.Notification.emit('note', {
+			userId: userId,
+			targetId: targetId,
+			actionId: username,
+			actionKey: 'myProfile',
+			message: "ha appena <strong>valutato</strong> il tuo profilo."
+		});
 
 		return true;
 	}

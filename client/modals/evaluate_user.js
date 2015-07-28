@@ -12,9 +12,9 @@ Template.evaluateUserModal.helpers({
 			items = Bisia.User.evaluateFemale;
 		}
 
-		var myEv = _.findWhere(user.evaluates, { authorId: Meteor.userId() });
+		// var myEv = _.findWhere(user.evaluates, { authorId: Meteor.userId() });
+		var myEv = Evaluations.findOne({ 'targetId': user._id, 'userId': Meteor.userId() });
 		if (!myEv) myEv = {};
-
 
 		_.each(items, function(label, index) {
 			var val = myEv['values'] ? myEv['values'][label][0] : 0;
@@ -39,6 +39,7 @@ Template.evaluateUserModal.events({
 		var $target = $(e.target);
 
 		var targetId = t.data._id;
+		var username = t.data.username;
 		var results = {}, anon = {};
 		var formObject = Bisia.Form.getFields($target);
 
@@ -56,7 +57,7 @@ Template.evaluateUserModal.events({
 		});
 
 		if (results) {
-			Meteor.call('evaluateUser', targetId, results, function(error, success) {
+			Meteor.call('evaluateUser', username, targetId, results, function(error, success) {
 				if(error) {
 					Bisia.log('saveNewPost', error);
 					Bisia.Ui.loadingRemove();
@@ -89,15 +90,51 @@ Template.evaluateItem.onRendered(function() {
 	});
 });
 
-var evaluates = [{
-	authorId: 'fhfgBHFVBjhnkhBGJNkhkmL',
-	cratedAt: new Date(),
-	updatedAt: new Date(),
-	values: {
-		figo: [30, true],
-		festaiolo: [30, true],
-		affidabile: [30, false],
-		popolare: [30, true],
-		simpatico: [30, true]
+Template.viewEvaluationUserModal.onCreated(function() {
+	var instance = this;
+	instance.data = this.data.user;
+	Bisia.Paginator.init(instance, {
+		subsTo: 'userEvaluationList',
+		collection: 'evaluations',
+		query: {
+			'targetId': '_id'
+		}
+	});
+});
+
+Template.viewEvaluationUserModal.helpers({
+	uppercaseTitle: function() {
+		var string = this.data.label;
+		return {
+			title: string[0].toUpperCase() + string.substring(1)
+		};
+	},
+	votesUsers: function() {
+		var results = [];
+		var data = Template.instance().getData();
+		data.map(function(value, index) {
+			var obj = {};
+			obj.userId = value.userId;
+			obj.createdAt = value.createdAt;
+			obj.vote = value.values[this.key][0];
+			obj.visible = !value.values[this.key][1];
+			results.push(obj);
+		}, { key: this.data.label });
+		return results;
+	},
+	hasMoreData: function() {
+		return Template.instance().hasMoreData.get();
+	},
+	pageReady: function() {
+		return Template.instance().ready.get();
 	}
-}];
+});
+
+Template.viewEvaluationUserModal.events({
+	'click .username': function(e, t) {
+		Bisia.Ui.toggleModal(e);
+	},
+	'scroll .content': function(e, t) {
+		Bisia.Paginator.triggerBottom(e);
+	}
+});

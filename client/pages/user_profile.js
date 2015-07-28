@@ -149,13 +149,28 @@ Template.userProfile.events({
 
 Template.evaluations.helpers({
 	getEvaluatesData: function() {
+		var user = this
 		var values = [];
-		_.each(this.totals, function(value, label) {
+		_.each(user.profile.totalEvaluates.totals, function(value, label) {
 			var obj = {};
 			obj.label = label;
 			obj.value = value;
 			values.push(obj);
 		});
-		return values;
+		return {
+			values: values,
+			user: user
+		};
+	},
+	totalUsers: function() {
+		return this.profile.totalEvaluates.totalUsers;
+	}
+});
+
+Template.evaluationItem.events({
+	'click [data-view]': function(e, t) {
+		if (this.user._id == Meteor.userId()) {
+			Bisia.Ui.toggleModal(e, 'viewEvaluationUserModal', this);
+		}
 	}
 })

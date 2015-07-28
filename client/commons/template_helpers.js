@@ -118,8 +118,9 @@ Template.registerHelper('timeNow', function() {
 });
 
 Template.registerHelper('timeAgo', function() {
-	if (this.createdAt) {
-		var dateAgo = moment(this.createdAt);
+	var createdAt = arguments[0] || this.createdAt;
+	if (createdAt) {
+		var dateAgo = moment(createdAt);
 		if(dateAgo.toDate() < moment(Bisia.Time.now('server')).subtract(24, 'hour').toDate()) {
 			return dateAgo.format('ddd DD MMM HH:mm');
 		} else {

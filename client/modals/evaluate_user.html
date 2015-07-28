@@ -28,3 +28,66 @@
 		</label>
 	</div>
 </template>
+
+<template name="viewEvaluationUserModal">
+	<div class="md-modal top" data-content="view-{{this.data.label}}">
+		{{#with uppercaseTitle}}
+			{{> navbarModal title=title }}
+		{{/with}}
+		<div class="content container-fluid">
+			{{#if pageReady}}
+			<div class="list" id="list">
+				<div class="row">
+					<div class="col-xs-12 posts list-wrapper">
+						<ul class="item-list">
+							{{#each votesUsers}}
+								{{#with getUserAuthor this.userId this}}
+									{{> evaluateUser}}
+								{{/with}}
+							{{/each}}
+						</ul>
+					</div>
+				</div>
+			</div>
+			{{else}}
+				{{> loading}}
+			{{/if}}
+		</div>
+	</div>
+</template>
+
+<template name="evaluateUser">
+	{{#if visible}}
+	<li class="{{statusGender}}">
+		<div class="li-wrapper">
+			<a href="{{pathFor 'userProfile'}}">
+				{{> avatarImage data=this online=true}}
+				<div class="username">
+					{{username}}
+					<span class="time">{{timeAgo ../createdAt}}</span>
+				</div>
+				<div class="right-aligned">
+					<div class="age with-small">
+						{{../vote}}<small>/100</small>
+					</div>
+				</div>
+			</a>
+		</div>
+	</li>
+	{{else}}
+	<li class="anon">
+		<div class="li-wrapper">
+			{{> anonImage data=this online=true}}
+			<div class="username">
+				anonimo
+				<span class="time">--:--</span>
+			</div>
+			<div class="right-aligned">
+				<div class="age with-small">
+					{{../vote}}<small>/100</small>
+				</div>
+			</div>
+		</div>
+	</li>
+	{{/if}}
+</template>

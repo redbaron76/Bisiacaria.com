@@ -91,6 +91,8 @@
 					color: $gray-row-pin;
 					background-color: transparent;
 					padding: 0px 10px;
+					z-index: 2;
+
 					.fa {
 						vertical-align: baseline;
 						font-size: 12px;
@@ -117,14 +119,16 @@
 						opacity: 1;
 					}
 					.front-wrapper {
-						top: 115%;
+						top: 117%;
+						opacity: 1;
 					}
 				}
 
 				.front-wrapper {
 					relative: top 50%;
 					transform: translateY(-50%);
-					transition: top .5s;
+					transition: top .5s, opacity .6s;
+					opacity: 1;
 
 					a {
 						position: relative;
@@ -151,6 +155,10 @@
 					}
 					li {
 						padding-right: 3%;
+						a {
+							color: $white;
+							undecorate();
+						}
 						div {
 							font-size: 12px;
 							font-family: $font-semibold;
@@ -160,19 +168,19 @@
 							border-radius: 0 3px 3px 0;
 							color: $white;
 						}
-						&:nth-of-type(1) > div {
+						&:nth-of-type(1) div {
 							background-color: $eval1;
 						}
-						&:nth-of-type(2) > div {
+						&:nth-of-type(2) div {
 							background-color: $eval2;
 						}
-						&:nth-of-type(3) > div {
+						&:nth-of-type(3) div {
 							background-color: $eval3;
 						}
-						&:nth-of-type(4) > div {
+						&:nth-of-type(4) div {
 							background-color: $eval4;
 						}
-						&:nth-of-type(5) > div {
+						&:nth-of-type(5) div {
 							background-color: $eval5;
 						}
 
