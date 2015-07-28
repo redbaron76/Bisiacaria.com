@@ -29,3 +29,9 @@ Template.counterNotification.helpers({
 		return null;
 	}
 });
+
+Template.onlineCounter.helpers({
+	getOnlineUsers: function() {
+		return Session.get('totalOnlineUsers');
+	}
+});
