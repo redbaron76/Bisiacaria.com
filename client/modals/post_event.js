@@ -127,6 +127,7 @@ Template.newEventTab.events({
 									 ' in "Eventi della settimana" a 7 giorni dalla sua scadenza.';
 
 					Bisia.Ui.loadingRemove()
+							.waitStop()
 							.toggleModal(e, 'tab')
 							.submitSuccess(successMsg, 'Pubblicato!', null, true);
 				}

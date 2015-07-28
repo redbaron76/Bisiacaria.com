@@ -86,11 +86,6 @@ Template.sidebarUsers.helpers({
 	onlineUsers: function() {
 		return Template.instance().onlineUsers();
 	},
-	totOnlineUsers: function() {
-		var number = Counts.get('totOnline');
-		Session.set('totalOnlineUsers', number);
-		return number;
-	},
 	usersReady: function() {
 		return Template.instance().ready.get();
 	}

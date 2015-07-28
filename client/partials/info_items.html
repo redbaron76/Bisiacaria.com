@@ -174,9 +174,11 @@
 				<p>{{{context.infoText}}}</p>
 			{{/if}}
 			<ul class="item-list buttons-dial">
+				{{#if context.data.text}}
 				<li>
 					<button id="edit-post" class="blue">Modifica</button>
 				</li>
+				{{/if}}
 				<li>
 					<button id="delete-post" class="red">Elimina</button>
 				</li>

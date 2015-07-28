@@ -290,7 +290,6 @@ Bisia.Map = {
 	 * @return {Vois}
 	 */
 	saveFlyPosition: function(position) {
-		console.log(position, this.saveOnSet);
 		if (this.saveOnSet) {
 			Meteor.call('saveFlyPosition', position, function (error, result) {
 				if (result) {
@@ -460,14 +459,16 @@ Bisia.Map = {
 	 * @return {Void}
 	 */
 	onCordovaSuccess: function(position) {
-		var lat = position.position.coords.latitude;
-		var lng = position.position.coords.longitude;
-		var radius = position.coords.accuracy / 2;
-		var pos = L.latLng(lat, lng);
+		if (position && position.position) {
+			var lat = position.position.coords.latitude;
+			var lng = position.position.coords.longitude;
+			var radius = position.coords.accuracy / 2;
+			var pos = L.latLng(lat, lng);
 
-		Bisia.Map.clickLatLng = pos;
-		Bisia.Map.yourLatLng = pos;
-		Bisia.Map.setGeoPosition(pos, radius);
+			Bisia.Map.clickLatLng = pos;
+			Bisia.Map.yourLatLng = pos;
+			Bisia.Map.setGeoPosition(pos, radius);
+		}
 	},
 
 	/**

@@ -90,6 +90,12 @@ Template.registerHelper('hasOverlay', function() {
 	return this.overlay;
 });
 
+// TOT ONLINE USERS
+
+Template.registerHelper('totOnlineUsers', function() {
+	return Counts.get('totOnline');
+});
+
 // HELPERS
 
 Template.registerHelper('lowercase', function(text) {

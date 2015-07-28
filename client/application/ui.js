@@ -250,7 +250,7 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 	 */
 	goBottom: function() {
 		this.$content = $('.content');
-		var height = this.$content[0].scrollHeight;
+		var height = this.$content[0] ? this.$content[0].scrollHeight : 0;
 		this.$content.animate({ scrollTop: height }, 'fast');
 		return this;
 	},
@@ -304,8 +304,19 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 	 * @return {Bisia.Ui}
 	 */
 	loadingAdd: function(e) {
-		this.$target = $(e.target);
-		this.$target.addClass('loading');
+		if (this.$clicked) this.loadingRemove();
+		this.$clicked = $(e.currentTarget);
+		this.$clicked.css('pointer-events', 'none');
+		if (this.$clicked.has('i.fa').length) {
+			// this is the icon
+			this.$clickedIcon = this.$clicked.find('i.fa');
+			// save iconClasses
+			this.iconClasses = this.$clickedIcon.attr('class');
+			// change icon with spinning
+			this.$clickedIcon.removeClass().addClass('fa fa-refresh fa-spin');
+		} else {
+			this.$clicked.addClass('loading');
+		}
 		return this;
 	},
 
@@ -314,9 +325,18 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 	 * @return {Bisia.Ui}
 	 */
 	loadingRemove: function() {
-		if (this.$target) {
-			this.$target.removeClass('loading');
-			this.$target = null;
+		if (this.$clicked) {
+			this.$clicked.removeClass('loading');
+			this.$clicked.css('pointer-events', 'auto');
+			this.$clicked = null;
+
+			// remove spinner by default and apply original classes
+			if (this.$clickedIcon) {
+				this.$clickedIcon.removeClass().addClass(this.iconClasses);
+			}
+			// set clicked icon to null
+			this.$clickedIcon = null;
+			this.iconClasses = null;
 		}
 		return this;
 	},
