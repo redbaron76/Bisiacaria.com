@@ -175,7 +175,8 @@ Template.userSettings.events({
 				'user_likes',
 				'user_posts'
 			],
-			requestOfflineToken: true
+			requestOfflineToken: true,
+			loginStyle: 'popup'
 		}, function(token) {
 			var secret = Package.oauth.OAuth._retrieveCredentialSecret(token);
 			Meteor.call('userAddOAuthCredentials', token, secret, 'facebook', function(error) {

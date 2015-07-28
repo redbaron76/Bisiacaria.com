@@ -167,6 +167,12 @@ Template.evaluations.helpers({
 	}
 });
 
+Template.evaluationItem.helpers({
+	formatValue: function(value) {
+		return value % 1 === 0 ? value : parseFloat(value).toFixed(2)
+	}
+});
+
 Template.evaluationItem.events({
 	'click [data-view]': function(e, t) {
 		if (this.user._id == Meteor.userId()) {

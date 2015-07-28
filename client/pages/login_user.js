@@ -26,7 +26,8 @@ Template.loginUser.events({
 				'user_likes',
 				'user_posts'
 			],
-			requestOfflineToken: true
+			requestOfflineToken: true,
+			loginStyle: 'popup'
 		}, function(error) {
 			if (error) {
 				if (error.reason == 'Email already exists.') {
