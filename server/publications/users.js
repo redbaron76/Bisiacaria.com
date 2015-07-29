@@ -1,7 +1,7 @@
 // Publish user counters
 Meteor.publish('countUsers', function() {
 	// Bisia.log('publishing countUsers...');
-	// Meteor._sleepForMs(5000);
+	// Meteor._sleepForMs(500000);
 	Counts.publish(this, 'totUsers', Users.find({ 'emails': { $elemMatch: { 'verified': true } } }, { 'fields': { '_id': 1 } }));
 	Counts.publish(this, 'totOnline', Users.find({ 'profile.online': true }, { 'fields': { '_id': 1 } }));
 });
@@ -13,6 +13,8 @@ Meteor.publish('onlineUsers', function(position) {
 		// Meteor._sleepForMs(500000);
 		// var my = Users.findOne({ '_id': this.userId }, { 'fields': { 'profile.position': 1, 'loc': 1, 'blocked': 1, 'blockBy': 1 } });
 
+		// Count notifications to read
+		// Counts.publish(this, 'totNotifications', Notifications.find({ 'targetId': this.userId, 'isRead': false, 'isBroadcasted': true }));
 		// Total Notifications count ['like', 'unlike', 'comment', 'share']
 		Counts.publish(this, 'totNotifies', Notifications.find(Bisia.Notification.getPublishObject(this.userId, 'note')), { noReady: true });
 		// Unread news post from following

@@ -6,7 +6,7 @@ Template.searchUsersForm.onRendered(function() {
 		min: Bisia.Validation.allowedAge,
 		max: 99,
 		step: 1,
-		value: [20,40],
+		value: [20,60],
 		tooltip: 'hide',
 		formatter: function() {
 			$from.html(this.value[0]);

@@ -92,6 +92,11 @@ Template.registerHelper('hasOverlay', function() {
 
 // TOT ONLINE USERS
 
+Template.registerHelper('totNotifications', function() {
+	// return Counts.get('totNotifications');
+	return Bisia.Notification.total.get();
+});
+
 Template.registerHelper('totOnlineUsers', function() {
 	return Counts.get('totOnline');
 });

@@ -304,18 +304,18 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 	 * @return {Bisia.Ui}
 	 */
 	loadingAdd: function(e) {
-		if (this.$clicked) this.loadingRemove();
-		this.$clicked = $(e.currentTarget);
-		this.$clicked.css('pointer-events', 'none');
-		if (this.$clicked.has('i.fa').length) {
+		if (this.$target) this.loadingRemove();
+		this.$target = $(e.currentTarget);
+		this.$target.css('pointer-events', 'none');
+		if (this.$target.has('i.fa').length) {
 			// this is the icon
-			this.$clickedIcon = this.$clicked.find('i.fa');
+			this.$targetIcon = this.$target.find('i.fa');
 			// save iconClasses
-			this.iconClasses = this.$clickedIcon.attr('class');
+			this.iconTargetClasses = this.$targetIcon.attr('class');
 			// change icon with spinning
-			this.$clickedIcon.removeClass().addClass('fa fa-refresh fa-spin');
+			this.$targetIcon.removeClass().addClass('fa fa-refresh fa-spin');
 		} else {
-			this.$clicked.addClass('loading');
+			this.$target.addClass('loading');
 		}
 		return this;
 	},
@@ -325,18 +325,18 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 	 * @return {Bisia.Ui}
 	 */
 	loadingRemove: function() {
-		if (this.$clicked) {
-			this.$clicked.removeClass('loading');
-			this.$clicked.css('pointer-events', 'auto');
-			this.$clicked = null;
+		if (this.$target) {
+			this.$target.removeClass('loading');
+			this.$target.css('pointer-events', 'auto');
+			this.$target = null;
 
 			// remove spinner by default and apply original classes
-			if (this.$clickedIcon) {
-				this.$clickedIcon.removeClass().addClass(this.iconClasses);
+			if (this.$targetIcon) {
+				this.$targetIcon.removeClass().addClass(this.iconTargetClasses);
 			}
 			// set clicked icon to null
-			this.$clickedIcon = null;
-			this.iconClasses = null;
+			this.$targetIcon = null;
+			this.iconTargetClasses = null;
 		}
 		return this;
 	},

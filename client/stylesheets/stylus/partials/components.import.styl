@@ -404,7 +404,7 @@ img.emojione {
 	position: relative;
 	width: inherit;
 	height: auto;
-	margin-top: 20px;
+	margin: 20px 0 25px 0;
 
 	img.ri {
 		width: 100%;
@@ -414,7 +414,8 @@ img.emojione {
 	}
 
 	& + p {
-		padding-top: 20px !important;
+		padding-top: 0 !important;
+		padding-bottom: 20px !important;
 	}
 }
 
@@ -685,31 +686,31 @@ img.emojione {
 	cursor: pointer;
 	z-index: 2;
 
-	& > span {
-		display: none;
+	&:after {
+		content: attr(data-counter);
 		absolute: top -5px;
 		transform: translate3d(-50%, 0, 0);
 		badge($red);
+	}
 
-		&.appear {
-			display: block;
-			&.online {
-				background-color: $bisiad;
-			}
+	&[data-counter="0"] {
+		&:after {
+			display: none;
 		}
 	}
 
 	&.left {
-		& > span {
+		&:after {
 			right: -50%;
 			transform: translate3d(-50%, 0, 0);
 		}
 	}
 
 	&.right {
-		& > span {
+		&:after {
 			left: -50%;
 			transform: translate3d(50%, 0, 0);
+			badge($bisiad);
 		}
 	}
 }

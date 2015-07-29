@@ -1,3 +1,12 @@
+/*Template.navbarTop.onCreated(function() {
+	var instance = this;
+	instance.autorun(function() {
+		instance.totNotifications = Counts.get('totNotifications');
+		instance.totOnlineUsers = Counts.get('totOnline');
+		console.log('autorun', instance.totNotifications, instance.totOnlineUsers);
+	});
+});*/
+
 Template.navbarTop.events({
 	'click h1': function(e, t) {
 		Bisia.Ui.goTop(e, '.content');
@@ -16,7 +25,7 @@ Template.navbarTop.events({
 	}
 });
 
-Template.counterNotification.helpers({
+/*Template.counterNotification.helpers({
 	totNotifications: function() {
 		var total = parseInt(Bisia.Notification.total.get());
 		if (total > 0) {
@@ -28,4 +37,4 @@ Template.counterNotification.helpers({
 		}
 		return null;
 	}
-});
+});*/

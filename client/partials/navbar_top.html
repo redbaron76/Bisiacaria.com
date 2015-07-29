@@ -1,25 +1,11 @@
 <template name="navbarTop">
 	<nav class="bar bar-nav">
 		<h1>{{printTitle}}</h1>
-		<div class="navbar-btn left toggle-menu">
-			{{> counterNotification}}
+		<div class="navbar-btn left toggle-menu" data-counter="{{totNotifications}}">
 			<i class="fa fa-lg fa-bars"></i>
 		</div>
-		<div class="navbar-btn right toggle-users">
-			{{> onlineCounter}}
+		<div class="navbar-btn right toggle-users" data-counter="{{totOnlineUsers}}">
 			<i class="fa fa-lg fa-user"></i>
 		</div>
 	</nav>
-</template>
-
-<template name="counterNotification">
-	{{#if totNotifications}}
-		{{#with totNotifications}}
-			<span class="{{class}}">{{total}}</span>
-		{{/with}}
-	{{/if}}
-</template>
-
-<template name="onlineCounter">
-	<span class="appear online">{{totOnlineUsers}}</span>
 </template>

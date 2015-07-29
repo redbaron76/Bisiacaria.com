@@ -70,7 +70,9 @@ Bisia.Automator = {
 				'broadcastedAt': Bisia.Time.now(),
 				'isBroadcasted': true
 			}
-		}, true);
+		}, {
+			multi: true
+		});
 	},
 
 	/**

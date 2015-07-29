@@ -3,10 +3,14 @@ Meteor.publish('userProfile', function(username) {
 	check(username, String);
 
 	// Meteor._sleepForMs(1000);
-	var user = Users.find({ 'username': { '$regex': username, '$options': 'i' }}, { 'fields': { 'emails': false, 'services': false } });
-	var targetId = user.fetch()[0]._id;
-	var myEvaluations = Evaluations.find({'targetId': targetId, 'userId': this.userId});
-	return [user, myEvaluations];
+	// var user = Users.find({ 'username': { '$regex': username, '$options': 'i' }}, { 'fields': { 'emails': false, 'services': false } });
+	var user = Users.find({ 'username': username }, { 'fields': { 'emails': false, 'services': false } });
+	if (user.count() > 0) {
+		var targetId = user.fetch()[0]._id;
+		var myEvaluations = Evaluations.find({'targetId': targetId, 'userId': this.userId});
+		return [user, myEvaluations];
+	}
+	return user;
 });
 
 // Publish a user profile in router.js
