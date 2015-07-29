@@ -61,7 +61,8 @@ Meteor.methods({
 						createdAt: msg.createdAt
 					},
 					// remove targetId from isDelete
-					'$pull': { 'isDelete': msg.targetId }
+					// '$pull': { 'isDelete': msg.targetId }
+					'$pull': { 'isDelete': { '$in': [ msg.targetId, Meteor.userId() ] } }
 				});
 
 			// CREATE NEW CHAT
@@ -96,7 +97,8 @@ Meteor.methods({
 					createdAt: msg.createdAt
 				},
 				// remove targetId from isDelete
-				'$pull': { 'isDelete': msg.targetId }
+				//'$pull': { 'isDelete': msg.targetId }
+				'$pull': { 'isDelete': { '$in': [ msg.targetId, Meteor.userId() ] } }
 			});
 		}
 
