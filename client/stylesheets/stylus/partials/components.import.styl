@@ -628,6 +628,12 @@ img.emojione {
 			h1 {
 				color: $white;
 			}
+			
+			.navbar-btn {
+				&:after {
+					display: none;
+				}
+			}
 		}
 
 		h1 {
@@ -711,6 +717,12 @@ img.emojione {
 			left: -50%;
 			transform: translate3d(50%, 0, 0);
 			badge($bisiad);
+		}
+	}
+
+	&.md-close {
+		i {
+			color: $red;
 		}
 	}
 }
