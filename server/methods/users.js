@@ -283,7 +283,7 @@ Meteor.methods({
 			_.each(item.values, function(val, label) {
 				if (!totals[label]) totals[label] = 0;
 				if (!totals[label+'Count']) totals[label+'Count'] = 0;
-				totals[label] = (val && val > 0) ?  totals[label] + parseInt(val) : 0;
+				totals[label] = totals[label] + parseInt(val);
 				if (totals[label] > 0) totals[label+'Count'] ++;
 			});
 		});
@@ -301,6 +301,7 @@ Meteor.methods({
 			totalUsers: totalUsers,
 			totals: totals
 		}
+
 		// Update user with total counter
 		Users.update(targetId, { '$set': { 'profile.totalEvaluates': totalEvaluates } });
 
