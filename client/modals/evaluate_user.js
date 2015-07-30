@@ -38,7 +38,8 @@ Template.evaluateUserModal.events({
 
 		var targetId = t.data._id;
 		var username = t.data.username;
-		var formObject = Bisia.Form.getFields($target);
+		var formObject = Bisia.Form.getFields($target, 'validateEvaluations');
+		var hasValues = false;
 
 		if (formObject) {
 			Meteor.call('evaluateUser', username, targetId, formObject, function(error, success) {
@@ -54,7 +55,9 @@ Template.evaluateUserModal.events({
 							.submitSuccess('La tua valutazione è stata registrata correttamente.', 'Registrato!', null, true);
 				}
 			});
+			return true;
 		}
+		return false;
 	}
 }),
 

@@ -1,6 +1,6 @@
 Template.newsEventList.helpers({
 	getLocation: function() {
-		var routeTo;
+		var routeTo, authorName = this.username;
 		// Bisia.log(this);
 		switch(this.actionKey) {
 			case 'comment':
@@ -20,12 +20,16 @@ Template.newsEventList.helpers({
 			case 'profileData':
 			case 'question':
 			case 'loveHate':
+				routeTo = 'userProfile';
+				break;
 			case 'myProfile':
 				routeTo = 'userProfile';
+				this.username = this.actionId;
 				break;
 		}
 		return _.extend(this, {
-			routeTo: routeTo
+			routeTo: routeTo,
+			authorname: authorName
 		});
 	}
 });
