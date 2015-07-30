@@ -282,12 +282,19 @@ Meteor.methods({
 			// sum each property of the evaluation
 			_.each(item.values, function(val, label) {
 				if (!totals[label]) totals[label] = 0;
-				totals[label] = totals[label] + parseInt(val[0]);
+				if (!totals[label+'Count']) totals[label+'Count'] = 0;
+				totals[label] = (val && val > 0) ?  totals[label] + parseInt(val) : 0;
+				if (totals[label] > 0) totals[label+'Count'] ++;
 			});
 		});
+
 		// Calculate average values
 		_.each(totals, function(total, label) {
-			totals[label] = totals[label] / totalUsers;
+			if (label.indexOf('Count') < 0) {
+				totals[label] = totals[label] / totals[label+'Count'];
+				if (!totals[label]) totals[label] = null;
+				delete totals[label+'Count'];
+			}
 		});
 
 		var totalEvaluates = {

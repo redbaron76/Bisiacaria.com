@@ -17,13 +17,11 @@ Template.evaluateUserModal.helpers({
 		if (!myEv) myEv = {};
 
 		_.each(items, function(label, index) {
-			var val = myEv['values'] ? myEv['values'][label][0] : 0;
-			var checked = myEv['values'] ? myEv['values'][label][1] : false;
+			var val = myEv['values'] ? myEv['values'][label] : 0;
 			var item = {};
 			item.index = index + 1;
 			item.name = label;
 			item.value = val;
-			item.checked = checked;
 			evaluateItems.push(item);
 		});
 
@@ -40,24 +38,10 @@ Template.evaluateUserModal.events({
 
 		var targetId = t.data._id;
 		var username = t.data.username;
-		var results = {}, anon = {};
 		var formObject = Bisia.Form.getFields($target);
 
-		_.each(formObject, function(value, index) {
-			if (index.indexOf('anon') == 0) {
-				var key = index.replace('anon-', '');
-				anon[key] = true;
-			} else {
-				results[index] = [value, false];
-			}
-		});
-
-		_.each(anon, function(value, index) {
-			results[index][1] = value;
-		});
-
-		if (results) {
-			Meteor.call('evaluateUser', username, targetId, results, function(error, success) {
+		if (formObject) {
+			Meteor.call('evaluateUser', username, targetId, formObject, function(error, success) {
 				if(error) {
 					Bisia.log('saveNewPost', error);
 					Bisia.Ui.loadingRemove();
@@ -85,7 +69,8 @@ Template.evaluateItem.onRendered(function() {
 		value: parseInt(data.value),
 		tooltip: 'hide',
 		formatter: function() {
-			$from.html(this.value[0]);
+			var value = this.value[0] == 0 ? '??' : this.value[0];
+			$from.html(value);
 		}
 	});
 });
@@ -116,10 +101,12 @@ Template.viewEvaluationUserModal.helpers({
 			var obj = {};
 			obj.userId = value.userId;
 			obj.createdAt = value.createdAt;
-			obj.vote = value.values[this.key][0];
-			obj.visible = !value.values[this.key][1];
+			obj.vote = value.values[this.key];
 			results.push(obj);
 		}, { key: this.data.label });
+		results = _.reject(results, function(obj) {
+			return obj.vote == 0;
+		});
 		return results;
 	},
 	hasMoreData: function() {

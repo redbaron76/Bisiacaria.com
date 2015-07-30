@@ -22,10 +22,6 @@
 			<span class="slider-from">{{value}}</span>
 			<span class="slider-to">100</span>
 		</div>
-		<label for="anon-{{name}}">
-			valutazione anonima
-			<input type="checkbox" name="anon-{{name}}" id="anon-{{name}}" checked="{{checked}}">
-		</label>
 	</div>
 </template>
 
@@ -57,7 +53,6 @@
 </template>
 
 <template name="evaluateUser">
-	{{#if visible}}
 	<li class="{{statusGender}}">
 		<div class="li-wrapper">
 			<a href="{{pathFor 'userProfile'}}">
@@ -74,20 +69,4 @@
 			</a>
 		</div>
 	</li>
-	{{else}}
-	<li class="anon">
-		<div class="li-wrapper">
-			{{> anonImage data=this online=true}}
-			<div class="username">
-				anonimo
-				<span class="time">--:--</span>
-			</div>
-			<div class="right-aligned">
-				<div class="age with-small">
-					{{../vote}}<small>/100</small>
-				</div>
-			</div>
-		</div>
-	</li>
-	{{/if}}
 </template>

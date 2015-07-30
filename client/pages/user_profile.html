@@ -184,11 +184,19 @@
 		{{#if itsMe user}}
 			<a href="#" id="view-{{data.label}}" data-view="list">
 				<p>{{data.label}}</p>
-				<div style="width:{{formatValue data.value}}%">{{formatValue data.value}}%</div>
+				{{#if data.value}}
+					<div style="width:{{formatValue data.value}}%">{{formatValue data.value}}%</div>
+				{{else}}
+					<div class="no-value"></div>
+				{{/if}}
 			</a>
 		{{else}}
 			<p>{{data.label}}</p>
-			<div style="width:{{formatValue data.value}}%">{{formatValue data.value}}%</div>
+			{{#if data.value}}
+				<div style="width:{{formatValue data.value}}%">{{formatValue data.value}}%</div>
+			{{else}}
+				<div class="no-value"></div>
+			{{/if}}
 		{{/if}}
 	</li>
 </template>
