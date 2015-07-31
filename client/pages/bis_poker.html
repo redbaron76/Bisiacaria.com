@@ -1,8 +1,47 @@
 <template name="bisPoker">
 	{{> navbarTop title="Bis-Poker"}}
+	<div class="buttons-toppad">
+		<div class="col-xs-12 buttons-top">
+			<button data-change="tab" data-show="gameTab" class="selected">
+				Gioco
+			</button>
+			<button data-change="tab" data-show="rankingTab">
+				Classifica
+			</button>
+		</div>
+	</div>
 	<div class="content container-fluid">
 		<div id="poker">
-		
+			<div class="row">
+				<div class="col-xs-12" id="deck">
+					<ul class="stats">
+						<li>credito: <span>3050</span></li>
+						<li>oggi: <span>1250</span></li>
+						<li>totale: <span>8050</span></li>
+						<li>posizione: <span>13°</span></li>
+					</ul>
+					<ul class="cards">
+						<li><a href=""><img src="img/poker/33.jpg"></a></li>
+						<li><a href=""><img src="img/poker/back.jpg"></a></li>
+						<li><a href=""><img src="img/poker/27.jpg"></a></li>
+						<li><a href=""><img src="img/poker/42.jpg"></a></li>
+						<li><a href=""><img src="img/poker/47.jpg"></a></li>
+					</ul>
+					<h5>Hai una coppia di 2</h5>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12" id="bet">
+					<h6>Hai puntato:</h6>
+					<ul>
+						<li><button>10</button></li>
+						<li><button>20</button></li>
+						<li><button class="selected">50</button></li>
+						<li><button>100</button></li>
+						<li><button id="play">Gioca</button></li>
+					</ul>
+				</div>
+			</div>
 		</div>
 	</div>
 </template>

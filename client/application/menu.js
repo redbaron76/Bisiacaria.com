@@ -43,7 +43,7 @@ Bisia.Menu = {
 		{
 			"key": "poker",
 			"icon": " fa-usd",
-			"label": "Crediti per il Bis-Poker",
+			"label": "Bis-Poker <small>(crediti)</small>",
 			"path": "bisPoker",
 			"nClass": "new"
 		},
