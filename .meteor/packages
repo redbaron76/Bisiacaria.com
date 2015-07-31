@@ -13,7 +13,8 @@ momentjs:moment
 gadicohen:headers
 accounts-facebook
 service-configuration
-linto:fontawesome
+#linto:fontawesome
+fortawesome:fontawesome
 email
 stylus
 # gadicohen:reactive-window

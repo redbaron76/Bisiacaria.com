@@ -41,6 +41,13 @@ Bisia.Menu = {
 			"nClass": "new"
 		},
 		{
+			"key": "poker",
+			"icon": " fa-usd",
+			"label": "Crediti per il Bis-Poker",
+			"path": "bisPoker",
+			"nClass": "new"
+		},
+		{
 			"key": "visit",
 			"icon": "fa-exclamation-circle",
 			"label": "Ti hanno visitato",
