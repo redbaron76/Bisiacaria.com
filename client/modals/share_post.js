@@ -44,7 +44,7 @@ Template.sharePostModal.events({
 						Bisia.Ui.loadingRemove()
 								.toggleModal(e, 'tab')
 								// .waitStop()
-								.submitSuccess('Hai condiviso questo post con ' + arrLength + ' dei tuoi contatti.', 'Condiviso!', null, true);
+								.submitSuccess('Hai inoltrato questo post a ' + arrLength + ' dei tuoi contatti.', 'Post inoltrato!', null, true);
 					}
 				});
 			}

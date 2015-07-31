@@ -16,19 +16,6 @@
 			</div>
 			{{/if}}
 
-			{{#if mostRatedPosts}}
-			<div class="row">
-				<div class="col-xs-12 posts list-wrapper">
-					<h4>I Blog più in vista</h4>
-					{{#each mostRatedPosts}}
-						{{#with getPost this}}
-							{{> postArticle}}
-						{{/with}}
-					{{/each}}
-				</div>
-			</div>
-			{{/if}}
-
 			<div class="row">
 				{{#if todayEvents}}
 				<div class="col-xs-12 list-wrapper">
@@ -128,6 +115,19 @@
 				</div>
 				{{/if}}
 			</div>
+
+			{{#if mostRatedPosts}}
+			<div class="row">
+				<div class="col-xs-12 posts list-wrapper">
+					<h4>I Blog più in vista</h4>
+					{{#each mostRatedPosts}}
+						{{#with getPost this}}
+							{{> postArticle}}
+						{{/with}}
+					{{/each}}
+				</div>
+			</div>
+			{{/if}}
 
 		</div>
 	</div>

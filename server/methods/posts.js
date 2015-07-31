@@ -39,6 +39,11 @@ Meteor.methods({
 			commentsCount: 0
 		});
 
+		// if image only
+		if (postObj.category.length == 0 && postObj.imageUrl.length > 0) {
+			postObj.category = 'ha pubblicato questa immagine';
+		}
+
 		// Add position loc if coordinates are present
 		if (postObj.position.lat && postObj.position.lng) {
 			postObj = _.extend(postObj, Bisia.Form.createMapLoc(postObj.position));
