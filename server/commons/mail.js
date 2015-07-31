@@ -94,8 +94,10 @@ Bisia.Mail = {
 		});
 		// compile layout
 		SSR.compileTemplate('layoutTpl', Assets.getText(this.mailTemplates.layout));
+		// DOCTYPE
+		var doctype = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">';
 		// return rendered layout
-		return SSR.render('layoutTpl', partials);
+		return doctype + SSR.render('layoutTpl', partials);
 	},
 
 	/**
