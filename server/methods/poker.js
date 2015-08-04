@@ -6,15 +6,7 @@ Meteor.methods({
 		});
 
 		var userId = Meteor.userId();
-		var handResp = {
-			// todayTotal: null,
-			// weekTotal: null,
-			// weekPosition: null,
-			// deck: [null, null, null, null, null],
-			// winMessage: null,
-			// statusMessage: null,
-			// statusPlay: 'gioca',
-		};
+		var handResp = {};
 
 		// decrement credit from Pokerplayers
 		Pokerplayers.update({ 'playerId': userId }, { '$inc': { 'credit': handObj.bet * -1 } });
@@ -31,6 +23,9 @@ Meteor.methods({
 		var handId = Pokerhands.insert({
 			playerId: userId,
 			playDeck: handResp.deck,
+			statusMessage: handResp.statusMessage,
+			winMessage: handResp.winMessage,
+			statusPlay: handResp.statusPlay,
 			bet: handObj.bet,
 			win: 0,
 			createdAt: new Date,
@@ -64,7 +59,7 @@ Meteor.methods({
 		// generate a change deck
 		handResp.deck = Bisia.Poker.generateChangeDeck(handObj.firstHand, cardsToKeep);
 		// detect point and set winMessage
-		var point = Bisia.Poker.detectHandPoint(handResp.deck, handObj.bet, true);
+		var point = Bisia.Poker.detectHandPoint(handResp.deck, parseInt(handObj.bet), true);
 		handResp.winMessage = point.message;
 
 		handResp.statusMessage = 'Hai vinto <strong>' + point.win + '</strong> punti!';
@@ -79,11 +74,15 @@ Meteor.methods({
 			}, {
 				'$set': {
 					changeDeck: handResp.deck,
+					statusMessage: handResp.statusMessage,
+					winMessage: handResp.winMessage,
+					statusPlay: handResp.statusPlay,
 					win: point.win,
-					closedAt: new Date,
+					createdAt: new Date,
 					status: 'finish'
 				}
 			});
+			console.log(point.win);
 			// increment total points in the week
 			Pokerplayers.update({ 'playerId': userId }, { '$inc': { 'points': point.win }});
 		} else {

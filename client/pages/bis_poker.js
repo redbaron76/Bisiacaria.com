@@ -31,6 +31,14 @@ Template.bisPoker.onCreated(function() {
 		instance.winMessage.set(data.winMessage);
 		instance.statusMessage.set(data.statusMessage);
 		instance.statusPlay.set(data.statusPlay);
+		if (data.statusPlay == 'cambia' && data.bet && data.handId) {
+			Bisia.Poker.handId = data.handId;
+			Bisia.Poker.currentHandBet = data.bet;
+			Bisia.Poker.firstHand = data.firstHand;
+			$('#play').removeAttr('disabled');
+			$('#value'+ data.bet).prop('checked', true);
+			Bisia.Poker.buildChangeDeck(data.deck, instance);
+		}
 	};
 
 });
@@ -53,10 +61,12 @@ Template.bisPoker.onRendered(function() {
 			instance.weekPosition.set(weekPosition);
 		});
 
+
 	});
 
 	// Init data from controller (status of play)
-	instance.populateInitialData(this.data);
+	// console.log(instance.data);
+	instance.populateInitialData(instance.data);
 
 });
 

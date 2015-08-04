@@ -10,8 +10,7 @@
 			</button>
 		</div>
 	</div>
-	{{#if pageReady}}
-		{{#with deckValues}}
+	{{#with deckValues}}
 		<div class="content container-fluid">
 			<div id="poker">
 				<div class="row">
@@ -101,10 +100,7 @@
 				{{/unless}}
 			</div>
 		</div>
-		{{/with}}
-	{{else}}
-		{{> loading}}
-	{{/if}}
+	{{/with}}
 	<div class="md-overlay gray"></div>
 </template>
 
