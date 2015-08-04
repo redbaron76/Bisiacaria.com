@@ -40,6 +40,9 @@ Meteor.publish('onlineUsers', function(position) {
 		var limitWeek = Bisia.Time.msWeek;
 		Counts.publish(this, 'eventsWeek', Events.find({ 'dateTimeEvent': { '$gte': Bisia.Time.todayStart(), '$lte': Bisia.Time.timeFuture(limitWeek) } }), { noReady: true });
 
+		// Poker daily credit
+		Counts.publish(this, 'countDailyCredit', Pokerplayers.find({ 'playerId': this.userId }), { countFromField: 'credit', noReady: true });
+
 		// All people geotagged
 		Counts.publish(this, 'totGeoTagged', Users.find({
 			// '_id': { '$ne': this.userId },

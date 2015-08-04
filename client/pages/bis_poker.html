@@ -10,38 +10,106 @@
 			</button>
 		</div>
 	</div>
-	<div class="content container-fluid">
-		<div id="poker">
-			<div class="row">
-				<div class="col-xs-12" id="deck">
-					<ul class="stats">
-						<li>credito: <span>3050</span></li>
-						<li>oggi: <span>1250</span></li>
-						<li>totale: <span>8050</span></li>
-						<li>posizione: <span>13°</span></li>
-					</ul>
-					<ul class="cards">
-						<li><a href=""><img src="img/poker/33.jpg"></a></li>
-						<li><a href=""><img src="img/poker/back.jpg"></a></li>
-						<li><a href=""><img src="img/poker/27.jpg"></a></li>
-						<li><a href=""><img src="img/poker/42.jpg"></a></li>
-						<li><a href=""><img src="img/poker/47.jpg"></a></li>
-					</ul>
-					<h5>Hai una coppia di 2</h5>
+	{{#if pageReady}}
+		{{#with deckValues}}
+		<div class="content container-fluid">
+			<div id="poker">
+				<div class="row">
+					<div class="col-xs-12" id="deck">
+						<ul class="stats">
+							<li>credito: <span>{{getPublishedCount 'countDailyCredit'}}</span></li>
+							<li>oggi: <span>{{getPublishedCount 'todayTotal'}}</span></li>
+							<li>totale: <span>{{getPublishedCount 'weekTotal'}}</span></li>
+							<li>posizione: <span>{{weekPosition}}</span></li>
+						</ul>
+						<ul class="cards">
+							<li>
+								<div data-control="card0" data-value="{{card0}}" class="card">
+									<img src="img/poker/back.jpg" class="back">
+									{{> cardItem card=card0 }}
+								</div>
+							</li>
+							<li>
+								<div data-control="card1" data-value="{{card1}}" class="card">
+									<img src="img/poker/back.jpg" class="back">
+									{{> cardItem card=card1 }}
+								</div>
+							</li>
+							<li>
+								<div data-control="card2" data-value="{{card2}}" class="card">
+									<img src="img/poker/back.jpg" class="back">
+									{{> cardItem card=card2 }}
+								</div>
+							</li>
+							<li>
+								<div data-control="card3" data-value="{{card3}}" class="card">
+									<img src="img/poker/back.jpg" class="back">
+									{{> cardItem card=card3 }}
+								</div>
+							</li>
+							<li>
+								<div data-control="card4" data-value="{{card4}}" class="card">
+									<img src="img/poker/back.jpg" class="back">
+									{{> cardItem card=card4 }}
+								</div>
+							</li>
+						</ul>
+						{{#if winMessage}}
+							<h5>{{{winMessage}}}</h5>
+						{{/if}}
+						{{#if outOfCredit}}
+							<h5>Per oggi hai terminato i crediti!</h5>
+						{{/if}}
+					</div>
 				</div>
-			</div>
-			<div class="row">
-				<div class="col-xs-12" id="bet">
-					<h6>Hai puntato:</h6>
-					<ul>
-						<li><button>10</button></li>
-						<li><button>20</button></li>
-						<li><button class="selected">50</button></li>
-						<li><button>100</button></li>
-						<li><button id="play">Gioca</button></li>
-					</ul>
+				{{#unless outOfCredit}}
+				<div class="row">
+					<div class="col-xs-12" id="bet">
+						<h6>{{{statusMessage}}}</h6>
+						<form id="poker-form">
+							<ul>
+								<li class="button-bet">
+									<input type="radio" id="value10" name="bet" value="10" {{allowCredits '10'}}>
+									<label for="value10" data-value="10"></label>
+								</li>
+								<li class="button-bet">
+									<input type="radio" id="value20" name="bet" value="20" {{allowCredits '20'}}>
+									<label for="value20" data-value="20"></label>
+								</li>
+								<li class="button-bet">
+									<input type="radio" id="value50" name="bet" value="50" {{allowCredits '50'}}>
+									<label for="value50" data-value="50"></label>
+								</li>
+								<li class="button-bet">
+									<input type="radio" id="value100" name="bet" value="100" {{allowCredits '100'}}>
+									<label for="value100" data-value="100"></label>
+								</li>
+								<li>
+									<input type="submit" id="play" value="{{statusPlay}}" disabled>
+								</li>
+							</ul>
+							<div id="inputs">
+								<input type="checkbox" id="card0" name="card0" class="input-card">
+								<input type="checkbox" id="card1" name="card1" class="input-card">
+								<input type="checkbox" id="card2" name="card2" class="input-card">
+								<input type="checkbox" id="card3" name="card3" class="input-card">
+								<input type="checkbox" id="card4" name="card4" class="input-card">
+							</div>
+						</form>
+					</div>
 				</div>
+				{{/unless}}
 			</div>
 		</div>
-	</div>
+		{{/with}}
+	{{else}}
+		{{> loading}}
+	{{/if}}
+	<div class="md-overlay gray"></div>
+</template>
+
+<template name="cardItem">
+	{{#if card}}
+	<img src="img/poker/{{card}}.jpg" class="front">
+	{{/if}}
 </template>

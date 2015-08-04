@@ -16,10 +16,17 @@
 		background-color: $white;
 		border-top: 1px solid $white-border;
 		border-bottom: 1px solid $white-border;
-		padding: 15px 10px;
+		padding: 15px 15px;
+
+		h5 {
+			font-size: 16px;
+			font-family: $font-semibold;
+			text-align: center;
+		}
 
 		ul.stats {
-			padding: 0 0 25px 0;
+			padding-bottom: 20px;
+			text-transform: uppercase;
 
 			li {
 				font-size: 10px;
@@ -42,35 +49,64 @@
 		}
 
 		ul.cards {
-			li {
-				width: 20%;
-				text-align: center;
 
-				img {
-					width: 95%;
-					height: auto;
+			li {
+
+				div.card {
+					position: relative;
+					transform-style: preserve-3d;
+					transition: transform .2s;
+
+					img {
+						cursor: pointer;
+						width: 100%;
+						height: auto;
+						padding-right: 5%;
+						display: block;
+						backface-visibility: hidden;
+
+						&:nth-child(2) {
+							absolute: top 0 left 0;
+						}
+					}
+
+					.front { transform: rotateY( 180deg ); }
+					.back {	 }
+
+					&.open {
+						transform: rotateY( 180deg );
+					}
 				}
 			}
 
 			& + h5 {
-				padding: 15px 5px 0 0;
-				font-size: 16px;
-				font-family: $font-semibold;
-				text-align: center;
+				padding-top: 15px;
+				strong {
+					color: $red;
+					text-transform: uppercase;
+				}
 			}
 		}
 	}
 
 	#bet {
-		padding: 5px 10px;
+		padding: 5px 15px;
+
+		#inputs {
+			display: none;
+		}
 
 		h6 {
 			font-family: $font-semibold;
 			display: inline-block;
+			width: 71%;
+			strong {
+				color: $red;
+			}
 		}
 
 		ul {
-			margin-top: -20px;
+			margin-top: -15px;
 
 			li {
 				width: 18%;
@@ -84,7 +120,8 @@
 					text-align: right;
 				}
 
-				button {
+				button,
+				input[type=submit] {
 					width: 95%;
 					border: none;
 					border-radius: 4px;
@@ -93,6 +130,7 @@
 					color: $white;
 					padding-top: 5px;
 					padding-bottom: 5px;
+					text-transform: capitalize;
 
 					&.selected {
 						background-color: $bisiad;
@@ -103,8 +141,54 @@
 						width: 100%;
 						height: 60px;
 						background-color: $green;
-						font-size: 20px;
+						font-size: 18px;
+
+						&:disabled {
+							background-color: $gray-bar;
+						}
+
+						&[value=gioca] {
+							background-color: $red;
+						}
 					}
+				}
+			}
+		}
+
+		.button-bet {
+
+			& > input:disabled + label {
+				background-color: $gray-bar;
+				cursor: default;
+			}
+
+			label {
+				cursor: pointer;
+				width: 95%;
+				border: none;
+				border-radius: 4px;
+				background-color: $gray-row-pin;
+				font-family: $font-semibold;
+				text-align: center;
+				color: $white;
+				padding: 10px 0;
+				margin: 0;
+
+				&:after {
+					content: attr(data-value);
+				}
+			}
+
+			input[type=radio] {
+				display: none;
+
+				&:checked + label {
+					background-color: $bisiad;
+					color: $gray-row;
+				}
+
+				&:checked + label:after {
+					opacity: 1;
 				}
 			}
 		}
