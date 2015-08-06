@@ -25,12 +25,12 @@
 			{{#if formatYourEvents}}
 			<div class="row">
 				<div class="col-xs-12 posts list-wrapper">
+					<h4>I tuoi eventi</h4>
 					<ul class="item-list">
 					{{#with formatYourEvents}}
 						{{#each data}}
 						<li>
 						{{#with formatDay}}
-							<h4>I tuoi eventi</h4>
 							{{#each eventObj}}
 								{{> eventYour}}
 							{{/each}}

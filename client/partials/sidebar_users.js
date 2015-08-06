@@ -12,7 +12,7 @@ Template.sidebarUsers.onCreated(function() {
 	instance.ready = new ReactiveVar(false);
 
 	// Autorun when reactive var changes
-	instance.autorun(function() {;
+	instance.autorun(function() {
 		// Subscribe to publication
 		var subscription = Meteor.subscribe('onlineUsers', Bisia.User.getUserPosition());
 		// trigger reactivity

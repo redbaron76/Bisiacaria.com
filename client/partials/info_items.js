@@ -33,6 +33,12 @@ Template.infoConfirm.events({
 	}
 });
 
+Template.infoActions.helpers({
+	hasTextToModify: function() {
+		return (this.context.text || this.context.context.data.text);
+	}
+});
+
 Template.infoActions.events({
 	'click #edit-post': function(e, t) {
 		e.preventDefault();
