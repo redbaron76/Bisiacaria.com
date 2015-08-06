@@ -112,7 +112,10 @@ Template.bisPoker.helpers({
 	allowCredits: function(credit) {
 		var instance = Template.instance();
 		var dailyCredit = instance.dailyCredit;
-		if (parseInt(credit) > dailyCredit) return 'disabled';
+		var status = instance.statusPlay.get();
+		if (parseInt(credit) > dailyCredit && status != 'cambia') {
+			return 'disabled';
+		}
 	},
 	outOfCredit: function() {
 		var instance = Template.instance();
@@ -172,6 +175,21 @@ Template.bisPoker.events({
 	}
 });
 
+Template.bisPokerRanking.onCreated(function() {
+	var instance = this;
+	instance.rankingToHide = {};
+})
+
+Template.playerItem.onCreated(function() {
+	var rankingInstance = this.parentTemplate();
+	if (!rankingInstance.rankingToHide[this.data.ranking]) {
+		rankingInstance.rankingToHide[this.data.ranking] = true;
+		return this;
+	}
+	this.data.ranking = null;
+	return this;
+});
+
 Template.bisPokerRanking.helpers({
 	generateRankings: function() {
 		var ranking = {};
@@ -186,6 +204,7 @@ Template.bisPokerRanking.helpers({
 		return this;
 	},
 	getPlayer: function(obj, ranking) {
+		var instance = Template.instance();
 		var user = Users.findOne({ '_id': obj.playerId }, { 'fields': {
 			'username': 1,
 			'profile.city': 1,
@@ -197,10 +216,10 @@ Template.bisPokerRanking.helpers({
 		}});
 
 		// add ranking to the first of ranking position
-		if (!user.ranking && ranking[this.points]) {
+		// if (!Bisia.Poker.ranking[this.points]) {
 			user.ranking = ranking[this.points];
-			delete ranking[this.points];
-		}
+			// Bisia.Poker.ranking[this.points] = ranking[this.points];
+		// }
 
 		return _.extend(this, user);
 	},
