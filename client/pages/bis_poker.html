@@ -1,15 +1,18 @@
-<template name="bisPoker">
-	{{> navbarTop title="Bis-Poker"}}
+<template name="pokerTab">
 	<div class="buttons-toppad">
 		<div class="col-xs-12 buttons-top">
-			<button data-change="tab" data-show="gameTab" class="selected">
-				Gioco
-			</button>
-			<button data-change="tab" data-show="rankingTab">
-				Classifica
-			</button>
+		{{#with setSelected}}
+			<a href="{{pathFor 'bisPoker'}}" class="{{gameSelected}}">Gioco</a>
+			<a href="{{pathFor 'bisPokerRanking'}}" class="{{rankingSelected}}">Classifica</a>
+			<a href="{{pathFor 'bisPokerWinners'}}" class="{{winnersSelected}}">Vincitori</a>
+		{{/with}}
 		</div>
 	</div>
+</template>
+
+<template name="bisPoker">
+	{{> navbarTop title="Bis-Poker" }}
+	{{> pokerTab selected="game" }}
 	{{#with deckValues}}
 		<div class="content container-fluid">
 			<div id="poker">
@@ -108,4 +111,69 @@
 	{{#if card}}
 	<img src="img/poker/{{card}}.jpg" class="front">
 	{{/if}}
+</template>
+
+<template name="bisPokerRanking">
+	{{> navbarTop title="Classifica" }}
+	{{> pokerTab selected="ranking" }}
+	<div class="content container-fluid">
+		<div class="list" id="list">
+			{{#with detectFirstPage}}
+				{{#if pageDisplay}}
+					<div class="row">
+						<div class="col-xs-12 list-wrapper">
+							<ul class="item-list">
+								{{#with generateRankings}}
+									{{#each items}}
+										{{#with getPlayer this ../ranking}}
+											{{> playerItem}}
+										{{/with}}
+									{{else}}
+										{{> emptyLi}}
+									{{/each}}
+								{{/with}}
+							</ul>
+						</div>
+					</div>
+				{{else}}
+					{{> loading}}
+				{{/if}}
+			{{/with}}
+		</div>
+	</div>
+	{{> helpbars loadmore=true gotop=true data=this }}
+	<div class="md-overlay gray"></div>
+</template>
+
+<template name="playerItem">
+	{{#if ranking}}
+		<li class="ranking">{{ranking}}° posizione</li>
+	{{/if}}
+	<li class="{{statusGender}}">
+		<div class="li-wrapper">
+			<a href="{{pathFor 'userProfile'}}">
+				{{> avatarImage data=this online=true}}
+				<div class="username">
+					{{username}}
+					<span class="coin">crediti: <span>{{credit}}</span> - mani giocate: <span>{{hands}}</span></span>
+					<span class="time">ultima mano: <span>{{timeFormat 'dddd [alle] HH:mm'}}</span></span>
+				</div>
+				<div class="right-aligned">
+					<div class="age">
+						{{points}} pt.
+					</div>
+				</div>
+			</a>
+		</div>
+	</li>
+</template>
+
+<template name="bisPokerWinners">
+	{{> navbarTop title="Vincitori" }}
+	{{> pokerTab selected="winners" }}
+	<div class="content container-fluid">
+		<div class="row">
+			<div class="col-xs-12">Non ci sono vincitori</div>
+		</div>
+	</div>
 </template>

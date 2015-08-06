@@ -488,6 +488,14 @@ username(font-size = 10px, margin-left = 10px, inline = true) {
 			}
 		}
 
+		&.coin {
+			&::before {
+				fa('\f155');
+				margin-left: .15em;
+				margin-right: .5em;
+			}
+		}
+
 		&.message {
 			ellipsis();
 			&::before {
@@ -504,6 +512,10 @@ username(font-size = 10px, margin-left = 10px, inline = true) {
 					fa('\f061');
 				}
 			}
+		}
+
+		& > span {
+			font-family: $font-semibold;
 		}
 	}
 }

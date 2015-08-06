@@ -266,11 +266,12 @@ img.emojione {
 	display: table;
 	padding: 0;
 	z-index: 4;
+	table-layout: fixed;
 
 	a, button {
 		undecorate();
 		border: 0;
-		width: 50%;
+		// width: 50%;
 		padding: 10px 0;
 		text-align: center;
 		color: $white;
@@ -278,7 +279,9 @@ img.emojione {
 		font-size: 14px;
 		background-color: $gray-bar;
 
-		&:nth-child(2) {
+		&:nth-child(2),
+		& + a,
+		& + button {
 			border-left: 1px solid $white;
 		}
 

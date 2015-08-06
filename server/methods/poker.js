@@ -28,7 +28,7 @@ Meteor.methods({
 			statusPlay: handResp.statusPlay,
 			bet: handObj.bet,
 			win: 0,
-			createdAt: new Date,
+			createdAt: Bisia.Time.now(),
 			status: 'running',
 		});
 
@@ -78,13 +78,19 @@ Meteor.methods({
 					winMessage: handResp.winMessage,
 					statusPlay: handResp.statusPlay,
 					win: point.win,
-					createdAt: new Date,
+					createdAt: Bisia.Time.now(),
 					status: 'finish'
 				}
 			});
-			console.log(point.win);
+
 			// increment total points in the week
-			Pokerplayers.update({ 'playerId': userId }, { '$inc': { 'points': point.win }});
+			Pokerplayers.update({
+				'playerId': userId
+			}, {
+				'$set': { 'createdAt': Bisia.Time.now() },
+				'$inc': { 'hands': 1, 'points': point.win }
+			});
+
 		} else {
 			throw new Meteor.Error("invalid-hand", "Id della giocata non presente");
 		}
@@ -95,17 +101,22 @@ Meteor.methods({
 	},
 	getRankingPosition: function(points) {
 		var rankings = {};
+		var counter = 1;
 		if (points > 0) {
 			var players = Pokerplayers.find({ 'points': { '$gt': points }}, { 'sort': { 'points': -1 } });
 			players.forEach(function(player) {
-				if (!rankings[player.points]) {
+				/*if (!rankings[player.points]) {
 					rankings[player.points] = 1;
 				} else {
 					rankings[player.points] ++;
+				}*/
+				if (!rankings[player.points]) {
+					rankings[player.points] = counter;
+					counter ++;
 				}
 			});
 			return _.keys(rankings).length + 1;
 		}
-		return '-';
+		return counter;
 	}
 });

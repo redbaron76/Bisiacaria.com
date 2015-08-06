@@ -24,3 +24,27 @@ Meteor.publish('pokerCurrentStatus', function() {
 	// Meteor._sleepForMs(2000);
 	return [user, hands, players];
 });
+
+Meteor.publish('pokerCurrentRanking', function(query, options) {
+	check(query, Object);
+	check(options, Object);
+
+	// Publish players
+	var players = Pokerplayers.find(query, options);
+
+	if (players.count() > 0) {
+		// map the authorIds
+		var userIds = players.map(function(doc) { return doc['playerId'] });
+		var authors = Users.find({ '_id': { '$in': userIds }});
+
+		// return cursors
+		return [players, authors];
+	}
+	// Meteor._sleepForMs(2000);
+	return players;
+});
+
+Meteor.publish('pokerLastWinners', function() {
+	var winners = Pokerwinners.find();
+	return winners;
+});

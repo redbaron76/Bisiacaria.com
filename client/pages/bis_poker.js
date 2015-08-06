@@ -1,3 +1,26 @@
+Template.pokerTab.helpers({
+	setSelected: function() {
+		var gameSelected, rankingSelected, winnersSelected;
+		switch (this.selected) {
+			case 'game':
+				gameSelected = 'selected';
+				break;
+			case 'ranking':
+				rankingSelected = 'selected';
+				break;
+			case 'winners':
+				winnersSelected = 'selected';
+				break;
+		}
+		return {
+			gameSelected: gameSelected,
+			rankingSelected: rankingSelected,
+			winnersSelected: winnersSelected
+		};
+	}
+});
+
+
 Template.bisPoker.onCreated(function() {
 	// Init
 	var instance = this;
@@ -146,5 +169,66 @@ Template.bisPoker.events({
 		} else {
 			alert('game not valid');
 		}
+	}
+});
+
+Template.bisPokerRanking.helpers({
+	generateRankings: function() {
+		var ranking = {};
+		var counter = 1;
+		_.each(this.items.fetch(), function(player) {
+			if (!ranking[player.points]) {
+				ranking[player.points] = counter;
+				counter ++;
+			}
+		});
+		this.ranking = ranking;
+		return this;
+	},
+	getPlayer: function(obj, ranking) {
+		var user = Users.findOne({ '_id': obj.playerId }, { 'fields': {
+			'username': 1,
+			'profile.city': 1,
+			'profile.gender': 1,
+			'profile.status': 1,
+			'profile.avatar': 1,
+			'profile.online': 1,
+			'profile.birthday': 1
+		}});
+
+		// add ranking to the first of ranking position
+		if (!user.ranking && ranking[this.points]) {
+			user.ranking = ranking[this.points];
+			delete ranking[this.points];
+		}
+
+		return _.extend(this, user);
+	},
+	detectFirstPage: function() {
+		var increment = Bisia.getController('increment');
+		var limit = Bisia.getController('params')['pageLimit'];
+		// Don't show spinner by default
+		var pageDisplay = true;
+		// If we are on the first page...
+		if (!limit || limit == increment) {
+			// pageDisplay becomes reactive
+			pageDisplay = this.pageReady;
+		}
+		// Add pageDisplay to this
+		return _.extend(this, {
+			pageDisplay: pageDisplay
+		});
+	}
+});
+
+Template.bisPokerRanking.events({
+	'scroll .content': function(e, t) {
+		Bisia.Ui.toggleAtBottom(e, '#helpbars', 'bottom-show');
+	}
+});
+
+Template.playerItem.helpers({
+	showRanking: function(rankings, points) {
+		return rankings[points];
 	}
 })
