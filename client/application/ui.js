@@ -350,7 +350,7 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 	manageTab: function(e, obj) {
 		e.preventDefault();
 		var $target = $(e.target);
-		$target.siblings('button').removeClass('selected');
+		$target.siblings('[data-change=tab]').removeClass('selected');
 		var tabObj = this.getTabObject(obj, $target.data('show'));
 		this.setReactive('tab', tabObj);
 		$target.addClass('selected');
@@ -765,9 +765,11 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 
 	waitStop: function() {
 		// re-set original html
-		if (this.clickedContent) this.$clicked.html(this.clickedContent);
+		if (this.clickedContent)
+			this.$clicked.html(this.clickedContent);
 		// remove spinner by default and apply original classes
-		this.$clickedIcon.removeClass().addClass(this.iconClasses);
+		if (this.iconClasses && this.$clickedIcon)
+			this.$clickedIcon.removeClass().addClass(this.iconClasses);
 		// bind click back again
 		this.$clicked.css('pointer-events', 'auto');
 		// reset content
