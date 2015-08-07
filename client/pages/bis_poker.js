@@ -113,7 +113,7 @@ Template.bisPoker.helpers({
 		var instance = Template.instance();
 		var dailyCredit = instance.dailyCredit;
 		var status = instance.statusPlay.get();
-		if (parseInt(credit) > dailyCredit && status != 'cambia') {
+		if (parseInt(credit) > dailyCredit) {
 			return 'disabled';
 		}
 	},
