@@ -20,12 +20,28 @@ Template.pokerTab.helpers({
 	}
 });
 
+Template.pokerCounters.onCreated(function() {
+	// Init
+	var instance = this;
+	// Ranking
+	instance.weekPosition = new ReactiveVar(null);
+});
+
+Template.pokerCounters.helpers({
+	weekPosition: function() {
+		var instance = Template.instance();
+		var weekTotal = Counts.get('weekTotal');
+		Meteor.call('getRankingPosition', weekTotal, function(e, weekPosition) {
+			instance.weekPosition.set(weekPosition);
+		});
+		return instance.weekPosition.get();
+	}
+})
+
 
 Template.bisPoker.onCreated(function() {
 	// Init
 	var instance = this;
-	// Totals
-	instance.weekPosition = new ReactiveVar(null);
 	// Cards
 	instance.card0value = new ReactiveVar(null);
 	instance.card0status = new ReactiveVar(false);
@@ -45,7 +61,6 @@ Template.bisPoker.onCreated(function() {
 
 	// populate initial data from controller
 	instance.populateInitialData = function(data) {
-		instance.weekPosition.set(data.weekPosition);
 		instance.card0value.set(data.deck[0]);
 		instance.card1value.set(data.deck[1]);
 		instance.card2value.set(data.deck[2]);
@@ -78,13 +93,6 @@ Template.bisPoker.onRendered(function() {
 			instance['$card' + i].val(instance['card' + i + 'value'].get());
 		}
 
-		// get week position
-		var weekTotal = Counts.get('weekTotal');
-		var weekPosition = Meteor.call('getRankingPosition', weekTotal, function(e, weekPosition) {
-			instance.weekPosition.set(weekPosition);
-		});
-
-
 	});
 
 	// Init data from controller (status of play)
@@ -98,7 +106,6 @@ Template.bisPoker.helpers({
 		var instance = Template.instance();
 		instance.dailyCredit = Counts.get('countDailyCredit');
 		return {
-			weekPosition: instance.weekPosition.get(),
 			card0: instance.card0value.get(),
 			card1: instance.card1value.get(),
 			card2: instance.card2value.get(),
@@ -175,18 +182,11 @@ Template.bisPoker.events({
 	}
 });
 
-Template.bisPokerRanking.onCreated(function() {
-	var instance = this;
-	instance.rankingToHide = {};
-})
-
-Template.playerItem.onCreated(function() {
+Template.playerItem.onRendered(function() {
 	var rankingInstance = this.parentTemplate();
-	if (!rankingInstance.rankingToHide[this.data.ranking]) {
-		rankingInstance.rankingToHide[this.data.ranking] = true;
-		return this;
+	if (rankingInstance.$('.ranking[data-value='+this.data.ranking+']').length > 1) {
+		rankingInstance.$('.ranking[data-value='+this.data.ranking+']').not().eq(1).hide();
 	}
-	this.data.ranking = null;
 	return this;
 });
 
@@ -245,9 +245,3 @@ Template.bisPokerRanking.events({
 		Bisia.Ui.toggleAtBottom(e, '#helpbars', 'bottom-show');
 	}
 });
-
-Template.playerItem.helpers({
-	showRanking: function(rankings, points) {
-		return rankings[points];
-	}
-})

@@ -10,6 +10,15 @@
 	</div>
 </template>
 
+<template name="pokerCounters">
+	<ul class="stats">
+		<li>credito: <span>{{getPublishedCount 'countDailyCredit'}}</span></li>
+		<li>oggi: <span>{{getPublishedCount 'todayTotal'}}</span></li>
+		<li>totale: <span>{{getPublishedCount 'weekTotal'}}</span></li>
+		<li>posizione: <span>{{weekPosition}}</span></li>
+	</ul>
+</template>
+
 <template name="bisPoker">
 	{{> navbarTop title="Bis-Poker" }}
 	{{> pokerTab selected="game" }}
@@ -18,12 +27,7 @@
 			<div id="poker">
 				<div class="row">
 					<div class="col-xs-12" id="deck">
-						<ul class="stats">
-							<li>credito: <span>{{getPublishedCount 'countDailyCredit'}}</span></li>
-							<li>oggi: <span>{{getPublishedCount 'todayTotal'}}</span></li>
-							<li>totale: <span>{{getPublishedCount 'weekTotal'}}</span></li>
-							<li>posizione: <span>{{weekPosition}}</span></li>
-						</ul>
+						{{> pokerCounters}}
 						<ul class="cards">
 							<li>
 								<div data-control="card0" data-value="{{card0}}" class="card">
@@ -146,9 +150,7 @@
 </template>
 
 <template name="playerItem">
-	{{#if ranking}}
-		<li class="ranking">{{ranking}}° posizione</li>
-	{{/if}}
+	<li class="ranking" data-value="{{ranking}}">{{ranking}}° posizione</li>
 	<li class="{{statusGender}}">
 		<div class="li-wrapper">
 			<a href="{{pathFor 'userProfile'}}">

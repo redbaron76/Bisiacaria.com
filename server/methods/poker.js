@@ -105,11 +105,6 @@ Meteor.methods({
 		if (points > 0) {
 			var players = Pokerplayers.find({ 'points': { '$gt': points }}, { 'sort': { 'points': -1 } });
 			players.forEach(function(player) {
-				/*if (!rankings[player.points]) {
-					rankings[player.points] = 1;
-				} else {
-					rankings[player.points] ++;
-				}*/
 				if (!rankings[player.points]) {
 					rankings[player.points] = counter;
 					counter ++;
