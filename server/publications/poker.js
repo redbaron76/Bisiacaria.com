@@ -12,7 +12,8 @@ Meteor.publish('pokerCurrentStatus', function() {
 
 	// Counters todayPoint totalPoint
 	// Counter position calcolata in actionChange Game ad ogni conclusione punto e salvata in Pokerplayers
-	Counts.publish(this, 'weekTotal', Pokerhands.find({ 'playerId': this.userId, 'createdAt': Bisia.Poker.weekGame() }), { countFromField: 'win', noReady: true });
+	// Counts.publish(this, 'weekTotal', Pokerhands.find({ 'playerId': this.userId, 'createdAt': Bisia.Poker.weekGame() }), { countFromField: 'win', noReady: true });
+	Counts.publish(this, 'weekTotal', Pokerplayers.find({ 'playerId': this.userId }), { countFromField: 'points', noReady: true });
 	Counts.publish(this, 'todayTotal', Pokerhands.find({ 'playerId': this.userId, 'createdAt': Bisia.Poker.dayGame() }), { countFromField: 'win', noReady: true });
 
 	// Publish the user

@@ -19,8 +19,7 @@ Meteor.methods({
 		handResp.statusMessage = 'Seleziona le carte da scartare';
 		handResp.statusPlay = 'cambia';
 
-		// insert new deck in Pokerhands
-		var handId = Pokerhands.insert({
+		var insertObj = {
 			playerId: userId,
 			playDeck: handResp.deck,
 			statusMessage: handResp.statusMessage,
@@ -30,11 +29,19 @@ Meteor.methods({
 			win: 0,
 			createdAt: Bisia.Time.now(),
 			status: 'running',
+		};
+
+		// insert new deck in Pokerhands
+		var handId = Pokerhands.insert(insertObj);
+
+		insertObj = _.extend(insertObj, {
+			handId: handId
 		});
+
+		Bisia.Log.info('poker first hand', insertObj)
 
 		// save handId
 		handResp.handId = handId;
-
 
 		return handResp;
 	},
@@ -67,20 +74,23 @@ Meteor.methods({
 
 		// update and close poker hand
 		if (handObj.handId) {
+
+			var updateObj = {
+				changeDeck: handResp.deck,
+				statusMessage: handResp.statusMessage,
+				winMessage: handResp.winMessage,
+				statusPlay: handResp.statusPlay,
+				win: point.win,
+				createdAt: Bisia.Time.now(),
+				status: 'finish'
+			};
+
 			// close hand
 			Pokerhands.update({
 				'_id': handObj.handId,
 				'playerId': userId
 			}, {
-				'$set': {
-					changeDeck: handResp.deck,
-					statusMessage: handResp.statusMessage,
-					winMessage: handResp.winMessage,
-					statusPlay: handResp.statusPlay,
-					win: point.win,
-					createdAt: Bisia.Time.now(),
-					status: 'finish'
-				}
+				'$set': updateObj
 			});
 
 			// increment total points in the week
@@ -91,15 +101,21 @@ Meteor.methods({
 				'$inc': { 'hands': 1, 'points': point.win }
 			});
 
+			updateObj = _.extend(updateObj, {
+				handId: handObj.handId,
+				playerId: userId
+			});
+
+			Bisia.Log.info('poker change hand', updateObj);
+
 		} else {
 			throw new Meteor.Error("invalid-hand", "Id della giocata non presente");
 		}
 
-		// Calcola posizione in base al punteggio
-
 		return handResp;
 	},
 	getRankingPosition: function(points) {
+		console.log(points);
 		var rankings = {};
 		var counter = 1;
 		if (points > 0) {
@@ -110,6 +126,7 @@ Meteor.methods({
 					counter ++;
 				}
 			});
+			console.log(rankings);
 			return _.keys(rankings).length + 1;
 		}
 		return counter;
