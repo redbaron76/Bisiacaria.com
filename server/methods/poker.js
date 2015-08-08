@@ -115,7 +115,6 @@ Meteor.methods({
 		return handResp;
 	},
 	getRankingPosition: function(points) {
-		console.log(points);
 		var rankings = {};
 		var counter = 1;
 		if (points > 0) {
@@ -126,7 +125,6 @@ Meteor.methods({
 					counter ++;
 				}
 			});
-			console.log(rankings);
 			return _.keys(rankings).length + 1;
 		}
 		return counter;
