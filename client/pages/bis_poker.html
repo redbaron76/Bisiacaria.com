@@ -190,7 +190,7 @@
 </template>
 
 <template name="winnerItem">
-	<h5>Settimana n° {{gameWeek}} dal {{timeFormat 'DD/MM' this.gameStart}} al {{timeFormat 'DD/MM YYYY' this.gameStop}}</h5>
+	<h5>Settimana n° {{gameWeek}} dal {{timeFormat 'DD/MM' 'gameStart'}} al {{timeFormat 'DD/MM YYYY' 'gameStop'}}</h5>
 	{{#each winners}}
 		{{#with getPlayer this}}
 			{{> winnerPlayer}}

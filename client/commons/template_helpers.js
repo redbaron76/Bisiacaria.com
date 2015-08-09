@@ -143,7 +143,7 @@ Template.registerHelper('timeAgo', function() {
 });
 
 Template.registerHelper('timeFormat', function() {
-	var date = arguments[1] || this.createdAt;
+	var date = this[arguments[1]] || this['createdAt'];
 	if (date) {
 		var format = arguments[0] || 'ddd DD MMMM YYYY HH:mm';
 		return moment(date).format(format);
