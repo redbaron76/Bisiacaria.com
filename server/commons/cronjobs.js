@@ -49,7 +49,7 @@ SyncedCron.add({
 	}
 });*/
 
-// recharge poker credits every day at 00:00:05
+// recharge poker credits every day at 00:00:05 except on Monday
 SyncedCron.add({
 	name: 'rechargePokerCredits',
 	schedule: function(parser) {
@@ -57,5 +57,17 @@ SyncedCron.add({
 	},
 	job: function() {
 		return Bisia.Poker.rechargeCredits();
+	}
+});
+
+// reset poker week
+SyncedCron.add({
+	name: 'resetPokerWeek',
+	schedule: function(parser) {
+		return parser.text('on Monday at 00:01 am');
+		// return parser.text('every 1 minutes');
+	},
+	job: function() {
+		return Bisia.Poker.resetPokerWeek();
 	}
 });

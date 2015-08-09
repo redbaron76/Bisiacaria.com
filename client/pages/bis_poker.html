@@ -126,6 +126,7 @@
 				{{#if pageDisplay}}
 					<div class="row">
 						<div class="col-xs-12 list-wrapper">
+							<h5>Settimana n° {{weekNumber}} da {{weekStart}} a {{weekStop}}</h5>
 							<ul class="item-list">
 								{{#with generateRankings}}
 									{{#each items}}
@@ -174,8 +175,45 @@
 	{{> navbarTop title="Vincitori" }}
 	{{> pokerTab selected="winners" }}
 	<div class="content container-fluid">
-		<div class="row">
-			<div class="col-xs-12">Non ci sono vincitori</div>
+		<div class="row list">
+			<div class="col-xs-12 list-wrapper">
+				<ul class="item-list">
+					{{#each items}}
+						{{> winnerItem}}
+					{{else}}
+						{{> emptyLi}}
+					{{/each}}
+				</ul>
+			</div>
 		</div>
 	</div>
+</template>
+
+<template name="winnerItem">
+	<h5>Settimana n° {{gameWeek}} dal {{timeFormat 'DD/MM' this.gameStart}} al {{timeFormat 'DD/MM YYYY' this.gameStop}}</h5>
+	{{#each winners}}
+		{{#with getPlayer this}}
+			{{> winnerPlayer}}
+		{{/with}}
+	{{/each}}
+</template>
+
+<template name="winnerPlayer">
+	<li class="ranking" data-value="{{ranking}}">{{position}}° posizione</li>
+	<li class="{{statusGender}}">
+		<div class="li-wrapper">
+			<a href="{{pathFor 'userProfile'}}">
+				{{> avatarImage data=this online=true}}
+				<div class="username">
+					{{username}}
+					<span class="number">mani giocate: <span>{{hands}}</span></span>
+				</div>
+				<div class="right-aligned">
+					<div class="age">
+						{{points}} pt.
+					</div>
+				</div>
+			</a>
+		</div>
+	</li>
 </template>

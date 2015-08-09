@@ -496,6 +496,14 @@ username(font-size = 10px, margin-left = 10px, inline = true) {
 			}
 		}
 
+		&.number {
+			&::before {
+				fa('\f01e');
+				margin-left: .15em;
+				margin-right: .5em;
+			}
+		}
+
 		&.message {
 			ellipsis();
 			&::before {

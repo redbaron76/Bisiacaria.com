@@ -143,9 +143,10 @@ Template.registerHelper('timeAgo', function() {
 });
 
 Template.registerHelper('timeFormat', function() {
-	if (this.createdAt) {
+	var date = arguments[1] || this.createdAt;
+	if (date) {
 		var format = arguments[0] || 'ddd DD MMMM YYYY HH:mm';
-		return moment(this.createdAt).format(format);
+		return moment(date).format(format);
 	}
 	return '--:--';
 });

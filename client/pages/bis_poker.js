@@ -237,6 +237,15 @@ Template.bisPokerRanking.helpers({
 		return _.extend(this, {
 			pageDisplay: pageDisplay
 		});
+	},
+	weekNumber: function() {
+		return moment().format('w');
+	},
+	weekStart: function() {
+		return Bisia.Poker.weekStart('dddd DD');
+	},
+	weekStop: function() {
+		return Bisia.Poker.weekStop('dddd DD MMMM YYYY');
 	}
 });
 
@@ -244,4 +253,19 @@ Template.bisPokerRanking.events({
 	'scroll .content': function(e, t) {
 		Bisia.Ui.toggleAtBottom(e, '#helpbars', 'bottom-show');
 	}
+});
+
+Template.winnerItem.helpers({
+	getPlayer: function(obj) {
+		var user = Users.findOne({ '_id': obj.winnerId }, { 'fields': {
+			'username': 1,
+			'profile.city': 1,
+			'profile.gender': 1,
+			'profile.status': 1,
+			'profile.avatar': 1,
+			'profile.online': 1,
+			'profile.birthday': 1
+		}});
+		return _.extend(this, user);
+	},
 });

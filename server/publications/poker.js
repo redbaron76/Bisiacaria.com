@@ -46,6 +46,20 @@ Meteor.publish('pokerCurrentRanking', function(query, options) {
 });
 
 Meteor.publish('pokerLastWinners', function() {
-	var winners = Pokerwinners.find();
+	// get current year
+	var year = parseInt(moment().format('YYYY'));
+	var winners = Pokerwinners.find({ 'gameYear': year });
+	if (winners.count() > 0) {
+		var userIds = [];
+		winners.forEach(function(winner) {
+			_.each(winner.winners, function(value, index) {
+				userIds.push(value['winnerId']);
+			});
+		});
+		var players = Users.find({ '_id': { '$in': userIds }});
+
+		return [winners, players];
+	}
+
 	return winners;
 });
