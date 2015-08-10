@@ -124,9 +124,9 @@
 		<div class="list" id="list">
 			{{#with detectFirstPage}}
 				{{#if pageDisplay}}
-					<div class="row">
+					<div class="row" id="poker-list">
 						<div class="col-xs-12 list-wrapper">
-							<h5>Settimana n° {{weekNumber}} da {{weekStart}} a {{weekStop}}</h5>
+							<h6>Settimana n° {{weekNumber}} da {{weekStart}} a {{weekStop}}</h6>
 							<ul class="item-list">
 								{{#with generateRankings}}
 									{{#each items}}
@@ -177,7 +177,7 @@
 	<div class="content container-fluid">
 		<div class="row list">
 			<div class="col-xs-12 list-wrapper">
-				<ul class="item-list">
+				<ul class="item-list" id="poker-list">
 					{{#each items}}
 						{{> winnerItem}}
 					{{else}}
@@ -190,7 +190,7 @@
 </template>
 
 <template name="winnerItem">
-	<h5>Settimana n° {{gameWeek}} dal {{timeFormat 'DD/MM' 'gameStart'}} al {{timeFormat 'DD/MM YYYY' 'gameStop'}}</h5>
+	<h6>Settimana n° {{gameWeek}} dal {{timeFormat 'DD/MM' 'gameStart'}} al {{timeFormat 'DD/MM YYYY' 'gameStop'}}</h6>
 	{{#each winners}}
 		{{#with getPlayer this}}
 			{{> winnerPlayer}}
