@@ -31,7 +31,8 @@ Template.sharePostModal.events({
 				Meteor.call('sharePost', this.post, shareArr, function(error, result) {
 					if(error) {
 						Bisia.log('sharePost', error);
-						Bisia.Ui.loadingRemove();
+						Bisia.Ui.loadingRemove()
+								.waitStop();
 						return false;
 					}
 
@@ -42,8 +43,8 @@ Template.sharePostModal.events({
 						Bisia.Form.cleanFormFields();
 						// Bisia.Ui.toggleModal(e);
 						Bisia.Ui.loadingRemove()
+								.waitStop()
 								.toggleModal(e, 'tab')
-								// .waitStop()
 								.submitSuccess('Hai inoltrato questo post a ' + arrLength + ' dei tuoi contatti.', 'Post inoltrato!', null, true);
 					}
 				});

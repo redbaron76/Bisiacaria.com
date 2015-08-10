@@ -14,7 +14,9 @@ Template.questionModal.events({
 
 		Meteor.call('saveQuestion', question, function(error, result) {
 			if (result) {
-				Bisia.Ui.loadingRemove().toggleModal(e);
+				Bisia.Ui.loadingRemove()
+						.waitStop()
+						.toggleModal(e);
 			}
 		});
 

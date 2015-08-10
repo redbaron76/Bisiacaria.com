@@ -64,17 +64,20 @@ Template.newPostTab.events({
 			Meteor.call('saveNewPost', formObject, function(error, result) {
 				if(error) {
 					Bisia.log('saveNewPost', error);
-					Bisia.Ui.loadingRemove();
+					Bisia.Ui.loadingRemove()
+							.waitStop();
 					return false;
 				}
 
-				if(result.errors)
+				if(result.errors) {
 					return Bisia.Ui.submitError(result.errors);
+				}
 
 				if (result) {
 					// record position to user.js
 					Bisia.User.recordLastPosition(formObject.position);
 					Bisia.Ui.loadingRemove()
+							.waitStop()
 							.toggleModal(e, 'tab')
 							.submitSuccess('Il tuo post è stato pubblicato correttamente.', 'Pubblicato!', null, true);
 				}
@@ -115,7 +118,8 @@ Template.newEventTab.events({
 			Meteor.call('saveNewEvent', formObject, function(error, result) {
 				if(error) {
 					Bisia.log('saveNewEvent', error);
-					Bisia.Ui.loadingRemove();
+					Bisia.Ui.loadingRemove()
+							.waitStop();
 					return false;
 				}
 

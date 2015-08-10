@@ -32,7 +32,8 @@ Template.registerUser.events({
 			Meteor.call('registerUser', formObject, function(error, result) {
 				if(error) {
 					Bisia.log(error);
-					Bisia.Ui.loadingRemove();
+					Bisia.Ui.loadingRemove()
+							.waitStop();
 					return false;
 				}
 

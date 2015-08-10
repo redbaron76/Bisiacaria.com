@@ -45,12 +45,14 @@ Template.evaluateUserModal.events({
 			Meteor.call('evaluateUser', username, targetId, formObject, function(error, success) {
 				if(error) {
 					Bisia.log('saveNewPost', error);
-					Bisia.Ui.loadingRemove();
+					Bisia.Ui.loadingRemove()
+							.waitStop();
 					return false;
 				}
 
 				if (success) {
 					Bisia.Ui.loadingRemove()
+							.waitStop()
 							.toggleModal(e, 'evaluateUserModal')
 							.submitSuccess('La tua valutazione è stata registrata correttamente.', 'Registrato!', null, true);
 				}

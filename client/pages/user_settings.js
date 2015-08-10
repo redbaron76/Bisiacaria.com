@@ -101,14 +101,16 @@ Template.userSettings.events({
 			Meteor.call('saveProfileData', formObject, username, function(error, result) {
 				if(error) {
 					Bisia.log('saveProfileData', error);
-					Bisia.Ui.loadingRemove();
+					Bisia.Ui.loadingRemove()
+							.waitStop();
 					return false;
 				}
 
 				if(result.errors)
 					return Bisia.Ui.submitError(result.errors);
 
-				Bisia.Ui.loadingRemove();
+				Bisia.Ui.loadingRemove()
+						.waitStop();
 				return result;
 			});
 		}
@@ -123,14 +125,16 @@ Template.userSettings.events({
 			Meteor.call('saveAccountData', formObject, function(error, result) {
 				if(error) {
 					Bisia.log('saveAccountData', error);
-					Bisia.Ui.loadingRemove();
+					Bisia.Ui.loadingRemove()
+							.waitStop();
 					return false;
 				}
 
 				if(result.errors)
 					return Bisia.Ui.submitError(result.errors);
 
-				Bisia.Ui.loadingRemove();
+				Bisia.Ui.loadingRemove()
+						.waitStop();
 				return result;
 			});
 		}

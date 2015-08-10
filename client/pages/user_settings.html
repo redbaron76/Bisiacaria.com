@@ -59,7 +59,7 @@
 								</div>
 							</div>
 						</div>
-						<button type="submit" data-animation="loading" class="yellow">Modifica</button>
+						<button type="submit" data-icon="prepend" class="yellow">Modifica</button>
 					</form>
 					{{#unless withFacebook}}
 					<form id="account-form" class="form-row">
@@ -76,7 +76,7 @@
 							<i class="fa fa-lock"></i>
 							<input type="password" id="passwordConfirmed" placeholder="Conferma password">
 						</div>
-						<button type="submit" data-animation="loading" class="yellow">Modifica</button>
+						<button type="submit" data-icon="prepend" class="yellow">Modifica</button>
 						<p>Il nuovo indirizzo e-mail, per diventare attivo, deve essere verificato attraverso il link presente nella mail che invieremo automaticamente.</p>
 						<p>Il cambio e-mail e il cambio password comportano un immediato logout dal sistema.</p>
 					</form>
@@ -138,7 +138,7 @@
 								<div class="li-wrapper">
 									<label>La newsletter di Bisiacaria.com</label>
 									<div class="checkbox">
-										<button data-animation="loading" id="newsletter-signup">Iscriviti</button>
+										<button data-icon="prepend" id="newsletter-signup">Iscriviti</button>
 									</div>
 								</div>
 								<small>Potrai disiscriverti nella newsletter ricevuta.</small>
@@ -156,7 +156,7 @@
 							<span>tipo di account: {{getAccount}}</span>
 						</div>
 						<p>La lista di utenti che hai bloccato e che non sono più in grado di comunicare con te.</p>
-						<button type="submit" class="yellow" id="blockedusers">
+						<button type="button" class="yellow" id="blockedusers">
 							Utenti bloccati
 							{{#if countBlocked}}
 								({{countBlocked}})
@@ -166,7 +166,7 @@
 							<span>cancellazione profilo</span>
 						</div>
 						<p>Il tuo profilo verrà eliminato definitivamente da Bisiacaria.com entro 24 ore e non sarà più recuperabile.</p>
-						<button type="submit" class="red" id="deleteaccount">
+						<button type="button" class="red" id="deleteaccount">
 							Elimina account
 						</button>
 					</form>

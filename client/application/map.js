@@ -294,6 +294,7 @@ Bisia.Map = {
 			Meteor.call('saveFlyPosition', position, function (error, result) {
 				if (result) {
 					Bisia.Ui.unsetReactive('map');
+					Bisia.Ui.unsetReactive('info');
 					Meteor.setTimeout(function() {
 						// record position to user.js
 						Bisia.User.recordLastPosition(position);

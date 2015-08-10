@@ -90,6 +90,7 @@ Template.replyForm.events({
 		var $textarea = $(e.target).find('#message-reply');
 		if(Bisia.Message.sendMessage($textarea.val(), chatId)) {
 			$textarea.val('').css({'height': 'auto'});
+			Bisia.Ui.waitStop();
 		}
 	},
 	'click #delete-message': function(e, t) {

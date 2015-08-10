@@ -14,7 +14,9 @@ Template.loveHateModal.events({
 
 		Meteor.call('saveLoveHate', lovehate, function(error, result) {
 			if (result) {
-				Bisia.Ui.loadingRemove().toggleModal(e);
+				Bisia.Ui.loadingRemove()
+						.waitStop()
+						.toggleModal(e);
 			}
 		});
 

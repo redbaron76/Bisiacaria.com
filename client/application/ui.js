@@ -391,7 +391,7 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 	},
 
 	/**
-	 * Open reactive popup on success submission
+	 * Open reactive popup on error submission
 	 * @param  {String} message
 	 * @return {Bool}
 	 */
@@ -447,7 +447,8 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 	submitReactive: function(itemObj, title, infoClass) {
 		Bisia.Validation.updateItemList(itemObj)
 						.openInfoList(title, infoClass)
-						.loadingRemove();
+						.loadingRemove()
+						.waitStop();
 		return this;
 	},
 
@@ -714,10 +715,12 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 			Bisia.Ui.setReactive('img', url);
 	},
 
-
-
-
-
+	/**
+	 * Start loading and disable double clicks
+	 * @param  {[type]} e      [description]
+	 * @param  {[type]} action [description]
+	 * @return {[type]}        [description]
+	 */
 	waitStart: function(e, action) {
 		e.preventDefault();
 		var actionToDo = action || 'replace';
@@ -727,7 +730,12 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 			// stop other process
 			this.waitStop();
 		}
+		// the clicked object
 		this.$clicked = $(e.currentTarget);
+		// get actionToDo if in attribute data-icon
+		if (this.$clicked.attr('data-icon')) {
+			actionToDo = this.$clicked.attr('data-icon');
+		}
 		// save clicked content in memory
 		this.clickedContent = this.$clicked.html();
 		// unbind click event
@@ -760,18 +768,35 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 					this.$clicked.html($spinner);
 			}
 		}
+
+		// check if parent is a form
+		if (this.$clicked.parents().is('form')) {
+			var $form = this.$clicked.parents('form');
+			$form.submit();
+		}
+
 		return this;
 	},
 
+	/**
+	 * Stops loading procedure
+	 * @return {[type]} [description]
+	 */
 	waitStop: function() {
 		// re-set original html
 		if (this.clickedContent)
 			this.$clicked.html(this.clickedContent);
 		// remove spinner by default and apply original classes
-		if (this.iconClasses && this.$clickedIcon)
+		if (this.iconClasses && this.$clickedIcon) {
 			this.$clickedIcon.removeClass().addClass(this.iconClasses);
+		} else {
+			// remove contained spinner
+			if (this.$clicked)
+				this.$clicked.find('.fa-spin').remove();
+		}
 		// bind click back again
-		this.$clicked.css('pointer-events', 'auto');
+		if (this.$clicked)
+			this.$clicked.css('pointer-events', 'auto');
 		// reset content
 		this.clickedContent = null;
 		// set back to null

@@ -114,7 +114,8 @@ Template.infoEdit.events({
 			Meteor.call('saveEditText', formObject, function(error, result) {
 				if (error) {
 					Bisia.log('saveEditText', error);
-					Bisia.Ui.loadingRemove();
+					Bisia.Ui.loadingRemove()
+							.waitStop();
 					return false;
 				}
 
@@ -123,6 +124,7 @@ Template.infoEdit.events({
 
 				if (result) {
 					Bisia.Ui.loadingRemove()
+							.waitStop()
 							.submitSuccess('Il testo è stato modificato correttamente.', 'Modificato!', null, true);
 				}
 			});

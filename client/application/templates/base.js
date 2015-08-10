@@ -19,6 +19,9 @@ Template.base.events({
 	'click [data-animation=loading]': function(e, t) {
 		Bisia.Ui.loadingAdd(e);
 	},
+	'click [type=submit]': function(e, t) {
+		Bisia.Ui.waitStart(e);
+	},
 	'click [data-action=close]': function(e, t) {
 		Bisia.Ui.toggleSidebar();
 	},
