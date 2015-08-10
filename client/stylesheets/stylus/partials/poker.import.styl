@@ -55,7 +55,7 @@
 				div.card {
 					position: relative;
 					transform-style: preserve-3d;
-					transition: transform .2s;
+					// transition: transform .2s;
 
 					img {
 						cursor: pointer;
@@ -64,17 +64,23 @@
 						padding-right: 5%;
 						display: block;
 						backface-visibility: hidden;
+						transition: transform .2s;
 
 						&:nth-child(2) {
-							absolute: top 0 left 0;
+							// absolute: top 0 left 0;
 						}
 					}
 
-					.front { transform: rotateY( 180deg ); }
-					.back {	 }
+					.front {
+						absolute: top 0 left 0;
+						transform: rotateY( 180deg );
+					}
+					.back {	transform: rotateY( 0deg ); }
 
 					&.open {
-						transform: rotateY( 180deg );
+						// transform: rotateY( 180deg );
+						.front { transform: rotateY( 0deg ); }
+						.back {	transform: rotateY( -180deg ); }
 					}
 				}
 			}
