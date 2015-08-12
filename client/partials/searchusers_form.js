@@ -21,6 +21,7 @@ Template.searchUsersForm.events({
 		var $target = $(e.target);
 		var controller = Router.current();
 		var searchObject = Bisia.Form.getFields($target);
+		Bisia.Ui.waitStop();
 		return controller.state.set('searchObject', searchObject);
 	}
 });
