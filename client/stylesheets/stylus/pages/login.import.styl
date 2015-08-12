@@ -1,4 +1,14 @@
 #login {
+	position: relative;
+	height: inherit;
+	z-index: 2;
+	background-color: $gray-bg;
+
+	transition: transform .15s;
+
+	&.open-help {
+		transform: translateX(-100%);
+	}
 
 	.logo {
 		height: 189px;
@@ -9,6 +19,21 @@
 			width: 100px;
 			display: block;
 			margin: 18px auto 0 auto;
+		}
+
+		#login-help {
+			absolute: top 15px right 15px;
+			background-color: rgba(42, 45, 54, .7);
+			padding: 8px 5px 6px 5px;
+			color: $bisia;
+			border: none;
+			border-radius: 3px;
+			text-transform: uppercase;
+			font-family: $font-semibold;
+			font-size: .5em;
+			vertical-align: middle;
+			text-align: center;
+			width: 55px;
 		}
 
 		.counter {
@@ -114,15 +139,19 @@
 	}
 }	// /LOGIN
 
-#slideshow{
-	height: inherit;
-	overflow: hidden;
-	padding: 0;
-	color: $white-text;
+#slideshow {
+    background-color: $gray-bg;
+    font-size: 12px;
+    color: $white-text;
+
+    .close {
+    	absolute: top 10px right 10px;
+    	color: $white-text;
+    }
 
 	.slideshow {
-		box-shadow: inset 10px 0px 22px 0px rgba(0,0,0,0.75);
-		padding: 25px;
+
+		padding: 25px 20px;
 
 		h1, h2, h3, h4, h5, h6 {
 			margin: 0;
@@ -134,13 +163,10 @@
 		h2 {
 			font-family: $font-book-italic;
 			font-size: 19px;
-			small {
-				margin-left: 25px;
-			}
 		}
 		h3 {
-			margin: 20px 0 20px 0;
-			font-size: 19px;
+			margin: 20px 0;
+			font-size: 15px;
 		}
 
 		h4 {
@@ -176,4 +202,68 @@
 			}
 		}
 	}
+}
+
+// till 767px
+@media (max-width: $screen-sm-min - 1) {
+	#slideshow {
+		fixed: top 0 right 0;
+		// width: 90%;
+		height: 100%;
+		overflow-y: auto;
+	}
+}
+
+// min-width: 768px
+@media (min-width: $screen-sm-min) {
+
+	#login {
+		transform: translateX(0) !important;
+		box-shadow: 10px -12px 22px 0px rgba(0,0,0,0.75);
+
+		#login-help {
+			display: none;
+		}
+
+		.form {
+			padding: 0 10%;
+		}
+	}
+
+	#slideshow {
+		.close {
+			display: none;
+		}
+	}
+}
+
+// min-width: 992px
+@media (min-width: $screen-md-min) {
+	#slideshow {
+		.slideshow {
+
+			p, ul {
+				font-size: 1.2em;
+			}
+
+		}
+	}
+}
+
+// min-width: 1280px
+@media (min-width: $screen-lg-min) {
+	#slideshow {
+		.slideshow {
+
+			p, ul, h3 {
+				font-size: 1.4em;
+			}
+
+		}
+	}
+}
+
+// min-width: 1281px and more
+@media (min-width: $screen-infinite) {
+
 }

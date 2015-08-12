@@ -2,6 +2,10 @@
  * Template Events
  */
 Template.loginUser.events({
+	'click #login-help': function(e, t) {
+		e.preventDefault();
+		$('#login').toggleClass('open-help');
+	},
 	'click .fb-like': function(e, t) {
 		e.preventDefault();
 		console.log(e.currentTarget);
@@ -77,5 +81,12 @@ Template.loginUser.helpers({
 			});
 		}, 1000);
 		return this;
+	}
+});
+
+Template.loginSlideShow.events({
+	'click .close': function(e, t) {
+		e.preventDefault();
+		$('#login').toggleClass('open-help');
 	}
 });

@@ -15,4 +15,4 @@ Template.cookieAdvice.events({
 		e.preventDefault();
 		$('#cookie-advice').slideUp('fast');
 	}
-})
+});

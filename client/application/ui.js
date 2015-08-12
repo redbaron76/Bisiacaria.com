@@ -672,7 +672,10 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 		self.$ultools = $('.tools-open');
 		self.$prolinks = $('.links-open');
 
-		if (! this.sidebarLock) {
+		if (! this.sidebarLock || ! className) {
+
+			this.sidebarLock = true;
+
 			if (className) {
 				if (self.$wrapper.is('.sidebar-open-left, .sidebar-open-right')) {
 					self.$wrapper.removeClass('sidebar-open-left sidebar-open-right');
@@ -692,15 +695,22 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 				if (closing)
 					self.$wrapper.addClass(closing);
 			}
+
+			if (self.$ultools.length > 0) {
+				self.$ultools.removeClass('tools-open');
+			}
+
+			if (self.$prolinks.length > 0) {
+				self.$prolinks.removeClass('links-open');
+			}
+
+			self.$wrapper.find('.body-wrapper').one('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', function(event) {
+				if (event.originalEvent.propertyName == 'opacity') {
+					self.sidebarLock = false;
+				}
+			});
 		}
 
-		if (self.$ultools.length > 0) {
-			self.$ultools.removeClass('tools-open');
-		}
-
-		if (self.$prolinks.length > 0) {
-			self.$prolinks.removeClass('links-open');
-		}
 		return this;
 	},
 
