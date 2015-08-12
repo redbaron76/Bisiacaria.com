@@ -73,7 +73,6 @@ Template.bisPoker.onCreated(function() {
 			Bisia.Poker.handId = data.handId;
 			Bisia.Poker.currentHandBet = data.bet;
 			Bisia.Poker.firstHand = data.firstHand;
-			$('#play').removeAttr('disabled');
 			$('#value'+ data.bet).prop('checked', true);
 			Bisia.Poker.buildChangeDeck(data.deck, instance);
 		}
@@ -129,6 +128,11 @@ Template.bisPoker.helpers({
 		var status = instance.statusPlay.get();
 		var credit = instance.dailyCredit
 		return credit == 0 && status == 'apri';
+	},
+	isDisabled: function() {
+		var instance = Template.instance();
+		var status = instance.statusPlay.get();
+		if (status == 'apri') return 'disabled';
 	}
 });
 
@@ -188,6 +192,12 @@ Template.playerItem.onRendered(function() {
 		rankingInstance.$('.ranking[data-value='+this.data.ranking+']').not().eq(1).hide();
 	}
 	return this;
+});
+
+Template.playerItem.events({
+	'click [data-view=hands]': function(e, t) {
+		Bisia.Ui.toggleModal(e, 'playerHandsModal', this);
+	}
 });
 
 Template.bisPokerRanking.helpers({
@@ -268,4 +278,53 @@ Template.winnerItem.helpers({
 		}});
 		return _.extend(this, user);
 	},
+});
+
+Template.playerHandsModal.onCreated(function() {
+	var instance = this;
+	// run paginator
+	Bisia.Paginator.init(instance, {
+		subsTo: 'playerHands',
+		collection: 'pokerhands',
+		query: {
+			'playerId': '_id',
+			'status': 'finish'
+		}
+	});
+});
+
+Template.playerHandsModal.helpers({
+	getTitle: function() {
+		return {
+			title: "Le mani di " + this.username
+		}
+	},
+	formatDeck: function() {
+		return {
+			createdAt: this.createdAt,
+			bet: this.bet,
+			win: this.win,
+			winning: this.winMessage.replace('Hai', 'Ha').replace('hai', 'ha'),
+			card0: this.changeDeck[0],
+			card1: this.changeDeck[1],
+			card2: this.changeDeck[2],
+			card3: this.changeDeck[3],
+			card4: this.changeDeck[4]
+		};
+	},
+	playerHands: function() {
+		return Template.instance().getData();
+	},
+	hasMoreData: function() {
+		return Template.instance().hasMoreData.get();
+	},
+	pageReady: function() {
+		return Template.instance().ready.get();
+	}
+});
+
+Template.playerHandsModal.events({
+	'scroll .content': function(e, t) {
+		Bisia.Paginator.triggerBottom(e);
+	}
 });

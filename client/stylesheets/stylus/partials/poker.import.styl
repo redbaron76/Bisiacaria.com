@@ -12,7 +12,7 @@
 		}
 	}
 
-	#deck {
+	.deck {
 		background-color: $white;
 		border-top: 1px solid $white-border;
 		border-bottom: 1px solid $white-border;
@@ -72,10 +72,15 @@
 					}
 
 					.front {
-						absolute: top 0 left 0;
 						transform: rotateY( 180deg );
 					}
-					.back {	transform: rotateY( 0deg ); }
+					.back {
+						transform: rotateY( 0deg );
+
+						& + .front {
+							absolute: top 0 left 0;
+						}
+					}
 
 					&.open {
 						// transform: rotateY( 180deg );

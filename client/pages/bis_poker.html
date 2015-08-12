@@ -26,7 +26,7 @@
 		<div class="content container-fluid">
 			<div id="poker">
 				<div class="row">
-					<div class="col-xs-12" id="deck">
+					<div class="col-xs-12 deck" id="deck">
 						{{> pokerCounters}}
 						<ul class="cards">
 							<li>
@@ -37,25 +37,25 @@
 							</li>
 							<li>
 								<div data-control="card1" data-value="{{card1}}" class="card">
-									<img src="img/poker/back.jpg" class="back">
+									<img src="{{imgPath 'img/poker/'}}back.jpg" class="back">
 									{{> cardItem card=card1 }}
 								</div>
 							</li>
 							<li>
 								<div data-control="card2" data-value="{{card2}}" class="card">
-									<img src="img/poker/back.jpg" class="back">
+									<img src="{{imgPath 'img/poker/'}}back.jpg" class="back">
 									{{> cardItem card=card2 }}
 								</div>
 							</li>
 							<li>
 								<div data-control="card3" data-value="{{card3}}" class="card">
-									<img src="img/poker/back.jpg" class="back">
+									<img src="{{imgPath 'img/poker/'}}back.jpg" class="back">
 									{{> cardItem card=card3 }}
 								</div>
 							</li>
 							<li>
 								<div data-control="card4" data-value="{{card4}}" class="card">
-									<img src="img/poker/back.jpg" class="back">
+									<img src="{{imgPath 'img/poker/'}}back.jpg" class="back">
 									{{> cardItem card=card4 }}
 								</div>
 							</li>
@@ -91,7 +91,7 @@
 									<label for="value100" data-value="100"></label>
 								</li>
 								<li>
-									<input type="submit" id="play" value="{{statusPlay}}" disabled>
+									<input type="submit" id="play" value="{{statusPlay}}" {{isDisabled}}>
 								</li>
 							</ul>
 							<div id="inputs">
@@ -113,7 +113,7 @@
 
 <template name="cardItem">
 	{{#if card}}
-	<img src="img/poker/{{card}}.jpg" class="front">
+	<img src="{{imgPath 'img/poker/'}}{{card}}.jpg" class="front">
 	{{/if}}
 </template>
 
@@ -154,7 +154,7 @@
 	<li class="ranking" data-value="{{ranking}}">{{ranking}}° posizione</li>
 	<li class="{{statusGender}}">
 		<div class="li-wrapper">
-			<a href="{{pathFor 'userProfile'}}">
+			<a href="#" id="player-{{_id}}" data-view="hands">
 				{{> avatarImage data=this online=true}}
 				<div class="username">
 					{{username}}
@@ -216,4 +216,66 @@
 			</a>
 		</div>
 	</li>
+</template>
+
+<template name="playerHandsModal">
+	<div class="md-modal bottom" data-content="player-{{playerId}}">
+		{{#with getTitle}}
+			{{> navbarModal title=title }}
+		{{/with}}
+		<div class="content container-fluid">
+			{{#if pageReady}}
+			<div id="poker">
+				{{#each playerHands}}
+					{{#with formatDeck this}}
+						{{> playerHand}}
+					{{/with}}
+				{{/each}}
+			</div>
+			{{else}}
+				{{> loading}}
+			{{/if}}
+		</div>
+	</div>
+</template>
+
+<template name="playerHand">
+	<div class="row">
+		<div class="col-xs-12 deck">
+			<ul class="stats">
+				<li>{{timeFormat 'dddd DD [alle] HH:mm'}}</li>
+				<li>&nbsp;</li>
+				<li>puntato: <span>{{bet}}</span></li>
+				<li>vinto: <span>{{win}}</span></li>
+			</ul>
+			<ul class="cards">
+				<li>
+					<div class="card open">
+						<img src="{{imgPath 'img/poker/'}}{{card0}}.jpg" class="front">
+					</div>
+				</li>
+				<li>
+					<div class="card open">
+						<img src="{{imgPath 'img/poker/'}}{{card1}}.jpg" class="front">
+					</div>
+				</li>
+				<li>
+					<div class="card open">
+						<img src="{{imgPath 'img/poker/'}}{{card2}}.jpg" class="front">
+					</div>
+				</li>
+				<li>
+					<div class="card open">
+						<img src="{{imgPath 'img/poker/'}}{{card3}}.jpg" class="front">
+					</div>
+				</li>
+				<li>
+					<div class="card open">
+						<img src="{{imgPath 'img/poker/'}}{{card4}}.jpg" class="front">
+					</div>
+				</li>
+			</ul>
+			<h5>{{{winning}}}</h5>
+		</div>
+	</div>
 </template>

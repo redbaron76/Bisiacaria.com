@@ -103,6 +103,10 @@ Template.registerHelper('totOnlineUsers', function() {
 
 // HELPERS
 
+Template.registerHelper('imgPath', function(path) {
+	return Meteor.absoluteUrl(path);
+});
+
 Template.registerHelper('lowercase', function(text) {
 	return text.toLowerCase();
 });

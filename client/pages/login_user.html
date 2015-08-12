@@ -1,72 +1,109 @@
 <template name="loginUser">
 	<div class="content container-fluid">
-		<div id="login">
-			{{> cookieAdvice}}
-			<div class="row">
-				<div class="col-xs-12 logo">
-					<div class="counter signed">
-						{{getPublishedCount 'totUsers'}}
-						<span>iscritti</span>
+		<div class="row">
+			<!-- <div class="col-xs-12 col-sm-7" id="login"> -->
+			<div class="col-xs-12" id="login">
+				{{> cookieAdvice}}
+				<div class="row">
+					<div class="col-xs-12 logo">
+						<div class="counter signed">
+							{{getPublishedCount 'totUsers'}}
+							<span>iscritti</span>
+						</div>
+						<div class="counter online">
+							{{getPublishedCount 'totOnline'}}
+							<span>on-line</span>
+						</div>
+						<img src="/img/logo_bisia.svg" alt="Bisiacaria.com" id="logo-bisia">
+						<h1>Login</h1>
+						<div class="caret-down"></div>
 					</div>
-					<div class="counter online">
-						{{getPublishedCount 'totOnline'}}
-						<span>on-line</span>
-					</div>
-					<img src="/img/logo_bisia.svg" alt="Bisiacaria.com" id="logo-bisia">
-					<h1>Login</h1>
-					<div class="caret-down"></div>
 				</div>
-			</div>
-			{{#if fbReady}}
-			<div class="row">
-				<div class="col-xs-12 social">
-				{{#if sitePreview}}
-					<div id="fb-root"></div>
-					<script>(function(d, s, id) {
-					  var js, fjs = d.getElementsByTagName(s)[0];
-					  if (d.getElementById(id)) return;
-					  js = d.createElement(s); js.id = id;
-					  js.src = "//connect.facebook.net/it_IT/sdk.js#xfbml=1&version=v2.4&appId=315109065290362";
-					  fjs.parentNode.insertBefore(js, fjs);
-					}(document, 'script', 'facebook-jssdk'));</script>
+				{{#if fbReady}}
+				<div class="row">
+					<div class="col-xs-12 social">
+					{{#if sitePreview}}
+						<div id="fb-root"></div>
+						<script>(function(d, s, id) {
+						  var js, fjs = d.getElementsByTagName(s)[0];
+						  if (d.getElementById(id)) return;
+						  js = d.createElement(s); js.id = id;
+						  js.src = "//connect.facebook.net/it_IT/sdk.js#xfbml=1&version=v2.4&appId=315109065290362";
+						  fjs.parentNode.insertBefore(js, fjs);
+						}(document, 'script', 'facebook-jssdk'));</script>
 
-					<a href="#" id="login-fb" class="visible-xs-block">Clicca <span class="fb-like" data-href="https://www.facebook.com/wwwbisiacariacom" data-layout="button" data-action="like" data-show-faces="false" data-share="false"></span> e usa <i class="fa fa-facebook-square fa-2x"></i></a>
-					<a href="#" id="login-fb" class="hidden-xs">Clicca <span class="fb-like" data-href="https://www.facebook.com/wwwbisiacariacom" data-layout="button" data-action="like" data-show-faces="false" data-share="false"></span> ed entra con <i class="fa fa-facebook-square fa-2x"></i></a>
-				{{else}}
-					<a href="#" id="login-fb">Clicca ed entra con <i class="fa fa-facebook-square fa-2x"></i></a>
+						<a href="#" id="login-fb" class="visible-xs-block">Clicca <span class="fb-like" data-href="https://www.facebook.com/wwwbisiacariacom" data-layout="button" data-action="like" data-show-faces="false" data-share="false"></span> e usa <i class="fa fa-facebook-square fa-2x"></i></a>
+						<a href="#" id="login-fb" class="hidden-xs">Clicca <span class="fb-like" data-href="https://www.facebook.com/wwwbisiacariacom" data-layout="button" data-action="like" data-show-faces="false" data-share="false"></span> ed entra con <i class="fa fa-facebook-square fa-2x"></i></a>
+					{{else}}
+						<a href="#" id="login-fb">Clicca ed entra con <i class="fa fa-facebook-square fa-2x"></i></a>
+					{{/if}}
+					</div>
+				</div>
 				{{/if}}
-				</div>
-			</div>
-			{{/if}}
 
-			<div class="row">
-				<div class="col-xs-12 form">
-					<div class="divider white-bg"><span>oppure usa il tuo account</span></div>
-					<form id="login-form" role="form" class="form-row">
-						<div class="form-group">
-							<i class="fa fa-envelope"></i>
-							<input type="email" id="email" placeholder="Indirizzo e-mail">
-						</div>
-						<div class="form-group">
-							<i class="fa fa-lock"></i>
-							<input type="password" id="password" placeholder="Password">
-						</div>
-						<button type="submit" data-icon="prepend" class="yellow">Entra</button>
-						<p>Hai dimenticato la password ? <a href="#" id="recover-password-modal">Clicca qui</a></p>
-					</form>
+				<div class="row">
+					<div class="col-xs-12 form">
+						<div class="divider white-bg"><span>oppure usa il tuo account</span></div>
+						<form id="login-form" role="form" class="form-row">
+							<div class="form-group">
+								<i class="fa fa-envelope"></i>
+								<input type="email" id="email" placeholder="Indirizzo e-mail">
+							</div>
+							<div class="form-group">
+								<i class="fa fa-lock"></i>
+								<input type="password" id="password" placeholder="Password">
+							</div>
+							<button type="submit" data-icon="prepend" class="yellow">Entra</button>
+							<p>Hai dimenticato la password ? <a href="#" id="recover-password-modal">Clicca qui</a></p>
+						</form>
+					</div>
 				</div>
-			</div>
-			<!-- {{#unless sitePreview}} -->
-			<div class="row">
-				<div class="col-xs-12 register">
-					<a href="{{pathFor 'registerUser'}}">Non sei in <span>Bisia</span>? Iscriviti <span>ora</span>!</a>
+				<!-- {{#unless sitePreview}} -->
+				<div class="row">
+					<div class="col-xs-12 register">
+						<a href="{{pathFor 'registerUser'}}">Non sei in <span>Bisia</span>? Iscriviti <span>ora</span>!</a>
+					</div>
 				</div>
+				<!-- {{/unless}} -->
 			</div>
-			<!-- {{/unless}} -->
+			<!-- {{> loginSlideShow}} -->
 		</div>
 	</div>
 </template>
 
 <template name="loginUser1">
 	{{> loading}}
+</template>
+
+<template name="loginSlideShow">
+	<div class="col-md-5 hidden-xs" id="slideshow">
+		<div class="slideshow">
+			<h1>Bisiacaria.com</h1>
+			<h2>El social dei bisiachi <small>dal 2002</small></h2>
+			<p>Iscrivendoti a questa nuova versione potrai:</p>
+			<ul>
+				<li>creare e personalizzare il tuo profilo</li>
+				<li>interagire con tutti gli utenti online</li>
+				<li>scambiare con loro messaggi privati</li>
+				<li>visitare, votare e valutare il loro profilo</li>
+				<li>segnalare la tua posizione sulla mappa</li>
+				<li>vedere chi si trova nelle tue vicinanze</li>
+				<li>giocare quotidianamente al Bis-Poker</li>
+			</ul>
+			<p>e molto altro ancora...</p>
+			<h4>Per accedere, devi fare una nuova registrazione!</h4>
+			<p>Il vecchio login che usavi nel precedente Bisia <u>non è più valido.</u></p>
+			<ul>
+				<li>Accedi immediatamente <strong>cliccando la <i class="fa fa-facebook"></i></strong> e usando il tuo account Facebook</li>
+				<li>oppure, se lo preferisci, copila il form di registrazione per <a href="">creare il tuo account</a>.</li>
+			</ul>
+			<h4>Se hai bisogno di aiuto...</h4>
+			<ul>
+				<li>segnalaci ogni problema tecnico nell' <a href="">HelpDesk di Bisiacaria.com</a> su Facebook</li>
+				<li>visita la nostra <a href="">Pagina Facebook</a> per le ultime novità su Bisiacaria.com</li>
+				<li>Segui <a href="">@BisiacariaCom</a> su Twitter utilizzando l'hashtag <strong>#bisia</strong></li>
+				<li>Inviaci una mail all'indirizzo: <a href="">bisiacaria@gmail.com</a></li>
+			</ul>
+		</div>
+	</div>
 </template>

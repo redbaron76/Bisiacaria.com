@@ -63,3 +63,13 @@ Meteor.publish('pokerLastWinners', function() {
 
 	return winners;
 });
+
+Meteor.publish('playerHands', function(query, options) {
+	check(query, Object);
+	check(options, Object);
+
+	console.log(query);
+
+	// get poker hands
+	return Pokerhands.find(query, options);
+});
