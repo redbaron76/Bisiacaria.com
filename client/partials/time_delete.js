@@ -13,10 +13,10 @@ Template.timeDelete.helpers({
 		var m = moment(dateTime)/*.subtract(5, 'seconds')*/;
 		var displayDateTime = m.format(format);
 
-		// Back of 2 mins and check it's still fmore of beatTime
-		if (m.subtract(2, 'm').isAfter(beatTime)) {
+		// Back of Bisia.Session.hearthTO millisec and check it's still more of beatTime
+		if (m.subtract(Bisia.Session.hearthTO, 'ms').isAfter(beatTime)) {
 			format = '[uscirà] ' + format;
-			displayDateTime = m.add(2, 'm').format(format);
+			displayDateTime = m.add(Bisia.Session.hearthTO, 'ms').format(format);
 			className = className + ' future';
 			isFuture = true;
 		}
