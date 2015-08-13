@@ -110,7 +110,9 @@ Template.userSettings.events({
 					return Bisia.Ui.submitError(result.errors);
 
 				Bisia.Ui.loadingRemove()
-						.waitStop();
+						.waitStop()
+						.submitSuccess('I dati sono stati salvati correttamente.', 'Salvato!', null, true);
+
 				return result;
 			});
 		}
@@ -134,7 +136,9 @@ Template.userSettings.events({
 					return Bisia.Ui.submitError(result.errors);
 
 				Bisia.Ui.loadingRemove()
-						.waitStop();
+						.waitStop()
+						.submitSuccess('I dati sono stati salvati correttamente.', 'Salvato!', null, true);
+
 				return result;
 			});
 		}

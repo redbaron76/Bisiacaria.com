@@ -3,15 +3,17 @@ Meteor.methods({
 	// Perform hearthBeat server side
 	hearthBeat: function(firstTime) {
 		if (this.userId) {
-			var now = new Date();
+			var m = moment();
+			var now = m.toDate();
 
 			var setObj = {
 				'profile.online': true
 			};
 
-			if (firstTime) {
+			/*if (firstTime) {
 				setObj['profile.loginSince'] = now;
-			}
+			}*/
+
 			Users.update({ '_id': this.userId }, { '$set': setObj });
 			Sessions.upsert({ 'userId': this.userId	}, { '$set': { 'loginCheck': now } });
 

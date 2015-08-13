@@ -124,21 +124,27 @@ Meteor.methods({
 		var errors = Bisia.Validation.validateProfileData(dataAttr);
 
 		// var usernameTaken = Users.findOne({ 'username': dataAttr.username, '_id': { $ne: currentUser } });
-		var usernameTaken = Users.findOne({ 'username': { '$regex': dataAttr.username, '$options': 'i' }});
+		var usernameTaken = Users.findOne({
+			'username': { '$regex': dataAttr.username, '$options': 'i' },
+			'_id': { '$ne': currentUser }
+		});
 		if (usernameTaken)
 			errors.username = Bisia.Login.messages.nicknameInUse + "|exc";
 
-		// Set username to uppercase
-		var NEWUSERNAME = dataAttr.username.replace(/ /g, '').toUpperCase();
-		var CURRENTUSERNAME = currentUsername.replace(/ /g, '').toUpperCase();
-		// Set reserved username
-		if (Previusers.find({ 'nickname': CURRENTUSERNAME, 'userId': { '$exists': false } }).count() > 0) {
-			Previusers.update({ 'nickname': CURRENTUSERNAME }, { '$set': { 'userId': currentUser, checkedAt: new Date() } });
+		if (Meteor.settings.public.sitePreview) {
+			// Set username to uppercase
+			var NEWUSERNAME = dataAttr.username.replace(/ /g, '').toUpperCase();
+			var CURRENTUSERNAME = currentUsername.replace(/ /g, '').toUpperCase();
+			// Set reserved username
+			if (Previusers.find({ 'nickname': CURRENTUSERNAME, 'userId': { '$exists': false } }).count() > 0) {
+				Previusers.update({ 'nickname': CURRENTUSERNAME }, { '$set': { 'userId': currentUser, checkedAt: new Date() } });
+			}
+
+			var usernameReserved = Previusers.findOne({ 'nickname': NEWUSERNAME, 'userId': { $ne: currentUser } });
+			if (usernameReserved)
+				errors.username = Bisia.Login.messages.nicknameReserved + "|exc";
 		}
 
-		var usernameReserved = Previusers.findOne({ 'nickname': NEWUSERNAME, 'userId': { $ne: currentUser } });
-		if (usernameReserved)
-			errors.username = Bisia.Login.messages.nicknameReserved + "|exc";
 
 		if (Bisia.has(errors)) return Bisia.serverErrors(errors);
 
