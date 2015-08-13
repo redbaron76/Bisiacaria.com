@@ -123,7 +123,8 @@ Meteor.methods({
 		var currentUser = Meteor.userId();
 		var errors = Bisia.Validation.validateProfileData(dataAttr);
 
-		var usernameTaken = Users.findOne({ 'username': dataAttr.username, '_id': { $ne: currentUser } });
+		// var usernameTaken = Users.findOne({ 'username': dataAttr.username, '_id': { $ne: currentUser } });
+		var usernameTaken = Users.findOne({ 'username': { '$regex': dataAttr.username, '$options': 'i' }});
 		if (usernameTaken)
 			errors.username = Bisia.Login.messages.nicknameInUse + "|exc";
 
