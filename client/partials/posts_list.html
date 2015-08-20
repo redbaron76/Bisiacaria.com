@@ -49,13 +49,11 @@
 			{{/if}}
 
 			{{#if imageUrl}}
-				<!-- <div class="thumby">
-					<img src="{{imageUrl}}" data-img="{{imageUrl}}" class="ri">
-				</div> -->
 				<div class="thumbimg">
-					<img src="{{imageUrl}}" data-img="{{imageUrl}}" class="ri">
+					<img src="{{imageUrl}}" class="ri" onload="Bisia.Img.checkPortrait(this)">
 				</div>
 			{{/if}}
+
 			{{#if text}}
 				<p>{{{shortText text 300 true}}}</p>
 			{{/if}}

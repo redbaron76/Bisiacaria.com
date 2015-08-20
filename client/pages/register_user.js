@@ -18,7 +18,7 @@ Template.registerUser.events({
 		}, {
 			'verifyKey': '',
 			'birthDate?.separator': '/',
-			'profile.city': 'Abito a...',
+			'profile.city': 'De dove te son?',
 			'profile.status': 'none',
 			'profile.online': false,
 			'profile.loggedWith': 'password'

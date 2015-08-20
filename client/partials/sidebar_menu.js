@@ -51,7 +51,7 @@ Template.sidebarMenu.events({
 			'userId': Meteor.userId(),
 			'service': Meteor.user().profile.loggedWith
 		};
-		Meteor.logoutOtherClients(function() {
+		// Meteor.logoutOtherClients(function() {
 			Meteor.call('logoutUser', logout, function(error, result) {
 				if (result)	{
 					Meteor.logout(function() {
@@ -61,7 +61,7 @@ Template.sidebarMenu.events({
 					});
 				}
 			});
-		});
+		// });
 	},
 	'click .reset-note': function(e, t) {
 		Bisia.Notification.resetNotify('note');

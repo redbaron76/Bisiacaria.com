@@ -674,7 +674,7 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 
 		if (! this.sidebarLock || ! className) {
 
-			this.sidebarLock = true;
+			if (className) this.sidebarLock = true;
 
 			if (className) {
 				if (self.$wrapper.is('.sidebar-open-left, .sidebar-open-right')) {
