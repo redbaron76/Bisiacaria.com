@@ -76,20 +76,16 @@ Meteor.methods({
 
 		return true;
 	},
-	queueNotificationMail: function(target, notyObj) {
-		var obj = _.pick(notyObj, 'createdAt', 'message');
-		var saveObj = _.extend(obj, {
-			email: target.email,
-			username: target.username,
-		});
+	queueNotificationMail: function(email, targetId) {
+		check(email, String);
+		check(targetId, String);
 
-		var alreadyQueued = Emails.findOne({
-			email: target.email,
-			actionId: notyObj.actionId
+		Emails.upsert({
+			targetId: targetId
+		}, {
+			targetId: targetId,
+			email: email
 		});
-
-		if (saveObj.email && saveObj.message && ! alreadyQueued)
-			Emails.insert(saveObj);
 	}
 });
 

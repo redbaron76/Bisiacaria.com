@@ -90,6 +90,10 @@ Template.registerHelper('hasOverlay', function() {
 	return this.overlay;
 });
 
+Template.registerHelper('hasNumber', function(num) {
+	return parseInt(num) > 0;
+});
+
 // TOT ONLINE USERS
 
 Template.registerHelper('totNotifications', function() {

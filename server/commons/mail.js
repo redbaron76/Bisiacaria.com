@@ -115,13 +115,54 @@ Bisia.Mail = {
 	 * @return {Void}          [description]
 	 */
 	sendNotificationMail: function(emailObj) {
-		var data = _.pick(emailObj, 'message', 'username');
-		data.createdAt = moment(emailObj.createdAt).format('dddd DD MMMM [alle] HH:mm');
-		if (emailObj._id && emailObj.email && data.message) {
+		var data = {
+			newMessages: 0,
+			lastNews: 0,
+			newVisits: 0,
+			newVotes: 0,
+			newFriends: 0
+		};
+
+		var noties = Notifications.find({
+			'targetId': emailObj.targetId,
+			'isBroadcasted': true,
+			'isRead': false,
+			'$or': [
+				{ 'action': 'message' },
+				{ 'action': 'visit' },
+				{ 'action': 'friend' },
+				{ 'action': 'vote' },
+				{ 'action': 'note', 'actionKey': 'post' }
+			]
+		});
+
+
+		if (emailObj.email && noties.count() > 0) {
+
+			noties.forEach(function(noty) {
+				switch (noty.action) {
+					case 'message':
+						data.newMessages ++;
+						break;
+					case 'note':
+						data.lastNews ++;
+						break;
+					case 'visit':
+						data.newVisits ++;
+						break;
+					case 'votes':
+						data.newVotes ++;
+						break;
+					case 'friend':
+						data.newFriends ++;
+						break;
+				}
+			});
+
 			Email.send({
 				from: this.Tpl.from,
 				to: emailObj.email,
-				subject: 'Hai ricevuto una notifica su Bisia!',
+				subject: 'Le tue notifiche su Bisia!',
 				html: this.getMailTemplate('notificationTpl', data)
 			});
 			Emails.remove(emailObj._id);

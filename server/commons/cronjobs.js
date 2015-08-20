@@ -31,7 +31,7 @@ SyncedCron.add({
 SyncedCron.add({
 	name: 'sendEmail',
 	schedule: function(parser) {
-		return parser.text('every 10 minutes');
+		return parser.text('every 4 hours');
 	},
 	job: function() {
 		return Bisia.Automator.emailNotifications();

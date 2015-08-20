@@ -100,6 +100,11 @@ Bisia.Automator = {
 			Notifications.remove({ '$or': [{ 'userId': user._id }, { 'targetId': user._id }] });
 			Votes.remove({ '$or': [{ 'userId': user._id }, { 'targetId': user._id }] });
 
+			// Poker
+			Pokerplayers.remove({ 'playerId': user._id });
+			Pokerhands.remove({ 'playerId': user._id });
+			Pokerwinners.update({}, { '$pull': { 'winners': { 'winnerId': user._id }}});
+
 			// Delete denormalized data
 			Users.update({ 'followers': { '$in': [user._id] } }, { '$set': { $pull: { 'followers': user._id } } });
 			Users.update({ 'following': { '$in': [user._id] } }, { '$set': { $pull: { 'following': user._id } } });

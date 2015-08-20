@@ -2,10 +2,23 @@
 	<td align="center" valign="top" style="-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;mso-table-lspace:0pt;mso-table-rspace:0pt;" >
 		<table border="0" cellpadding="0" cellspacing="0" width="100%" id="templateBody" style="-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse !important;background-color:#F4F4F4;border-top-width:1px;border-top-style:solid;border-top-color:#FFFFFF;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#CCCCCC;" >
 			<tr>
-				<td valign="top" class="bodyContent" style="-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;mso-table-lspace:0pt;mso-table-rspace:0pt;color:#505050;font-family:Helvetica;font-size:16px;line-height:150%;padding-top:20px;padding-right:20px;padding-bottom:20px;padding-left:20px;text-align:left;" >
-					<h1 style="color:#202020 !important;display:block;font-family:Helvetica;font-size:22px;font-style:normal;font-weight:bold;line-height:100%;letter-spacing:normal;margin-top:10px;margin-right:0;margin-bottom:10px;margin-left:0;text-align:left;" >Hai una nuova notifica!</h1>
-					<h4 style="color:#808080 !important;display:block;font-family:Helvetica;font-size:14px;font-style:italic;font-weight:normal;line-height:100%;letter-spacing:normal;margin-top:0;margin-right:0;margin-bottom:10px;margin-left:0;text-align:left;" >{{createdAt}}</h4>
-					<strong>{{username}}</strong> {{{message}}}
+				<td valign="top" class="bodyContent" style="-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;mso-table-lspace:0pt;mso-table-rspace:0pt;color:#505050;font-family:Helvetica;font-size:18px;line-height:150%;padding-top:20px;padding-right:20px;padding-bottom:20px;padding-left:20px;text-align:left;" >
+					<h4 style="color:#808080 !important;display:block;font-family:Helvetica;font-size:14px;font-style:italic;font-weight:normal;line-height:100%;letter-spacing:normal;margin-top:0;margin-right:0;margin-bottom:10px;margin-left:0;text-align:left;" >Riepilogo delle notifiche non ancora lette su Bisiacaria.com</h4>
+					{{#if newMessages}}
+					Hai <strong>{{newMessages}} messaggi</strong> non letti.<br><br>
+					{{/if}}
+					{{#if lastNews}}
+					Ci sono <strong>{{lastNews}} nuovi post</strong> non letti.<br><br>
+					{{/if}}
+					{{#if newVisits}}
+					Il tuo profilo ha ricevuto <strong>{{newVisits}} visite</strong>.<br><br>
+					{{/if}}
+					{{#if newVotes}}
+					Hai ricevuto <strong>{{newVotes}} voti</strong>.<br><br>
+					{{/if}}
+					{{#if newFriends}}
+					<strong>{{newFriends}} utenti</strong> dicono di conoscerti.<br>
+					{{/if}}
 				</td>
 			</tr>
 		</table>
