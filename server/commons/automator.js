@@ -99,6 +99,9 @@ Bisia.Automator = {
 			Messages.remove({ '$or': [{ 'userId': user._id }, { 'targetId': user._id }] });
 			Notifications.remove({ '$or': [{ 'userId': user._id }, { 'targetId': user._id }] });
 			Votes.remove({ '$or': [{ 'userId': user._id }, { 'targetId': user._id }] });
+			Evaluations.remove({ 'targetId': user._id });
+			Emails.remove({ 'targetId': user._id });
+			Logs.remove({ 'userId': user._id });
 
 			// Poker
 			Pokerplayers.remove({ 'playerId': user._id });
@@ -106,13 +109,13 @@ Bisia.Automator = {
 			Pokerwinners.update({}, { '$pull': { 'winners': { 'winnerId': user._id }}});
 
 			// Delete denormalized data
-			Users.update({ 'followers': { '$in': [user._id] } }, { '$set': { $pull: { 'followers': user._id } } });
-			Users.update({ 'following': { '$in': [user._id] } }, { '$set': { $pull: { 'following': user._id } } });
-			Users.update({ 'blocked': { '$in': [user._id] } }, { '$set': { $pull: { 'blocked': user._id } } });
-			Users.update({ 'blockBy': { '$in': [user._id] } }, { '$set': { $pull: { 'blockBy': user._id } } });
+			Users.update({ 'followers': { '$in': [user._id] } }, { $pull: { 'followers': user._id } });
+			Users.update({ 'following': { '$in': [user._id] } }, { $pull: { 'following': user._id } });
+			Users.update({ 'blocked': { '$in': [user._id] } }, { $pull: { 'blocked': user._id } });
+			Users.update({ 'blockBy': { '$in': [user._id] } }, { $pull: { 'blockBy': user._id } });
 
 			// Delete user
-			Users.remove(user._id);
+			Users.remove({ '_id': user._id });
 
 			Bisia.Log.server("Eliminato l'utente", { userId: user._id });
 
@@ -125,7 +128,7 @@ Bisia.Automator = {
 		});
 
 		notConfirmedUsers.forEach(function(user) {
-			Users.remove(user._id);
+			Users.remove({ '_id': user._id });
 			Bisia.Log.server("Eliminato utente non confermato", { userId: user._id });
 		});
 

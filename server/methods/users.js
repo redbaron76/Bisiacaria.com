@@ -291,7 +291,8 @@ Meteor.methods({
 				if (!totals[label]) totals[label] = 0;
 				if (!totals[label+'Count']) totals[label+'Count'] = 0;
 				totals[label] = totals[label] + parseInt(val);
-				if (totals[label] > 0) totals[label+'Count'] ++;
+				// if (totals[label] > 0) totals[label+'Count'] ++;
+				if (val[label] > 0) totals[label+'Count'] ++;
 			});
 		});
 
