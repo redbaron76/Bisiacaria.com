@@ -165,8 +165,10 @@ Bisia.Mail = {
 				subject: 'Le tue notifiche su Bisia!',
 				html: this.getMailTemplate('notificationTpl', data)
 			});
-			Emails.remove(emailObj._id);
 		}
+
+		// Remove email queued
+		Emails.remove(emailObj._id);
 	},
 
 	/**
