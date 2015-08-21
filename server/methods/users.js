@@ -286,13 +286,13 @@ Meteor.methods({
 		var totalUsers = evaluations.count();
 		// process each user that evaluates
 		evaluations.forEach(function(item, index) {
+			// console.log(item);
 			// sum each property of the evaluation
 			_.each(item.values, function(val, label) {
 				if (!totals[label]) totals[label] = 0;
 				if (!totals[label+'Count']) totals[label+'Count'] = 0;
 				totals[label] = totals[label] + parseInt(val);
-				// if (totals[label] > 0) totals[label+'Count'] ++;
-				if (val[label] > 0) totals[label+'Count'] ++;
+				if (parseInt(val) > 0) totals[label+'Count'] ++;
 			});
 		});
 
