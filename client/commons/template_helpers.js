@@ -166,7 +166,7 @@ Template.registerHelper('distance', function(lat, lng) {
 
 Template.registerHelper('onlyCity', function(location) {
 	if (location && location != 'Posizione sconosciuta') {
-		return '- ' + _.last(location.split(', '));
+		return '- ' + Bisia.Map.getCityFromLocation(location);
 	}
 });
 
@@ -213,7 +213,7 @@ Template.registerHelper('getCity', function() {
 	var city = Bisia.User.getProfile('city', user);
 	var position = Bisia.User.getProfile('position', user);
 	if (position) {
-		return (position.tag) ? position.tag : _.last(position.location.split(', '));
+		return (position.tag) ? position.tag : Bisia.Map.getCityFromLocation(position.location);
 	} else {
 		return city
 	}

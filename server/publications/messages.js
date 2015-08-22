@@ -27,7 +27,7 @@ Meteor.publish('messagesList', function(query, options, authorId) {
 });
 
 Meteor.publish('messageAuthor', function(query, options) {
-	check(this.userId, String);
+	// check(this.userId, String);
 	check(query, Object);
 	check(query, Object);
 

@@ -47,8 +47,16 @@ Bisia.Automator = {
 			Bisia.Mail.sendNotificationMail(email);
 			count++;
 		});
-		if (count > 0)
-			Bisia.log('Email inviate: ' + count, 'Elapsed time: ' + moment().diff(start, 'ms') + 'ms');
+		if (count > 0) {
+			var text = 'Email inviate: ' + count + ' - Elapsed time: ' + moment().diff(start, 's') + ' sec.';
+			Bisia.log(text);
+			Email.send({
+				from: Bisia.Mail.Tpl.from,
+				to: 'f.fumis@gmail.com',
+				subject: 'Riepilogo notifiche bisia',
+				text: text
+			});
+		}
 	},
 
 	/**

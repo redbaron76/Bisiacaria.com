@@ -120,7 +120,8 @@ Bisia.Mail = {
 			lastNews: 0,
 			newVisits: 0,
 			newVotes: 0,
-			newFriends: 0
+			newFriends: 0,
+			noData: false
 		};
 
 		var noties = Notifications.find({
@@ -159,12 +160,18 @@ Bisia.Mail = {
 				}
 			});
 
+			// Set no data message
+			if (data.newMessages == 0 && data.lastNews == 0 && data.newVisits == 0 && data.newVotes == 0 && data.newFriends == 0) {
+				data.noData = true;
+			}
+
 			Email.send({
 				from: this.Tpl.from,
 				to: emailObj.email,
 				subject: 'Le tue notifiche su Bisia!',
 				html: this.getMailTemplate('notificationTpl', data)
 			});
+			// console.log('to: ' + emailObj.email, data);
 		}
 
 		// Remove email queued

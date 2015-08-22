@@ -504,6 +504,28 @@ Bisia.Map = {
 	},
 
 	/**
+	 * Parse out city from location
+	 * @param  {[type]} location [description]
+	 * @return {[type]}          [description]
+	 */
+	getCityFromLocation: function(location) {
+		var locArr = location.split(', ');
+		var index = locArr.length - 1;
+		var city;
+
+		// console.log(locArr);
+
+		// CAP 3a posizione
+		if (!isNaN(locArr[index - 2])) {
+			city = locArr[index - 1];
+		} else {
+			city = locArr[index];
+		}
+
+		return city;
+	},
+
+	/**
 	 * Fill the popup content accordingly to position data
 	 * @return {String}
 	 */
@@ -531,7 +553,10 @@ Bisia.Map = {
 				location = (!!position.tag) ? position.tag : position.location;
 			}
 			timeAgo = '<small>' + timeAgo + '</small>';
-			if (position.tag && !!position.location) city = ' - ' + _.last(position.location.split(', '));
+			if (position.tag && !!position.location) {
+				// city = ' - ' + _.last(position.location.split(', '));
+				city = ' - ' + this.getCityFromLocation(position.location);
+			}
 			var content = (position.justName) ? location : string + location + city + timeAgo;
 			return '<div class="'+popupClass+'">' + content + '</div>';
 		} else { // tag da impostare
