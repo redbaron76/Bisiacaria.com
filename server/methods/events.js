@@ -47,7 +47,7 @@ Meteor.methods({
 					query = { '_id': tagId };
 				} else {
 					query = {
-						'tag': { '$regex': eventObj.position.tag, '$options': 'i' },
+						'tag': { '$regex': '^'+eventObj.position.tag, '$options': 'i' },
 						'loc': {
 							'$near': {
 								'$geometry': {
