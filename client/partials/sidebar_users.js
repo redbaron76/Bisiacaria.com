@@ -150,6 +150,12 @@ Template.onlineUser.onDestroyed(function() {
 	}
 });
 
+Template.onlineUser.helpers({
+	isInChat: function() {
+		return !!Chatusers.findOne({ 'userId': this._id, 'isBanned': false });
+	}
+});
+
 Template.onlineUser.events({
 	'click .write-message': function(e, t) {
 		e.preventDefault();

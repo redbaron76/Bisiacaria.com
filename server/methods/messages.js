@@ -1,5 +1,43 @@
 // Profile Methods
 Meteor.methods({
+	chatRoomEnter: function() {
+		check(this.userId, String);
+
+		var isBanned = Chatusers.findOne({ 'userId': this.userId, 'isBanned': true });
+		if ( ! isBanned) {
+			Chatusers.upsert({ 'userId': this.userId }, { 'userId': this.userId, 'isBanned': false, createdAt: new Date() });
+			return false;
+		} else {
+			return true;
+		}
+	},
+	chatRoomExit: function() {
+		check(this.userId, String);
+
+		var isBanned = Chatusers.findOne({ 'userId': this.userId, 'isBanned': true });
+		if ( ! isBanned) {
+			Chatusers.remove({ 'userId': this.userId });
+		}
+	},
+	chatRoomBanProposal: function(userId) {
+		check(this.userId, String);
+		check(userId, String);
+
+		var ban = {
+			bannerId: this.userId,
+			proposedAt: Bisia.Time.now()
+		};
+
+		// Add ban to chat user
+		Chatusers.update({ 'userId': userId, 'isBanned': false }, {
+			'$addToSet': { 'bans': ban },
+			'$inc': { 'banProposal': 1 }
+		});
+
+		// Log the comment
+		Bisia.Log.info('ban proposal', ban);
+		return true;
+	},
 	deleteMessage: function(chatId) {
 		check(this.userId, String);
 		check(chatId, String);
@@ -15,6 +53,28 @@ Meteor.methods({
 			Messages.remove({ 'chatId': chatId });
 			Chats.remove({ '_id': chatId });
 		}
+		return true;
+	},
+	sendChatMessage: function(msgObj) {
+		check(this.userId, String);
+		check(msgObj, {
+			text: String
+		});
+
+		var msg = _.extend(msgObj, {
+			userId: this.userId,
+			createdAt: Bisia.Time.setServerTime()
+		});
+
+		msg.text = Bisia.Form.formatEmoj(msg.text);
+
+		// Insert new message
+		msg.text = Bisia.Form.sanitizeHTML(msg.text);
+		Chatroom.insert(msg);
+
+		// Log chat message
+		Bisia.Log.info('chatRoom', msg);
+
 		return true;
 	},
 	sendMessage: function(msgObj) {

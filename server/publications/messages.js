@@ -29,7 +29,7 @@ Meteor.publish('messagesList', function(query, options, authorId) {
 Meteor.publish('messageAuthor', function(query, options) {
 	// check(this.userId, String);
 	check(query, Object);
-	check(query, Object);
+	check(options, Object);
 
 	// Meteor._sleepForMs(1000);
 
@@ -50,4 +50,32 @@ Meteor.publish('messageAuthor', function(query, options) {
 			return [messages, authors];
 		}
 	}
+});
+
+Meteor.publish('chatRoom', function(query, options) {
+	// check(this.userId, String);
+	check(query, Object);
+	check(options, Object);
+
+	var isBanned = Chatusers.findOne({ 'userId': this.userId, 'isBanned': true });
+
+	// Meteor._sleepForMs(1000);
+	var chatUsers = Chatusers.find();
+
+	if (this.userId && ! isBanned) {
+		// Return cursor
+
+		// chat user
+		var chatMessages = Chatroom.find(query, options);
+		// map the authorIds
+		var userIds = chatMessages.map(function(doc) { return doc['userId'] });
+		var authors = Users.find({ '_id': { '$in': _.uniq(userIds) }});
+
+		// Meteor._sleepForMs(1000);
+		// return cursors
+		return [chatMessages, chatUsers, authors];
+
+	}
+
+	return chatUsers;
 });

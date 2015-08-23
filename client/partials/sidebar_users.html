@@ -31,7 +31,11 @@
 			{{> avatarImage data=this online=false}}
 			<div class="username">
 				{{username}}
-				<span>{{getCity}}</span>
+				{{#if isInChat}}
+					<span class="chat">è in Bisia-Chat!</span>
+				{{else}}
+					<span>{{getCity}}</span>
+				{{/if}}
 			</div>
 		</a>
 		<div class="caret-right"></div>

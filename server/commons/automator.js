@@ -26,6 +26,32 @@ Bisia.Automator = {
 	},
 
 	/**
+	 * Automate set and clean expired ban after 24h
+	 * @return {[type]} [description]
+	 */
+	chatRoomBanUsers: function() {
+
+		// togli ban con permanentBanner=false con bannedAt > 24h from now
+		Chatusers.remove({ 'isBanned': true, 'bannedAt': { '$lte': Bisia.Time.daysAgoStart(1) } });
+
+		// conta quanti sono in chat, metà dei presenti è limite minimo da raggiungere per bannare
+		var chatUsers = Chatusers.find({ 'isBanned': false }).count();
+
+		var majority = chatUsers / 2;
+
+		// set isBanner = true chi ha banProposal >= presenti in chat, set bannedAt = now
+		Chatusers.update({
+			'isBanned': false,
+			'banProposal': { '$gte': majority }
+		}, {
+			'$set': {
+				'bannedAt': Bisia.Time.now(),
+				'isBanned': true
+			}
+		});
+	},
+
+	/**
 	 * Delete broadcasted Notifications
 	 * @param {Integer} olderThan
 	 * @return {Void}

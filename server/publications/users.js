@@ -40,6 +40,9 @@ Meteor.publish('onlineUsers', function(position) {
 		var limitWeek = Bisia.Time.msWeek;
 		Counts.publish(this, 'eventsWeek', Events.find({ 'dateTimeEvent': { '$gte': Bisia.Time.todayStart(), '$lte': Bisia.Time.timeFuture(limitWeek) } }), { noReady: true });
 
+		// Bisia-Chat users
+		Counts.publish(this, 'countChatUsers', Chatusers.find({ 'isBanned': false }), { noReady: true });
+
 		// Poker daily credit
 		Counts.publish(this, 'countDailyCredit', Pokerplayers.find({ 'playerId': this.userId }), { countFromField: 'credit', noReady: true });
 
@@ -77,6 +80,9 @@ Meteor.publish('onlineUsers', function(position) {
 		// Exclude people to hide if any
 		if (! _.isEmpty(toBlock)) query = _.extend(query, { '_id': { '$nin': toBlock } });
 
+		// Publish chat users
+		var chatUsers = Chatusers.find({ 'isBanned': false });
+
 		// Publish online users
 		var users = Users.find(query, {
 			'fields': {
@@ -88,7 +94,7 @@ Meteor.publish('onlineUsers', function(position) {
 			}
 		});
 
-		return users;
+		return [users, chatUsers];
 	}
 });
 

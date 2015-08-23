@@ -39,16 +39,16 @@ SyncedCron.add({
 	}
 });
 
-// Build homepage
-/*SyncedCron.add({
-	name: 'buildHomepage',
+// Chat Room Ban
+SyncedCron.add({
+	name: 'chatRoomBan',
 	schedule: function(parser) {
-		return parser.text('every 15 minutes');
+		return parser.text('every 3 minutes');
 	},
 	job: function() {
-		return Bisia.Automator.homePageBuilder();
+		return Bisia.Automator.chatRoomBanUsers();
 	}
-});*/
+});
 
 // recharge poker credits every day at 00:00:05 except on Monday
 SyncedCron.add({

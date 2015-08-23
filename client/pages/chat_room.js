@@ -1,13 +1,33 @@
-Template.chatList.onRendered(function() {
-	if (Bisia.User.isLogged()) {
-		// set message as isRead = true
-		var chatId = Bisia.getController('params')['chatId'];
-		if (chatId)
-			Meteor.call('messageOpen', chatId);
+Template.chatRoom.onRendered(function() {
+
+	var instance = this;
+
+	if (Meteor.userId()) {
+		Meteor.call('chatRoomEnter', function(error, banned) {
+			if (banned) {
+				var message = "Il tuo profilo è stato bannato per 24 ORE dalla Bisia-Chat a causa del tuo comportamento ritenuto non idoneo da parte della maggioranza degli altri utenti presenti in chat.";
+				return Bisia.Ui.submitError(message, 'Ingresso negato!');
+			}
+		});
+	}
+
+	instance.autorun(function() {
+		console.log(Bisia.Message.chatIsBanned());
+		if (Bisia.Message.chatIsBanned()) {
+			Router.go('homePage');
+		}
+	});
+
+	Bisia.Ui.goBottom();
+});
+
+Template.chatRoom.onDestroyed(function() {
+	if (Meteor.userId()) {
+		Meteor.call('chatRoomExit');
 	}
 });
 
-Template.chatList.helpers({
+Template.chatRoom.helpers({
 	joinWithAuthor: function() {
 		var item = this;
 		var authorId = Iron.controller().getAuthor();
@@ -44,25 +64,21 @@ Template.chatList.helpers({
 	}
 });
 
-Template.chatList.events({
+Template.chatRoom.events({
 	'click .load-more': function() {
 		Bisia.Message.goToFirst = true;
 		Bisia.Message.goToBottom = false;
 	}
 });
 
-Template.chatItem.onRendered(function() {
+Template.chatRoomItem.onRendered(function() {
 	// this.$('.emoticonize').emoticonize(Bisia.Config.emoticonizeSettings());
 	if(Bisia.Message.goToBottom) {
 		Bisia.Ui.goBottom();
-		// set isRead when received message from other user
-		if (this.data.targetId == Meteor.userId()) {
-			Meteor.call('messageOpen', this.data.chatId);
-		}
 	}
 });
 
-Template.chatItem.helpers({
+Template.chatRoomItem.helpers({
 	detectMe: function() {
 		var itsMe = (this.userId == Meteor.userId()) ? true : false;
 		var classMe = (itsMe) ? 'me' : null;
@@ -77,19 +93,31 @@ Template.chatItem.helpers({
 	},
 });
 
-Template.replyForm.onRendered(function() {
+Template.chatRoomItem.events({
+	'click [data-action=ban]': function(e, t) {
+		e.preventDefault();
+		var data = _.extend(this, {
+			infoTitle: "Bannare questo utente?",
+			infoText: "Stai per proporre il ban di questo utente per condotta in chat non consona. " +
+					  "L'utente verrà bannato non appena altri utenti confermeranno la stessa scelta.<br><br>" +
+					  "Ti preghiamo di usare BUON SENSO nel prendere questa decisione. Grazie."
+		});
+		Bisia.Ui.confirmDialog('Bisia.Message.chatBanThisUser', e, data);
+	}
+});
+
+Template.replyChatForm.onRendered(function() {
 	// Not focus if tablet or phone
 	if (Meteor.Device.isDesktop()) {
 		this.$('.autosize').textareaAutoSize().focus();
 	}
 });
 
-Template.replyForm.events({
+Template.replyChatForm.events({
 	'submit #reply-form': function(e, t) {
 		e.preventDefault();
-		var chatId = Bisia.getController('params')['chatId'];
-		var $textarea = $(e.target).find('#message-reply');
-		if(Bisia.Message.sendMessage($textarea.val(), chatId)) {
+		var $textarea = $(e.target).find('#chat-reply');
+		if(Bisia.Message.sendChatMessage($textarea.val())) {
 			$textarea.val('').css({'height': 'auto'});
 			Bisia.Ui.waitStop();
 		}

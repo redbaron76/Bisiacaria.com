@@ -26,6 +26,13 @@ Bisia.Menu = {
 			"nClass": "new",
 		},
 		{
+			"key": "chat",
+			"icon": "fa-comments",
+			"label": "Bisia-Chat",
+			"path": "chatRoom",
+			"nClass": "live",
+		},
+		{
 			"key": "event",
 			"icon": " fa-calendar",
 			"label": "Eventi della settimana",
