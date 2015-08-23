@@ -138,7 +138,7 @@ Template.replyChatForm.events({
 		});
 		Bisia.Ui.confirmDialog('Bisia.User.blockUser', e, data);
 	},
-	'keypress #message-reply': function(e, t) {
+	'keypress #chat-reply': function(e, t) {
 		if (e.which === 13 && $('#submit-on-enter').prop('checked')) {
 			e.preventDefault();
 			$('#reply-form').trigger('submit');
