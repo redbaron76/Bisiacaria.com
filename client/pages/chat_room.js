@@ -12,13 +12,12 @@ Template.chatRoom.onRendered(function() {
 	}
 
 	instance.autorun(function() {
-		console.log(Bisia.Message.chatIsBanned());
 		if (Bisia.Message.chatIsBanned()) {
 			Router.go('homePage');
 		}
 	});
 
-	Bisia.Ui.goBottom();
+	Bisia.Notification.showChatRoomHint();
 });
 
 Template.chatRoom.onDestroyed(function() {

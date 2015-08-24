@@ -37,7 +37,7 @@ Bisia.Automator = {
 		// conta quanti sono in chat, metà dei presenti è limite minimo da raggiungere per bannare
 		var chatUsers = Chatusers.find({ 'isBanned': false }).count();
 
-		var majority = chatUsers / 2;
+		var majority = parseInt(chatUsers / 2);
 
 		// set isBanner = true chi ha banProposal >= presenti in chat, set bannedAt = now
 		Chatusers.update({

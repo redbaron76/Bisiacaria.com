@@ -221,3 +221,10 @@ Template.welcomeNewUser.events({
 		Users.update(Meteor.userId(), {'$set': {'profile.flags.newUserHint': status}});
 	},
 });
+
+Template.chatRoomHint.events({
+	'change #set-chatroomhint': function(e, t) {
+		var status = e.currentTarget.checked;
+		Users.update(Meteor.userId(), {'$set': {'profile.flags.chatRoomHint': status}});
+	},
+});

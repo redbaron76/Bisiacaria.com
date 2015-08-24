@@ -273,3 +273,18 @@
 		{{/with}}
 	</div>
 </template>
+
+<template name="chatRoomHint">
+	<div class="md-info md-show list info">
+		{{> infoClose title=title}}
+		<div class="wrapper-info list-wrapper">
+			<p>In questa Bisia-Chat si invita tutti gli utenti a <strong>COMPORTARSI BENE</strong> e ad usare <strong>BUON SENSO</strong>.</p>
+			<p>In caso di problemi, ogni utente può proporre di <strong>BANNARE</strong> un utente dalla dalla chat, <strong>cliccando l'avatar</strong> della persona da escludere.</p>
+			<p>Se la <strong>maggioranza</strong> degli utenti presenti in chat opterà per la stessa scelta, l'utente in questione verrà bannato per <strong>24 ORE</strong> entro 3 minuti.</p>
+			<label for="set-chatroomhint">
+				<input type="checkbox" id="set-chatroomhint">
+				non mostrare più questo avviso
+			</label>
+		</div>
+	</div>
+</template>
