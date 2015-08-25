@@ -16,6 +16,9 @@ Template.newsEventList.helpers({
 			case 'commentEvent':
 				routeTo = 'singleEvent';
 				break;
+			case 'chat':
+				routeTo = 'chatRoom';
+				break;
 			case 'nicknameChanged':
 			case 'profileData':
 			case 'question':
