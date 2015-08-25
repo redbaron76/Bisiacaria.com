@@ -9,7 +9,6 @@ Meteor.startup(function () {
 	Bisia.Automator.init();
 	// Init Winston logger
 	Bisia.Log.init();
-
 	// Enabled in settings.json
 	Bisia.Login.basicAuthProtect();
 });

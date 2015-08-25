@@ -72,6 +72,8 @@ Meteor.methods({
 		msg.text = Bisia.Form.sanitizeHTML(msg.text);
 		Chatroom.insert(msg);
 
+		Bisia.Notification.notifyCiteInChat('note', msg);
+
 		// Log chat message
 		Bisia.Log.info('chatRoom', msg);
 

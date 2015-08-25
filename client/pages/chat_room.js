@@ -2,14 +2,14 @@ Template.chatRoom.onRendered(function() {
 
 	var instance = this;
 
-	if (Meteor.userId()) {
+	/*if (Meteor.userId()) {
 		Meteor.call('chatRoomEnter', function(error, banned) {
 			if (banned) {
 				var message = "Il tuo profilo è stato bannato per 24 ORE dalla Bisia-Chat a causa del tuo comportamento ritenuto non idoneo da parte della maggioranza degli altri utenti presenti in chat.";
 				return Bisia.Ui.submitError(message, 'Ingresso negato!');
 			}
 		});
-	}
+	}*/
 
 	instance.autorun(function() {
 		if (Bisia.Message.chatIsBanned()) {
@@ -20,11 +20,11 @@ Template.chatRoom.onRendered(function() {
 	Bisia.Notification.showChatRoomHint();
 });
 
-Template.chatRoom.onDestroyed(function() {
+/*Template.chatRoom.onDestroyed(function() {
 	if (Meteor.userId()) {
 		Meteor.call('chatRoomExit');
 	}
-});
+});*/
 
 Template.chatRoom.helpers({
 	joinWithAuthor: function() {

@@ -31,13 +31,23 @@ Bisia.Automator = {
 	 */
 	chatRoomBanUsers: function() {
 
+		// get last message
+		var lastMessage = Chatroom.findOne({}, { 'sort': { '$natural': -1 } } );
+		// remove messages 6 mins older than the last one
+		Chatroom.remove({ 'createdAt': { '$lt': moment(lastMessage.createdAt).subtract(6, 'm').toDate() } });
+
 		// togli ban con permanentBanner=false con bannedAt > 24h from now
 		Chatusers.remove({ 'isBanned': true, 'bannedAt': { '$lte': Bisia.Time.daysAgoStart(1) } });
 
-		// conta quanti sono in chat, metà dei presenti è limite minimo da raggiungere per bannare
-		var chatUsers = Chatusers.find({ 'isBanned': false }).count();
+		// prendo user id di chi è online in un array
+		onlines = Users.find({ 'profile.online': true });
+		var onlineIds = onlines.map(function(doc) { return doc['_id'] });
+		// elimino $nin da Chatusers
+		Chatusers.remove({ 'userId': { '$nin': onlineIds} });
 
-		var majority = parseInt(chatUsers / 2);
+		// conta quanti sono in chat, metà dei presenti è limite minimo da raggiungere per bannare
+		var chatUsers = Chatusers.find({ 'isBanned': false });
+		var majority = parseInt(chatUsers.count() / 2);
 
 		// set isBanner = true chi ha banProposal >= presenti in chat, set bannedAt = now
 		Chatusers.update({
