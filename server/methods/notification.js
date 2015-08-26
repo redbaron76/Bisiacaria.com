@@ -11,6 +11,7 @@ Meteor.methods({
 		var query = {
 			'targetId': Meteor.userId(),
 			'action': action,
+			'isBroadcasted': true,
 			'isRead': false
 		};
 
@@ -30,12 +31,7 @@ Meteor.methods({
 			query = _.omit(query, 'isRead');
 		}
 
-		// if (action == 'note' || action == 'visit') {
-			Notifications.update(query, { '$set': {	'isRead': true } }, { 'multi': true	});
-		/*} else {
-			console.log(query);
-			Notifications.remove(query);
-		}*/
+		Notifications.update(query, { '$set': {	'isRead': true } }, { 'multi': true	});
 
 	},
 	sharePost: function(postObj, shareArr) {
