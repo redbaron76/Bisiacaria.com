@@ -148,6 +148,9 @@ Template.onlineUser.onDestroyed(function() {
 			userList.countUsers --;
 		}
 	}
+
+	// Remove me from Chatusers
+	// Chatusers.remove({ 'userId': user._id, 'isBanned': false });
 });
 
 Template.onlineUser.helpers({

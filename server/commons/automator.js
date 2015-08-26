@@ -128,6 +128,25 @@ Bisia.Automator = {
 	},
 
 	/**
+	 * delete Old Notifications
+	 * @return {Void}
+	 */
+	deleteOldNotifications: function() {
+		Notifications.remove({
+			'isBroadcasted': true,
+			'isRead': true,
+			'broadcastedAt': { '$lt': moment().subtract(7, 'days').toDate() }
+		});
+
+		Email.send({
+			from: Bisia.Mail.Tpl.from,
+			to: 'f.fumis@gmail.com',
+			subject: 'Delete old notifications',
+			text: 'delete notifications older than ' + moment().subtract(7, 'days').toDate()
+		});
+	},
+
+	/**
 	 * Delete users from Bisia
 	 * @return {[String}
 	 */
@@ -178,6 +197,12 @@ Bisia.Automator = {
 
 		var message = "Cancellati " + howMany + " utenti.";
 		Bisia.Log.server(message, { createdAt: new Date() });
+		Email.send({
+			from: Bisia.Mail.Tpl.from,
+			to: 'f.fumis@gmail.com',
+			subject: 'Delete users from Bisia',
+			text: message
+		});
 
 		return message;
 	},

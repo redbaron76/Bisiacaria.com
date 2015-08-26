@@ -4,7 +4,7 @@
 SyncedCron.add({
 	name: 'deleteUser',
 	schedule: function(parser) {
-		return parser.text('at 05:15 am');
+		return parser.text('at 05:30');
 	},
 	job: function() {
 		return Bisia.Automator.deleteUsersFromBisia();
@@ -15,15 +15,10 @@ SyncedCron.add({
 SyncedCron.add({
 	name: 'deleteNotifications',
 	schedule: function(parser) {
-		return parser.text('at 05:00 am');
+		return parser.text('at 05:00');
 	},
 	job: function() {
-		var olderThan = Bisia.Time.msWeek;
-		Notifications.remove({
-			'isBroadcasted': true,
-			'isRead': true,
-			'broadcastedAt': { '$lt': moment().subtract(7, 'days').toDate() }
-		});
+		return Bisia.Automator.deleteOldNotifications();
 	}
 });
 
@@ -54,7 +49,7 @@ SyncedCron.add({
 SyncedCron.add({
 	name: 'rechargePokerCredits',
 	schedule: function(parser) {
-		return parser.text('at 00:01 am');
+		return parser.text('at 00:01');
 	},
 	job: function() {
 		return Bisia.Poker.rechargeCredits();
@@ -65,7 +60,7 @@ SyncedCron.add({
 SyncedCron.add({
 	name: 'resetPokerWeek',
 	schedule: function(parser) {
-		return parser.text('on Monday at 00:01 am');
+		return parser.text('on Monday at 00:01');
 		// return parser.text('every 1 minutes');
 	},
 	job: function() {
