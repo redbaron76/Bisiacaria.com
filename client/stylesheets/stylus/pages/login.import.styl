@@ -10,6 +10,7 @@
 		transform: translateX(-100%);
 		& + #slideshow {
 			opacity: 1;
+			height: inherit;
 		}
 	}
 
@@ -222,8 +223,6 @@
 @media (max-width: $screen-sm-min - 1) {
 	#slideshow {
 		fixed: top 0 right 0;
-		// width: 90%;
-		// height: 100%;
 		overflow-y: auto;
 		opacity: 0;
 	}

@@ -62,16 +62,6 @@ Bisia.Automator = {
 	},
 
 	/**
-	 * Delete broadcasted Notifications
-	 * @param {Integer} olderThan
-	 * @return {Void}
-	 */
-	deleteNotifications: function(olderThan) {
-		// Remove visit greater than a week ago
-		Notifications.remove({ 'isBroadcasted': true, 'isRead': true, 'createdAt': { '$lt': Bisia.Time.timeAgo(olderThan) } });
-	},
-
-	/**
 	 * Send notification in queue by email
 	 * @return {Void}
 	 */
@@ -100,9 +90,6 @@ Bisia.Automator = {
 	 * @return {Integer} N. of modified records
 	 */
 	broadcastNotifications: function() {
-
-		// delete broadcasted notifications - in cronjob
-		// this.deleteNotifications(Bisia.Time.msWeek);
 
 		// Update multiple notifications when are isBroadcasted
 		return Notifications.update({

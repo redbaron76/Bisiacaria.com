@@ -1,75 +1,73 @@
 <template name="loginUser">
 	<div class="content container-fluid">
-	<div class="row full-height">
-		<div class="col-xs-12 col-sm-6" id="login">
-			{{> cookieAdvice}}
-			<div class="row">
-				<div class="col-xs-12 logo">
-					<button id="login-help">
-						serve<br>aiuto?
-					</button>
-					<div class="counter signed">
-						{{getPublishedCount 'totUsers'}}
-						<span>iscritti</span>
+		<div class="row full-height">
+			<div class="col-xs-12 col-sm-6" id="login">
+				{{> cookieAdvice}}
+				<div class="row">
+					<div class="col-xs-12 logo">
+						<button id="login-help">
+							serve<br>aiuto?
+						</button>
+						<div class="counter signed">
+							{{getPublishedCount 'totUsers'}}
+							<span>iscritti</span>
+						</div>
+						<div class="counter online">
+							{{getPublishedCount 'totOnline'}}
+							<span>on-line</span>
+						</div>
+						<img src="/img/logo_bisia.svg" alt="Bisiacaria.com" id="logo-bisia">
+						<h1>Login</h1>
+						<div class="caret-down"></div>
 					</div>
-					<div class="counter online">
-						{{getPublishedCount 'totOnline'}}
-						<span>on-line</span>
-					</div>
-					<img src="/img/logo_bisia.svg" alt="Bisiacaria.com" id="logo-bisia">
-					<h1>Login</h1>
-					<div class="caret-down"></div>
 				</div>
-			</div>
-			{{#if fbReady}}
-			<div class="row">
-				<div class="col-xs-12 social">
-				{{#if sitePreview}}
-					<div id="fb-root"></div>
-					<script>(function(d, s, id) {
-					  var js, fjs = d.getElementsByTagName(s)[0];
-					  if (d.getElementById(id)) return;
-					  js = d.createElement(s); js.id = id;
-					  js.src = "//connect.facebook.net/it_IT/sdk.js#xfbml=1&version=v2.4&appId=315109065290362";
-					  fjs.parentNode.insertBefore(js, fjs);
-					}(document, 'script', 'facebook-jssdk'));</script>
+				{{#if fbReady}}
+				<div class="row">
+					<div class="col-xs-12 social">
+					{{#if sitePreview}}
+						<div id="fb-root"></div>
+						<script>(function(d, s, id) {
+						  var js, fjs = d.getElementsByTagName(s)[0];
+						  if (d.getElementById(id)) return;
+						  js = d.createElement(s); js.id = id;
+						  js.src = "//connect.facebook.net/it_IT/sdk.js#xfbml=1&version=v2.4&appId=315109065290362";
+						  fjs.parentNode.insertBefore(js, fjs);
+						}(document, 'script', 'facebook-jssdk'));</script>
 
-					<a href="#" id="login-fb" class="visible-xs-block">Clicca <span class="fb-like" data-href="https://www.facebook.com/wwwbisiacariacom" data-layout="button" data-action="like" data-show-faces="false" data-share="false"></span> e usa <i class="fa fa-facebook-square fa-2x"></i></a>
-					<a href="#" id="login-fb" class="hidden-xs">Clicca <span class="fb-like" data-href="https://www.facebook.com/wwwbisiacariacom" data-layout="button" data-action="like" data-show-faces="false" data-share="false"></span> ed entra con <i class="fa fa-facebook-square fa-2x"></i></a>
-				{{else}}
-					<a href="#" id="login-fb">Clicca ed entra con <i class="fa fa-facebook-square fa-2x"></i></a>
+						<a href="#" id="login-fb" class="visible-xs-block">Clicca <span class="fb-like" data-href="https://www.facebook.com/wwwbisiacariacom" data-layout="button" data-action="like" data-show-faces="false" data-share="false"></span> e usa <i class="fa fa-facebook-square fa-2x"></i></a>
+						<a href="#" id="login-fb" class="hidden-xs">Clicca <span class="fb-like" data-href="https://www.facebook.com/wwwbisiacariacom" data-layout="button" data-action="like" data-show-faces="false" data-share="false"></span> ed entra con <i class="fa fa-facebook-square fa-2x"></i></a>
+					{{else}}
+						<a href="#" id="login-fb">Clicca ed entra con <i class="fa fa-facebook-square fa-2x"></i></a>
+					{{/if}}
+					</div>
+				</div>
 				{{/if}}
-				</div>
-			</div>
-			{{/if}}
 
-			<div class="row">
-				<div class="col-xs-12 form">
-					<div class="divider white-bg"><span>oppure usa il tuo account</span></div>
-					<form id="login-form" role="form" class="form-row">
-						<div class="form-group">
-							<i class="fa fa-envelope"></i>
-							<input type="email" id="email" placeholder="Indirizzo e-mail">
-						</div>
-						<div class="form-group">
-							<i class="fa fa-lock"></i>
-							<input type="password" id="password" placeholder="Password">
-						</div>
-						<button type="submit" data-icon="prepend" class="yellow">Entra</button>
-						<p>Hai dimenticato la password ? <a href="#" id="recover-password-modal">Clicca qui</a></p>
-					</form>
+				<div class="row">
+					<div class="col-xs-12 form">
+						<div class="divider white-bg"><span>oppure usa il tuo account</span></div>
+						<form id="login-form" role="form" class="form-row">
+							<div class="form-group">
+								<i class="fa fa-envelope"></i>
+								<input type="email" id="email" placeholder="Indirizzo e-mail">
+							</div>
+							<div class="form-group">
+								<i class="fa fa-lock"></i>
+								<input type="password" id="password" placeholder="Password">
+							</div>
+							<button type="submit" data-icon="prepend" class="yellow">Entra</button>
+							<p>Hai dimenticato la password ? <a href="#" id="recover-password-modal">Clicca qui</a></p>
+						</form>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12 register">
+						<a href="{{pathFor 'registerUser'}}">Non sei in <span>Bisia</span>? Registrati <span>ora</span>!</a>
+					</div>
 				</div>
 			</div>
-			<!-- {{#unless sitePreview}} -->
-			<div class="row">
-				<div class="col-xs-12 register">
-					<a href="{{pathFor 'registerUser'}}">Non sei in <span>Bisia</span>? Registrati <span>ora</span>!</a>
-				</div>
-			</div>
-			<!-- {{/unless}} -->
+			{{> loginSlideShow}}
 		</div>
-		{{> loginSlideShow}}
-	</div>
 	</div>
 </template>
 
