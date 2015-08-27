@@ -144,10 +144,13 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 	 */
 	citeToLink: function(text) {
 		if (text) {
-			var usernames = text.match(/(\s+)?@(.+?)(?=[\r\n\s\.,:?!]|$)/gmi);
+			var usernames = text.match(/(\s+)?@(.+?)(?=[\r\n\s,:?!]|$)/gmi);
 			if (!_.isEmpty(usernames)) {
 				_.each(_.uniq(usernames), function(citename) {
 					citename = citename.trim().replace(/(\r\n|\n|\r)/gim, '');
+					if (citename.substr(citename.length-1) == '.') {
+						citename = citename.substr(0, citename.length-1);
+					}
 					var url = citename.trim().replace('@', '');
 					var link = '<a href="/' + url + '" class="cite-inline">' + citename + '</a>';
 					var regExp = new RegExp(citename, 'g');
@@ -755,6 +758,15 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 		if (this.$clicked.has('i.fa').length) {
 			// this is the icon
 			this.$clickedIcon = this.$clicked.find('i.fa');
+			// save iconClasses
+			this.iconClasses = this.$clickedIcon.attr('class');
+			// change icon with spinning
+			this.$clickedIcon.removeClass().addClass('fa fa-refresh fa-spin');
+			// dont replace original content / auto update
+			if (action == 'auto') this.clickedContent = null;
+		} else if (this.$clicked.prev('i.fa').length) {
+			// this is the icon
+			this.$clickedIcon = this.$clicked.prev('i.fa');
 			// save iconClasses
 			this.iconClasses = this.$clickedIcon.attr('class');
 			// change icon with spinning

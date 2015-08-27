@@ -60,7 +60,7 @@ Meteor.publish('chatRoom', function(query, options) {
 	var isBanned = Chatusers.findOne({ 'userId': this.userId, 'isBanned': true });
 
 	// Meteor._sleepForMs(1000);
-	var chatUsers = Chatusers.find();
+	// var chatUsers = Chatusers.find();
 
 	if (this.userId && ! isBanned) {
 		// chat messages
@@ -71,8 +71,8 @@ Meteor.publish('chatRoom', function(query, options) {
 
 		// Meteor._sleepForMs(1000);
 		// return cursors
-		return [chatMessages, chatUsers, authors];
+		return [chatMessages, authors];
 	}
 
-	return chatUsers;
+	// return chatUsers;
 });

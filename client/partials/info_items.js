@@ -159,7 +159,8 @@ Template.geotagList.events({
 
 Template.geotagItem.events({
 	'click span.apply-tag': function(e, t) {
-		e.preventDefault();
+		// e.preventDefault();
+		Bisia.Ui.waitStart(e);
 		if (this.save) {
 			var position = {
 				tagId: this.data._id,
@@ -188,6 +189,7 @@ Template.geotagItem.events({
 			Bisia.Ui.unsetReactive('map');
 		}
 		Bisia.Ui.unsetReactive('info');
+		Bisia.Ui.waitStop(e);
 	},
 	'click .fa-trash': function(e, t) {
 		e.preventDefault();
