@@ -2,8 +2,11 @@
 Meteor.publish('countUsers', function() {
 	// Bisia.log('publishing countUsers...');
 	// Meteor._sleepForMs(500000);
-	Counts.publish(this, 'totUsers', Users.find({ 'emails': { $elemMatch: { 'verified': true } } }, { 'fields': { '_id': 1 } }));
-	Counts.publish(this, 'totOnline', Users.find({ 'profile.online': true }, { 'fields': { '_id': 1 } }));
+	Counts.publish(this, 'totUsers', Users.find({ 'emails': { $elemMatch: { 'verified': true } } }, { 'fields': { '_id': 1 } }), { noReady: true });
+	Counts.publish(this, 'totOnline', Users.find({ 'profile.online': true }, { 'fields': { '_id': 1 } }), { noReady: true });
+
+	// publish all usernames
+	return Users.find({ 'emails': { $elemMatch: { 'verified': true }} }, { 'fields': { 'username': 1 } });
 });
 
 // Publish online users

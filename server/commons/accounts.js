@@ -63,24 +63,18 @@ Accounts.onCreateUser(function(options, user) {
 			Bisia.log(result.error);
 
 		if (result.data) {
-			// Check username uniquity
-			if (result.data.username) {
-				anotherUsername = Users.findOne({ 'username': result.data.username });
-				if (anotherUsername) {
-					user.username = Bisia.trimSpaces(result.data.name, '.', true);
-				} else {
-					user.username = Bisia.trimSpaces(result.data.username, '.', true);
-				}
-			} else {
-				user.username 	= Bisia.trimSpaces(result.data.name, '.', true);
+
+			var cleanUsername = Bisia.normalizeUsername(result.data.name);
+
+			// check duplicates
+			anotherUsername = Users.find({ 'username': { '$regex': '^'+cleanUsername, '$options': 'i' }});
+			if (anotherUsername.count() > 0) {
+				cleanUsername = cleanUsername + (anotherUsername.count() + 1);
 			}
 
-			var likeBisia = isBisiaLiked(accessToken);
+			user.username = cleanUsername;
 
 			var profile = {};
-
-			// has liked Bisia page?
-			profile.likeBisia	= likeBisia;
 
 			profile.gender 		= result.data.gender;
 			profile.status 		= 'none'		// busy | none | free
@@ -94,11 +88,6 @@ Accounts.onCreateUser(function(options, user) {
 			if (fbId) {
 				profile.avatar = 'http://res.cloudinary.com/bisiacaria-com/image/facebook/w_200,h_200,c_fill,g_faces/'+fbId+'.jpg';
 				profile.picture = 'http://res.cloudinary.com/bisiacaria-com/image/facebook/'+fbId+'.jpg';
-				/*if (! result.data.username) {
-					profile.avatar = '';
-					profile.picture = '';
-				}*/
-				// profile.avatar = 'https://graph.facebook.com/'+result.data.id+'/picture?type=square';
 			} else {
 				profile.avatar = '';
 				profile.picture = '';

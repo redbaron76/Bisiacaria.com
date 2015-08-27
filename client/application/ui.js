@@ -17,6 +17,12 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 	$wrapper: null,		// the main wrapper
 
 	/**
+	 * keep trigger status of the UI
+	 * @type {Boolean}
+	 */
+	uiActivated: false,
+
+	/**
 	 * pageReady on subscriptions
 	 * @type {Object}
 	 */
@@ -96,6 +102,20 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 
 	},
 
+	autocompleteListener: function(e) {
+		var $area = $(e.currentTarget);
+		var content = $area.val();
+		var token = content.split(' ').slice(-1);
+		if (content.length == 0) this.uiActivated = false;
+
+		// console.log(e.keyCode);
+
+		if (token == '@' && !this.uiActivated) {
+			this.uiActivated = true;
+			console.log('activate!');
+		}
+	},
+
 	/**
 	 * [checkOnline description]
 	 * @return {[type]} [description]
@@ -144,7 +164,8 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 	 */
 	citeToLink: function(text) {
 		if (text) {
-			var usernames = text.match(/(\s+)?@(.+?)(?=[\r\n\s,:?!]|$)/gmi);
+			// var usernames = text.match(/(\s+)?@(.+?)(?=[\r\n\s,:?!]|$)/gmi);
+			var usernames = text.match(/\B@[\w\d.]+\b/igm);
 			if (!_.isEmpty(usernames)) {
 				_.each(_.uniq(usernames), function(citename) {
 					citename = citename.trim().replace(/(\r\n|\n|\r)/gim, '');

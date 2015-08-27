@@ -32,6 +32,9 @@ Template.base.events({
 	'click [data-img]': function(e, t) {
 		e.preventDefault();
 		Bisia.Ui.triggerFullScreenImage(e);
+	},
+	'keyup [data-autocomplete=username]': function(e, t) {
+		Bisia.Ui.autocompleteListener(e);
 	}
 });
 
