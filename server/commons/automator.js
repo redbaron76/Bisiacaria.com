@@ -159,10 +159,10 @@ Bisia.Automator = {
 			Pokerwinners.update({}, { '$pull': { 'winners': { 'winnerId': user._id }}});
 
 			// Delete denormalized data
-			Users.update({ 'followers': { '$in': [user._id] } }, { $pull: { 'followers': user._id } });
-			Users.update({ 'following': { '$in': [user._id] } }, { $pull: { 'following': user._id } });
-			Users.update({ 'blocked': { '$in': [user._id] } }, { $pull: { 'blocked': user._id } });
-			Users.update({ 'blockBy': { '$in': [user._id] } }, { $pull: { 'blockBy': user._id } });
+			Users.update({ 'followers': { '$in': [user._id] } }, { $pull: { 'followers': user._id } }, { 'multi': true	});
+			Users.update({ 'following': { '$in': [user._id] } }, { $pull: { 'following': user._id } }, { 'multi': true	});
+			Users.update({ 'blocked': { '$in': [user._id] } }, { $pull: { 'blocked': user._id } }, { 'multi': true	});
+			Users.update({ 'blockBy': { '$in': [user._id] } }, { $pull: { 'blockBy': user._id } }, { 'multi': true	});
 
 			// Delete user
 			Users.remove({ '_id': user._id });

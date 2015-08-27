@@ -144,7 +144,8 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 	 */
 	citeToLink: function(text) {
 		if (text) {
-			var usernames = text.match(/(\s+)?@(.+?)(?=[\r\n\s,:?!]|$)/gmi);
+			// var usernames = text.match(/(\s+)?@(.+?)(?=[\r\n\s,:?!]|$)/gmi);
+			var usernames = text.match(/\B@[\w\d.]+\b/igm);
 			if (!_.isEmpty(usernames)) {
 				_.each(_.uniq(usernames), function(citename) {
 					citename = citename.trim().replace(/(\r\n|\n|\r)/gim, '');
