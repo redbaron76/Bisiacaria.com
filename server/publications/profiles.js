@@ -7,7 +7,8 @@ Meteor.publish('userProfile', function(username) {
 	if (user.count() > 0) {
 		var targetId = user.fetch()[0]._id;
 		var myEvaluations = Evaluations.find({'targetId': targetId, 'userId': this.userId});
-		return [user, myEvaluations];
+		var myVotes = Votes.find({ 'targetId': this.userId });
+		return [user, myEvaluations, myVotes];
 	}
 	return user;
 });
