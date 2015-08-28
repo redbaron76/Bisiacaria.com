@@ -119,11 +119,18 @@ Bisia.Automator = {
 		if (count > 0) {
 			var text = 'Email inviate: ' + count + ' - Elapsed time: ' + moment().diff(start, 's') + ' sec.';
 			Bisia.log(text);
-			Email.send({
+			/*Email.send({
 				from: Bisia.Mail.Tpl.from,
 				to: 'f.fumis@gmail.com',
 				subject: 'Riepilogo notifiche bisia',
 				text: text
+			});*/
+			Meteor.call('sendEmail', {
+				from: Bisia.Mail.Tpl.from,
+				to: 'f.fumis@gmail.com',
+				subject: 'Riepilogo notifiche bisia',
+				text: text,
+				html: ''
 			});
 		}
 	},
@@ -168,11 +175,18 @@ Bisia.Automator = {
 			'broadcastedAt': { '$lt': moment().subtract(7, 'days').toDate() }
 		});
 
-		Email.send({
+		/*Email.send({
 			from: Bisia.Mail.Tpl.from,
 			to: 'f.fumis@gmail.com',
 			subject: 'Delete old notifications',
 			text: 'delete notifications older than ' + moment().subtract(7, 'days').toDate()
+		});*/
+		Meteor.call('sendEmail', {
+			from: Bisia.Mail.Tpl.from,
+			to: 'f.fumis@gmail.com',
+			subject: 'Delete old notifications',
+			text: 'delete notifications older than ' + moment().subtract(7, 'days').toDate(),
+			html: ''
 		});
 	},
 
@@ -227,11 +241,18 @@ Bisia.Automator = {
 
 		var message = "Cancellati " + howMany + " utenti.";
 		Bisia.Log.server(message, { createdAt: new Date() });
-		Email.send({
+		/*Email.send({
 			from: Bisia.Mail.Tpl.from,
 			to: 'f.fumis@gmail.com',
 			subject: 'Delete users from Bisia',
 			text: message
+		});*/
+		Meteor.call('sendEmail', {
+			from: Bisia.Mail.Tpl.from,
+			to: 'f.fumis@gmail.com',
+			subject: 'Delete users from Bisia',
+			text: message,
+			html: ''
 		});
 
 		return message;

@@ -12,6 +12,8 @@ Bisia.Mail = {
 
 	smtp: Meteor.settings.mail.smtp,
 
+	mailgun: Meteor.settings.mail.mailgun,
+
 	/**
 	 * Accounts.emailTemplates alias
 	 * @type {Object}
@@ -107,6 +109,11 @@ Bisia.Mail = {
 	mailSettings: function() {
 		this.Tpl.siteName 	= "Bisiacaria.com";
 		this.Tpl.from 		= "Bisiacaria.com <bisiacaria@gmail.com>";
+
+		Meteor.Mailgun.config({
+			username: this.mailgun.username,
+			password: this.mailgun.password
+		});
 	},
 
 	/**
@@ -165,12 +172,21 @@ Bisia.Mail = {
 				data.noData = true;
 			}
 
-			Email.send({
+			/*Email.send({
 				from: this.Tpl.from,
 				to: emailObj.email,
 				subject: 'Le tue notifiche su Bisia!',
 				html: this.getMailTemplate('notificationTpl', data)
+			});*/
+
+			Meteor.call('sendEmail', {
+				from: this.Tpl.from,
+				to: emailObj.email,
+				subject: 'Le tue notifiche su Bisia!',
+				text: '',
+				html: this.getMailTemplate('notificationTpl', data)
 			});
+
 			// console.log('to: ' + emailObj.email, data);
 		}
 
@@ -219,3 +235,23 @@ Bisia.Mail = {
 	}
 
 };
+
+Meteor.methods({
+	sendEmail: function (mailFields) {
+		// console.log("about to send email...");
+		check([mailFields.to, mailFields.from, mailFields.subject, mailFields.text, mailFields.html], [String]);
+
+		// Let other method calls from the same client start running,
+		// without waiting for the email sending to complete.
+		this.unblock();
+
+		Meteor.Mailgun.send({
+			to: mailFields.to,
+			from: mailFields.from,
+			subject: mailFields.subject,
+			text: mailFields.text,
+			html: mailFields.html
+		});
+		// console.log("email sent!");
+	}
+});
