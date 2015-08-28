@@ -61,6 +61,49 @@ Bisia.Automator = {
 		});
 	},
 
+	deleteOrphansArray: function() {
+
+		// array di tutti gli utenti e array _.uniq di tutte le liste
+		var listIds = [], userIds = [];
+		var users = Users.find();
+		users.forEach(function(user) {
+			userIds.push(user._id);
+			if (user.followers && user.followers.length) {
+				_.each(user.followers, function(id) {
+					listIds.push(id);
+				});
+			}
+			if (user.following && user.following.length) {
+				_.each(user.following, function(id) {
+					listIds.push(id);
+				});
+			}
+			if (user.blocked && user.blocked.length) {
+				_.each(user.blocked, function(id) {
+					listIds.push(id);
+				});
+			}
+			if (user.blockBy && user.blockBy.length) {
+				_.each(user.blockBy, function(id) {
+					listIds.push(id);
+				});
+			}
+		});
+		listIds = _.uniq(listIds);
+		// differenza tutte le liste e users -> trovo quelli eliminati
+		var delIds = _.difference(listIds, userIds);
+		// ciclo e elimino
+		if (delIds && delIds.length)  {
+			_.each(delIds, function(id) {
+				Users.update({ 'followers': { '$in': [id] } }, { $pull: { 'followers': id } }, { 'multi': true	});
+				Users.update({ 'following': { '$in': [id] } }, { $pull: { 'following': id } }, { 'multi': true	});
+				Users.update({ 'blocked': { '$in': [id] } }, { $pull: { 'blocked': id } }, { 'multi': true	});
+				Users.update({ 'blockBy': { '$in': [id] } }, { $pull: { 'blockBy': id } }, { 'multi': true	});
+			});
+			console.log('Eliminati ' + delIds.length);
+		}
+	},
+
 	/**
 	 * Send notification in queue by email
 	 * @return {Void}
@@ -159,10 +202,10 @@ Bisia.Automator = {
 			Pokerwinners.update({}, { '$pull': { 'winners': { 'winnerId': user._id }}});
 
 			// Delete denormalized data
-			Users.update({ 'followers': { '$in': [user._id] } }, { $pull: { 'followers': user._id } });
-			Users.update({ 'following': { '$in': [user._id] } }, { $pull: { 'following': user._id } });
-			Users.update({ 'blocked': { '$in': [user._id] } }, { $pull: { 'blocked': user._id } });
-			Users.update({ 'blockBy': { '$in': [user._id] } }, { $pull: { 'blockBy': user._id } });
+			Users.update({ 'followers': { '$in': [user._id] } }, { $pull: { 'followers': user._id } }, { 'multi': true	});
+			Users.update({ 'following': { '$in': [user._id] } }, { $pull: { 'following': user._id } }, { 'multi': true	});
+			Users.update({ 'blocked': { '$in': [user._id] } }, { $pull: { 'blocked': user._id } }, { 'multi': true	});
+			Users.update({ 'blockBy': { '$in': [user._id] } }, { $pull: { 'blockBy': user._id } }, { 'multi': true	});
 
 			// Delete user
 			Users.remove({ '_id': user._id });
