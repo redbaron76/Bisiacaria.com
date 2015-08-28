@@ -230,3 +230,21 @@ Template.chatRoomHint.events({
 		Users.update(Meteor.userId(), {'$set': {'profile.flags.chatRoomHint': status}});
 	},
 });
+
+Template.infoAutocompleteNick.events({
+	'keyup [data-action=autocomplete]': function(e, t) {
+		var search = $(e.currentTarget).val();
+		if (search) {
+			t.nickname = Users.findOne({
+				'username': { '$regex': '^'+search, '$options': 'i' },
+			}, {
+				'fields': { 'username': true },
+				'sort': { 'username': 1 }
+			})['username'];
+		}
+	},
+	'click [data-action=autocomplete]': function(e, t) {
+		var $search = $(e.currentTarget);
+		$search.val(t.nickname).blur();
+	}
+});

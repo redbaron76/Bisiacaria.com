@@ -277,7 +277,7 @@
 <template name="chatRoomHint">
 	<div class="md-info md-show list info">
 		{{> infoClose title=title}}
-		<div class="wrapper-info list-wrapper">
+		<div class="wrapper-info">
 			<p>In questa Bisia-Chat si invita tutti gli utenti a <strong>COMPORTARSI BENE</strong> e ad usare <strong>BUON SENSO</strong>.</p>
 			<p>In caso di problemi, ogni utente può proporre di <strong>BANNARE</strong> un utente dalla chat, <strong>cliccando l'avatar</strong> della persona da escludere.</p>
 			<p>Se la <strong>maggioranza</strong> degli utenti presenti in chat opterà per la stessa scelta, l'utente in questione verrà bannato per <strong>24 ORE</strong> entro 3 minuti.</p>
@@ -285,6 +285,21 @@
 				<input type="checkbox" id="set-chatroomhint">
 				non mostrare più questo avviso
 			</label>
+		</div>
+	</div>
+</template>
+
+<template name="infoAutocompleteNick">
+	<div class="md-info md-show list">
+		{{> infoClose title="Tagga il nick!"}}
+		<div class="wrapper-info form-wrapper">
+			<form id="form-" class="form-row">
+				<div class="form-group">
+					<i class="fa fa-at"></i>
+					<input type="text" data-action="autocomplete" placeholder="Nickname" autofocus>
+				</div>
+				<button type="button" class="gray" id="set-tag">Inserisci</button>
+			</form>
 		</div>
 	</div>
 </template>

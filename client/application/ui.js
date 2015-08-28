@@ -112,8 +112,21 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 
 		if (token == '@' && !this.uiActivated) {
 			this.uiActivated = true;
-			console.log('activate!');
+			this.autocompleteDialog(e);
+		} else {
+			this.uiActivated = false;
 		}
+	},
+
+	autocompleteDialog: function(event) {
+		var context = {};
+		context.infoTitle = 'Tagga un nick!';
+		Bisia.Ui.setReactive('info', {
+			template: 'infoAutocompleteNick',
+			context: context,
+			event: event
+		});
+		return this;
 	},
 
 	/**

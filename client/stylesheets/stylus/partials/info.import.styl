@@ -97,6 +97,19 @@
 			}
 		}
 
+		&.form-wrapper {
+			margin-top: 80px;
+			color: $white;
+
+			.fa {
+				color: $bisia;
+			}
+			.form-row,
+			.form-group {
+				border-color: $white-border;
+			}
+		}
+
 		.item-list {
 			padding-top: 80px;
 
@@ -191,35 +204,6 @@
 					width: 50%;
 				}
 
-				button {
-					padding: 10px;
-					border-radius: 5px;
-					border: none;
-					width: 95%;
-					&.green {
-						background-color: $green;
-					}
-					&.red {
-						background-color: $red;
-					}
-					&.blue {
-						background-color: $blue;
-					}
-					&.gray {
-						background-color: $gray-row-hl;
-					}
-					&.yellow {
-						background-color: $bisiadd;
-					}
-					&.loading::before {
-						fa('\f021');
-						font-size: 16px;
-						margin-right: 10px;
-						display: inline-block;
-						vertical-align: top;
-						animation(fa-spin 2s infinite linear);
-					}
-				}
 			}
 
 			& + .item-list {
@@ -238,6 +222,36 @@
 		font-size: 10px;
 		input[type=checkbox] {
 			margin: 0 10px;
+		}
+	}
+
+	button {
+		padding: 10px;
+		border-radius: 5px;
+		border: none;
+		width: 95%;
+		&.green {
+			background-color: $green;
+		}
+		&.red {
+			background-color: $red;
+		}
+		&.blue {
+			background-color: $blue;
+		}
+		&.gray {
+			background-color: $gray-row-hl;
+		}
+		&.yellow {
+			background-color: $bisiadd;
+		}
+		&.loading::before {
+			fa('\f021');
+			font-size: 16px;
+			margin-right: 10px;
+			display: inline-block;
+			vertical-align: top;
+			animation(fa-spin 2s infinite linear);
 		}
 	}
 
