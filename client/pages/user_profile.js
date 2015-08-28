@@ -43,7 +43,7 @@ Template.userProfile.helpers({
 		return moment(date).format("DD/MM/YYYY");
 	},
 	votesCount: function() {
-		return Votes.find({ 'targetId': Meteor.userId() }).count();
+		return Votes.find({ 'targetId': this._id }).count();
 	},
 	// Da quanti son seguito
 	followersCount: function() {
