@@ -120,7 +120,6 @@ Bisia.Ui = {			// global Bisia in /lib/application/bisia.js
 
 	autocompleteDialog: function(event) {
 		var context = {};
-		context.infoTitle = 'Tagga un nick!';
 		Bisia.Ui.setReactive('info', {
 			template: 'infoAutocompleteNick',
 			context: context,

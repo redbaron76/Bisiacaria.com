@@ -231,20 +231,47 @@ Template.chatRoomHint.events({
 	},
 });
 
+Template.infoAutocompleteNick.onRendered(function() {
+	this.$('[data-action=autocomplete]').focus();
+});
+
 Template.infoAutocompleteNick.events({
 	'keyup [data-action=autocomplete]': function(e, t) {
-		var search = $(e.currentTarget).val();
-		if (search) {
-			t.nickname = Users.findOne({
-				'username': { '$regex': '^'+search, '$options': 'i' },
-			}, {
-				'fields': { 'username': true },
-				'sort': { 'username': 1 }
-			})['username'];
+		e.preventDefault();
+		if (e.keyCode != 13) {
+			var search = $(e.currentTarget).val();
+			if (search) {
+				var nickname = Users.findOne({
+					'username': { '$regex': '^'+search, '$options': 'i' },
+				}, {
+					'fields': { 'username': true },
+					'sort': { 'username': 1 }
+				});
+				if (nickname && nickname.username) {
+					t.nickname = nickname['username'];
+					$('.autocomplete-suggest').html(nickname['username']);
+				}
+			} else {
+				t.nickname = null;
+				$('.autocomplete-suggest').html('');
+			}
+		} else {
+			$('[data-action=autocomplete]').trigger('click').blur();
 		}
 	},
 	'click [data-action=autocomplete]': function(e, t) {
 		var $search = $(e.currentTarget);
-		$search.val(t.nickname).blur();
+		var value = $('.autocomplete-suggest').html();
+		$search.val(value);
+		$('.autocomplete-suggest').html('');
+	},
+	'click #set-tag': function(e, t) {
+		e.preventDefault();
+		var $textarea = $('[data-autocomplete]');
+		var text = $textarea.val();
+		text = text + t.nickname;
+		$textarea.val(text).focus();
+		t.nickname = null;
+		Bisia.Ui.unsetReactive('info');
 	}
 });

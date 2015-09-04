@@ -291,15 +291,18 @@
 
 <template name="infoAutocompleteNick">
 	<div class="md-info md-show list">
-		{{> infoClose title="Tagga il nick!"}}
+		{{> infoClose title='Tagga un nickname'}}
 		<div class="wrapper-info form-wrapper">
-			<form id="form-" class="form-row">
+			<div class="form-row">
 				<div class="form-group">
 					<i class="fa fa-at"></i>
-					<input type="text" data-action="autocomplete" placeholder="Nickname" autofocus>
+					<div class="autocomplete-wrapper">
+						<input type="text" data-action="autocomplete" placeholder="Nickname" autocomplete="off" autofocus>
+						<div class="autocomplete-suggest"></div>
+					</div>
 				</div>
 				<button type="button" class="gray" id="set-tag">Inserisci</button>
-			</form>
+			</div>
 		</div>
 	</div>
 </template>

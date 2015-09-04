@@ -108,6 +108,20 @@
 			.form-group {
 				border-color: $white-border;
 			}
+
+			// Autocomplete suggest
+			.fa-at + div.autocomplete-wrapper {
+				position: relative;
+				input[type=text] {
+					position: relative;
+					z-index: 1;
+				}
+				.autocomplete-suggest {
+					absolute: top 0 left 0;
+					font-size: 16px;
+					color: $gray-row-pin;
+				}
+			}
 		}
 
 		.item-list {
