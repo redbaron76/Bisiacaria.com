@@ -257,6 +257,9 @@ Template.infoAutocompleteNick.events({
 			}
 		} else {
 			$('[data-action=autocomplete]').trigger('click').blur();
+			Meteor.setTimeout(function() {
+				$('#set-tag').trigger('click');
+			}, 500);
 		}
 	},
 	'click [data-action=autocomplete]': function(e, t) {
