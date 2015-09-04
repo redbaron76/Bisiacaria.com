@@ -11,13 +11,14 @@ Meteor.startup(function () {
 	Bisia.Log.init();
 	// Enabled in settings.json
 	Bisia.Login.basicAuthProtect();
-
 	// Ensure Indexes
 	ensureIndexesOnStartup();
 });
 
 var ensureIndexesOnStartup = function() {
 	Chats._ensureIndex({ 'ownerIds': 1 });
+	Chatroom._ensureIndex({ 'userId': 1 });
+	Chatusers._ensureIndex({ 'userId': 1 }, { unique: true });
 	Friends._ensureIndex({ 'targetId': 1, 'userId': 1 });
 	Messages._ensureIndex({ 'chatId': 1, 'targetId': 1, 'userId': 1, 'createdAt': 1 });
 	Notifications._ensureIndex({ 'targetId': 1, 'userId': 1, 'broadcastedAt': 1 });
