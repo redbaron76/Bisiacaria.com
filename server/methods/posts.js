@@ -125,6 +125,7 @@ Meteor.methods({
 		}
 
 		// Insert into collection
+		postObj.category = Bisia.Form.sanitizeHTML(postObj.category);
 		postObj.text = Bisia.Form.sanitizeHTML(postObj.text);
 		postObj._id = Posts.insert(postObj);
 
@@ -189,6 +190,7 @@ Meteor.methods({
 
 		// Insert into collection
 		postObj.text = Bisia.Form.sanitizeHTML(postObj.text);
+		postObj.category = Bisia.Form.sanitizeHTML(postObj.category);
 		postObj._id = Posts.insert(postObj);
 		// console.log(postObj);
 		// Log the post

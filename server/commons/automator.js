@@ -33,8 +33,8 @@ Bisia.Automator = {
 
 		// get last message
 		var lastMessage = Chatroom.findOne({}, { 'sort': { '$natural': -1 } } );
-		// remove messages 6 mins older than the last one
-		Chatroom.remove({ 'createdAt': { '$lt': moment(lastMessage.createdAt).subtract(6, 'm').toDate() } });
+		// remove messages 15 mins older than the last one
+		Chatroom.remove({ 'createdAt': { '$lt': moment(lastMessage.createdAt).subtract(15, 'm').toDate() } });
 
 		// togli ban con permanentBanner=false con bannedAt > 24h from now
 		Chatusers.remove({ 'isBanned': true, 'bannedAt': { '$lte': Bisia.Time.daysAgoStart(1) } });
