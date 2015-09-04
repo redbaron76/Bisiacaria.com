@@ -31,7 +31,7 @@ Meteor.publish('nearYou', function(position, distance) {
 					'coordinates': [ parseFloat(position.lat), parseFloat(position.lng) ]
 				},
 				'$minDistance': 0,
-				'$maxDistance': 1000
+				'$maxDistance': 500
 			}
 		}
 	};
