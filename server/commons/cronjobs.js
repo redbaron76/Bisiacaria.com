@@ -15,7 +15,7 @@ SyncedCron.add({
 SyncedCron.add({
 	name: 'deleteNotifications',
 	schedule: function(parser) {
-		return parser.text('at 05:00');
+		return parser.text('at 05:45');
 	},
 	job: function() {
 		return Bisia.Automator.deleteOldNotifications();
