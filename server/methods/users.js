@@ -90,7 +90,7 @@ Meteor.methods({
 								"Assicurati di aver usato lo stesso NICKNAME o lo stesso NOME e COGNOME che ci hai comunicato su GROWISH o durante il contributo a mano.<br><br>" +
 								"Contattaci per chiarimenti su bisiacaria@gmail.com o sulla Pagina Facebook di Bisiacaria.com|exec";
 
-		var usernameTaken = Users.findOne({ 'username': { '$regex': '^'+userAttr.username, '$options': 'i' }});
+		var usernameTaken = Users.findOne({ 'username': { '$regex': '^'+userAttr.username+'$', '$options': 'i' }});
 		if (usernameTaken)
 			errors.username = Bisia.Login.messages.nicknameInUse + "|exc";
 
@@ -125,7 +125,7 @@ Meteor.methods({
 
 		// var usernameTaken = Users.findOne({ 'username': dataAttr.username, '_id': { $ne: currentUser } });
 		var usernameTaken = Users.findOne({
-			'username': { '$regex': '^'+dataAttr.username, '$options': 'i' },
+			'username': { '$regex': '^'+dataAttr.username+'$', '$options': 'i' },
 			'_id': { '$ne': currentUser }
 		});
 		if (usernameTaken)

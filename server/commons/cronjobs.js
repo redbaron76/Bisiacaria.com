@@ -49,10 +49,12 @@ SyncedCron.add({
 SyncedCron.add({
 	name: 'rechargePokerCredits',
 	schedule: function(parser) {
-		return parser.text('at 00:01');
+		return parser.text('at 00:01 and 06:00 and 08:00 and 10:00 and 12:00 and 14:00 and 16:00 and 18:00 and 20:00 and 22:00');
+		// return parser.text('at 00:01');
 	},
 	job: function() {
-		return Bisia.Poker.rechargeCredits();
+		return Bisia.Poker.rechargeHourlyCredits();
+		// return Bisia.Poker.rechargeDailyCredits();
 	}
 });
 
@@ -61,7 +63,6 @@ SyncedCron.add({
 	name: 'resetPokerWeek',
 	schedule: function(parser) {
 		return parser.text('on Monday at 00:01');
-		// return parser.text('every 1 minutes');
 	},
 	job: function() {
 		return Bisia.Poker.resetPokerWeek();

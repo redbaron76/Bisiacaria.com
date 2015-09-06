@@ -4,7 +4,7 @@ Meteor.publish('userProfile', function(username) {
 
 	// Meteor._sleepForMs(1000);
 	// var user = Users.find({ 'username': username }, { 'fields': { 'emails': false, 'services': false } });
-	var user = Users.find({ 'username': { '$regex': '^'+username, '$options': 'i' }}, { 'fields': { 'emails': false, 'services': false } });
+	var user = Users.find({ 'username': { '$regex': '^'+username+'$', '$options': 'i' }}, { 'fields': { 'emails': false, 'services': false } });
 	if (user.count() > 0) {
 		var targetId = user.fetch()[0]._id;
 		var myEvaluations = Evaluations.find({'targetId': targetId, 'userId': this.userId});

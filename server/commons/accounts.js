@@ -67,7 +67,7 @@ Accounts.onCreateUser(function(options, user) {
 			var cleanUsername = Bisia.normalizeUsername(result.data.name);
 
 			// check duplicates
-			anotherUsername = Users.find({ 'username': { '$regex': '^'+cleanUsername, '$options': 'i' }});
+			anotherUsername = Users.find({ 'username': { '$regex': '^'+cleanUsername+'$', '$options': 'i' }});
 			if (anotherUsername.count() > 0) {
 				cleanUsername = cleanUsername + (anotherUsername.count() + 1);
 			}

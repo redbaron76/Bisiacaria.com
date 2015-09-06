@@ -198,7 +198,13 @@ Bisia.Automator = {
 		var users = Users.find({ 'scheduledDelete': { '$lt': new Date() } });
 		var howMany = users.count();
 
+		var usernames = [];
+
 		users.forEach(function(user) {
+
+			// save username
+			usernames.push(user.username);
+
 			// Delete contents
 			Events.remove({ 'authorId': user._id });
 			Posts.remove({ 'authorId': user._id });
@@ -226,6 +232,14 @@ Bisia.Automator = {
 
 			Bisia.Log.server("Eliminato l'utente", { userId: user._id });
 
+			Meteor.call('sendEmail', {
+				from: Bisia.Mail.Tpl.from,
+				to: user.emails[0].address,
+				subject: 'Cancellazione utente',
+				text: '',
+				html: 'Il tuo profilo è stato eliminato da Bisiacaria.com'
+			});
+
 		});
 
 		// Delete not confirmed users
@@ -240,13 +254,20 @@ Bisia.Automator = {
 		});
 
 		var message = "Cancellati " + howMany + " utenti.";
+
 		Bisia.Log.server(message, { createdAt: new Date() });
+
 		/*Email.send({
 			from: Bisia.Mail.Tpl.from,
 			to: 'f.fumis@gmail.com',
 			subject: 'Delete users from Bisia',
 			text: message
 		});*/
+
+		if (usernames.length > 0) {
+			message = message + ' ' + usernames.toString();
+		}
+
 		Meteor.call('sendEmail', {
 			from: Bisia.Mail.Tpl.from,
 			to: 'f.fumis@gmail.com',
