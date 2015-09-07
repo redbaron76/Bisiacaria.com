@@ -242,7 +242,7 @@ Template.infoAutocompleteNick.events({
 			var search = $(e.currentTarget).val();
 			if (search) {
 				var nickname = Users.findOne({
-					'username': { '$regex': '^'+search+'$', '$options': 'i' },
+					'username': { '$regex': '^'+search, '$options': 'i' },
 				}, {
 					'fields': { 'username': true },
 					'sort': { 'username': 1 }
