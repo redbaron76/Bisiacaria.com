@@ -5,7 +5,7 @@ Meteor.publish('pokerCurrentStatus', function() {
 	if (! pokerPlayer) {
 		Pokerplayers.insert({
 			playerId: this.userId,
-			credit: Meteor.settings.bispoker.dailyCredit,
+			credit: Meteor.settings.bispoker.hourlyCredit,
 			createdAt: Bisia.Time.now()
 		});
 	}
