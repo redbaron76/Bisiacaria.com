@@ -50,11 +50,9 @@ SyncedCron.add({
 	name: 'rechargePokerCredits',
 	schedule: function(parser) {
 		return parser.text('at 00:01 and 12:01');
-		// return parser.text('at 00:01');
 	},
 	job: function() {
 		return Bisia.Poker.rechargeHourlyCredits();
-		// return Bisia.Poker.rechargeDailyCredits();
 	}
 });
 
