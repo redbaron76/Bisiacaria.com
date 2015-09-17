@@ -126,7 +126,7 @@ Template.bisPoker.helpers({
 	outOfCredit: function() {
 		var instance = Template.instance();
 		var status = instance.statusPlay.get();
-		var credit = instance.dailyCredit
+		var credit = instance.dailyCredit;
 		return credit == 0 && status == 'apri';
 	},
 	isDisabled: function() {
