@@ -52,7 +52,7 @@ SyncedCron.add({
 		return parser.text('at 00:01 and 12:01');
 	},
 	job: function() {
-		return Bisia.Poker.rechargeHourlyCredits();
+		return Bisia.Poker.rechargeCredits();
 	}
 });
 
