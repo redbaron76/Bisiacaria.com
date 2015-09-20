@@ -23,6 +23,9 @@ Template.sidebarMenu.helpers({
 	},
 	totNotifies: function() {
 		return Counts.get('totNotifies');
+	},
+	mobileDevice: function() {
+		return ( Meteor.Device.isTablet() || Meteor.Device.isPhone() ) ? true : false;
 	}
 });
 
@@ -65,7 +68,13 @@ Template.sidebarMenu.events({
 	},
 	'click .reset-note': function(e, t) {
 		Bisia.Notification.resetNotify('note');
-	}
+	},
+	'click #open-bisiapass': function(e, t) {
+		e.preventDefault();
+		Bisia.Ui.setReactive('info', {
+			template: 'bisiaPassQRCode'
+		});
+	},
 });
 
 Template.menuItem.helpers({

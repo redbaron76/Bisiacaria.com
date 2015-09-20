@@ -21,6 +21,15 @@ Template.categoryItem.events({
 	}
 });
 
+Template.bisiaPassQRCode.onRendered(function() {
+	var userId = Meteor.userId();
+	this.$('#bisiapass-qrcode').qrcode({
+		width: 256,
+		height: 256,
+		text: userId
+	});
+});
+
 Template.infoConfirm.events({
 	'click #confirm-no': function(e, t) {
 		e.preventDefault();

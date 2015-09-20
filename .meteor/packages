@@ -46,3 +46,4 @@ djedi:sanitize-html
 jabbslad:basic-auth
 #meteorhacks:sikka
 cunneen:mailgun
+steeve:jquery-qrcode
