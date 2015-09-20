@@ -114,11 +114,10 @@ Bisia.Automator = {
 		var count = 0;
 		emailNotifications.forEach(function (email) {
 			Bisia.Mail.sendNotificationMail(email);
-			count++;
+			count ++;
 		});
 		if (count > 0) {
 			var text = 'Email inviate: ' + count + ' - Elapsed time: ' + moment().diff(start, 's') + ' sec.';
-			Bisia.log(text);
 			/*Email.send({
 				from: Bisia.Mail.Tpl.from,
 				to: 'f.fumis@gmail.com',
@@ -129,6 +128,41 @@ Bisia.Automator = {
 				from: Bisia.Mail.Tpl.from,
 				to: 'f.fumis@gmail.com',
 				subject: 'Riepilogo notifiche bisia',
+				text: text,
+				html: ''
+			});
+		}
+	},
+
+	/**
+	 * Chiama utenti non online da almeno 15gg
+	 * @return {Void}
+	 */
+	emailRecall: function() {
+		var count = 0;
+		var start = moment();
+		// select users last login older than 15 days
+		var users = Users.find({
+			'profile.loginSince': { '$lt': Bisia.Time.daysAgoEnd(15) }
+		}, {
+			'fields': { 'username': true, 'emails': true, 'profile': true }
+		});
+		users.forEach(function(userObj) {
+			Bisia.Mail.sendYouMissFromBisia(userObj);
+			count ++;
+		});
+		if (count > 0) {
+			var text = 'Email inviate: ' + count + ' - Elapsed time: ' + moment().diff(start, 's') + ' sec.';
+			/*Email.send({
+				from: Bisia.Mail.Tpl.from,
+				to: 'f.fumis@gmail.com',
+				subject: 'Riepilogo notifiche bisia',
+				text: text
+			});*/
+			Meteor.call('sendEmail', {
+				from: Bisia.Mail.Tpl.from,
+				to: 'f.fumis@gmail.com',
+				subject: 'Riepilogo email Recall',
 				text: text,
 				html: ''
 			});

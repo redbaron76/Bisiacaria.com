@@ -182,7 +182,7 @@ Bisia.Mail = {
 			Meteor.call('sendEmail', {
 				from: this.Tpl.from,
 				to: emailObj.email,
-				subject: 'Le tue notifiche su Bisia!',
+				subject: 'Hai nuove notifiche su Bisia!',
 				text: '',
 				html: this.getMailTemplate('notificationTpl', data)
 			});
@@ -192,6 +192,27 @@ Bisia.Mail = {
 
 		// Remove email queued
 		Emails.remove(emailObj._id);
+	},
+
+	/**
+	 * Email users not logged in since 15 days
+	 * @param  {Obj} userObj
+	 * @return {Void}
+	 */
+	sendYouMissFromBisia: function(userObj) {
+		var today = moment();
+		var data = {};
+		data.username = userObj.username;
+		data.email = userObj.emails[0].address;
+		data.passDays = today.diff(userObj.profile.loginSince, 'days');
+
+		Meteor.call('sendEmail', {
+			from: this.Tpl.from,
+			to: data.email,
+			subject: 'Nuovi utenti ti aspettano su Bisia!',
+			text: '',
+			html: this.getMailTemplate('notificationTpl', data)
+		});
 	},
 
 	/**

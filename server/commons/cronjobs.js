@@ -34,6 +34,17 @@ SyncedCron.add({
 	}
 });
 
+// Send notification you miss since 15 days
+SyncedCron.add({
+	name: 'sendYouMissFromBisia',
+	schedule: function(parser) {
+		return parser.text('on Monday at 06:30');
+	},
+	job: function() {
+		return Bisia.Automator.emailRecall();
+	}
+});
+
 // Chat Room Ban
 SyncedCron.add({
 	name: 'chatRoomBan',
