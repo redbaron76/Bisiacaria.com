@@ -250,12 +250,16 @@ Template.infoAutocompleteNick.events({
 		if (e.keyCode != 13) {
 			var search = $(e.currentTarget).val();
 			if (search) {
-				var nickname = Users.findOne({
+				var users = Users.find({
 					'username': { '$regex': '^'+search, '$options': 'i' },
 				}, {
 					'fields': { 'username': true },
-					'sort': { 'username': 1 }
-				});
+					'sort': { 'username': 1 },
+					'limit': 5
+				}).fetch();
+
+				var nickname = _.sortBy(users, 'username')[0];
+
 				if (nickname && nickname.username) {
 					t.nickname = nickname['username'];
 					$('.autocomplete-suggest').html(nickname['username']);
