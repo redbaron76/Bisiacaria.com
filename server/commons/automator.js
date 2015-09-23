@@ -143,7 +143,8 @@ Bisia.Automator = {
 		var start = moment();
 		// select users last login older than 15 days
 		var users = Users.find({
-			'profile.loginSince': { '$lt': Bisia.Time.daysAgoEnd(15) }
+			'profile.loginSince': { '$lt': Bisia.Time.daysAgoEnd(15) },
+			'profile.notifyMail': true
 		}, {
 			'fields': { 'username': true, 'emails': true, 'profile': true }
 		});
@@ -153,12 +154,7 @@ Bisia.Automator = {
 		});
 		if (count > 0) {
 			var text = 'Email inviate: ' + count + ' - Elapsed time: ' + moment().diff(start, 's') + ' sec.';
-			/*Email.send({
-				from: Bisia.Mail.Tpl.from,
-				to: 'f.fumis@gmail.com',
-				subject: 'Riepilogo notifiche bisia',
-				text: text
-			});*/
+
 			Meteor.call('sendEmail', {
 				from: Bisia.Mail.Tpl.from,
 				to: 'f.fumis@gmail.com',

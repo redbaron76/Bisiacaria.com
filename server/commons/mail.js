@@ -202,7 +202,7 @@ Bisia.Mail = {
 	sendYouMissFromBisia: function(userObj) {
 		var today = moment();
 		var data = {};
-		data.username = userObj.username;
+		data.nickname = userObj.username;
 		data.email = userObj.emails[0].address;
 		data.passDays = today.diff(userObj.profile.loginSince, 'days');
 
@@ -211,7 +211,7 @@ Bisia.Mail = {
 			to: data.email,
 			subject: 'Nuovi utenti ti aspettano su Bisia!',
 			text: '',
-			html: this.getMailTemplate('notificationTpl', data)
+			html: this.getMailTemplate('youMissFromBisiaTpl', data)
 		});
 	},
 
