@@ -133,6 +133,15 @@ Template.bisPoker.helpers({
 		var instance = Template.instance();
 		var status = instance.statusPlay.get();
 		if (status == 'apri') return 'disabled';
+	},
+	printNextCredits: function() {
+		var credit = Bisia.Poker.credit;
+		var midDay = moment().set('hour', 12).set('minute', 0).set('second', 0);
+		if (moment().isBefore(midDay)) {
+			return 'Ne riceverai ulteriori <strong>'+credit+'</strong> alle ore 12:00';
+		} else {
+			return 'Riceverai nuovi <strong>'+credit+'</strong> crediti a mezzanotte.';
+		}
 	}
 });
 
