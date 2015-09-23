@@ -256,13 +256,24 @@ Template.infoAutocompleteNick.events({
 					'fields': { 'username': true },
 					'sort': { 'username': 1 },
 					'limit': 5
-				}).fetch();
+				});
 
-				var nickname = _.sortBy(users, 'username')[0];
+				var nicknames = [];
+				users.forEach(function(user) {
+					nicknames.push(user.username);
+				});
 
-				if (nickname && nickname.username) {
-					t.nickname = nickname['username'];
-					$('.autocomplete-suggest').html(nickname['username']);
+				// sort by username length
+				nicknames.sort(function(a, b) {
+					return a.length - b.length;
+				});
+
+				var nickname = nicknames[0];
+				console.log(nickname);
+
+				if (nickname) {
+					t.nickname = nickname;
+					$('.autocomplete-suggest').html(nickname);
 				}
 			} else {
 				t.nickname = null;
