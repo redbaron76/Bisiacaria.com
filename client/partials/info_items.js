@@ -23,10 +23,14 @@ Template.categoryItem.events({
 
 Template.bisiaPassQRCode.onRendered(function() {
 	var userId = Meteor.userId();
+
+	var url = 'access/' + Meteor.settings.public.bisiapass.eventId + '/' + userId;
+	var text = Meteor.absoluteUrl(url);
+
 	this.$('#bisiapass-qrcode').qrcode({
 		width: 256,
 		height: 256,
-		text: userId
+		text: text
 	});
 });
 
@@ -269,7 +273,6 @@ Template.infoAutocompleteNick.events({
 				});
 
 				var nickname = nicknames[0];
-				console.log(nickname);
 
 				if (nickname) {
 					t.nickname = nickname;

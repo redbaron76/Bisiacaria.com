@@ -1,0 +1,44 @@
+.light {
+	absolute: top 0 right 0 bottom 0 left 0;
+
+	font-family: $font-semibold;
+	text-align: center;
+	font-size: 3em;
+	color: $white;
+
+	h1 {
+		font-size: .8em;
+	}
+
+	.content-text {
+		absolute: top 50% right 0 left 0;
+		transform: translateY(-40%);
+		padding: 0 20px;
+
+		big {
+			display: block;
+			font-size: .6em;
+		}
+
+		small {
+			display: block;
+			font-size: 1em;
+			margin-top: .5em;
+		}
+
+		.fa {
+			display: block;
+			font-size: 4em;
+		}
+	}
+
+	&.green {
+		background-color: $green;
+	}
+	&.red {
+		background-color: $red;
+	}
+	&.yellow {
+		background-color: $bisiad;
+	}
+}
