@@ -369,7 +369,14 @@ Bisia.Automator = {
 			Users.update(uId, { $set:{ 'profile.votesCount': count }});
 
 		});
-	}
+	},
+
+    /**
+     * Send newsletter to all old users
+     */
+    sendOldUsers: function() {
+        Bisia.Mail.sendToOldUsers();
+    }
 
 
 };

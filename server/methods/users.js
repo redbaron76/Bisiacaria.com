@@ -322,5 +322,14 @@ Meteor.methods({
 		});
 
 		return true;
-	}
+	},
+    /**
+     * Called by _unsubscribeController
+     * @param id
+     * @returns {boolean}
+     */
+    deleteOldUserAccount: function(id) {
+        OldUsers.remove({id: id});
+        return true;
+    }
 });

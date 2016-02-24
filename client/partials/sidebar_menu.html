@@ -42,14 +42,12 @@
 					{{> menuItem}}
 				{{/each}}
 
-				{{#if mobileDevice}}
 				<li class="spacer">
 					<a href="#" id="open-bisiapass">
 						<i class="fa fa-qrcode"></i>
 						Bisia-Pass <small>(QR Code)</small>
 					</a>
 				</li>
-				{{/if}}
 
 				<li class="spacer">
 					<a href="{{pathFor 'userSettings'}}" id="settings-link" data-action="close" data-unlight="cog">

@@ -3,7 +3,6 @@
 # 'meteor add' and 'meteor remove' will edit this file for you,
 # but you can also edit it by hand.
 
-meteor-platform
 mizzao:bootstrap-3
 underscore
 iron:router
@@ -47,3 +46,17 @@ jabbslad:basic-auth
 #meteorhacks:sikka
 cunneen:mailgun
 steeve:jquery-qrcode
+standard-minifiers
+meteor-base
+mobile-experience
+mongo
+blaze-html-templates
+session
+jquery
+tracker
+logging
+reload
+random
+ejson
+spacebars
+check
