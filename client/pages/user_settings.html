@@ -44,20 +44,23 @@
 						</div>
 						<div class="form-group check-box">
 							<i class="fa fa-heart"></i>
-							<div class="light">
-								<div class="checkround">
-									<input type="radio" name="status" value="busy" id="busy" {{checkStatus 'busy' this}}>
-									<label for="busy"></label>
-								</div>
-								<div class="checkround">
-									<input type="radio" name="status" value="none" id="none" {{checkStatus 'none' this}}>
-									<label for="none"></label>
-								</div>
-								<div class="checkround">
-									<input type="radio" name="status" value="free" id="free" {{checkStatus 'free' this}}>
-									<label for="free"></label>
-								</div>
-							</div>
+                            <div class="light-wrapper">
+                                <div class="lights">
+                                    <div class="checkround">
+                                        <input type="radio" name="status" value="busy" id="busy" {{checkStatus 'busy' this}}>
+                                        <label for="busy"></label>
+                                    </div>
+                                    <div class="checkround">
+                                        <input type="radio" name="status" value="none" id="none" {{checkStatus 'none' this}}>
+                                        <label for="none"></label>
+                                    </div>
+                                    <div class="checkround">
+                                        <input type="radio" name="status" value="free" id="free" {{checkStatus 'free' this}}>
+                                        <label for="free"></label>
+                                    </div>
+                                </div>
+                            </div>
+
 						</div>
 						<button type="submit" data-icon="prepend" class="yellow">Modifica</button>
 					</form>

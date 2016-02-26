@@ -13,6 +13,10 @@
 			color: $gray-row-hl;
 			ellipsis();
 		}
+
+		a {
+			table-layout: fixed;
+		}
 	}
 
 	.item-list {
@@ -20,7 +24,8 @@
 
 		li {
 			li-list();
-			status();
+			// status();
+			status-border();
 			malefemale();
 			background-color: transparent;
 			border-bottom: 1px solid $white-border;
@@ -134,7 +139,7 @@
 				}
 			}
 
-			.avatar-wrapper {
+			/*.avatar-wrapper {
 				width: 45px;
 				display: table-cell;
 				vertical-align: top;
@@ -142,6 +147,14 @@
 				.avatar {
 					avatar(45px, 2px);
 				}
+			}*/
+
+			.image-wrapper {
+				width: 45px;
+				display: table-cell;
+				vertical-align: top;
+
+				image-wrapper(45px, 2px);
 			}
 
 			.right-aligned {

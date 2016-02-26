@@ -1,5 +1,5 @@
 
-.avatar-wrapper {
+/*.avatar-wrapper {
 	display: block;
 	position: relative;
 
@@ -9,6 +9,20 @@
 		color: lighten($green, 15%);
 		line-height: 100%;
 		z-index: 3;
+	}
+}*/
+
+.image-wrapper {
+	display: block;
+	position: relative;
+
+	&.online::after {
+		fa('\f111');
+		absolute: left 0 top 0;
+		color: lighten($green, 15%);
+		line-height: 100%;
+		z-index: 3;
+		overflow: visible;
 	}
 }
 

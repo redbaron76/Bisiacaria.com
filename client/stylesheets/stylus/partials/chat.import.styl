@@ -7,7 +7,7 @@
 			li.message {
 				border: none;
 
-				.avatar-wrapper {
+				/*.avatar-wrapper {
 					width: 50px;
 					display: block;
 					font-size: .8em;
@@ -15,6 +15,21 @@
 					.avatar {
 						avatar(35px, 2px);
 					}
+					&.online::after {
+						top: 10px;
+					}
+				}*/
+
+				.image-wrapper {
+					margin-right: 15px;
+					margin-top: 8px;
+
+					display: block;
+					font-size: .8em;
+					padding-top: 10px;
+
+					image-wrapper(35px, 2px);
+
 					&.online::after {
 						top: 10px;
 					}
@@ -61,8 +76,19 @@
 				}
 
 				&.me {
-					.avatar-wrapper {
+					/*.avatar-wrapper {
 						text-align: right;
+						div {
+							margin-left: auto;
+							margin-right: 0;
+						}
+					}*/
+
+					.image-wrapper {
+						text-align: right;
+						margin-left: 15px;
+						margin-right: 0;
+
 						div {
 							margin-left: auto;
 							margin-right: 0;

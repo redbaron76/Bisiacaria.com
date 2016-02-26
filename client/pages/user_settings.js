@@ -1,19 +1,19 @@
 Template.userSettings.onRendered(function() {
 
 	// UPLOAD IMAGE TO CLOUDINARY
-	var settings = {
+	/*var settings = {
 		format: 'jpg',
 		width: 200,
 		height: 200,
 		crop: 'thumb',
 		gravity: 'faces:center'
-	}
+	};
 	var bindings = {
 		start: 'settingsCloudinaryStart',
 		progress: 'settingsCloudinaryProgress',
 		done: 'settingsCloudinaryDone'
-	}
-	Bisia.Img.cloudinaryUpload('#avatar-profile', 'profile', settings, bindings, this);
+	};
+	Bisia.Img.cloudinaryUpload('#avatar-profile', 'profile', settings, bindings, this);*/
 
 	var counter = {
 		countDown: true,

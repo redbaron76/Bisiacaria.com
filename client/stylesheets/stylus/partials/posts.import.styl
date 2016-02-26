@@ -45,7 +45,8 @@
 			}
 
 			&.article {
-				status();
+				//status();
+				status-border();
 				malefemale();
 				a-wrapper();
 
@@ -55,12 +56,18 @@
 					undecorate();
 				}
 
-				.avatar-wrapper {
+				/*.avatar-wrapper {
 					display: table-cell;
 					width: 45px;
 					.avatar {
 						avatar(45px, 2px);
 					}
+				}*/
+
+				.image-wrapper {
+					display: table-cell;
+					width: 45px;
+					image-wrapper(45px, 2px);
 				}
 
 				.username {

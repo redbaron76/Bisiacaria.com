@@ -13,7 +13,8 @@
 	}*/
 
 	.header {
-		status();
+		//status();
+		status-border();
 		malefemale();
 		position: relative;
 		background-color: $gray-row;
@@ -23,18 +24,29 @@
 
 		min-width: calc(100% - 50px);
 
-		.avatar-wrapper {
+		/*.avatar-wrapper {
 			display: inline-block;
 			&.online::after {
 				absolute: left 7% top 7%;
 				font-size: 1.5em;
 			}
-		}
+		}*/
 
-		.avatar {
-			avatar(120px, 3px);
+		.image-wrapper {
+			display: inline-block;
+			&.online::after {
+				absolute: left 7% top 7%;
+				font-size: 1.5em;
+			}
+
+			image-wrapper(120px, 3px);
 			margin: 0 auto;
 		}
+
+		/*.avatar {
+			avatar(120px, 3px);
+			margin: 0 auto;
+		}*/
 
 		.username {
 			username(13px, 0, inline = false);

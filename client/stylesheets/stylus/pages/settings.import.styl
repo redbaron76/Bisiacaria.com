@@ -6,8 +6,13 @@
 
 	.form {
 
-		.light {
-			display: inline-table;
+		.light-wrapper {
+			display: table-cell;
+			width: 90%;
+		}
+
+		.lights {
+			display: inline-block;
 			text-align: right;
 			width: 100%;
 
@@ -34,17 +39,22 @@
 	}
 
 	.image {
-		status();
+		//status();
+		status-border();
 		malefemale();
 		text-align: center;
 
-		img {
+		/*img {
 			image-avatar(200px, 4px);
 		}
 
 		.avatar {
 			avatar(200px, 4px);
 			margin: 0 auto;
+		}*/
+
+		.image-wrapper {
+			image-wrapper(200px, 4px);
 		}
 
 		#image-form {

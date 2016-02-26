@@ -34,6 +34,42 @@ avatar(dim = 40px, borderw = 2px, x = 0, y = 0) {
 	}
 }
 
+image-wrapper(dim = 40px, borderw = 2px, x = 0, y = 0) {
+	position: relative;
+	width: dim - 1;
+	height: dim - 1;
+	overflow: hidden;
+	z-index: 2;
+
+	border-radius: (dim/2)px;
+	border-width: borderw;
+	border-style: solid;
+
+	img.avatar {
+		border: none !important;
+		border-radius: 0 !important;
+
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		height: 100%;
+		width: auto !important;
+		transform: translate(-50%, -50%);
+	}
+
+	.avatar.default::before {
+		absolute: top -12% right 0 bottom 0 left 0;
+		width: 100%;
+		height: 100%;
+		font-size: dim;
+		text-align: center;
+		background-color: $gray-row;
+		z-index: 1;
+
+		fa('\f007');
+	}
+}
+
 badge(bcolor = $gray-row-pin) {
 	background-color: bcolor;
 	border-radius: 10px;
@@ -302,6 +338,22 @@ status() {
 	}
 	&.status-free {
 		 img, div.avatar {	border-color: $green; }
+	}
+	/*& > a:hover {
+		text-decoration: none;
+	}*/
+}
+
+status-border() {
+	undecorate();
+	&.status-busy {
+		div.image-wrapper {	border-color: $red; }
+	}
+	&.status-none {
+		div.image-wrapper {	border-color: $bisiad; }
+	}
+	&.status-free {
+		div.image-wrapper {	border-color: $green; }
 	}
 	/*& > a:hover {
 		text-decoration: none;
