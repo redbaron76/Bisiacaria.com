@@ -287,7 +287,8 @@
 			padding-top: 5px;
 
 			li {
-				status();
+				// status();
+				status-border();
 				malefemale();
 				undecorate();
 				a-wrapper();
@@ -305,12 +306,19 @@
 					undecorate();
 				}
 
-				.avatar-wrapper {
+				/*.avatar-wrapper {
 					display: table-cell;
 					width: 35px;
 					.avatar {
 						avatar(35px, 2px);
 					}
+				}*/
+
+				.image-wrapper {
+					display: table-cell;
+					width: 35px;
+
+					image-wrapper(35px, 2px);
 				}
 
 				p {
