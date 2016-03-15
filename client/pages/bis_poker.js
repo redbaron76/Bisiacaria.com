@@ -337,3 +337,9 @@ Template.playerHandsModal.events({
 		Bisia.Paginator.triggerBottom(e);
 	}
 });
+
+Template.cardItem.helpers({
+	newTime: function() {
+		return '?' + new Date().getTime();
+	}
+});
