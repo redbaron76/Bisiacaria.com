@@ -1,5 +1,7 @@
 Meteor.publish('pokerCurrentStatus', function() {
 
+	// Meteor._sleepForMs(3000);
+
 	// Signup if not
 	var pokerPlayer = Pokerplayers.findOne({ 'playerId': this.userId });
 	if (! pokerPlayer) {
