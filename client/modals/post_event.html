@@ -37,7 +37,7 @@
 			<textarea class="autosize" id="text" placeholder="Scrivi il tuo post..." data-autocomplete="username"></textarea>
 		</div>
 		<div class="divider white-bg"><span>opzioni di pubblicazione</span></div>
-		{{> addImage}}
+		{{> addImage version="post" display="preview" }}
 		{{> addMap}}
 		<div class="form-group">
 			<i class="fa fa-plus show-categories" id="open-categories"></i>
@@ -81,7 +81,7 @@
 			<input type="text" id="time-event" value="{{timeNow}}" placeholder="Ora dell'evento">
 		</div>
 		<div class="divider white-bg"><span>opzioni evento</span></div>
-		{{> addImage}}
+		{{> addImage version="event" display="preview" }}
 		{{> addMap}}
 		<button type="submit" data-icon="prepend" class="gray">Pubblica Evento</button>
 	</form>

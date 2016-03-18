@@ -107,6 +107,10 @@ Template.registerHelper('totOnlineUsers', function() {
 
 // HELPERS
 
+Template.registerHelper('progress', function() {
+	return Bisia.Upload.progress.get();
+});
+
 Template.registerHelper('imgPath', function(path) {
 	return Meteor.absoluteUrl(path);
 });

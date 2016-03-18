@@ -60,3 +60,8 @@ random
 ejson
 spacebars
 check
+
+ostrio:files
+meteorhacks:npm
+
+npm-container
