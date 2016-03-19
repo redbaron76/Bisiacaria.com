@@ -6,6 +6,7 @@ Meteor.methods({
 			category: String,
 			dateTimePost: Date,
 			imageUrl: String,
+			originalUrl: String,
 			position: Object,
 			tagId: String
 		});
@@ -161,6 +162,7 @@ Meteor.methods({
 			category: 'ha taggato questa posizione',
 			position: position,
 			imageUrl: '',
+			originalUrl: '',
 			likes: [],
 			unlikes: [],
 			comments: [],

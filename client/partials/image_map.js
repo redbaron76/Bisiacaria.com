@@ -38,12 +38,13 @@ Template.addImage.events({
 			instance.$('#attached-image > .fa').removeClass().addClass('fa fa-refresh fa-spin');
 		}, function(fileObj) {
 			// onAfterUpload
+			console.log(version);
 			Bisia.Upload.updateUserPostEvent(version, display, fileObj, function(pictureUrl, thumbUrl) {
 				Meteor.setTimeout(function() {
 					instance.$('#attached-image > .indicator').removeClass('loading').css('width', 0);
 					instance.$('#attached-image > .fa').removeClass().addClass('fa fa-picture-o');
 					instance.$('#attached-image').attr('data-id', fileObj._id).attr('data-version', version);
-					Bisia.Img.setAttachedImage(thumbUrl);
+					Bisia.Img.setAttachedImage(thumbUrl, pictureUrl);
 					Bisia.Upload.progress.set(null);
 				}, 2 * 1000);
 			});

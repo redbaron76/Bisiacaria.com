@@ -55,6 +55,7 @@ Template.newPostTab.events({
 		},{
 			'dateTimePost?.separator': '/',
 			'imageUrl': '',
+			'originalUrl': '',
 			'tagId': ''
 		}, {
 			'dateTimePost': 'Bisia.Time.nowIfEmpty'
@@ -108,6 +109,7 @@ Template.newEventTab.events({
 		}, {
 			'dateTimeEvent?.separator': '/',
 			'imageUrl': '',
+			'originalUrl': '',
 			'text': '',
 			'tagId': ''
 		}, {

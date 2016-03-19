@@ -48,7 +48,7 @@ Template.infoConfirm.events({
 
 Template.infoActions.helpers({
 	hasTextToModify: function() {
-		return (this.context.text || this.context.context.data.text);
+		return (this.context.text || (this.context.contex && this.context.context.data.text));
 	}
 });
 

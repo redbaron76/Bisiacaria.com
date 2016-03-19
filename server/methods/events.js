@@ -7,6 +7,7 @@ Meteor.methods({
 			dateTimeEvent: Date,
 			locationEvent: String,
 			imageUrl: String,
+			originalUrl: String,
 			tagId: String,
 			position: Object
 		});
