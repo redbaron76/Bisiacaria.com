@@ -340,6 +340,6 @@ Template.playerHandsModal.events({
 
 Template.cardItem.helpers({
 	newTime: function() {
-		// return '?t=' + new Date().getTime();
+		return '?t=' + new Date().getTime();
 	}
 });
