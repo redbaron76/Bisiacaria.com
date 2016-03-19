@@ -260,6 +260,11 @@ Bisia.Automator = {
 			// Delete user
 			Users.remove({ '_id': user._id });
 
+			// Delete user's files
+			Meteor.call('deleteServerImage', {
+				'meta.userId': user._id
+			});
+
 			Bisia.Log.server("Eliminato l'utente", { userId: user._id });
 
 			Meteor.call('sendEmail', {
