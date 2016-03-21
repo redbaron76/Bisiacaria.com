@@ -115,7 +115,9 @@
 
 <template name="cardItem">
 	{{#if card}}
-	<img src="{{imgPath 'img/poker/'}}{{card}}.jpg{{newTime}}" class="front">
+        {{#each allCards}}
+	        <img src="{{imgPath 'img/poker/'}}{{this}}.jpg" class="front {{showCard this ../card}}">
+        {{/each}}
 	{{/if}}
 </template>
 

@@ -65,26 +65,27 @@
 						display: block;
 						backface-visibility: hidden;
 						transition: transform .2s;
-
-						&:nth-child(2) {
-							// absolute: top 0 left 0;
-						}
 					}
 
 					.front {
 						transform: rotateY( 180deg );
+						// default status for all the cards
+						// display: none;
 					}
 					.back {
 						transform: rotateY( 0deg );
 
-						& + .front {
+						// & + .front {
+						& ~ .front {
 							absolute: top 0 left 0;
 						}
 					}
 
 					&.open {
-						// transform: rotateY( 180deg );
-						.front { transform: rotateY( 0deg ); }
+						.front.show-card {
+							//display: inherit;
+							transform: rotateY( 0deg );
+						}
 						.back {	transform: rotateY( -180deg ); }
 					}
 				}

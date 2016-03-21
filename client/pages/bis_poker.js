@@ -339,7 +339,17 @@ Template.playerHandsModal.events({
 });
 
 Template.cardItem.helpers({
+	allCards: function() {
+		var cards = [];
+		for (var i = 0; i < 54; i++) {
+			cards.push(i);
+		}
+		return cards;
+	},
 	newTime: function() {
 		return '?t=' + new Date().getTime();
+	},
+	showCard: function(currentCard, selectedCard) {
+		return (currentCard == selectedCard) ? 'show-card' : '';
 	}
 });
